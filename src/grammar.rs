@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::expression::Attribute;
-use crate::expression::AttributePath;
-use crate::expression::BinaryOperator;
-use crate::expression::Bind;
-use crate::expression::FunctionArgument;
-use crate::expression::FunctionArguments;
-use crate::expression::StringPart;
-use crate::expression::UnaryOperator;
-use crate::expression::AST;
+use crate::ast::Attribute;
+use crate::ast::AttributePath;
+use crate::ast::BinaryOperator;
+use crate::ast::Bind;
+use crate::ast::FunctionArgument;
+use crate::ast::FunctionArguments;
+use crate::ast::StringPart;
+use crate::ast::UnaryOperator;
+use crate::ast::AST;
 use santiago::grammar::Associativity;
 use santiago::grammar::Grammar;
 use std::collections::LinkedList;
