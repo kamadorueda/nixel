@@ -22,7 +22,7 @@
 //! and pretty-prints the results.
 //!
 //! Below you'll find a full usage example:
-//! ```rust
+//! ```no_run
 #![doc = include_str!("./bin/nixel.rs")]
 //! ```
 pub mod ast;
