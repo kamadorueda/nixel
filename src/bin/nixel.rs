@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2022 Kevin Amado <kamadorueda@gmail.com>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
+
 use std::collections::HashSet;
 use std::io::Read;
 
@@ -18,7 +19,8 @@ fn main() -> Result<(), ()> {
             clap::Arg::new("outputs")
                 .default_value("ast")
                 .help("What to print to stdout.")
-                .multiple(true)
+                .multiple_values(false)
+                .multiple_occurrences(true)
                 .possible_values(&["lexemes", "parse-tree", "ast"])
                 .short('o')
                 .takes_value(true),
