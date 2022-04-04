@@ -53,6 +53,7 @@
             Cargo.toml \
             flake.nix \
             flake.lock \
+            tests/cases/*/* \
 
           git ls-files | xargs reuse addheader \
             --copyright="$copyright" \

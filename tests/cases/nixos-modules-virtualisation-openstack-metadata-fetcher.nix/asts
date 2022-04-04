@@ -1,0 +1,45 @@
+---
+Function {
+    argument: None,
+    arguments: FunctionArguments {
+        arguments: [
+            FunctionArgument {
+                identifier: "wgetExtraOptions",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "targetRoot",
+                default: None,
+            },
+        ],
+        ellipsis: false,
+    },
+    definition: String {
+        parts: [
+            Raw {
+                content: "  metaDir=",
+                position: (7, 1),
+            },
+            Expression {
+                expression: Variable {
+                    identifier: "targetRoot",
+                    position: (7, 13),
+                },
+            },
+            Raw {
+                content: "etc/ec2-metadata\n  mkdir -m 0755 -p \"$metaDir\"\n  rm -f \"$metaDir/*\"\n\n  echo \"getting instance metadata...\"\n\n  wget_imds() {\n    wget ",
+                position: (7, 24),
+            },
+            Expression {
+                expression: Variable {
+                    identifier: "wgetExtraOptions",
+                    position: (14, 12),
+                },
+            },
+            Raw {
+                content: " \"$@\"\n  }\n\n  wget_imds -O \"$metaDir/ami-manifest-path\" http://169.254.169.254/1.0/meta-data/ami-manifest-path\n  # When no user-data is provided, the OpenStack metadata server doesn't expose the user-data route.\n  (umask 077 && wget_imds -O \"$metaDir/user-data\" http://169.254.169.254/1.0/user-data || rm -f \"$metaDir/user-data\")\n  wget_imds -O \"$metaDir/hostname\" http://169.254.169.254/1.0/meta-data/hostname\n  wget_imds -O \"$metaDir/public-keys-0-openssh-key\" http://169.254.169.254/1.0/meta-data/public-keys/0/openssh-key\n",
+                position: (14, 29),
+            },
+        ],
+    },
+}

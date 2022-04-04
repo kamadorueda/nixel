@@ -1,0 +1,47 @@
+steps:
+  - label: check
+    command:
+      - echo --- Prepare environment
+      - direnv allow
+      - eval "$(direnv export bash)"
+      - echo +++ Check
+      - cargo check --all-targets
+
+  - label: coverage
+    if: build.branch == "main"
+    agents:
+      queue: private
+    command:
+      - echo --- Prepare environment
+      - direnv allow
+      - eval "$(direnv export bash)"
+      - echo --- Configure
+      - git branch -D main
+      - git branch main
+      - git checkout main
+      - echo +++ Coverage
+      - cargo tarpaulin --coveralls "$$COVERALLS_REPO_TOKEN" --no-default-features
+
+  - label: legal
+    command:
+      - echo --- Prepare environment
+      - direnv allow
+      - eval "$(direnv export bash)"
+      - echo +++ Legal
+      - reuse lint
+
+  - label: lint
+    command:
+      - echo --- Prepare environment
+      - direnv allow
+      - eval "$(direnv export bash)"
+      - echo +++ Lint
+      - cargo clippy --all-targets
+
+  - label: test
+    command:
+      - echo --- Prepare environment
+      - direnv allow
+      - eval "$(direnv export bash)"
+      - echo +++ Test
+      - cargo test --all-targets

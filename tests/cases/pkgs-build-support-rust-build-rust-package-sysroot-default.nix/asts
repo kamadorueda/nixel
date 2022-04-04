@@ -1,0 +1,316 @@
+---
+Function {
+    argument: None,
+    arguments: FunctionArguments {
+        arguments: [
+            FunctionArgument {
+                identifier: "buildPackages",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "rustPlatform",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "rust",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "stdenv",
+                default: None,
+            },
+        ],
+        ellipsis: false,
+    },
+    definition: Function {
+        argument: None,
+        arguments: FunctionArguments {
+            arguments: [
+                FunctionArgument {
+                    identifier: "RUSTFLAGS",
+                    default: None,
+                },
+                FunctionArgument {
+                    identifier: "target",
+                    default: None,
+                },
+                FunctionArgument {
+                    identifier: "originalCargoToml",
+                    default: None,
+                },
+                FunctionArgument {
+                    identifier: "shortTarget",
+                    default: None,
+                },
+            ],
+            ellipsis: false,
+        },
+        definition: LetIn {
+            bindings: [
+                KeyValue(
+                    AttributePath {
+                        attributes: [
+                            Raw {
+                                content: "cargoSrc",
+                                position: (6, 3),
+                            },
+                        ],
+                    },
+                    FunctionApplication {
+                        function: Variable {
+                            identifier: "import",
+                            position: (6, 14),
+                        },
+                        arguments: [
+                            Path {
+                                parts: [
+                                    Raw {
+                                        content: "../../sysroot/src.nix",
+                                        position: (6, 21),
+                                    },
+                                    Raw {
+                                        content: " ",
+                                        position: (6, 42),
+                                    },
+                                ],
+                            },
+                            Map {
+                                bindings: [
+                                    Inherit(
+                                        None,
+                                        [
+                                            Raw {
+                                                content: "stdenv",
+                                                position: (7, 13),
+                                            },
+                                            Raw {
+                                                content: "rustPlatform",
+                                                position: (7, 20),
+                                            },
+                                            Raw {
+                                                content: "buildPackages",
+                                                position: (7, 33),
+                                            },
+                                            Raw {
+                                                content: "originalCargoToml",
+                                                position: (7, 47),
+                                            },
+                                        ],
+                                    ),
+                                ],
+                                recursive: false,
+                            },
+                        ],
+                    },
+                ),
+            ],
+            target: FunctionApplication {
+                function: PropertyAccess {
+                    expression: Variable {
+                        identifier: "rustPlatform",
+                        position: (9, 4),
+                    },
+                    attribute_path: AttributePath {
+                        attributes: [
+                            Raw {
+                                content: "buildRustPackage",
+                                position: (9, 17),
+                            },
+                        ],
+                    },
+                    default: None,
+                },
+                arguments: [
+                    Map {
+                        bindings: [
+                            Inherit(
+                                None,
+                                [
+                                    Raw {
+                                        content: "target",
+                                        position: (10, 11),
+                                    },
+                                    Raw {
+                                        content: "RUSTFLAGS",
+                                        position: (10, 18),
+                                    },
+                                ],
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "name",
+                                            position: (12, 3),
+                                        },
+                                    ],
+                                },
+                                String {
+                                    parts: [
+                                        Raw {
+                                            content: "custom-sysroot",
+                                            position: (12, 11),
+                                        },
+                                    ],
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "src",
+                                            position: (13, 3),
+                                        },
+                                    ],
+                                },
+                                Variable {
+                                    identifier: "cargoSrc",
+                                    position: (13, 10),
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "RUSTC_BOOTSTRAP",
+                                            position: (15, 3),
+                                        },
+                                    ],
+                                },
+                                Int {
+                                    value: 1,
+                                    position: (15, 21),
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "__internal_dontAddSysroot",
+                                            position: (16, 3),
+                                        },
+                                    ],
+                                },
+                                Variable {
+                                    identifier: "true",
+                                    position: (16, 31),
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "cargoSha256",
+                                            position: (17, 3),
+                                        },
+                                    ],
+                                },
+                                String {
+                                    parts: [
+                                        Raw {
+                                            content: "0y6dqfhsgk00y3fv5bnjzk0s7i30nwqc1rp0xlrk83hkh80x81mw",
+                                            position: (17, 18),
+                                        },
+                                    ],
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "doCheck",
+                                            position: (19, 3),
+                                        },
+                                    ],
+                                },
+                                Variable {
+                                    identifier: "false",
+                                    position: (19, 13),
+                                },
+                            ),
+                            KeyValue(
+                                AttributePath {
+                                    attributes: [
+                                        Raw {
+                                            content: "installPhase",
+                                            position: (21, 3),
+                                        },
+                                    ],
+                                },
+                                String {
+                                    parts: [
+                                        Raw {
+                                            content: "    export LIBS_DIR=$out/lib/rustlib/",
+                                            position: (22, 1),
+                                        },
+                                        Expression {
+                                            expression: Variable {
+                                                identifier: "shortTarget",
+                                                position: (22, 40),
+                                            },
+                                        },
+                                        Raw {
+                                            content: "/lib\n    mkdir -p $LIBS_DIR\n    for f in target/",
+                                            position: (22, 52),
+                                        },
+                                        Expression {
+                                            expression: Variable {
+                                                identifier: "shortTarget",
+                                                position: (24, 23),
+                                            },
+                                        },
+                                        Raw {
+                                            content: "/release/deps/*.{rlib,rmeta}; do\n      cp $f $LIBS_DIR\n    done\n\n    export RUST_SYSROOT=$(rustc --print=sysroot)\n    host=",
+                                            position: (24, 35),
+                                        },
+                                        Expression {
+                                            expression: FunctionApplication {
+                                                function: PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "rust",
+                                                        position: (29, 12),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "toRustTarget",
+                                                                position: (29, 17),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                                arguments: [
+                                                    PropertyAccess {
+                                                        expression: Variable {
+                                                            identifier: "stdenv",
+                                                            position: (29, 30),
+                                                        },
+                                                        attribute_path: AttributePath {
+                                                            attributes: [
+                                                                Raw {
+                                                                    content: "buildPlatform",
+                                                                    position: (29, 37),
+                                                                },
+                                                            ],
+                                                        },
+                                                        default: None,
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                        Raw {
+                                            content: "\n    cp -r $RUST_SYSROOT/lib/rustlib/$host $out\n  ",
+                                            position: (29, 51),
+                                        },
+                                    ],
+                                },
+                            ),
+                        ],
+                        recursive: false,
+                    },
+                ],
+            },
+        },
+    },
+}

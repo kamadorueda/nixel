@@ -1,0 +1,670 @@
+---
+Function {
+    argument: None,
+    arguments: FunctionArguments {
+        arguments: [
+            FunctionArgument {
+                identifier: "gtk3",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "gsettings-desktop-schemas",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "lib",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "fetchurl",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "appimageTools",
+                default: None,
+            },
+        ],
+        ellipsis: false,
+    },
+    definition: LetIn {
+        bindings: [
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "pname",
+                            position: (4, 3),
+                        },
+                    ],
+                },
+                String {
+                    parts: [
+                        Raw {
+                            content: "marktext",
+                            position: (4, 12),
+                        },
+                    ],
+                },
+            ),
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "version",
+                            position: (5, 3),
+                        },
+                    ],
+                },
+                String {
+                    parts: [
+                        Raw {
+                            content: "v0.17.1",
+                            position: (5, 14),
+                        },
+                    ],
+                },
+            ),
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "name",
+                            position: (6, 3),
+                        },
+                    ],
+                },
+                String {
+                    parts: [
+                        Expression {
+                            expression: Variable {
+                                identifier: "pname",
+                                position: (6, 13),
+                            },
+                        },
+                        Raw {
+                            content: "-",
+                            position: (6, 19),
+                        },
+                        Expression {
+                            expression: Variable {
+                                identifier: "version",
+                                position: (6, 22),
+                            },
+                        },
+                        Raw {
+                            content: "-binary",
+                            position: (6, 30),
+                        },
+                    ],
+                },
+            ),
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "src",
+                            position: (8, 3),
+                        },
+                    ],
+                },
+                FunctionApplication {
+                    function: Variable {
+                        identifier: "fetchurl",
+                        position: (8, 9),
+                    },
+                    arguments: [
+                        Map {
+                            bindings: [
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "url",
+                                                position: (9, 5),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "https://github.com/marktext/marktext/releases/download/",
+                                                position: (9, 12),
+                                            },
+                                            Expression {
+                                                expression: Variable {
+                                                    identifier: "version",
+                                                    position: (9, 69),
+                                                },
+                                            },
+                                            Raw {
+                                                content: "/marktext-x86_64.AppImage",
+                                                position: (9, 77),
+                                            },
+                                        ],
+                                    },
+                                ),
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "sha256",
+                                                position: (10, 5),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "2e2555113e37df830ba3958efcccce7020907b12fd4162368cfd906aeda630b7",
+                                                position: (10, 15),
+                                            },
+                                        ],
+                                    },
+                                ),
+                            ],
+                            recursive: false,
+                        },
+                    ],
+                },
+            ),
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "appimageContents",
+                            position: (13, 3),
+                        },
+                    ],
+                },
+                FunctionApplication {
+                    function: PropertyAccess {
+                        expression: Variable {
+                            identifier: "appimageTools",
+                            position: (13, 22),
+                        },
+                        attribute_path: AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "extractType2",
+                                    position: (13, 36),
+                                },
+                            ],
+                        },
+                        default: None,
+                    },
+                    arguments: [
+                        Map {
+                            bindings: [
+                                Inherit(
+                                    None,
+                                    [
+                                        Raw {
+                                            content: "name",
+                                            position: (14, 13),
+                                        },
+                                        Raw {
+                                            content: "src",
+                                            position: (14, 18),
+                                        },
+                                    ],
+                                ),
+                            ],
+                            recursive: false,
+                        },
+                    ],
+                },
+            ),
+        ],
+        target: FunctionApplication {
+            function: PropertyAccess {
+                expression: Variable {
+                    identifier: "appimageTools",
+                    position: (17, 1),
+                },
+                attribute_path: AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "wrapType2",
+                            position: (17, 15),
+                        },
+                    ],
+                },
+                default: None,
+            },
+            arguments: [
+                Map {
+                    bindings: [
+                        Inherit(
+                            None,
+                            [
+                                Raw {
+                                    content: "name",
+                                    position: (18, 11),
+                                },
+                                Raw {
+                                    content: "src",
+                                    position: (18, 16),
+                                },
+                            ],
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "profile",
+                                        position: (20, 3),
+                                    },
+                                ],
+                            },
+                            BinaryOperation {
+                                operator: Addition,
+                                operands: [
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "    export LC_ALL=C.UTF-8\n  ",
+                                                position: (21, 1),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "    export XDG_DATA_DIRS=",
+                                                position: (27, 1),
+                                            },
+                                            Expression {
+                                                expression: Variable {
+                                                    identifier: "gsettings-desktop-schemas",
+                                                    position: (27, 28),
+                                                },
+                                            },
+                                            Raw {
+                                                content: "/share/gsettings-schemas/",
+                                                position: (27, 54),
+                                            },
+                                            Expression {
+                                                expression: PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "gsettings-desktop-schemas",
+                                                        position: (27, 81),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "name",
+                                                                position: (27, 107),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                            },
+                                            Raw {
+                                                content: ":",
+                                                position: (27, 112),
+                                            },
+                                            Expression {
+                                                expression: Variable {
+                                                    identifier: "gtk3",
+                                                    position: (27, 115),
+                                                },
+                                            },
+                                            Raw {
+                                                content: "/share/gsettings-schemas/",
+                                                position: (27, 120),
+                                            },
+                                            Expression {
+                                                expression: PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "gtk3",
+                                                        position: (27, 147),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "name",
+                                                                position: (27, 152),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                            },
+                                            Raw {
+                                                content: ":$XDG_DATA_DIRS\n  ",
+                                                position: (27, 157),
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "multiPkgs",
+                                        position: (30, 3),
+                                    },
+                                ],
+                            },
+                            Variable {
+                                identifier: "null",
+                                position: (30, 15),
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "extraPkgs",
+                                        position: (31, 3),
+                                    },
+                                ],
+                            },
+                            Function {
+                                argument: Some(
+                                    "p",
+                                ),
+                                arguments: FunctionArguments {
+                                    arguments: [],
+                                    ellipsis: false,
+                                },
+                                definition: BinaryOperation {
+                                    operator: Concatenation,
+                                    operands: [
+                                        FunctionApplication {
+                                            function: PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "appimageTools",
+                                                    position: (31, 19),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "defaultFhsEnvArgs",
+                                                            position: (31, 33),
+                                                        },
+                                                        Raw {
+                                                            content: "multiPkgs",
+                                                            position: (31, 51),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                            arguments: [
+                                                Variable {
+                                                    identifier: "p",
+                                                    position: (31, 61),
+                                                },
+                                            ],
+                                        },
+                                        List {
+                                            elements: [
+                                                PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "p",
+                                                        position: (32, 5),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "libsecret",
+                                                                position: (32, 7),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                                PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "p",
+                                                        position: (33, 5),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "xorg",
+                                                                position: (33, 7),
+                                                            },
+                                                            Raw {
+                                                                content: "libxkbfile",
+                                                                position: (33, 12),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "extraInstallCommands",
+                                        position: (36, 3),
+                                    },
+                                ],
+                            },
+                            String {
+                                parts: [
+                                    Raw {
+                                        content: "    # Strip version from binary name.\n    mv $out/bin/",
+                                        position: (37, 1),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "name",
+                                            position: (38, 19),
+                                        },
+                                    },
+                                    Raw {
+                                        content: " $out/bin/",
+                                        position: (38, 24),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "pname",
+                                            position: (38, 36),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "\n\n    install -m 444 -D ",
+                                        position: (38, 42),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "appimageContents",
+                                            position: (40, 25),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "/marktext.desktop $out/share/applications/marktext.desktop\n    substituteInPlace $out/share/applications/marktext.desktop \\\n      --replace \"Exec=AppRun\" \"Exec=",
+                                        position: (40, 42),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "pname",
+                                            position: (42, 39),
+                                        },
+                                    },
+                                    Raw {
+                                        content: " --\"\n\n    cp -r ",
+                                        position: (42, 45),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "appimageContents",
+                                            position: (44, 13),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "/usr/share/icons $out/share\n  ",
+                                        position: (44, 30),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "meta",
+                                        position: (47, 3),
+                                    },
+                                ],
+                            },
+                            With {
+                                expression: Variable {
+                                    identifier: "lib",
+                                    position: (47, 15),
+                                },
+                                target: Map {
+                                    bindings: [
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "description",
+                                                        position: (48, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "A simple and elegant markdown editor, available for Linux, macOS and Windows",
+                                                        position: (48, 20),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "homepage",
+                                                        position: (49, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "https://marktext.app",
+                                                        position: (49, 17),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "license",
+                                                        position: (50, 5),
+                                                    },
+                                                ],
+                                            },
+                                            PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "licenses",
+                                                    position: (50, 15),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "mit",
+                                                            position: (50, 24),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "maintainers",
+                                                        position: (51, 5),
+                                                    },
+                                                ],
+                                            },
+                                            With {
+                                                expression: Variable {
+                                                    identifier: "maintainers",
+                                                    position: (51, 24),
+                                                },
+                                                target: List {
+                                                    elements: [
+                                                        Variable {
+                                                            identifier: "nh2",
+                                                            position: (51, 39),
+                                                        },
+                                                        Variable {
+                                                            identifier: "eduarrrd",
+                                                            position: (51, 43),
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "platforms",
+                                                        position: (52, 5),
+                                                    },
+                                                ],
+                                            },
+                                            List {
+                                                elements: [
+                                                    String {
+                                                        parts: [
+                                                            Raw {
+                                                                content: "x86_64-linux",
+                                                                position: (52, 20),
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "mainProgram",
+                                                        position: (53, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "marktext",
+                                                        position: (53, 20),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                    ],
+                                    recursive: false,
+                                },
+                            },
+                        ),
+                    ],
+                    recursive: true,
+                },
+            ],
+        },
+    },
+}

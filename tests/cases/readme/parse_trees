@@ -1,0 +1,40 @@
+---
+Γ := rules "expr"
+  expr := rules "expr_function"
+    expr_function := rules "LET" "binds" "IN" "expr_function"
+      LET := lexemes "LET"
+        LET "let" (1, 1)
+      binds := rules "binds" "attrpath" "=" "expr" ";"
+        binds := rules 
+        attrpath := rules "attr"
+          attr := rules "ID"
+            ID := lexemes "ID"
+              ID "greeting" (2, 3)
+        = := lexemes "="
+          = "=" (2, 12)
+        expr := rules "expr_function"
+          expr_function := rules "expr_if"
+            expr_if := rules "expr_op"
+              expr_op := rules "expr_app"
+                expr_app := rules "expr_select"
+                  expr_select := rules "expr_simple"
+                    expr_simple := rules "\"" "string_parts" "\""
+                      " := lexemes "\""
+                        " "\"" (2, 14)
+                      string_parts := rules "STR"
+                        STR := lexemes "STR"
+                          STR "Hello World!" (2, 15)
+                      " := lexemes "\""
+                        " "\"" (2, 27)
+        ; := lexemes ";"
+          ; ";" (2, 28)
+      IN := lexemes "IN"
+        IN "in" (3, 1)
+      expr_function := rules "expr_if"
+        expr_if := rules "expr_op"
+          expr_op := rules "expr_app"
+            expr_app := rules "expr_select"
+              expr_select := rules "expr_simple"
+                expr_simple := rules "ID"
+                  ID := lexemes "ID"
+                    ID "greeting" (4, 3)

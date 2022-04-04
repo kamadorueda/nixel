@@ -1,0 +1,408 @@
+---
+Function {
+    argument: None,
+    arguments: FunctionArguments {
+        arguments: [
+            FunctionArgument {
+                identifier: "puredata",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "fetchurl",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "stdenv",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "lib",
+                default: None,
+            },
+        ],
+        ellipsis: false,
+    },
+    definition: FunctionApplication {
+        function: PropertyAccess {
+            expression: Variable {
+                identifier: "stdenv",
+                position: (3, 1),
+            },
+            attribute_path: AttributePath {
+                attributes: [
+                    Raw {
+                        content: "mkDerivation",
+                        position: (3, 8),
+                    },
+                ],
+            },
+            default: None,
+        },
+        arguments: [
+            Map {
+                bindings: [
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "pname",
+                                    position: (4, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "mrpeach",
+                                    position: (4, 12),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "version",
+                                    position: (5, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "1.1",
+                                    position: (5, 14),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "src",
+                                    position: (12, 3),
+                                },
+                            ],
+                        },
+                        FunctionApplication {
+                            function: Variable {
+                                identifier: "fetchurl",
+                                position: (12, 9),
+                            },
+                            arguments: [
+                                Map {
+                                    bindings: [
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "url",
+                                                        position: (13, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "http://slackonly.com/pub/korgie/sources/pd_mrpeach-2011.10.21.tar.gz",
+                                                        position: (13, 12),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "sha256",
+                                                        position: (14, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "12jqba3jsdrk20ib9wc2wiivki88ypcd4mkzgsri9siywbbz9w8x",
+                                                        position: (14, 15),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                    ],
+                                    recursive: false,
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "buildInputs",
+                                    position: (17, 3),
+                                },
+                            ],
+                        },
+                        List {
+                            elements: [
+                                Variable {
+                                    identifier: "puredata",
+                                    position: (17, 19),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "hardeningDisable",
+                                    position: (19, 3),
+                                },
+                            ],
+                        },
+                        List {
+                            elements: [
+                                String {
+                                    parts: [
+                                        Raw {
+                                            content: "format",
+                                            position: (19, 25),
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "patchPhase",
+                                    position: (21, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "    for D in net osc\n    do\n      sed -i \"s@prefix = /usr/local@prefix = $out@g\" $D/Makefile\n      for i in ",
+                                    position: (22, 1),
+                                },
+                                Expression {
+                                    expression: Variable {
+                                        identifier: "puredata",
+                                        position: (25, 18),
+                                    },
+                                },
+                                Raw {
+                                    content: "/include/pd/*; do\n        ln -s $i $D/\n      done\n    done\n  ",
+                                    position: (25, 27),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "buildPhase",
+                                    position: (31, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "    for D in net osc\n    do\n      cd $D\n      make\n      cd ..\n    done\n  ",
+                                    position: (32, 1),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "installPhase",
+                                    position: (40, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "    for D in net osc\n    do\n      cd $D\n      make install\n      cd ..\n    done\n  ",
+                                    position: (41, 1),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "fixupPhase",
+                                    position: (49, 3),
+                                },
+                            ],
+                        },
+                        String {
+                            parts: [
+                                Raw {
+                                    content: "    mv $out/lib/pd-externals/net $out\n    mv $out/lib/pd-externals/osc $out\n    rm -rf $out/lib\n  ",
+                                    position: (50, 1),
+                                },
+                            ],
+                        },
+                    ),
+                    KeyValue(
+                        AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "meta",
+                                    position: (55, 3),
+                                },
+                            ],
+                        },
+                        Map {
+                            bindings: [
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "description",
+                                                position: (56, 5),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "A collection of Pd objectclasses for OSC-messages",
+                                                position: (56, 20),
+                                            },
+                                        ],
+                                    },
+                                ),
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "homepage",
+                                                position: (57, 5),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "http://puredata.info/downloads/osc",
+                                                position: (57, 17),
+                                            },
+                                        ],
+                                    },
+                                ),
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "license",
+                                                position: (58, 5),
+                                            },
+                                        ],
+                                    },
+                                    PropertyAccess {
+                                        expression: Variable {
+                                            identifier: "lib",
+                                            position: (58, 15),
+                                        },
+                                        attribute_path: AttributePath {
+                                            attributes: [
+                                                Raw {
+                                                    content: "licenses",
+                                                    position: (58, 19),
+                                                },
+                                                Raw {
+                                                    content: "gpl2",
+                                                    position: (58, 28),
+                                                },
+                                            ],
+                                        },
+                                        default: None,
+                                    },
+                                ),
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "maintainers",
+                                                position: (59, 5),
+                                            },
+                                        ],
+                                    },
+                                    List {
+                                        elements: [
+                                            PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "lib",
+                                                    position: (59, 21),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "maintainers",
+                                                            position: (59, 25),
+                                                        },
+                                                        Raw {
+                                                            content: "magnetophon",
+                                                            position: (59, 37),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                        ],
+                                    },
+                                ),
+                                KeyValue(
+                                    AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "platforms",
+                                                position: (60, 5),
+                                            },
+                                        ],
+                                    },
+                                    PropertyAccess {
+                                        expression: Variable {
+                                            identifier: "lib",
+                                            position: (60, 17),
+                                        },
+                                        attribute_path: AttributePath {
+                                            attributes: [
+                                                Raw {
+                                                    content: "platforms",
+                                                    position: (60, 21),
+                                                },
+                                                Raw {
+                                                    content: "linux",
+                                                    position: (60, 31),
+                                                },
+                                            ],
+                                        },
+                                        default: None,
+                                    },
+                                ),
+                            ],
+                            recursive: false,
+                        },
+                    ),
+                ],
+                recursive: false,
+            },
+        ],
+    },
+}

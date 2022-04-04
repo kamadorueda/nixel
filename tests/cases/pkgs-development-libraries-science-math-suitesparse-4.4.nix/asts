@@ -1,0 +1,862 @@
+---
+Function {
+    argument: None,
+    arguments: FunctionArguments {
+        arguments: [
+            FunctionArgument {
+                identifier: "cudatoolkit",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "enableCuda",
+                default: Some(
+                    Variable {
+                        identifier: "false",
+                        position: (2, 16),
+                    },
+                ),
+            },
+            FunctionArgument {
+                identifier: "lapack",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "blas",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "gfortran",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "fetchurl",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "stdenv",
+                default: None,
+            },
+            FunctionArgument {
+                identifier: "lib",
+                default: None,
+            },
+        ],
+        ellipsis: false,
+    },
+    definition: LetIn {
+        bindings: [
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "int_t",
+                            position: (6, 3),
+                        },
+                    ],
+                },
+                IfThenElse {
+                    predicate: PropertyAccess {
+                        expression: Variable {
+                            identifier: "blas",
+                            position: (6, 14),
+                        },
+                        attribute_path: AttributePath {
+                            attributes: [
+                                Raw {
+                                    content: "isILP64",
+                                    position: (6, 19),
+                                },
+                            ],
+                        },
+                        default: None,
+                    },
+                    then: String {
+                        parts: [
+                            Raw {
+                                content: "int64_t",
+                                position: (6, 33),
+                            },
+                        ],
+                    },
+                    else_: String {
+                        parts: [
+                            Raw {
+                                content: "int32_t",
+                                position: (6, 48),
+                            },
+                        ],
+                    },
+                },
+            ),
+            KeyValue(
+                AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "SHLIB_EXT",
+                            position: (7, 3),
+                        },
+                    ],
+                },
+                PropertyAccess {
+                    expression: Variable {
+                        identifier: "stdenv",
+                        position: (7, 15),
+                    },
+                    attribute_path: AttributePath {
+                        attributes: [
+                            Raw {
+                                content: "hostPlatform",
+                                position: (7, 22),
+                            },
+                            Raw {
+                                content: "extensions",
+                                position: (7, 35),
+                            },
+                            Raw {
+                                content: "sharedLibrary",
+                                position: (7, 46),
+                            },
+                        ],
+                    },
+                    default: None,
+                },
+            ),
+        ],
+        target: FunctionApplication {
+            function: PropertyAccess {
+                expression: Variable {
+                    identifier: "stdenv",
+                    position: (9, 1),
+                },
+                attribute_path: AttributePath {
+                    attributes: [
+                        Raw {
+                            content: "mkDerivation",
+                            position: (9, 8),
+                        },
+                    ],
+                },
+                default: None,
+            },
+            arguments: [
+                Map {
+                    bindings: [
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "version",
+                                        position: (10, 3),
+                                    },
+                                ],
+                            },
+                            String {
+                                parts: [
+                                    Raw {
+                                        content: "4.4.4",
+                                        position: (10, 14),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "pname",
+                                        position: (11, 3),
+                                    },
+                                ],
+                            },
+                            String {
+                                parts: [
+                                    Raw {
+                                        content: "suitesparse",
+                                        position: (11, 12),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "src",
+                                        position: (13, 3),
+                                    },
+                                ],
+                            },
+                            FunctionApplication {
+                                function: Variable {
+                                    identifier: "fetchurl",
+                                    position: (13, 9),
+                                },
+                                arguments: [
+                                    Map {
+                                        bindings: [
+                                            KeyValue(
+                                                AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "url",
+                                                            position: (14, 5),
+                                                        },
+                                                    ],
+                                                },
+                                                String {
+                                                    parts: [
+                                                        Raw {
+                                                            content: "http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-",
+                                                            position: (14, 12),
+                                                        },
+                                                        Expression {
+                                                            expression: Variable {
+                                                                identifier: "version",
+                                                                position: (14, 72),
+                                                            },
+                                                        },
+                                                        Raw {
+                                                            content: ".tar.gz",
+                                                            position: (14, 80),
+                                                        },
+                                                    ],
+                                                },
+                                            ),
+                                            KeyValue(
+                                                AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "sha256",
+                                                            position: (15, 5),
+                                                        },
+                                                    ],
+                                                },
+                                                String {
+                                                    parts: [
+                                                        Raw {
+                                                            content: "1zdn1y0ij6amj7smmcslkqgbqv9yy5cwmbyzqc9v6drzdzllgbpj",
+                                                            position: (15, 15),
+                                                        },
+                                                    ],
+                                                },
+                                            ),
+                                        ],
+                                        recursive: false,
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "preConfigure",
+                                        position: (18, 3),
+                                    },
+                                ],
+                            },
+                            BinaryOperation {
+                                operator: Addition,
+                                operands: [
+                                    BinaryOperation {
+                                        operator: Addition,
+                                        operands: [
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "    mkdir -p $out/lib\n    mkdir -p $out/include\n\n    sed -i \"SuiteSparse_config/SuiteSparse_config.mk\" \\\n        -e 's/METIS .*$/METIS =/' \\\n        -e 's/METIS_PATH .*$/METIS_PATH =/' \\\n        -e '/CHOLMOD_CONFIG/ s/$/-DNPARTITION -DLONGBLAS=",
+                                                        position: (19, 1),
+                                                    },
+                                                    Expression {
+                                                        expression: Variable {
+                                                            identifier: "int_t",
+                                                            position: (25, 60),
+                                                        },
+                                                    },
+                                                    Raw {
+                                                        content: "/' \\\n        -e '/UMFPACK_CONFIG/ s/$/-DLONGBLAS=",
+                                                        position: (25, 66),
+                                                    },
+                                                    Expression {
+                                                        expression: Variable {
+                                                            identifier: "int_t",
+                                                            position: (26, 47),
+                                                        },
+                                                    },
+                                                    Raw {
+                                                        content: "/'\n  ",
+                                                        position: (26, 53),
+                                                    },
+                                                ],
+                                            },
+                                            FunctionApplication {
+                                                function: PropertyAccess {
+                                                    expression: Variable {
+                                                        identifier: "lib",
+                                                        position: (28, 5),
+                                                    },
+                                                    attribute_path: AttributePath {
+                                                        attributes: [
+                                                            Raw {
+                                                                content: "optionalString",
+                                                                position: (28, 9),
+                                                            },
+                                                        ],
+                                                    },
+                                                    default: None,
+                                                },
+                                                arguments: [
+                                                    PropertyAccess {
+                                                        expression: Variable {
+                                                            identifier: "stdenv",
+                                                            position: (28, 24),
+                                                        },
+                                                        attribute_path: AttributePath {
+                                                            attributes: [
+                                                                Raw {
+                                                                    content: "isDarwin",
+                                                                    position: (28, 31),
+                                                                },
+                                                            ],
+                                                        },
+                                                        default: None,
+                                                    },
+                                                    String {
+                                                        parts: [
+                                                            Raw {
+                                                                content: "    sed -i \"SuiteSparse_config/SuiteSparse_config.mk\" \\\n        -e 's/^[[:space:]]*\\(LIB = -lm\\) -lrt/\\1/'\n  ",
+                                                                position: (29, 1),
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                    FunctionApplication {
+                                        function: PropertyAccess {
+                                            expression: Variable {
+                                                identifier: "lib",
+                                                position: (32, 5),
+                                            },
+                                            attribute_path: AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "optionalString",
+                                                        position: (32, 9),
+                                                    },
+                                                ],
+                                            },
+                                            default: None,
+                                        },
+                                        arguments: [
+                                            Variable {
+                                                identifier: "enableCuda",
+                                                position: (32, 24),
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "    sed -i \"SuiteSparse_config/SuiteSparse_config.mk\" \\\n        -e 's|^[[:space:]]*\\(CUDA_ROOT     =\\)|CUDA_ROOT = ",
+                                                        position: (33, 1),
+                                                    },
+                                                    Expression {
+                                                        expression: Variable {
+                                                            identifier: "cudatoolkit",
+                                                            position: (34, 62),
+                                                        },
+                                                    },
+                                                    Raw {
+                                                        content: "|' \\\n        -e 's|^[[:space:]]*\\(GPU_BLAS_PATH =\\)|GPU_BLAS_PATH = $(CUDA_ROOT)|' \\\n        -e 's|^[[:space:]]*\\(GPU_CONFIG    =\\)|GPU_CONFIG = -I$(CUDA_ROOT)/include -DGPU_BLAS -DCHOLMOD_OMP_NUM_THREADS=$(NIX_BUILD_CORES) |' \\\n        -e 's|^[[:space:]]*\\(CUDA_PATH     =\\)|CUDA_PATH = $(CUDA_ROOT)|' \\\n        -e 's|^[[:space:]]*\\(CUDART_LIB    =\\)|CUDART_LIB = $(CUDA_ROOT)/lib64/libcudart.so|' \\\n        -e 's|^[[:space:]]*\\(CUBLAS_LIB    =\\)|CUBLAS_LIB = $(CUDA_ROOT)/lib64/libcublas.so|' \\\n        -e 's|^[[:space:]]*\\(CUDA_INC_PATH =\\)|CUDA_INC_PATH = $(CUDA_ROOT)/include/|' \\\n        -e 's|^[[:space:]]*\\(NV20          =\\)|NV20 = -arch=sm_20 -Xcompiler -fPIC|' \\\n        -e 's|^[[:space:]]*\\(NV30          =\\)|NV30 = -arch=sm_30 -Xcompiler -fPIC|' \\\n        -e 's|^[[:space:]]*\\(NV35          =\\)|NV35 = -arch=sm_35 -Xcompiler -fPIC|' \\\n        -e 's|^[[:space:]]*\\(NVCC          =\\) echo|NVCC = $(CUDA_ROOT)/bin/nvcc|' \\\n        -e 's|^[[:space:]]*\\(NVCCFLAGS     =\\)|NVCCFLAGS = $(NV20) -O3 -gencode=arch=compute_20,code=sm_20 -gencode=arch=compute_30,code=sm_30 -gencode=arch=compute_35,code=sm_35 -gencode=arch=compute_60,code=sm_60|'\n  ",
+                                                        position: (34, 74),
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "makeFlags",
+                                        position: (48, 3),
+                                    },
+                                ],
+                            },
+                            List {
+                                elements: [
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "PREFIX=\"$(out)\"",
+                                                position: (49, 6),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "INSTALL_LIB=$(out)/lib",
+                                                position: (50, 6),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "INSTALL_INCLUDE=$(out)/include",
+                                                position: (51, 6),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "BLAS=-lblas",
+                                                position: (52, 6),
+                                            },
+                                        ],
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: "LAPACK=-llapack",
+                                                position: (53, 6),
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "NIX_CFLAGS_COMPILE",
+                                        position: (56, 3),
+                                    },
+                                ],
+                            },
+                            FunctionApplication {
+                                function: PropertyAccess {
+                                    expression: Variable {
+                                        identifier: "lib",
+                                        position: (56, 24),
+                                    },
+                                    attribute_path: AttributePath {
+                                        attributes: [
+                                            Raw {
+                                                content: "optionalString",
+                                                position: (56, 28),
+                                            },
+                                        ],
+                                    },
+                                    default: None,
+                                },
+                                arguments: [
+                                    PropertyAccess {
+                                        expression: Variable {
+                                            identifier: "stdenv",
+                                            position: (56, 43),
+                                        },
+                                        attribute_path: AttributePath {
+                                            attributes: [
+                                                Raw {
+                                                    content: "isDarwin",
+                                                    position: (56, 50),
+                                                },
+                                            ],
+                                        },
+                                        default: None,
+                                    },
+                                    String {
+                                        parts: [
+                                            Raw {
+                                                content: " -DNTIMER",
+                                                position: (56, 60),
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "postInstall",
+                                        position: (58, 3),
+                                    },
+                                ],
+                            },
+                            String {
+                                parts: [
+                                    Raw {
+                                        content: "    # Build and install shared library\n    (\n        cd \"$(mktemp -d)\"\n        for i in \"$out\"/lib/lib*.a; do\n          ar -x $i\n        done\n        ",
+                                        position: (59, 1),
+                                    },
+                                    Expression {
+                                        expression: IfThenElse {
+                                            predicate: Variable {
+                                                identifier: "enableCuda",
+                                                position: (65, 14),
+                                            },
+                                            then: Variable {
+                                                identifier: "cudatoolkit",
+                                                position: (65, 30),
+                                            },
+                                            else_: PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "stdenv",
+                                                    position: (65, 47),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "cc",
+                                                            position: (65, 54),
+                                                        },
+                                                        Raw {
+                                                            content: "outPath",
+                                                            position: (65, 57),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                        },
+                                    },
+                                    Raw {
+                                        content: "/bin/",
+                                        position: (65, 65),
+                                    },
+                                    Expression {
+                                        expression: IfThenElse {
+                                            predicate: Variable {
+                                                identifier: "enableCuda",
+                                                position: (65, 75),
+                                            },
+                                            then: String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "nvcc",
+                                                        position: (65, 92),
+                                                    },
+                                                ],
+                                            },
+                                            else_: String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "cc",
+                                                        position: (65, 104),
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                    },
+                                    Raw {
+                                        content: " *.o ",
+                                        position: (65, 108),
+                                    },
+                                    Expression {
+                                        expression: IfThenElse {
+                                            predicate: PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "stdenv",
+                                                    position: (65, 118),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "isDarwin",
+                                                            position: (65, 125),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                            then: String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "-dynamiclib",
+                                                        position: (65, 140),
+                                                    },
+                                                ],
+                                            },
+                                            else_: String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "--shared",
+                                                        position: (65, 159),
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                    },
+                                    Raw {
+                                        content: " -o \"$out/lib/libsuitesparse",
+                                        position: (65, 169),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "SHLIB_EXT",
+                                            position: (65, 199),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "\" -lblas ",
+                                        position: (65, 209),
+                                    },
+                                    Expression {
+                                        expression: FunctionApplication {
+                                            function: PropertyAccess {
+                                                expression: Variable {
+                                                    identifier: "lib",
+                                                    position: (65, 220),
+                                                },
+                                                attribute_path: AttributePath {
+                                                    attributes: [
+                                                        Raw {
+                                                            content: "optionalString",
+                                                            position: (65, 224),
+                                                        },
+                                                    ],
+                                                },
+                                                default: None,
+                                            },
+                                            arguments: [
+                                                Variable {
+                                                    identifier: "enableCuda",
+                                                    position: (65, 239),
+                                                },
+                                                String {
+                                                    parts: [
+                                                        Raw {
+                                                            content: "-lcublas",
+                                                            position: (65, 251),
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    Raw {
+                                        content: "\n    )\n    for i in umfpack cholmod amd camd colamd spqr; do\n      ln -s libsuitesparse",
+                                        position: (65, 261),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "SHLIB_EXT",
+                                            position: (68, 29),
+                                        },
+                                    },
+                                    Raw {
+                                        content: " \"$out\"/lib/lib$i",
+                                        position: (68, 39),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "SHLIB_EXT",
+                                            position: (68, 58),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "\n    done\n\n    # Install documentation\n    outdoc=$out/share/doc/suitesparse-",
+                                        position: (68, 68),
+                                    },
+                                    Expression {
+                                        expression: Variable {
+                                            identifier: "version",
+                                            position: (72, 41),
+                                        },
+                                    },
+                                    Raw {
+                                        content: "\n    mkdir -p $outdoc\n    cp -r AMD/Doc $outdoc/amd\n    cp -r BTF/Doc $outdoc/bft\n    cp -r CAMD/Doc $outdoc/camd\n    cp -r CCOLAMD/Doc $outdoc/ccolamd\n    cp -r CHOLMOD/Doc $outdoc/cholmod\n    cp -r COLAMD/Doc $outdoc/colamd\n    cp -r CXSparse/Doc $outdoc/cxsparse\n    cp -r KLU/Doc $outdoc/klu\n    cp -r LDL/Doc $outdoc/ldl\n    cp -r RBio/Doc $outdoc/rbio\n    cp -r SPQR/Doc $outdoc/spqr\n    cp -r UMFPACK/Doc $outdoc/umfpack\n  ",
+                                        position: (72, 49),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "nativeBuildInputs",
+                                        position: (88, 3),
+                                    },
+                                ],
+                            },
+                            List {
+                                elements: [
+                                    Variable {
+                                        identifier: "gfortran",
+                                        position: (88, 25),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "buildInputs",
+                                        position: (89, 3),
+                                    },
+                                ],
+                            },
+                            List {
+                                elements: [
+                                    Variable {
+                                        identifier: "blas",
+                                        position: (89, 19),
+                                    },
+                                    Variable {
+                                        identifier: "lapack",
+                                        position: (89, 24),
+                                    },
+                                ],
+                            },
+                        ),
+                        KeyValue(
+                            AttributePath {
+                                attributes: [
+                                    Raw {
+                                        content: "meta",
+                                        position: (91, 3),
+                                    },
+                                ],
+                            },
+                            With {
+                                expression: Variable {
+                                    identifier: "lib",
+                                    position: (91, 15),
+                                },
+                                target: Map {
+                                    bindings: [
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "homepage",
+                                                        position: (92, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "http://faculty.cse.tamu.edu/davis/suitesparse.html",
+                                                        position: (92, 17),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "description",
+                                                        position: (93, 5),
+                                                    },
+                                                ],
+                                            },
+                                            String {
+                                                parts: [
+                                                    Raw {
+                                                        content: "A suite of sparse matrix algorithms",
+                                                        position: (93, 20),
+                                                    },
+                                                ],
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "license",
+                                                        position: (94, 5),
+                                                    },
+                                                ],
+                                            },
+                                            With {
+                                                expression: Variable {
+                                                    identifier: "licenses",
+                                                    position: (94, 20),
+                                                },
+                                                target: List {
+                                                    elements: [
+                                                        Variable {
+                                                            identifier: "bsd2",
+                                                            position: (94, 32),
+                                                        },
+                                                        Variable {
+                                                            identifier: "gpl2Plus",
+                                                            position: (94, 37),
+                                                        },
+                                                        Variable {
+                                                            identifier: "lgpl21Plus",
+                                                            position: (94, 46),
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "maintainers",
+                                                        position: (95, 5),
+                                                    },
+                                                ],
+                                            },
+                                            With {
+                                                expression: Variable {
+                                                    identifier: "maintainers",
+                                                    position: (95, 24),
+                                                },
+                                                target: List {
+                                                    elements: [
+                                                        Variable {
+                                                            identifier: "ttuegel",
+                                                            position: (95, 39),
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ),
+                                        KeyValue(
+                                            AttributePath {
+                                                attributes: [
+                                                    Raw {
+                                                        content: "platforms",
+                                                        position: (96, 5),
+                                                    },
+                                                ],
+                                            },
+                                            With {
+                                                expression: Variable {
+                                                    identifier: "platforms",
+                                                    position: (96, 22),
+                                                },
+                                                target: Variable {
+                                                    identifier: "unix",
+                                                    position: (96, 33),
+                                                },
+                                            },
+                                        ),
+                                    ],
+                                    recursive: false,
+                                },
+                            },
+                        ),
+                    ],
+                    recursive: true,
+                },
+            ],
+        },
+    },
+}

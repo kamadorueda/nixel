@@ -1,0 +1,436 @@
+---
+Γ := rules "expr"
+  expr := rules "expr_function"
+    expr_function := rules "{" "formals" "}" ":" "expr_function"
+      { := lexemes "{"
+        { "{" (1, 1)
+      formals := rules "formal" "," "formals"
+        formal := rules "ID"
+          ID := lexemes "ID"
+            ID "pkgs" (1, 3)
+        , := lexemes ","
+          , "," (1, 7)
+        formals := rules "formal" "," "formals"
+          formal := rules "ID"
+            ID := lexemes "ID"
+              ID "nodejs-14_x" (1, 9)
+          , := lexemes ","
+            , "," (1, 20)
+          formals := rules "formal" "," "formals"
+            formal := rules "ID"
+              ID := lexemes "ID"
+                ID "stdenv" (1, 22)
+            , := lexemes ","
+              , "," (1, 28)
+            formals := rules "formal"
+              formal := rules "ID"
+                ID := lexemes "ID"
+                  ID "lib" (1, 30)
+      } := lexemes "}"
+        } "}" (1, 34)
+      : := lexemes ":"
+        : ":" (1, 35)
+      expr_function := rules "LET" "binds" "IN" "expr_function"
+        LET := lexemes "LET"
+          LET "let" (3, 1)
+        binds := rules "binds" "attrpath" "=" "expr" ";"
+          binds := rules 
+          attrpath := rules "attr"
+            attr := rules "ID"
+              ID := lexemes "ID"
+                ID "nodePackages" (4, 3)
+          = := lexemes "="
+            = "=" (4, 16)
+          expr := rules "expr_function"
+            expr_function := rules "expr_if"
+              expr_if := rules "expr_op"
+                expr_op := rules "expr_app"
+                  expr_app := rules "expr_app" "expr_select"
+                    expr_app := rules "expr_app" "expr_select"
+                      expr_app := rules "expr_select"
+                        expr_select := rules "expr_simple"
+                          expr_simple := rules "ID"
+                            ID := lexemes "ID"
+                              ID "import" (4, 18)
+                      expr_select := rules "expr_simple"
+                        expr_simple := rules "path_start" "PATH_END"
+                          path_start := rules "PATH"
+                            PATH := lexemes "PATH"
+                              PATH "./node-composition.nix" (4, 25)
+                          PATH_END := lexemes "PATH_END"
+                            PATH_END " " (4, 47)
+                    expr_select := rules "expr_simple"
+                      expr_simple := rules "{" "binds" "}"
+                        { := lexemes "{"
+                          { "{" (4, 48)
+                        binds := rules "binds" "INHERIT" "(" "expr" ")" "attrs" ";"
+                          binds := rules "binds" "attrpath" "=" "expr" ";"
+                            binds := rules "binds" "INHERIT" "attrs" ";"
+                              binds := rules 
+                              INHERIT := lexemes "INHERIT"
+                                INHERIT "inherit" (5, 5)
+                              attrs := rules "attrs" "attr"
+                                attrs := rules 
+                                attr := rules "ID"
+                                  ID := lexemes "ID"
+                                    ID "pkgs" (5, 13)
+                              ; := lexemes ";"
+                                ; ";" (5, 17)
+                            attrpath := rules "attr"
+                              attr := rules "ID"
+                                ID := lexemes "ID"
+                                  ID "nodejs" (6, 5)
+                            = := lexemes "="
+                              = "=" (6, 12)
+                            expr := rules "expr_function"
+                              expr_function := rules "expr_if"
+                                expr_if := rules "expr_op"
+                                  expr_op := rules "expr_app"
+                                    expr_app := rules "expr_select"
+                                      expr_select := rules "expr_simple"
+                                        expr_simple := rules "ID"
+                                          ID := lexemes "ID"
+                                            ID "nodejs-14_x" (6, 14)
+                            ; := lexemes ";"
+                              ; ";" (6, 25)
+                          INHERIT := lexemes "INHERIT"
+                            INHERIT "inherit" (7, 5)
+                          ( := lexemes "("
+                            ( "(" (7, 13)
+                          expr := rules "expr_function"
+                            expr_function := rules "expr_if"
+                              expr_if := rules "expr_op"
+                                expr_op := rules "expr_app"
+                                  expr_app := rules "expr_select"
+                                    expr_select := rules "expr_simple" "." "attrpath"
+                                      expr_simple := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "stdenv" (7, 14)
+                                      . := lexemes "."
+                                        . "." (7, 20)
+                                      attrpath := rules "attr"
+                                        attr := rules "ID"
+                                          ID := lexemes "ID"
+                                            ID "hostPlatform" (7, 21)
+                          ) := lexemes ")"
+                            ) ")" (7, 33)
+                          attrs := rules "attrs" "attr"
+                            attrs := rules 
+                            attr := rules "ID"
+                              ID := lexemes "ID"
+                                ID "system" (7, 35)
+                          ; := lexemes ";"
+                            ; ";" (7, 41)
+                        } := lexemes "}"
+                          } "}" (8, 3)
+          ; := lexemes ";"
+            ; ";" (8, 4)
+        IN := lexemes "IN"
+          IN "in" (9, 1)
+        expr_function := rules "expr_if"
+          expr_if := rules "expr_op"
+            expr_op := rules "expr_app"
+              expr_app := rules "expr_app" "expr_select"
+                expr_app := rules "expr_select"
+                  expr_select := rules "expr_simple" "." "attrpath"
+                    expr_simple := rules "ID"
+                      ID := lexemes "ID"
+                        ID "nodePackages" (10, 1)
+                    . := lexemes "."
+                      . "." (10, 13)
+                    attrpath := rules "attrpath" "." "attr"
+                      attrpath := rules "attr"
+                        attr := rules "ID"
+                          ID := lexemes "ID"
+                            ID "n8n" (10, 14)
+                      . := lexemes "."
+                        . "." (10, 17)
+                      attr := rules "ID"
+                        ID := lexemes "ID"
+                          ID "override" (10, 18)
+                expr_select := rules "expr_simple"
+                  expr_simple := rules "{" "binds" "}"
+                    { := lexemes "{"
+                      { "{" (10, 27)
+                    binds := rules "binds" "attrpath" "=" "expr" ";"
+                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                        binds := rules "binds" "attrpath" "=" "expr" ";"
+                          binds := rules 
+                          attrpath := rules "attr"
+                            attr := rules "ID"
+                              ID := lexemes "ID"
+                                ID "nativeBuildInputs" (11, 3)
+                          = := lexemes "="
+                            = "=" (11, 21)
+                          expr := rules "expr_function"
+                            expr_function := rules "WITH" "expr" ";" "expr_function"
+                              WITH := lexemes "WITH"
+                                WITH "with" (11, 23)
+                              expr := rules "expr_function"
+                                expr_function := rules "expr_if"
+                                  expr_if := rules "expr_op"
+                                    expr_op := rules "expr_app"
+                                      expr_app := rules "expr_select"
+                                        expr_select := rules "expr_simple" "." "attrpath"
+                                          expr_simple := rules "ID"
+                                            ID := lexemes "ID"
+                                              ID "pkgs" (11, 28)
+                                          . := lexemes "."
+                                            . "." (11, 32)
+                                          attrpath := rules "attr"
+                                            attr := rules "ID"
+                                              ID := lexemes "ID"
+                                                ID "nodePackages" (11, 33)
+                              ; := lexemes ";"
+                                ; ";" (11, 45)
+                              expr_function := rules "expr_if"
+                                expr_if := rules "expr_op"
+                                  expr_op := rules "expr_app"
+                                    expr_app := rules "expr_select"
+                                      expr_select := rules "expr_simple"
+                                        expr_simple := rules "[" "expr_list" "]"
+                                          [ := lexemes "["
+                                            [ "[" (11, 47)
+                                          expr_list := rules "expr_list" "expr_select"
+                                            expr_list := rules 
+                                            expr_select := rules "expr_simple"
+                                              expr_simple := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "node-pre-gyp" (12, 5)
+                                          ] := lexemes "]"
+                                            ] "]" (13, 3)
+                          ; := lexemes ";"
+                            ; ";" (13, 4)
+                        attrpath := rules "attrpath" "." "attr"
+                          attrpath := rules "attr"
+                            attr := rules "ID"
+                              ID := lexemes "ID"
+                                ID "passthru" (15, 3)
+                          . := lexemes "."
+                            . "." (15, 11)
+                          attr := rules "ID"
+                            ID := lexemes "ID"
+                              ID "updateScript" (15, 12)
+                        = := lexemes "="
+                          = "=" (15, 25)
+                        expr := rules "expr_function"
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_select"
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "path_start" "PATH_END"
+                                      path_start := rules "PATH"
+                                        PATH := lexemes "PATH"
+                                          PATH "./generate-dependencies.sh" (15, 27)
+                                      PATH_END := lexemes "PATH_END"
+                                        PATH_END ";" (15, 53)
+                        ; := lexemes ";"
+                          ; ";" (15, 53)
+                      attrpath := rules "attr"
+                        attr := rules "ID"
+                          ID := lexemes "ID"
+                            ID "meta" (17, 3)
+                      = := lexemes "="
+                        = "=" (17, 8)
+                      expr := rules "expr_function"
+                        expr_function := rules "WITH" "expr" ";" "expr_function"
+                          WITH := lexemes "WITH"
+                            WITH "with" (17, 10)
+                          expr := rules "expr_function"
+                            expr_function := rules "expr_if"
+                              expr_if := rules "expr_op"
+                                expr_op := rules "expr_app"
+                                  expr_app := rules "expr_select"
+                                    expr_select := rules "expr_simple"
+                                      expr_simple := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "lib" (17, 15)
+                          ; := lexemes ";"
+                            ; ";" (17, 18)
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_select"
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "{" "binds" "}"
+                                      { := lexemes "{"
+                                        { "{" (17, 20)
+                                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                                        binds := rules "binds" "attrpath" "=" "expr" ";"
+                                          binds := rules "binds" "attrpath" "=" "expr" ";"
+                                            binds := rules 
+                                            attrpath := rules "attr"
+                                              attr := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "description" (18, 5)
+                                            = := lexemes "="
+                                              = "=" (18, 17)
+                                            expr := rules "expr_function"
+                                              expr_function := rules "expr_if"
+                                                expr_if := rules "expr_op"
+                                                  expr_op := rules "expr_app"
+                                                    expr_app := rules "expr_select"
+                                                      expr_select := rules "expr_simple"
+                                                        expr_simple := rules "\"" "string_parts" "\""
+                                                          " := lexemes "\""
+                                                            " "\"" (18, 19)
+                                                          string_parts := rules "STR"
+                                                            STR := lexemes "STR"
+                                                              STR "Free and open fair-code licensed node based Workflow Automation Tool" (18, 20)
+                                                          " := lexemes "\""
+                                                            " "\"" (18, 88)
+                                            ; := lexemes ";"
+                                              ; ";" (18, 89)
+                                          attrpath := rules "attr"
+                                            attr := rules "ID"
+                                              ID := lexemes "ID"
+                                                ID "maintainers" (19, 5)
+                                          = := lexemes "="
+                                            = "=" (19, 17)
+                                          expr := rules "expr_function"
+                                            expr_function := rules "WITH" "expr" ";" "expr_function"
+                                              WITH := lexemes "WITH"
+                                                WITH "with" (19, 19)
+                                              expr := rules "expr_function"
+                                                expr_function := rules "expr_if"
+                                                  expr_if := rules "expr_op"
+                                                    expr_op := rules "expr_app"
+                                                      expr_app := rules "expr_select"
+                                                        expr_select := rules "expr_simple"
+                                                          expr_simple := rules "ID"
+                                                            ID := lexemes "ID"
+                                                              ID "maintainers" (19, 24)
+                                              ; := lexemes ";"
+                                                ; ";" (19, 35)
+                                              expr_function := rules "expr_if"
+                                                expr_if := rules "expr_op"
+                                                  expr_op := rules "expr_app"
+                                                    expr_app := rules "expr_select"
+                                                      expr_select := rules "expr_simple"
+                                                        expr_simple := rules "[" "expr_list" "]"
+                                                          [ := lexemes "["
+                                                            [ "[" (19, 37)
+                                                          expr_list := rules "expr_list" "expr_select"
+                                                            expr_list := rules "expr_list" "expr_select"
+                                                              expr_list := rules 
+                                                              expr_select := rules "expr_simple"
+                                                                expr_simple := rules "ID"
+                                                                  ID := lexemes "ID"
+                                                                    ID "freezeboy" (19, 39)
+                                                            expr_select := rules "expr_simple"
+                                                              expr_simple := rules "ID"
+                                                                ID := lexemes "ID"
+                                                                  ID "k900" (19, 49)
+                                                          ] := lexemes "]"
+                                                            ] "]" (19, 54)
+                                          ; := lexemes ";"
+                                            ; ";" (19, 55)
+                                        attrpath := rules "attr"
+                                          attr := rules "ID"
+                                            ID := lexemes "ID"
+                                              ID "license" (20, 5)
+                                        = := lexemes "="
+                                          = "=" (20, 13)
+                                        expr := rules "expr_function"
+                                          expr_function := rules "expr_if"
+                                            expr_if := rules "expr_op"
+                                              expr_op := rules "expr_app"
+                                                expr_app := rules "expr_select"
+                                                  expr_select := rules "expr_simple"
+                                                    expr_simple := rules "{" "binds" "}"
+                                                      { := lexemes "{"
+                                                        { "{" (20, 15)
+                                                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                        binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                          binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                            binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                              binds := rules 
+                                                              attrpath := rules "attr"
+                                                                attr := rules "ID"
+                                                                  ID := lexemes "ID"
+                                                                    ID "fullName" (21, 7)
+                                                              = := lexemes "="
+                                                                = "=" (21, 16)
+                                                              expr := rules "expr_function"
+                                                                expr_function := rules "expr_if"
+                                                                  expr_if := rules "expr_op"
+                                                                    expr_op := rules "expr_app"
+                                                                      expr_app := rules "expr_select"
+                                                                        expr_select := rules "expr_simple"
+                                                                          expr_simple := rules "\"" "string_parts" "\""
+                                                                            " := lexemes "\""
+                                                                              " "\"" (21, 18)
+                                                                            string_parts := rules "STR"
+                                                                              STR := lexemes "STR"
+                                                                                STR "Sustainable Use License" (21, 19)
+                                                                            " := lexemes "\""
+                                                                              " "\"" (21, 42)
+                                                              ; := lexemes ";"
+                                                                ; ";" (21, 43)
+                                                            attrpath := rules "attr"
+                                                              attr := rules "ID"
+                                                                ID := lexemes "ID"
+                                                                  ID "url" (22, 7)
+                                                            = := lexemes "="
+                                                              = "=" (22, 11)
+                                                            expr := rules "expr_function"
+                                                              expr_function := rules "expr_if"
+                                                                expr_if := rules "expr_op"
+                                                                  expr_op := rules "expr_app"
+                                                                    expr_app := rules "expr_select"
+                                                                      expr_select := rules "expr_simple"
+                                                                        expr_simple := rules "\"" "string_parts" "\""
+                                                                          " := lexemes "\""
+                                                                            " "\"" (22, 13)
+                                                                          string_parts := rules "STR"
+                                                                            STR := lexemes "STR"
+                                                                              STR "https://github.com/n8n-io/n8n/blob/master/LICENSE.md" (22, 14)
+                                                                          " := lexemes "\""
+                                                                            " "\"" (22, 66)
+                                                            ; := lexemes ";"
+                                                              ; ";" (22, 67)
+                                                          attrpath := rules "attr"
+                                                            attr := rules "ID"
+                                                              ID := lexemes "ID"
+                                                                ID "free" (23, 7)
+                                                          = := lexemes "="
+                                                            = "=" (23, 12)
+                                                          expr := rules "expr_function"
+                                                            expr_function := rules "expr_if"
+                                                              expr_if := rules "expr_op"
+                                                                expr_op := rules "expr_app"
+                                                                  expr_app := rules "expr_select"
+                                                                    expr_select := rules "expr_simple"
+                                                                      expr_simple := rules "ID"
+                                                                        ID := lexemes "ID"
+                                                                          ID "false" (23, 14)
+                                                          ; := lexemes ";"
+                                                            ; ";" (23, 19)
+                                                        attrpath := rules "attr"
+                                                          attr := rules "ID"
+                                                            ID := lexemes "ID"
+                                                              ID "redistributable" (25, 7)
+                                                        = := lexemes "="
+                                                          = "=" (25, 23)
+                                                        expr := rules "expr_function"
+                                                          expr_function := rules "expr_if"
+                                                            expr_if := rules "expr_op"
+                                                              expr_op := rules "expr_app"
+                                                                expr_app := rules "expr_select"
+                                                                  expr_select := rules "expr_simple"
+                                                                    expr_simple := rules "ID"
+                                                                      ID := lexemes "ID"
+                                                                        ID "false" (25, 25)
+                                                        ; := lexemes ";"
+                                                          ; ";" (25, 30)
+                                                      } := lexemes "}"
+                                                        } "}" (26, 5)
+                                        ; := lexemes ";"
+                                          ; ";" (26, 6)
+                                      } := lexemes "}"
+                                        } "}" (27, 3)
+                      ; := lexemes ";"
+                        ; ";" (27, 4)
+                    } := lexemes "}"
+                      } "}" (28, 1)

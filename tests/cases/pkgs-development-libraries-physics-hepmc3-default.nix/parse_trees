@@ -1,0 +1,1071 @@
+---
+Γ := rules "expr"
+  expr := rules "expr_function"
+    expr_function := rules "{" "formals" "}" ":" "expr_function"
+      { := lexemes "{"
+        { "{" (1, 1)
+      formals := rules "formal" "," "formals"
+        formal := rules "ID"
+          ID := lexemes "ID"
+            ID "lib" (1, 3)
+        , := lexemes ","
+          , "," (1, 6)
+        formals := rules "formal" "," "formals"
+          formal := rules "ID"
+            ID := lexemes "ID"
+              ID "stdenv" (1, 8)
+          , := lexemes ","
+            , "," (1, 14)
+          formals := rules "formal" "," "formals"
+            formal := rules "ID"
+              ID := lexemes "ID"
+                ID "fetchurl" (1, 16)
+            , := lexemes ","
+              , "," (1, 24)
+            formals := rules "formal" "," "formals"
+              formal := rules "ID"
+                ID := lexemes "ID"
+                  ID "cmake" (1, 26)
+              , := lexemes ","
+                , "," (1, 31)
+              formals := rules "formal" "," "formals"
+                formal := rules "ID"
+                  ID := lexemes "ID"
+                    ID "coreutils" (1, 33)
+                , := lexemes ","
+                  , "," (1, 42)
+                formals := rules "formal" "," "formals"
+                  formal := rules "ID"
+                    ID := lexemes "ID"
+                      ID "python" (1, 44)
+                  , := lexemes ","
+                    , "," (1, 50)
+                  formals := rules "formal"
+                    formal := rules "ID"
+                      ID := lexemes "ID"
+                        ID "root" (1, 52)
+      } := lexemes "}"
+        } "}" (1, 57)
+      : := lexemes ":"
+        : ":" (1, 58)
+      expr_function := rules "LET" "binds" "IN" "expr_function"
+        LET := lexemes "LET"
+          LET "let" (3, 1)
+        binds := rules "binds" "attrpath" "=" "expr" ";"
+          binds := rules "binds" "attrpath" "=" "expr" ";"
+            binds := rules "binds" "attrpath" "=" "expr" ";"
+              binds := rules 
+              attrpath := rules "attr"
+                attr := rules "ID"
+                  ID := lexemes "ID"
+                    ID "pythonVersion" (4, 3)
+              = := lexemes "="
+                = "=" (4, 17)
+              expr := rules "expr_function"
+                expr_function := rules "WITH" "expr" ";" "expr_function"
+                  WITH := lexemes "WITH"
+                    WITH "with" (4, 19)
+                  expr := rules "expr_function"
+                    expr_function := rules "expr_if"
+                      expr_if := rules "expr_op"
+                        expr_op := rules "expr_app"
+                          expr_app := rules "expr_select"
+                            expr_select := rules "expr_simple" "." "attrpath"
+                              expr_simple := rules "ID"
+                                ID := lexemes "ID"
+                                  ID "lib" (4, 24)
+                              . := lexemes "."
+                                . "." (4, 27)
+                              attrpath := rules "attr"
+                                attr := rules "ID"
+                                  ID := lexemes "ID"
+                                    ID "versions" (4, 28)
+                  ; := lexemes ";"
+                    ; ";" (4, 36)
+                  expr_function := rules "expr_if"
+                    expr_if := rules "expr_op"
+                      expr_op := rules "expr_app"
+                        expr_app := rules "expr_select"
+                          expr_select := rules "expr_simple"
+                            expr_simple := rules "\"" "string_parts" "\""
+                              " := lexemes "\""
+                                " "\"" (4, 38)
+                              string_parts := rules "string_parts_interpolated"
+                                string_parts_interpolated := rules "string_parts_interpolated" "DOLLAR_CURLY" "expr" "}"
+                                  string_parts_interpolated := rules "DOLLAR_CURLY" "expr" "}"
+                                    DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                      DOLLAR_CURLY "${" (4, 39)
+                                    expr := rules "expr_function"
+                                      expr_function := rules "expr_if"
+                                        expr_if := rules "expr_op"
+                                          expr_op := rules "expr_app"
+                                            expr_app := rules "expr_app" "expr_select"
+                                              expr_app := rules "expr_select"
+                                                expr_select := rules "expr_simple"
+                                                  expr_simple := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "major" (4, 41)
+                                              expr_select := rules "expr_simple" "." "attrpath"
+                                                expr_simple := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "python" (4, 47)
+                                                . := lexemes "."
+                                                  . "." (4, 53)
+                                                attrpath := rules "attr"
+                                                  attr := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "version" (4, 54)
+                                    } := lexemes "}"
+                                      } "}" (4, 61)
+                                  DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                    DOLLAR_CURLY "${" (4, 62)
+                                  expr := rules "expr_function"
+                                    expr_function := rules "expr_if"
+                                      expr_if := rules "expr_op"
+                                        expr_op := rules "expr_app"
+                                          expr_app := rules "expr_app" "expr_select"
+                                            expr_app := rules "expr_select"
+                                              expr_select := rules "expr_simple"
+                                                expr_simple := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "minor" (4, 64)
+                                            expr_select := rules "expr_simple" "." "attrpath"
+                                              expr_simple := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "python" (4, 70)
+                                              . := lexemes "."
+                                                . "." (4, 76)
+                                              attrpath := rules "attr"
+                                                attr := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "version" (4, 77)
+                                  } := lexemes "}"
+                                    } "}" (4, 84)
+                              " := lexemes "\""
+                                " "\"" (4, 85)
+              ; := lexemes ";"
+                ; ";" (4, 86)
+            attrpath := rules "attr"
+              attr := rules "ID"
+                ID := lexemes "ID"
+                  ID "withPython" (5, 3)
+            = := lexemes "="
+              = "=" (5, 14)
+            expr := rules "expr_function"
+              expr_function := rules "expr_if"
+                expr_if := rules "expr_op"
+                  expr_op := rules "expr_op" "NEQ" "expr_op"
+                    expr_op := rules "expr_app"
+                      expr_app := rules "expr_select"
+                        expr_select := rules "expr_simple"
+                          expr_simple := rules "ID"
+                            ID := lexemes "ID"
+                              ID "python" (5, 16)
+                    NEQ := lexemes "NEQ"
+                      NEQ "!=" (5, 23)
+                    expr_op := rules "expr_app"
+                      expr_app := rules "expr_select"
+                        expr_select := rules "expr_simple"
+                          expr_simple := rules "ID"
+                            ID := lexemes "ID"
+                              ID "null" (5, 26)
+            ; := lexemes ";"
+              ; ";" (5, 30)
+          attrpath := rules "attr"
+            attr := rules "ID"
+              ID := lexemes "ID"
+                ID "root_py" (7, 3)
+          = := lexemes "="
+            = "=" (7, 11)
+          expr := rules "expr_function"
+            expr_function := rules "expr_if"
+              expr_if := rules "IF" "expr" "THEN" "expr" "ELSE" "expr"
+                IF := lexemes "IF"
+                  IF "if" (7, 13)
+                expr := rules "expr_function"
+                  expr_function := rules "expr_if"
+                    expr_if := rules "expr_op"
+                      expr_op := rules "expr_app"
+                        expr_app := rules "expr_select"
+                          expr_select := rules "expr_simple"
+                            expr_simple := rules "ID"
+                              ID := lexemes "ID"
+                                ID "withPython" (7, 16)
+                THEN := lexemes "THEN"
+                  THEN "then" (7, 27)
+                expr := rules "expr_function"
+                  expr_function := rules "expr_if"
+                    expr_if := rules "expr_op"
+                      expr_op := rules "expr_app"
+                        expr_app := rules "expr_app" "expr_select"
+                          expr_app := rules "expr_select"
+                            expr_select := rules "expr_simple" "." "attrpath"
+                              expr_simple := rules "ID"
+                                ID := lexemes "ID"
+                                  ID "root" (7, 32)
+                              . := lexemes "."
+                                . "." (7, 36)
+                              attrpath := rules "attr"
+                                attr := rules "ID"
+                                  ID := lexemes "ID"
+                                    ID "override" (7, 37)
+                          expr_select := rules "expr_simple"
+                            expr_simple := rules "{" "binds" "}"
+                              { := lexemes "{"
+                                { "{" (7, 46)
+                              binds := rules "binds" "INHERIT" "attrs" ";"
+                                binds := rules 
+                                INHERIT := lexemes "INHERIT"
+                                  INHERIT "inherit" (7, 48)
+                                attrs := rules "attrs" "attr"
+                                  attrs := rules 
+                                  attr := rules "ID"
+                                    ID := lexemes "ID"
+                                      ID "python" (7, 56)
+                                ; := lexemes ";"
+                                  ; ";" (7, 62)
+                              } := lexemes "}"
+                                } "}" (7, 64)
+                ELSE := lexemes "ELSE"
+                  ELSE "else" (7, 66)
+                expr := rules "expr_function"
+                  expr_function := rules "expr_if"
+                    expr_if := rules "expr_op"
+                      expr_op := rules "expr_app"
+                        expr_app := rules "expr_select"
+                          expr_select := rules "expr_simple"
+                            expr_simple := rules "ID"
+                              ID := lexemes "ID"
+                                ID "root" (7, 71)
+          ; := lexemes ";"
+            ; ";" (7, 75)
+        IN := lexemes "IN"
+          IN "in" (8, 1)
+        expr_function := rules "expr_if"
+          expr_if := rules "expr_op"
+            expr_op := rules "expr_app"
+              expr_app := rules "expr_app" "expr_select"
+                expr_app := rules "expr_select"
+                  expr_select := rules "expr_simple" "." "attrpath"
+                    expr_simple := rules "ID"
+                      ID := lexemes "ID"
+                        ID "stdenv" (10, 1)
+                    . := lexemes "."
+                      . "." (10, 7)
+                    attrpath := rules "attr"
+                      attr := rules "ID"
+                        ID := lexemes "ID"
+                          ID "mkDerivation" (10, 8)
+                expr_select := rules "expr_simple"
+                  expr_simple := rules "REC" "{" "binds" "}"
+                    REC := lexemes "REC"
+                      REC "rec" (10, 21)
+                    { := lexemes "{"
+                      { "{" (10, 25)
+                    binds := rules "binds" "attrpath" "=" "expr" ";"
+                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                        binds := rules "binds" "attrpath" "=" "expr" ";"
+                          binds := rules "binds" "attrpath" "=" "expr" ";"
+                            binds := rules "binds" "attrpath" "=" "expr" ";"
+                              binds := rules "binds" "attrpath" "=" "expr" ";"
+                                binds := rules "binds" "attrpath" "=" "expr" ";"
+                                  binds := rules "binds" "attrpath" "=" "expr" ";"
+                                    binds := rules "binds" "attrpath" "=" "expr" ";"
+                                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                                        binds := rules 
+                                        attrpath := rules "attr"
+                                          attr := rules "ID"
+                                            ID := lexemes "ID"
+                                              ID "pname" (11, 3)
+                                        = := lexemes "="
+                                          = "=" (11, 9)
+                                        expr := rules "expr_function"
+                                          expr_function := rules "expr_if"
+                                            expr_if := rules "expr_op"
+                                              expr_op := rules "expr_app"
+                                                expr_app := rules "expr_select"
+                                                  expr_select := rules "expr_simple"
+                                                    expr_simple := rules "\"" "string_parts" "\""
+                                                      " := lexemes "\""
+                                                        " "\"" (11, 11)
+                                                      string_parts := rules "STR"
+                                                        STR := lexemes "STR"
+                                                          STR "hepmc3" (11, 12)
+                                                      " := lexemes "\""
+                                                        " "\"" (11, 18)
+                                        ; := lexemes ";"
+                                          ; ";" (11, 19)
+                                      attrpath := rules "attr"
+                                        attr := rules "ID"
+                                          ID := lexemes "ID"
+                                            ID "version" (12, 3)
+                                      = := lexemes "="
+                                        = "=" (12, 11)
+                                      expr := rules "expr_function"
+                                        expr_function := rules "expr_if"
+                                          expr_if := rules "expr_op"
+                                            expr_op := rules "expr_app"
+                                              expr_app := rules "expr_select"
+                                                expr_select := rules "expr_simple"
+                                                  expr_simple := rules "\"" "string_parts" "\""
+                                                    " := lexemes "\""
+                                                      " "\"" (12, 13)
+                                                    string_parts := rules "STR"
+                                                      STR := lexemes "STR"
+                                                        STR "3.2.5" (12, 14)
+                                                    " := lexemes "\""
+                                                      " "\"" (12, 19)
+                                      ; := lexemes ";"
+                                        ; ";" (12, 20)
+                                    attrpath := rules "attr"
+                                      attr := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "src" (14, 3)
+                                    = := lexemes "="
+                                      = "=" (14, 7)
+                                    expr := rules "expr_function"
+                                      expr_function := rules "expr_if"
+                                        expr_if := rules "expr_op"
+                                          expr_op := rules "expr_app"
+                                            expr_app := rules "expr_app" "expr_select"
+                                              expr_app := rules "expr_select"
+                                                expr_select := rules "expr_simple"
+                                                  expr_simple := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "fetchurl" (14, 9)
+                                              expr_select := rules "expr_simple"
+                                                expr_simple := rules "{" "binds" "}"
+                                                  { := lexemes "{"
+                                                    { "{" (14, 18)
+                                                  binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                    binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                      binds := rules 
+                                                      attrpath := rules "attr"
+                                                        attr := rules "ID"
+                                                          ID := lexemes "ID"
+                                                            ID "url" (15, 5)
+                                                      = := lexemes "="
+                                                        = "=" (15, 9)
+                                                      expr := rules "expr_function"
+                                                        expr_function := rules "expr_if"
+                                                          expr_if := rules "expr_op"
+                                                            expr_op := rules "expr_app"
+                                                              expr_app := rules "expr_select"
+                                                                expr_select := rules "expr_simple"
+                                                                  expr_simple := rules "\"" "string_parts" "\""
+                                                                    " := lexemes "\""
+                                                                      " "\"" (15, 11)
+                                                                    string_parts := rules "string_parts_interpolated"
+                                                                      string_parts_interpolated := rules "string_parts_interpolated" "STR"
+                                                                        string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                                                                          STR := lexemes "STR"
+                                                                            STR "http://hepmc.web.cern.ch/hepmc/releases/HepMC3-" (15, 12)
+                                                                          DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                                            DOLLAR_CURLY "${" (15, 59)
+                                                                          expr := rules "expr_function"
+                                                                            expr_function := rules "expr_if"
+                                                                              expr_if := rules "expr_op"
+                                                                                expr_op := rules "expr_app"
+                                                                                  expr_app := rules "expr_select"
+                                                                                    expr_select := rules "expr_simple"
+                                                                                      expr_simple := rules "ID"
+                                                                                        ID := lexemes "ID"
+                                                                                          ID "version" (15, 61)
+                                                                          } := lexemes "}"
+                                                                            } "}" (15, 68)
+                                                                        STR := lexemes "STR"
+                                                                          STR ".tar.gz" (15, 69)
+                                                                    " := lexemes "\""
+                                                                      " "\"" (15, 76)
+                                                      ; := lexemes ";"
+                                                        ; ";" (15, 77)
+                                                    attrpath := rules "attr"
+                                                      attr := rules "ID"
+                                                        ID := lexemes "ID"
+                                                          ID "sha256" (16, 5)
+                                                    = := lexemes "="
+                                                      = "=" (16, 12)
+                                                    expr := rules "expr_function"
+                                                      expr_function := rules "expr_if"
+                                                        expr_if := rules "expr_op"
+                                                          expr_op := rules "expr_app"
+                                                            expr_app := rules "expr_select"
+                                                              expr_select := rules "expr_simple"
+                                                                expr_simple := rules "\"" "string_parts" "\""
+                                                                  " := lexemes "\""
+                                                                    " "\"" (16, 14)
+                                                                  string_parts := rules "STR"
+                                                                    STR := lexemes "STR"
+                                                                      STR "sha256-zQ91yA91VJxZzCqCns52Acd96Xyypat1eQysjh1YUDI=" (16, 15)
+                                                                  " := lexemes "\""
+                                                                    " "\"" (16, 66)
+                                                    ; := lexemes ";"
+                                                      ; ";" (16, 67)
+                                                  } := lexemes "}"
+                                                    } "}" (17, 3)
+                                    ; := lexemes ";"
+                                      ; ";" (17, 4)
+                                  attrpath := rules "attr"
+                                    attr := rules "ID"
+                                      ID := lexemes "ID"
+                                        ID "nativeBuildInputs" (19, 3)
+                                  = := lexemes "="
+                                    = "=" (19, 21)
+                                  expr := rules "expr_function"
+                                    expr_function := rules "expr_if"
+                                      expr_if := rules "expr_op"
+                                        expr_op := rules "expr_app"
+                                          expr_app := rules "expr_select"
+                                            expr_select := rules "expr_simple"
+                                              expr_simple := rules "[" "expr_list" "]"
+                                                [ := lexemes "["
+                                                  [ "[" (19, 23)
+                                                expr_list := rules "expr_list" "expr_select"
+                                                  expr_list := rules 
+                                                  expr_select := rules "expr_simple"
+                                                    expr_simple := rules "ID"
+                                                      ID := lexemes "ID"
+                                                        ID "cmake" (19, 25)
+                                                ] := lexemes "]"
+                                                  ] "]" (19, 31)
+                                  ; := lexemes ";"
+                                    ; ";" (19, 32)
+                                attrpath := rules "attr"
+                                  attr := rules "ID"
+                                    ID := lexemes "ID"
+                                      ID "buildInputs" (20, 3)
+                                = := lexemes "="
+                                  = "=" (20, 15)
+                                expr := rules "expr_function"
+                                  expr_function := rules "expr_if"
+                                    expr_if := rules "expr_op"
+                                      expr_op := rules "expr_op" "CONCAT" "expr_op"
+                                        expr_op := rules "expr_app"
+                                          expr_app := rules "expr_select"
+                                            expr_select := rules "expr_simple"
+                                              expr_simple := rules "[" "expr_list" "]"
+                                                [ := lexemes "["
+                                                  [ "[" (20, 17)
+                                                expr_list := rules "expr_list" "expr_select"
+                                                  expr_list := rules 
+                                                  expr_select := rules "expr_simple"
+                                                    expr_simple := rules "ID"
+                                                      ID := lexemes "ID"
+                                                        ID "root_py" (20, 19)
+                                                ] := lexemes "]"
+                                                  ] "]" (20, 27)
+                                        CONCAT := lexemes "CONCAT"
+                                          CONCAT "++" (21, 5)
+                                        expr_op := rules "expr_app"
+                                          expr_app := rules "expr_app" "expr_select"
+                                            expr_app := rules "expr_app" "expr_select"
+                                              expr_app := rules "expr_select"
+                                                expr_select := rules "expr_simple" "." "attrpath"
+                                                  expr_simple := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "lib" (21, 8)
+                                                  . := lexemes "."
+                                                    . "." (21, 11)
+                                                  attrpath := rules "attr"
+                                                    attr := rules "ID"
+                                                      ID := lexemes "ID"
+                                                        ID "optional" (21, 12)
+                                              expr_select := rules "expr_simple"
+                                                expr_simple := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "withPython" (21, 21)
+                                            expr_select := rules "expr_simple"
+                                              expr_simple := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "python" (21, 32)
+                                ; := lexemes ";"
+                                  ; ";" (21, 38)
+                              attrpath := rules "attr"
+                                attr := rules "ID"
+                                  ID := lexemes "ID"
+                                    ID "cmakeFlags" (23, 3)
+                              = := lexemes "="
+                                = "=" (23, 14)
+                              expr := rules "expr_function"
+                                expr_function := rules "expr_if"
+                                  expr_if := rules "expr_op"
+                                    expr_op := rules "expr_op" "CONCAT" "expr_op"
+                                      expr_op := rules "expr_app"
+                                        expr_app := rules "expr_select"
+                                          expr_select := rules "expr_simple"
+                                            expr_simple := rules "[" "expr_list" "]"
+                                              [ := lexemes "["
+                                                [ "[" (23, 16)
+                                              expr_list := rules "expr_list" "expr_select"
+                                                expr_list := rules 
+                                                expr_select := rules "expr_simple"
+                                                  expr_simple := rules "\"" "string_parts" "\""
+                                                    " := lexemes "\""
+                                                      " "\"" (24, 5)
+                                                    string_parts := rules "string_parts_interpolated"
+                                                      string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                                                        STR := lexemes "STR"
+                                                          STR "-DHEPMC3_ENABLE_PYTHON=" (24, 6)
+                                                        DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                          DOLLAR_CURLY "${" (24, 29)
+                                                        expr := rules "expr_function"
+                                                          expr_function := rules "expr_if"
+                                                            expr_if := rules "IF" "expr" "THEN" "expr" "ELSE" "expr"
+                                                              IF := lexemes "IF"
+                                                                IF "if" (24, 31)
+                                                              expr := rules "expr_function"
+                                                                expr_function := rules "expr_if"
+                                                                  expr_if := rules "expr_op"
+                                                                    expr_op := rules "expr_app"
+                                                                      expr_app := rules "expr_select"
+                                                                        expr_select := rules "expr_simple"
+                                                                          expr_simple := rules "ID"
+                                                                            ID := lexemes "ID"
+                                                                              ID "withPython" (24, 34)
+                                                              THEN := lexemes "THEN"
+                                                                THEN "then" (24, 45)
+                                                              expr := rules "expr_function"
+                                                                expr_function := rules "expr_if"
+                                                                  expr_if := rules "expr_op"
+                                                                    expr_op := rules "expr_app"
+                                                                      expr_app := rules "expr_select"
+                                                                        expr_select := rules "expr_simple"
+                                                                          expr_simple := rules "\"" "string_parts" "\""
+                                                                            " := lexemes "\""
+                                                                              " "\"" (24, 50)
+                                                                            string_parts := rules "STR"
+                                                                              STR := lexemes "STR"
+                                                                                STR "ON" (24, 51)
+                                                                            " := lexemes "\""
+                                                                              " "\"" (24, 53)
+                                                              ELSE := lexemes "ELSE"
+                                                                ELSE "else" (24, 55)
+                                                              expr := rules "expr_function"
+                                                                expr_function := rules "expr_if"
+                                                                  expr_if := rules "expr_op"
+                                                                    expr_op := rules "expr_app"
+                                                                      expr_app := rules "expr_select"
+                                                                        expr_select := rules "expr_simple"
+                                                                          expr_simple := rules "\"" "string_parts" "\""
+                                                                            " := lexemes "\""
+                                                                              " "\"" (24, 60)
+                                                                            string_parts := rules "STR"
+                                                                              STR := lexemes "STR"
+                                                                                STR "OFF" (24, 61)
+                                                                            " := lexemes "\""
+                                                                              " "\"" (24, 64)
+                                                        } := lexemes "}"
+                                                          } "}" (24, 65)
+                                                    " := lexemes "\""
+                                                      " "\"" (24, 66)
+                                              ] := lexemes "]"
+                                                ] "]" (25, 3)
+                                      CONCAT := lexemes "CONCAT"
+                                        CONCAT "++" (25, 5)
+                                      expr_op := rules "expr_app"
+                                        expr_app := rules "expr_app" "expr_select"
+                                          expr_app := rules "expr_app" "expr_select"
+                                            expr_app := rules "expr_select"
+                                              expr_select := rules "expr_simple" "." "attrpath"
+                                                expr_simple := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "lib" (25, 8)
+                                                . := lexemes "."
+                                                  . "." (25, 11)
+                                                attrpath := rules "attr"
+                                                  attr := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "optionals" (25, 12)
+                                            expr_select := rules "expr_simple"
+                                              expr_simple := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "withPython" (25, 22)
+                                          expr_select := rules "expr_simple"
+                                            expr_simple := rules "[" "expr_list" "]"
+                                              [ := lexemes "["
+                                                [ "[" (25, 33)
+                                              expr_list := rules "expr_list" "expr_select"
+                                                expr_list := rules "expr_list" "expr_select"
+                                                  expr_list := rules 
+                                                  expr_select := rules "expr_simple"
+                                                    expr_simple := rules "\"" "string_parts" "\""
+                                                      " := lexemes "\""
+                                                        " "\"" (26, 5)
+                                                      string_parts := rules "string_parts_interpolated"
+                                                        string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                                                          STR := lexemes "STR"
+                                                            STR "-DHEPMC3_PYTHON_VERSIONS=" (26, 6)
+                                                          DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                            DOLLAR_CURLY "${" (26, 31)
+                                                          expr := rules "expr_function"
+                                                            expr_function := rules "expr_if"
+                                                              expr_if := rules "IF" "expr" "THEN" "expr" "ELSE" "expr"
+                                                                IF := lexemes "IF"
+                                                                  IF "if" (26, 33)
+                                                                expr := rules "expr_function"
+                                                                  expr_function := rules "expr_if"
+                                                                    expr_if := rules "expr_op"
+                                                                      expr_op := rules "expr_app"
+                                                                        expr_app := rules "expr_select"
+                                                                          expr_select := rules "expr_simple" "." "attrpath"
+                                                                            expr_simple := rules "ID"
+                                                                              ID := lexemes "ID"
+                                                                                ID "python" (26, 36)
+                                                                            . := lexemes "."
+                                                                              . "." (26, 42)
+                                                                            attrpath := rules "attr"
+                                                                              attr := rules "ID"
+                                                                                ID := lexemes "ID"
+                                                                                  ID "isPy3k" (26, 43)
+                                                                THEN := lexemes "THEN"
+                                                                  THEN "then" (26, 50)
+                                                                expr := rules "expr_function"
+                                                                  expr_function := rules "expr_if"
+                                                                    expr_if := rules "expr_op"
+                                                                      expr_op := rules "expr_app"
+                                                                        expr_app := rules "expr_select"
+                                                                          expr_select := rules "expr_simple"
+                                                                            expr_simple := rules "\"" "string_parts" "\""
+                                                                              " := lexemes "\""
+                                                                                " "\"" (26, 55)
+                                                                              string_parts := rules "STR"
+                                                                                STR := lexemes "STR"
+                                                                                  STR "3.X" (26, 56)
+                                                                              " := lexemes "\""
+                                                                                " "\"" (26, 59)
+                                                                ELSE := lexemes "ELSE"
+                                                                  ELSE "else" (26, 61)
+                                                                expr := rules "expr_function"
+                                                                  expr_function := rules "expr_if"
+                                                                    expr_if := rules "expr_op"
+                                                                      expr_op := rules "expr_app"
+                                                                        expr_app := rules "expr_select"
+                                                                          expr_select := rules "expr_simple"
+                                                                            expr_simple := rules "\"" "string_parts" "\""
+                                                                              " := lexemes "\""
+                                                                                " "\"" (26, 66)
+                                                                              string_parts := rules "STR"
+                                                                                STR := lexemes "STR"
+                                                                                  STR "2.X" (26, 67)
+                                                                              " := lexemes "\""
+                                                                                " "\"" (26, 70)
+                                                          } := lexemes "}"
+                                                            } "}" (26, 71)
+                                                      " := lexemes "\""
+                                                        " "\"" (26, 72)
+                                                expr_select := rules "expr_simple"
+                                                  expr_simple := rules "\"" "string_parts" "\""
+                                                    " := lexemes "\""
+                                                      " "\"" (27, 5)
+                                                    string_parts := rules "string_parts_interpolated"
+                                                      string_parts_interpolated := rules "string_parts_interpolated" "DOLLAR_CURLY" "expr" "}"
+                                                        string_parts_interpolated := rules "string_parts_interpolated" "STR"
+                                                          string_parts_interpolated := rules "string_parts_interpolated" "DOLLAR_CURLY" "expr" "}"
+                                                            string_parts_interpolated := rules "string_parts_interpolated" "STR"
+                                                              string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                                                                STR := lexemes "STR"
+                                                                  STR "-DHEPMC3_Python_SITEARCH" (27, 6)
+                                                                DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                                  DOLLAR_CURLY "${" (27, 30)
+                                                                expr := rules "expr_function"
+                                                                  expr_function := rules "expr_if"
+                                                                    expr_if := rules "expr_op"
+                                                                      expr_op := rules "expr_app"
+                                                                        expr_app := rules "expr_select"
+                                                                          expr_select := rules "expr_simple"
+                                                                            expr_simple := rules "ID"
+                                                                              ID := lexemes "ID"
+                                                                                ID "pythonVersion" (27, 32)
+                                                                } := lexemes "}"
+                                                                  } "}" (27, 45)
+                                                              STR := lexemes "STR"
+                                                                STR "=" (27, 46)
+                                                            DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                              DOLLAR_CURLY "${" (27, 47)
+                                                            expr := rules "expr_function"
+                                                              expr_function := rules "expr_if"
+                                                                expr_if := rules "expr_op"
+                                                                  expr_op := rules "expr_app"
+                                                                    expr_app := rules "expr_app" "expr_select"
+                                                                      expr_app := rules "expr_select"
+                                                                        expr_select := rules "expr_simple"
+                                                                          expr_simple := rules "ID"
+                                                                            ID := lexemes "ID"
+                                                                              ID "placeholder" (27, 49)
+                                                                      expr_select := rules "expr_simple"
+                                                                        expr_simple := rules "\"" "string_parts" "\""
+                                                                          " := lexemes "\""
+                                                                            " "\"" (27, 61)
+                                                                          string_parts := rules "STR"
+                                                                            STR := lexemes "STR"
+                                                                              STR "out" (27, 62)
+                                                                          " := lexemes "\""
+                                                                            " "\"" (27, 65)
+                                                            } := lexemes "}"
+                                                              } "}" (27, 66)
+                                                          STR := lexemes "STR"
+                                                            STR "/" (27, 67)
+                                                        DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                          DOLLAR_CURLY "${" (27, 68)
+                                                        expr := rules "expr_function"
+                                                          expr_function := rules "expr_if"
+                                                            expr_if := rules "expr_op"
+                                                              expr_op := rules "expr_app"
+                                                                expr_app := rules "expr_select"
+                                                                  expr_select := rules "expr_simple" "." "attrpath"
+                                                                    expr_simple := rules "ID"
+                                                                      ID := lexemes "ID"
+                                                                        ID "python" (27, 70)
+                                                                    . := lexemes "."
+                                                                      . "." (27, 76)
+                                                                    attrpath := rules "attr"
+                                                                      attr := rules "ID"
+                                                                        ID := lexemes "ID"
+                                                                          ID "sitePackages" (27, 77)
+                                                        } := lexemes "}"
+                                                          } "}" (27, 89)
+                                                    " := lexemes "\""
+                                                      " "\"" (27, 90)
+                                              ] := lexemes "]"
+                                                ] "]" (28, 3)
+                              ; := lexemes ";"
+                                ; ";" (28, 4)
+                            attrpath := rules "attr"
+                              attr := rules "ID"
+                                ID := lexemes "ID"
+                                  ID "postInstall" (30, 3)
+                            = := lexemes "="
+                              = "=" (30, 15)
+                            expr := rules "expr_function"
+                              expr_function := rules "expr_if"
+                                expr_if := rules "expr_op"
+                                  expr_op := rules "expr_app"
+                                    expr_app := rules "expr_select"
+                                      expr_select := rules "expr_simple"
+                                        expr_simple := rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
+                                          IND_STRING_OPEN := lexemes "IND_STRING_OPEN"
+                                            IND_STRING_OPEN "''\n" (30, 17)
+                                          ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                            ind_string_parts := rules "ind_string_parts" "DOLLAR_CURLY" "expr" "}"
+                                              ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                                ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                                  ind_string_parts := rules "ind_string_parts" "DOLLAR_CURLY" "expr" "}"
+                                                    ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                                      ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                                        ind_string_parts := rules 
+                                                        IND_STR := lexemes "IND_STR"
+                                                          IND_STR "    substituteInPlace \"$out\"/bin/HepMC3-config \\\n      --replace 'greadlink' " (31, 1)
+                                                      IND_STR := lexemes "IND_STR"
+                                                        IND_STR "'" (32, 29)
+                                                    DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                      DOLLAR_CURLY "${" (32, 30)
+                                                    expr := rules "expr_function"
+                                                      expr_function := rules "expr_if"
+                                                        expr_if := rules "expr_op"
+                                                          expr_op := rules "expr_app"
+                                                            expr_app := rules "expr_select"
+                                                              expr_select := rules "expr_simple"
+                                                                expr_simple := rules "ID"
+                                                                  ID := lexemes "ID"
+                                                                    ID "coreutils" (32, 32)
+                                                    } := lexemes "}"
+                                                      } "}" (32, 41)
+                                                  IND_STR := lexemes "IND_STR"
+                                                    IND_STR "/bin/readlink' \\\n      --replace 'readlink' " (32, 42)
+                                                IND_STR := lexemes "IND_STR"
+                                                  IND_STR "'" (33, 28)
+                                              DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                DOLLAR_CURLY "${" (33, 29)
+                                              expr := rules "expr_function"
+                                                expr_function := rules "expr_if"
+                                                  expr_if := rules "expr_op"
+                                                    expr_op := rules "expr_app"
+                                                      expr_app := rules "expr_select"
+                                                        expr_select := rules "expr_simple"
+                                                          expr_simple := rules "ID"
+                                                            ID := lexemes "ID"
+                                                              ID "coreutils" (33, 31)
+                                              } := lexemes "}"
+                                                } "}" (33, 40)
+                                            IND_STR := lexemes "IND_STR"
+                                              IND_STR "/bin/readlink'\n  " (33, 41)
+                                          IND_STRING_CLOSE := lexemes "IND_STRING_CLOSE"
+                                            IND_STRING_CLOSE "''" (34, 3)
+                            ; := lexemes ";"
+                              ; ";" (34, 5)
+                          attrpath := rules "attr"
+                            attr := rules "ID"
+                              ID := lexemes "ID"
+                                ID "doInstallCheck" (36, 3)
+                          = := lexemes "="
+                            = "=" (36, 18)
+                          expr := rules "expr_function"
+                            expr_function := rules "expr_if"
+                              expr_if := rules "expr_op"
+                                expr_op := rules "expr_app"
+                                  expr_app := rules "expr_select"
+                                    expr_select := rules "expr_simple"
+                                      expr_simple := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "withPython" (36, 20)
+                          ; := lexemes ";"
+                            ; ";" (36, 30)
+                        attrpath := rules "attr"
+                          attr := rules "ID"
+                            ID := lexemes "ID"
+                              ID "installCheckPhase" (38, 3)
+                        = := lexemes "="
+                          = "=" (38, 21)
+                        expr := rules "expr_function"
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_app" "expr_select"
+                                  expr_app := rules "expr_app" "expr_select"
+                                    expr_app := rules "expr_select"
+                                      expr_select := rules "expr_simple" "." "attrpath"
+                                        expr_simple := rules "ID"
+                                          ID := lexemes "ID"
+                                            ID "lib" (38, 23)
+                                        . := lexemes "."
+                                          . "." (38, 26)
+                                        attrpath := rules "attr"
+                                          attr := rules "ID"
+                                            ID := lexemes "ID"
+                                              ID "optionalString" (38, 27)
+                                    expr_select := rules "expr_simple"
+                                      expr_simple := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "withPython" (38, 42)
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
+                                      IND_STRING_OPEN := lexemes "IND_STRING_OPEN"
+                                        IND_STRING_OPEN "''\n" (38, 53)
+                                      ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                        ind_string_parts := rules "ind_string_parts" "DOLLAR_CURLY" "expr" "}"
+                                          ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                            ind_string_parts := rules "ind_string_parts" "DOLLAR_CURLY" "expr" "}"
+                                              ind_string_parts := rules "ind_string_parts" "IND_STR"
+                                                ind_string_parts := rules 
+                                                IND_STR := lexemes "IND_STR"
+                                                  IND_STR "    PYTHONPATH=" (39, 1)
+                                              DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                                DOLLAR_CURLY "${" (39, 16)
+                                              expr := rules "expr_function"
+                                                expr_function := rules "expr_if"
+                                                  expr_if := rules "expr_op"
+                                                    expr_op := rules "expr_app"
+                                                      expr_app := rules "expr_app" "expr_select"
+                                                        expr_app := rules "expr_select"
+                                                          expr_select := rules "expr_simple"
+                                                            expr_simple := rules "ID"
+                                                              ID := lexemes "ID"
+                                                                ID "placeholder" (39, 18)
+                                                        expr_select := rules "expr_simple"
+                                                          expr_simple := rules "\"" "string_parts" "\""
+                                                            " := lexemes "\""
+                                                              " "\"" (39, 30)
+                                                            string_parts := rules "STR"
+                                                              STR := lexemes "STR"
+                                                                STR "out" (39, 31)
+                                                            " := lexemes "\""
+                                                              " "\"" (39, 34)
+                                              } := lexemes "}"
+                                                } "}" (39, 35)
+                                            IND_STR := lexemes "IND_STR"
+                                              IND_STR "/" (39, 36)
+                                          DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                                            DOLLAR_CURLY "${" (39, 37)
+                                          expr := rules "expr_function"
+                                            expr_function := rules "expr_if"
+                                              expr_if := rules "expr_op"
+                                                expr_op := rules "expr_app"
+                                                  expr_app := rules "expr_select"
+                                                    expr_select := rules "expr_simple" "." "attrpath"
+                                                      expr_simple := rules "ID"
+                                                        ID := lexemes "ID"
+                                                          ID "python" (39, 39)
+                                                      . := lexemes "."
+                                                        . "." (39, 45)
+                                                      attrpath := rules "attr"
+                                                        attr := rules "ID"
+                                                          ID := lexemes "ID"
+                                                            ID "sitePackages" (39, 46)
+                                          } := lexemes "}"
+                                            } "}" (39, 58)
+                                        IND_STR := lexemes "IND_STR"
+                                          IND_STR " python -c 'import pyHepMC3'\n  " (39, 59)
+                                      IND_STRING_CLOSE := lexemes "IND_STRING_CLOSE"
+                                        IND_STRING_CLOSE "''" (40, 3)
+                        ; := lexemes ";"
+                          ; ";" (40, 5)
+                      attrpath := rules "attr"
+                        attr := rules "ID"
+                          ID := lexemes "ID"
+                            ID "meta" (42, 3)
+                      = := lexemes "="
+                        = "=" (42, 8)
+                      expr := rules "expr_function"
+                        expr_function := rules "WITH" "expr" ";" "expr_function"
+                          WITH := lexemes "WITH"
+                            WITH "with" (42, 10)
+                          expr := rules "expr_function"
+                            expr_function := rules "expr_if"
+                              expr_if := rules "expr_op"
+                                expr_op := rules "expr_app"
+                                  expr_app := rules "expr_select"
+                                    expr_select := rules "expr_simple"
+                                      expr_simple := rules "ID"
+                                        ID := lexemes "ID"
+                                          ID "lib" (42, 15)
+                          ; := lexemes ";"
+                            ; ";" (42, 18)
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_select"
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "{" "binds" "}"
+                                      { := lexemes "{"
+                                        { "{" (42, 20)
+                                      binds := rules "binds" "attrpath" "=" "expr" ";"
+                                        binds := rules "binds" "attrpath" "=" "expr" ";"
+                                          binds := rules "binds" "attrpath" "=" "expr" ";"
+                                            binds := rules "binds" "attrpath" "=" "expr" ";"
+                                              binds := rules "binds" "attrpath" "=" "expr" ";"
+                                                binds := rules 
+                                                attrpath := rules "attr"
+                                                  attr := rules "ID"
+                                                    ID := lexemes "ID"
+                                                      ID "description" (43, 5)
+                                                = := lexemes "="
+                                                  = "=" (43, 17)
+                                                expr := rules "expr_function"
+                                                  expr_function := rules "expr_if"
+                                                    expr_if := rules "expr_op"
+                                                      expr_op := rules "expr_app"
+                                                        expr_app := rules "expr_select"
+                                                          expr_select := rules "expr_simple"
+                                                            expr_simple := rules "\"" "string_parts" "\""
+                                                              " := lexemes "\""
+                                                                " "\"" (43, 19)
+                                                              string_parts := rules "STR"
+                                                                STR := lexemes "STR"
+                                                                  STR "The HepMC package is an object oriented, C++ event record for High Energy Physics Monte Carlo generators and simulation" (43, 20)
+                                                              " := lexemes "\""
+                                                                " "\"" (43, 139)
+                                                ; := lexemes ";"
+                                                  ; ";" (43, 140)
+                                              attrpath := rules "attr"
+                                                attr := rules "ID"
+                                                  ID := lexemes "ID"
+                                                    ID "license" (44, 5)
+                                              = := lexemes "="
+                                                = "=" (44, 13)
+                                              expr := rules "expr_function"
+                                                expr_function := rules "expr_if"
+                                                  expr_if := rules "expr_op"
+                                                    expr_op := rules "expr_app"
+                                                      expr_app := rules "expr_select"
+                                                        expr_select := rules "expr_simple" "." "attrpath"
+                                                          expr_simple := rules "ID"
+                                                            ID := lexemes "ID"
+                                                              ID "licenses" (44, 15)
+                                                          . := lexemes "."
+                                                            . "." (44, 23)
+                                                          attrpath := rules "attr"
+                                                            attr := rules "ID"
+                                                              ID := lexemes "ID"
+                                                                ID "gpl3" (44, 24)
+                                              ; := lexemes ";"
+                                                ; ";" (44, 28)
+                                            attrpath := rules "attr"
+                                              attr := rules "ID"
+                                                ID := lexemes "ID"
+                                                  ID "homepage" (45, 5)
+                                            = := lexemes "="
+                                              = "=" (45, 14)
+                                            expr := rules "expr_function"
+                                              expr_function := rules "expr_if"
+                                                expr_if := rules "expr_op"
+                                                  expr_op := rules "expr_app"
+                                                    expr_app := rules "expr_select"
+                                                      expr_select := rules "expr_simple"
+                                                        expr_simple := rules "\"" "string_parts" "\""
+                                                          " := lexemes "\""
+                                                            " "\"" (45, 16)
+                                                          string_parts := rules "STR"
+                                                            STR := lexemes "STR"
+                                                              STR "http://hepmc.web.cern.ch/hepmc/" (45, 17)
+                                                          " := lexemes "\""
+                                                            " "\"" (45, 48)
+                                            ; := lexemes ";"
+                                              ; ";" (45, 49)
+                                          attrpath := rules "attr"
+                                            attr := rules "ID"
+                                              ID := lexemes "ID"
+                                                ID "platforms" (46, 5)
+                                          = := lexemes "="
+                                            = "=" (46, 15)
+                                          expr := rules "expr_function"
+                                            expr_function := rules "expr_if"
+                                              expr_if := rules "expr_op"
+                                                expr_op := rules "expr_app"
+                                                  expr_app := rules "expr_select"
+                                                    expr_select := rules "expr_simple" "." "attrpath"
+                                                      expr_simple := rules "ID"
+                                                        ID := lexemes "ID"
+                                                          ID "platforms" (46, 17)
+                                                      . := lexemes "."
+                                                        . "." (46, 26)
+                                                      attrpath := rules "attr"
+                                                        attr := rules "ID"
+                                                          ID := lexemes "ID"
+                                                            ID "unix" (46, 27)
+                                          ; := lexemes ";"
+                                            ; ";" (46, 31)
+                                        attrpath := rules "attr"
+                                          attr := rules "ID"
+                                            ID := lexemes "ID"
+                                              ID "maintainers" (47, 5)
+                                        = := lexemes "="
+                                          = "=" (47, 17)
+                                        expr := rules "expr_function"
+                                          expr_function := rules "WITH" "expr" ";" "expr_function"
+                                            WITH := lexemes "WITH"
+                                              WITH "with" (47, 19)
+                                            expr := rules "expr_function"
+                                              expr_function := rules "expr_if"
+                                                expr_if := rules "expr_op"
+                                                  expr_op := rules "expr_app"
+                                                    expr_app := rules "expr_select"
+                                                      expr_select := rules "expr_simple"
+                                                        expr_simple := rules "ID"
+                                                          ID := lexemes "ID"
+                                                            ID "maintainers" (47, 24)
+                                            ; := lexemes ";"
+                                              ; ";" (47, 35)
+                                            expr_function := rules "expr_if"
+                                              expr_if := rules "expr_op"
+                                                expr_op := rules "expr_app"
+                                                  expr_app := rules "expr_select"
+                                                    expr_select := rules "expr_simple"
+                                                      expr_simple := rules "[" "expr_list" "]"
+                                                        [ := lexemes "["
+                                                          [ "[" (47, 37)
+                                                        expr_list := rules "expr_list" "expr_select"
+                                                          expr_list := rules 
+                                                          expr_select := rules "expr_simple"
+                                                            expr_simple := rules "ID"
+                                                              ID := lexemes "ID"
+                                                                ID "veprbl" (47, 39)
+                                                        ] := lexemes "]"
+                                                          ] "]" (47, 46)
+                                        ; := lexemes ";"
+                                          ; ";" (47, 47)
+                                      } := lexemes "}"
+                                        } "}" (48, 3)
+                      ; := lexemes ";"
+                        ; ";" (48, 4)
+                    } := lexemes "}"
+                      } "}" (49, 1)
