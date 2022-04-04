@@ -99,7 +99,7 @@ fn cli() -> clap::ArgMatches {
             "Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for \
              the Nix Expressions Language.",
         )
-        .version("1.0.0")
+        .version("1.0.1")
         .arg(
             clap::Arg::new("path")
                 .help("File to process, or leave empty to process stdin."),
