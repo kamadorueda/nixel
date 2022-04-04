@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 Kevin Amado <kamadorueda@gmail.com>
+
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <h1 align="center">🐉 NixEL</h2>
 
 <p align="center">Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for the Nix Expressions Language.</p>
@@ -43,11 +49,24 @@
 
 NixEl is a Rust library that turns
 [Nix](https://nixos.org) code
-into an structured.
+into a correct, typed data-structured.
 
-For example:
+It's based on the original
+[lexer](https://github.com/NixOS/nix/blob/a4a1de69dcc3c6e0c40a093d67b5f20568a5f31e/src/libexpr/lexer.l)
+and [parser](https://github.com/NixOS/nix/blob/a4a1de69dcc3c6e0c40a093d67b5f20568a5f31e/src/libexpr/parser.y)
+of Nix,
+using the same algorithms and methods,
+which means guaranteed correctness.
+Additionally,
+it's been tested against every file
+in [Nixpkgs](https://github.com/nixos/nixpkgs),
+and continuously on our infrastructure.
 
-Code:
+It also provides a command line application
+called `$ nixel` which calls the library
+and pretty-prints the results.
+
+For example, given some code:
 
 ```nix
 let
@@ -56,9 +75,9 @@ in
   greeting
 ```
 
-NixEL generated Abstract Syntax Tree:
+NixEL can generate an Abstract Syntax Tree for you:
 
-```
+```rust
 LetIn {
     bindings: [
         KeyValue(
@@ -87,9 +106,9 @@ LetIn {
 }
 ```
 
-NixEL generated Lexemes:
+Or perform Lexical Analysis:
 
-```
+```rust
 LET "let" (1, 1)
 ID "greeting" (2, 3)
 = "=" (2, 12)
@@ -101,10 +120,9 @@ IN "in" (3, 1)
 ID "greeting" (4, 3)
 ```
 
-NixEl generated Parse Tree:
+And produce a Parse Tree:
 
-```
----
+```rust
 Γ := rules "expr"
   expr := rules "expr_function"
     expr_function := rules "LET" "binds" "IN" "expr_function"
