@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nixel::expression::AST;
+use nixel::ast::AST;
 
 #[test]
 fn run() {

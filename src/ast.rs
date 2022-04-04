@@ -7,6 +7,7 @@ use santiago::lexer::Position;
 use std::collections::LinkedList;
 use std::rc::Rc;
 
+/// Main type of an Abstract Syntax Tree.
 #[derive(Clone, Debug, PartialEq)]
 pub enum AST {
     Assert {
@@ -80,13 +81,21 @@ pub enum AST {
     },
 
     // Temporary containers
+    #[doc(hidden)]
     __Attribute(Attribute),
+    #[doc(hidden)]
     __Attributes(LinkedList<Attribute>),
+    #[doc(hidden)]
     __AttributePath(AttributePath),
+    #[doc(hidden)]
     __Bindings(LinkedList<Bind>),
+    #[doc(hidden)]
     __FunctionArgument(FunctionArgument),
+    #[doc(hidden)]
     __FunctionArguments(FunctionArguments),
+    #[doc(hidden)]
     __StringParts(LinkedList<StringPart>),
+    #[doc(hidden)]
     __Lexeme(Rc<Lexeme>),
 }
 

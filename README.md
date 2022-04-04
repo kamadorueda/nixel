@@ -60,7 +60,7 @@ which means guaranteed correctness.
 Additionally,
 it's been tested against every file
 in [Nixpkgs](https://github.com/nixos/nixpkgs),
-and continuously on our infrastructure.
+and also continuously on our infrastructure.
 
 It also provides a command line application
 called `$ nixel` which calls the library
@@ -163,3 +163,16 @@ And produce a Parse Tree:
                   ID := lexemes "ID"
                     ID "greeting" (4, 3)
 ```
+
+This library is based on [Santiago](https://github.com/kamadorueda/santiago)
+and can be used to implement tools like
+[Code Formatters](https://github.com/kamadorueda/alejandra),
+documentation generators,
+and even alternative evaluators of the Nix expression language.
+
+You can checkout more examples
+in the [tests](https://github.com/kamadorueda/nixel/tree/main/tests/cases) folder.
+
+We hope you find NixEL useful!
+
+And don’t forget to give us a star ⭐

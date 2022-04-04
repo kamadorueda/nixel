@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+//! Lexical Analysis facilities.
 use santiago::lexer::LexerRules;
 
 santiago::def!(ANY, r"(?:.|\n)");
