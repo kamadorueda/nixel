@@ -317,17 +317,9 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__StringParts(string_parts) => string_parts,
                     _ => unreachable!(),
                 };
-                let path_end = match asts.swap_remove(0) {
-                    AST::__Lexeme(lexeme) => StringPart::Raw {
-                        content: lexeme.raw.clone(),
-                        position: lexeme.position.clone()
-                    },
-                    _ => unreachable!(),
-                };
 
                 let mut parts = LinkedList::new();
                 parts.append(&mut path_start);
-                parts.push_back(path_end);
 
                 AST::Path { parts }
             };
@@ -341,18 +333,10 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__StringParts(string_parts) => string_parts,
                     _ => unreachable!(),
                 };
-                let path_end = match asts.swap_remove(0) {
-                    AST::__Lexeme(lexeme) => StringPart::Raw {
-                        content: lexeme.raw.clone(),
-                        position: lexeme.position.clone()
-                    },
-                    _ => unreachable!(),
-                };
 
                 let mut parts = LinkedList::new();
                 parts.append(&mut path_start);
                 parts.append(&mut string_parts_interpolated);
-                parts.push_back(path_end);
 
                 AST::Path { parts }
             };

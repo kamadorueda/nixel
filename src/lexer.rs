@@ -195,12 +195,12 @@ pub fn lexer_rules() -> LexerRules {
                 }
                 lexer.take()
             };
-        "INPATH" | "PATH_END" = pattern concat!(ANY!(), "|$")
+        "INPATH" | "PATH_END" = pattern concat!(ANY!(), r"|\z")
             => |lexer| {
                 lexer.pop_state();
                 lexer.take_and_retry()
             };
-        "INPATH_SLASH" | "ERROR" = pattern concat!(ANY!(), "|$")
+        "INPATH_SLASH" | "ERROR" = pattern concat!(ANY!(), r"|\z")
             => |lexer| {
                 lexer.error("Path has a trailing slash")
             };
