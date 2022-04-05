@@ -312,16 +312,11 @@ pub fn grammar() -> Grammar<AST> {
         "expr_simple" => rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
             => |mut asts| asts.swap_remove(1);
         "expr_simple" => rules "path_start" "PATH_END"
-            => |mut asts| {
-                let mut path_start = match asts.swap_remove(0) {
-                    AST::__StringParts(string_parts) => string_parts,
-                    _ => unreachable!(),
-                };
-
-                let mut parts = LinkedList::new();
-                parts.append(&mut path_start);
-
-                AST::Path { parts }
+            => |mut asts| match asts.swap_remove(0) {
+                AST::__StringParts(string_parts) => AST::Path {
+                    parts:string_parts
+                },
+                _ => unreachable!(),
             };
         "expr_simple" => rules "path_start" "string_parts_interpolated" "PATH_END"
             => |mut asts| {
