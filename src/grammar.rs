@@ -310,7 +310,10 @@ pub fn grammar() -> Grammar<AST> {
         "expr_simple" => rules "\"" "string_parts" "\""
             => |mut asts| asts.swap_remove(1);
         "expr_simple" => rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
-            => |mut asts| asts.swap_remove(1);
+            => |mut asts| match asts.swap_remove(1) {
+                AST::String { parts } => strip_indentation(parts),
+                _ => unreachable!(),
+            };
         "expr_simple" => rules "path_start" "PATH_END"
             => |mut asts| match asts.swap_remove(0) {
                 AST::__StringParts(string_parts) => AST::Path {
@@ -899,4 +902,91 @@ pub fn grammar() -> Grammar<AST> {
         Associativity::None => rules "?";
         Associativity::None => rules "NEGATE";
     )
+}
+
+fn strip_indentation(mut parts: LinkedList<StringPart>) -> AST {
+    let mut at_start_of_line = true;
+    let mut min_indent: usize = usize::MAX;
+    let mut cur_indent: usize = 0;
+
+    // Compute the min indentation
+    for part in &parts {
+        if let StringPart::Raw { content, .. } = part {
+            for char in content.chars() {
+                if at_start_of_line {
+                    match char {
+                        ' ' => {
+                            cur_indent += 1;
+                        }
+                        '\n' => {
+                            cur_indent = 0;
+                        }
+                        _ => {
+                            at_start_of_line = false;
+                            if cur_indent < min_indent {
+                                min_indent = cur_indent;
+                            }
+                        }
+                    }
+                } else if char == '\n' {
+                    at_start_of_line = true;
+                    cur_indent = 0;
+                }
+            }
+        }
+    }
+
+    // Trim spaces from each line
+    let mut cur_dropped: usize = 0;
+    let parts_count = parts.len();
+    for part in parts.iter_mut() {
+        match part {
+            StringPart::Raw { content, .. } => {
+                *content = content
+                    .chars()
+                    .filter(|char| {
+                        if at_start_of_line {
+                            match char {
+                                ' ' => {
+                                    cur_dropped += 1;
+                                    cur_dropped > min_indent
+                                }
+                                '\n' => {
+                                    cur_dropped = 0;
+                                    true
+                                }
+                                _ => {
+                                    at_start_of_line = false;
+                                    cur_dropped = 0;
+                                    true
+                                }
+                            }
+                        } else {
+                            if *char == '\n' {
+                                at_start_of_line = true;
+                            }
+                            true
+                        }
+                    })
+                    .collect();
+
+                if parts_count == 1 {
+                    if let Some(last_new_line) = content.rfind('\n') {
+                        if content[last_new_line + 1..]
+                            .chars()
+                            .all(|char| char == ' ')
+                        {
+                            content.truncate(last_new_line + 1);
+                        }
+                    }
+                }
+            }
+            StringPart::Expression { .. } => {
+                at_start_of_line = false;
+                cur_dropped = 0;
+            }
+        }
+    }
+
+    AST::String { parts }
 }

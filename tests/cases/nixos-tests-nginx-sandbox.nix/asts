@@ -326,7 +326,7 @@ FunctionApplication {
                                                     String {
                                                         parts: [
                                                             Raw {
-                                                                content: "        location /test1-write {\n          content_by_lua_block {\n            local create = os.execute(",
+                                                                content: "location /test1-write {\n  content_by_lua_block {\n    local create = os.execute(",
                                                                 position: (23, 1),
                                                             },
                                                             Raw {
@@ -351,7 +351,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/mkdir /tmp/test1-read')\n            local create = os.execute(",
+                                                                content: "/bin/mkdir /tmp/test1-read')\n    local create = os.execute(",
                                                                 position: (25, 57),
                                                             },
                                                             Raw {
@@ -376,7 +376,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/touch /tmp/test1-read/foo.txt')\n            local echo = os.execute(",
+                                                                content: "/bin/touch /tmp/test1-read/foo.txt')\n    local echo = os.execute(",
                                                                 position: (26, 57),
                                                             },
                                                             Raw {
@@ -401,7 +401,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/echo worked > /tmp/test1-read/foo.txt')\n          }\n        }\n        location /test1-read {\n          root /tmp;\n        }\n        location /test2-write {\n          content_by_lua_block {\n            local create = os.execute(",
+                                                                content: "/bin/echo worked > /tmp/test1-read/foo.txt')\n  }\n}\nlocation /test1-read {\n  root /tmp;\n}\nlocation /test2-write {\n  content_by_lua_block {\n    local create = os.execute(",
                                                                 position: (27, 55),
                                                             },
                                                             Raw {
@@ -426,7 +426,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/mkdir /var/web/test2-read')\n            local create = os.execute(",
+                                                                content: "/bin/mkdir /var/web/test2-read')\n    local create = os.execute(",
                                                                 position: (35, 57),
                                                             },
                                                             Raw {
@@ -451,7 +451,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/touch /var/web/test2-read/bar.txt')\n            local echo = os.execute(",
+                                                                content: "/bin/touch /var/web/test2-read/bar.txt')\n    local echo = os.execute(",
                                                                 position: (36, 57),
                                                             },
                                                             Raw {
@@ -476,7 +476,7 @@ FunctionApplication {
                                                                 },
                                                             },
                                                             Raw {
-                                                                content: "/bin/echo error-worked > /var/web/test2-read/bar.txt')\n          }\n        }\n        location /test2-read {\n          root /var/web;\n        }\n      ",
+                                                                content: "/bin/echo error-worked > /var/web/test2-read/bar.txt')\n  }\n}\nlocation /test2-read {\n  root /var/web;\n}\n",
                                                                 position: (37, 55),
                                                             },
                                                         ],
@@ -529,7 +529,7 @@ FunctionApplication {
                         String {
                             parts: [
                                 Raw {
-                                    content: "    machine.wait_for_unit(\"nginx\")\n    machine.wait_for_open_port(80)\n\n    # Checking write in temporary folder\n    machine.succeed(\"$(curl -vvv http://localhost/test1-write)\")\n    machine.succeed('test \"$(curl -fvvv http://localhost/test1-read/foo.txt)\" = worked')\n\n    # Checking write in protected folder. In sandbox mode for the nginx service, the folder /var/web is mounted\n    # in read-only mode.\n    machine.succeed(\"mkdir -p /var/web\")\n    machine.succeed(\"chown nginx:nginx /var/web\")\n    machine.succeed(\"$(curl -vvv http://localhost/test2-write)\")\n    assert \"404 Not Found\" in machine.succeed(\n        \"curl -vvv -s http://localhost/test2-read/bar.txt\"\n    )\n  ",
+                                    content: "machine.wait_for_unit(\"nginx\")\nmachine.wait_for_open_port(80)\n\n# Checking write in temporary folder\nmachine.succeed(\"$(curl -vvv http://localhost/test1-write)\")\nmachine.succeed('test \"$(curl -fvvv http://localhost/test1-read/foo.txt)\" = worked')\n\n# Checking write in protected folder. In sandbox mode for the nginx service, the folder /var/web is mounted\n# in read-only mode.\nmachine.succeed(\"mkdir -p /var/web\")\nmachine.succeed(\"chown nginx:nginx /var/web\")\nmachine.succeed(\"$(curl -vvv http://localhost/test2-write)\")\nassert \"404 Not Found\" in machine.succeed(\n    \"curl -vvv -s http://localhost/test2-read/bar.txt\"\n)\n",
                                     position: (49, 1),
                                 },
                             ],

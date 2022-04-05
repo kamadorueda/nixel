@@ -873,7 +873,7 @@ Function {
                                     String {
                                         parts: [
                                             Raw {
-                                                content: "      chmod +x configure\n      patchShebangs --build configure\n    ",
+                                                content: "chmod +x configure\npatchShebangs --build configure\n",
                                                 position: (57, 1),
                                             },
                                         ],
@@ -1367,7 +1367,7 @@ Function {
                                     String {
                                         parts: [
                                             Raw {
-                                                content: "      mkdir -p $out/lib\n\n      mv build/*/images/jdk $out/lib/openjdk\n\n      # Remove some broken manpages.\n      rm -rf $out/lib/openjdk/man/ja*\n\n      # Mirror some stuff in top-level.\n      mkdir -p $out/share\n      ln -s $out/lib/openjdk/include $out/include\n      ln -s $out/lib/openjdk/man $out/share/man\n\n      # jni.h expects jni_md.h to be in the header search path.\n      ln -s $out/include/linux/*_md.h $out/include/\n\n      # Remove crap from the installation.\n      rm -rf $out/lib/openjdk/demo\n      ",
+                                                content: "mkdir -p $out/lib\n\nmv build/*/images/jdk $out/lib/openjdk\n\n# Remove some broken manpages.\nrm -rf $out/lib/openjdk/man/ja*\n\n# Mirror some stuff in top-level.\nmkdir -p $out/share\nln -s $out/lib/openjdk/include $out/include\nln -s $out/lib/openjdk/man $out/share/man\n\n# jni.h expects jni_md.h to be in the header search path.\nln -s $out/include/linux/*_md.h $out/include/\n\n# Remove crap from the installation.\nrm -rf $out/lib/openjdk/demo\n",
                                                 position: (95, 1),
                                             },
                                             Expression {
@@ -1395,7 +1395,7 @@ Function {
                                                         String {
                                                             parts: [
                                                                 Raw {
-                                                                    content: "        rm $out/lib/openjdk/lib/{libjsound,libfontmanager}.so\n      ",
+                                                                    content: "rm $out/lib/openjdk/lib/{libjsound,libfontmanager}.so\n",
                                                                     position: (113, 1),
                                                                 },
                                                             ],
@@ -1404,7 +1404,7 @@ Function {
                                                 },
                                             },
                                             Raw {
-                                                content: "\n\n      ln -s $out/lib/openjdk/bin $out/bin\n    ",
+                                                content: "\n\nln -s $out/lib/openjdk/bin $out/bin\n",
                                                 position: (114, 10),
                                             },
                                         ],
@@ -1422,7 +1422,7 @@ Function {
                                     String {
                                         parts: [
                                             Raw {
-                                                content: "      # Propagate the setJavaClassPath setup hook so that any package\n      # that depends on the JDK has $CLASSPATH set up properly.\n      mkdir -p $out/nix-support\n      #TODO or printWords?  cf https://github.com/NixOS/nixpkgs/pull/27427#issuecomment-317293040\n      echo -n \"",
+                                                content: "# Propagate the setJavaClassPath setup hook so that any package\n# that depends on the JDK has $CLASSPATH set up properly.\nmkdir -p $out/nix-support\n#TODO or printWords?  cf https://github.com/NixOS/nixpkgs/pull/27427#issuecomment-317293040\necho -n \"",
                                                 position: (120, 1),
                                             },
                                             Expression {
@@ -1432,7 +1432,7 @@ Function {
                                                 },
                                             },
                                             Raw {
-                                                content: "\" > $out/nix-support/propagated-build-inputs\n\n      # Set JAVA_HOME automatically.\n      mkdir -p $out/nix-support\n      cat <<EOF > $out/nix-support/setup-hook\n      if [ -z \"\\",
+                                                content: "\" > $out/nix-support/propagated-build-inputs\n\n# Set JAVA_HOME automatically.\nmkdir -p $out/nix-support\ncat <<EOF > $out/nix-support/setup-hook\nif [ -z \"\\",
                                                 position: (124, 35),
                                             },
                                             Raw {
@@ -1440,7 +1440,7 @@ Function {
                                                 position: (129, 17),
                                             },
                                             Raw {
-                                                content: "{JAVA_HOME-}\" ]; then export JAVA_HOME=$out/lib/openjdk; fi\n      EOF\n    ",
+                                                content: "{JAVA_HOME-}\" ]; then export JAVA_HOME=$out/lib/openjdk; fi\nEOF\n",
                                                 position: (129, 20),
                                             },
                                         ],
@@ -1458,7 +1458,7 @@ Function {
                                     String {
                                         parts: [
                                             Raw {
-                                                content: "      # Build the set of output library directories to rpath against\n      LIBDIRS=\"\"\n      for output in $outputs; do\n        if [ \"$output\" = debug ]; then continue; fi\n        LIBDIRS=\"$(find $(eval echo \\$$output) -name \\*.so\\* -exec dirname {} \\+ | sort | uniq | tr '\\n' ':'):$LIBDIRS\"\n      done\n      # Add the local library paths to remove dependencies on the bootstrap\n      for output in $outputs; do\n        if [ \"$output\" = debug ]; then continue; fi\n        OUTPUTDIR=$(eval echo \\$$output)\n        BINLIBS=$(find $OUTPUTDIR/bin/ -type f; find $OUTPUTDIR -name \\*.so\\*)\n        echo \"$BINLIBS\" | while read i; do\n          patchelf --set-rpath \"$LIBDIRS:$(patchelf --print-rpath \"$i\")\" \"$i\" || true\n          patchelf --shrink-rpath \"$i\" || true\n        done\n      done\n    ",
+                                                content: "# Build the set of output library directories to rpath against\nLIBDIRS=\"\"\nfor output in $outputs; do\n  if [ \"$output\" = debug ]; then continue; fi\n  LIBDIRS=\"$(find $(eval echo \\$$output) -name \\*.so\\* -exec dirname {} \\+ | sort | uniq | tr '\\n' ':'):$LIBDIRS\"\ndone\n# Add the local library paths to remove dependencies on the bootstrap\nfor output in $outputs; do\n  if [ \"$output\" = debug ]; then continue; fi\n  OUTPUTDIR=$(eval echo \\$$output)\n  BINLIBS=$(find $OUTPUTDIR/bin/ -type f; find $OUTPUTDIR -name \\*.so\\*)\n  echo \"$BINLIBS\" | while read i; do\n    patchelf --set-rpath \"$LIBDIRS:$(patchelf --print-rpath \"$i\")\" \"$i\" || true\n    patchelf --shrink-rpath \"$i\" || true\n  done\ndone\n",
                                                 position: (134, 1),
                                             },
                                         ],

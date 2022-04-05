@@ -329,7 +329,7 @@ Function {
                                 String {
                                     parts: [
                                         Raw {
-                                            content: "    substituteInPlace login.tproj/login.c \\\n      --replace bsm/audit_session.h bsm/audit.h\n    substituteInPlace login.tproj/login_audit.c \\\n      --replace bsm/audit_session.h bsm/audit.h\n  ",
+                                            content: "substituteInPlace login.tproj/login.c \\\n  --replace bsm/audit_session.h bsm/audit.h\nsubstituteInPlace login.tproj/login_audit.c \\\n  --replace bsm/audit_session.h bsm/audit.h\n",
                                             position: (34, 1),
                                         },
                                     ],
@@ -369,7 +369,7 @@ Function {
                                         String {
                                             parts: [
                                                 Raw {
-                                                    content: "    substituteInPlace sysctl.tproj/sysctl.c \\\n      --replace \"GPROF_STATE\" \"0\"\n    substituteInPlace login.tproj/login.c \\\n      --replace \"defined(__arm__)\" \"defined(__arm__) || defined(__arm64__)\"\n  ",
+                                                    content: "substituteInPlace sysctl.tproj/sysctl.c \\\n  --replace \"GPROF_STATE\" \"0\"\nsubstituteInPlace login.tproj/login.c \\\n  --replace \"defined(__arm__)\" \"defined(__arm__) || defined(__arm64__)\"\n",
                                                     position: (39, 1),
                                                 },
                                             ],
@@ -391,7 +391,7 @@ Function {
                         String {
                             parts: [
                                 Raw {
-                                    content: "    for dir in *.tproj; do\n      name=$(basename $dir)\n      name=",
+                                    content: "for dir in *.tproj; do\n  name=$(basename $dir)\n  name=",
                                     position: (46, 1),
                                 },
                                 Raw {
@@ -399,7 +399,7 @@ Function {
                                     position: (48, 12),
                                 },
                                 Raw {
-                                    content: "{name%.tproj}\n\n      CFLAGS=\"\"\n      case $name in\n           arch) CFLAGS=\"-framework CoreFoundation\";;\n           atrun) CFLAGS=\"-Iat.tproj\";;\n           chkpasswd)\n             CFLAGS=\"-framework OpenDirectory -framework CoreFoundation -lpam\";;\n           getconf)\n               for f in getconf.tproj/*.gperf; do\n                   cfile=",
+                                    content: "{name%.tproj}\n\n  CFLAGS=\"\"\n  case $name in\n       arch) CFLAGS=\"-framework CoreFoundation\";;\n       atrun) CFLAGS=\"-Iat.tproj\";;\n       chkpasswd)\n         CFLAGS=\"-framework OpenDirectory -framework CoreFoundation -lpam\";;\n       getconf)\n           for f in getconf.tproj/*.gperf; do\n               cfile=",
                                     position: (48, 15),
                                 },
                                 Raw {
@@ -407,7 +407,7 @@ Function {
                                     position: (58, 26),
                                 },
                                 Raw {
-                                    content: "{f%.gperf}.c\n                   LC_ALL=C awk -f getconf.tproj/fake-gperf.awk $f > $cfile\n               done\n           ;;\n           iostat) CFLAGS=\"-framework IOKit -framework CoreFoundation\";;\n           login) CFLAGS=\"-lbsm -lpam\";;\n           nvram) CFLAGS=\"-framework CoreFoundation -framework IOKit\";;\n           sadc) CFLAGS=\"-framework IOKit -framework CoreFoundation\";;\n           sar) CFLAGS=\"-Isadc.tproj\";;\n      esac\n\n      echo \"Building $name\"\n\n      case $name in\n\n           # These are all broken currently.\n           arch) continue;;\n           chpass) continue;;\n           dirhelper) continue;;\n           dynamic_pager) continue;;\n           fs_usage) continue;;\n           latency) continue;;\n           pagesize) continue;;\n           passwd) continue;;\n           reboot) continue;;\n           sc_usage) continue;;\n           shutdown) continue;;\n           trace) continue;;\n\n           *) cc $dir/*.c -I",
+                                    content: "{f%.gperf}.c\n               LC_ALL=C awk -f getconf.tproj/fake-gperf.awk $f > $cfile\n           done\n       ;;\n       iostat) CFLAGS=\"-framework IOKit -framework CoreFoundation\";;\n       login) CFLAGS=\"-lbsm -lpam\";;\n       nvram) CFLAGS=\"-framework CoreFoundation -framework IOKit\";;\n       sadc) CFLAGS=\"-framework IOKit -framework CoreFoundation\";;\n       sar) CFLAGS=\"-Isadc.tproj\";;\n  esac\n\n  echo \"Building $name\"\n\n  case $name in\n\n       # These are all broken currently.\n       arch) continue;;\n       chpass) continue;;\n       dirhelper) continue;;\n       dynamic_pager) continue;;\n       fs_usage) continue;;\n       latency) continue;;\n       pagesize) continue;;\n       passwd) continue;;\n       reboot) continue;;\n       sc_usage) continue;;\n       shutdown) continue;;\n       trace) continue;;\n\n       *) cc $dir/*.c -I",
                                     position: (58, 29),
                                 },
                                 Raw {
@@ -415,7 +415,7 @@ Function {
                                     position: (87, 29),
                                 },
                                 Raw {
-                                    content: "{dir} $CFLAGS -o $name ;;\n      esac\n    done\n  ",
+                                    content: "{dir} $CFLAGS -o $name ;;\n  esac\ndone\n",
                                     position: (87, 32),
                                 },
                             ],
@@ -433,7 +433,7 @@ Function {
                         String {
                             parts: [
                                 Raw {
-                                    content: "    for dir in *.tproj; do\n      name=$(basename $dir)\n      name=",
+                                    content: "for dir in *.tproj; do\n  name=$(basename $dir)\n  name=",
                                     position: (93, 1),
                                 },
                                 Raw {
@@ -441,7 +441,7 @@ Function {
                                     position: (95, 12),
                                 },
                                 Raw {
-                                    content: "{name%.tproj}\n      [ -x $name ] && install -D $name $out/bin/$name\n      for n in 1 2 3 4 5 6 7 8 9; do\n        for f in $dir/*.$n; do\n          install -D $f $out/share/man/man$n/$(basename $f)\n        done\n      done\n    done\n  ",
+                                    content: "{name%.tproj}\n  [ -x $name ] && install -D $name $out/bin/$name\n  for n in 1 2 3 4 5 6 7 8 9; do\n    for f in $dir/*.$n; do\n      install -D $f $out/share/man/man$n/$(basename $f)\n    done\n  done\ndone\n",
                                     position: (95, 15),
                                 },
                             ],
