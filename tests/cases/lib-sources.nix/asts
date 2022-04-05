@@ -1,0 +1,3320 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "builtins",
+      position: (6, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "hasContext",
+      position: (7, 5),
+     },
+     Raw {
+      content: "match",
+      position: (8, 5),
+     },
+     Raw {
+      content: "readDir",
+      position: (9, 5),
+     },
+     Raw {
+      content: "split",
+      position: (10, 5),
+     },
+     Raw {
+      content: "storeDir",
+      position: (11, 5),
+     },
+     Raw {
+      content: "tryEval",
+      position: (12, 5),
+     },
+    ],
+   ),
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (14, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "boolToString",
+      position: (15, 5),
+     },
+     Raw {
+      content: "filter",
+      position: (16, 5),
+     },
+     Raw {
+      content: "getAttr",
+      position: (17, 5),
+     },
+     Raw {
+      content: "isString",
+      position: (18, 5),
+     },
+     Raw {
+      content: "pathExists",
+      position: (19, 5),
+     },
+     Raw {
+      content: "readFile",
+      position: (20, 5),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pathType",
+       position: (26, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "path",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: Variable {
+       identifier: "getAttr",
+       position: (26, 20),
+      },
+      arguments: [
+       FunctionApplication {
+        function: Variable {
+         identifier: "baseNameOf",
+         position: (26, 29),
+        },
+        arguments: [
+         Variable {
+          identifier: "path",
+          position: (26, 40),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "readDir",
+         position: (26, 47),
+        },
+        arguments: [
+         FunctionApplication {
+          function: Variable {
+           identifier: "dirOf",
+           position: (26, 56),
+          },
+          arguments: [
+           Variable {
+            identifier: "path",
+            position: (26, 62),
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pathIsDirectory",
+       position: (31, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "path",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: IfThenElse {
+      predicate: FunctionApplication {
+       function: Variable {
+        identifier: "pathExists",
+        position: (31, 30),
+       },
+       arguments: [
+        Variable {
+         identifier: "path",
+         position: (31, 41),
+        },
+       ],
+      },
+      then: BinaryOperation {
+       operator: EqualTo,
+       operands: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "pathType",
+          position: (31, 52),
+         },
+         arguments: [
+          Variable {
+           identifier: "path",
+           position: (31, 61),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "directory",
+           position: (31, 71),
+          },
+         ],
+        },
+       ],
+      },
+      else_: Variable {
+       identifier: "false",
+       position: (31, 87),
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pathIsRegularFile",
+       position: (36, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "path",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: IfThenElse {
+      predicate: FunctionApplication {
+       function: Variable {
+        identifier: "pathExists",
+        position: (36, 32),
+       },
+       arguments: [
+        Variable {
+         identifier: "path",
+         position: (36, 43),
+        },
+       ],
+      },
+      then: BinaryOperation {
+       operator: EqualTo,
+       operands: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "pathType",
+          position: (36, 54),
+         },
+         arguments: [
+          Variable {
+           identifier: "path",
+           position: (36, 63),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "regular",
+           position: (36, 73),
+          },
+         ],
+        },
+       ],
+      },
+      else_: Variable {
+       identifier: "false",
+       position: (36, 87),
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cleanSourceFilter",
+       position: (43, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "name",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: Function {
+      argument: Some(
+       "type",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "baseName",
+            position: (43, 39),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "baseNameOf",
+           position: (43, 50),
+          },
+          arguments: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "toString",
+             position: (43, 62),
+            },
+            arguments: [
+             Variable {
+              identifier: "name",
+              position: (43, 71),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+       ],
+       target: UnaryOperation {
+        operator: Not,
+        operand: BinaryOperation {
+         operator: LogicalOr,
+         operands: [
+          BinaryOperation {
+           operator: LogicalOr,
+           operands: [
+            BinaryOperation {
+             operator: LogicalOr,
+             operands: [
+              BinaryOperation {
+               operator: LogicalOr,
+               operands: [
+                BinaryOperation {
+                 operator: LogicalOr,
+                 operands: [
+                  BinaryOperation {
+                   operator: LogicalOr,
+                   operands: [
+                    BinaryOperation {
+                     operator: LogicalOr,
+                     operands: [
+                      BinaryOperation {
+                       operator: LogicalOr,
+                       operands: [
+                        BinaryOperation {
+                         operator: EqualTo,
+                         operands: [
+                          Variable {
+                           identifier: "baseName",
+                           position: (45, 6),
+                          },
+                          String {
+                           parts: [
+                            Raw {
+                             content: ".git",
+                             position: (45, 19),
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                        BinaryOperation {
+                         operator: LogicalAnd,
+                         operands: [
+                          BinaryOperation {
+                           operator: EqualTo,
+                           operands: [
+                            Variable {
+                             identifier: "type",
+                             position: (45, 28),
+                            },
+                            String {
+                             parts: [
+                              Raw {
+                               content: "directory",
+                               position: (45, 37),
+                              },
+                             ],
+                            },
+                           ],
+                          },
+                          BinaryOperation {
+                           operator: LogicalOr,
+                           operands: [
+                            BinaryOperation {
+                             operator: LogicalOr,
+                             operands: [
+                              BinaryOperation {
+                               operator: EqualTo,
+                               operands: [
+                                Variable {
+                                 identifier: "baseName",
+                                 position: (45, 52),
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: ".svn",
+                                   position: (45, 65),
+                                  },
+                                 ],
+                                },
+                               ],
+                              },
+                              BinaryOperation {
+                               operator: EqualTo,
+                               operands: [
+                                Variable {
+                                 identifier: "baseName",
+                                 position: (45, 74),
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "CVS",
+                                   position: (45, 87),
+                                  },
+                                 ],
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                            BinaryOperation {
+                             operator: EqualTo,
+                             operands: [
+                              Variable {
+                               identifier: "baseName",
+                               position: (45, 95),
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: ".hg",
+                                 position: (45, 108),
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                      FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "lib",
+                         position: (47, 5),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "hasSuffix",
+                           position: (47, 9),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "~",
+                           position: (47, 20),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "baseName",
+                         position: (47, 23),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    BinaryOperation {
+                     operator: NotEqualTo,
+                     operands: [
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "match",
+                        position: (48, 5),
+                       },
+                       arguments: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "^\\.sw[a-z]$",
+                           position: (48, 12),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "baseName",
+                         position: (48, 26),
+                        },
+                       ],
+                      },
+                      Variable {
+                       identifier: "null",
+                       position: (48, 38),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "match",
+                      position: (49, 5),
+                     },
+                     arguments: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "^\\..*\\.sw[a-z]$",
+                         position: (49, 12),
+                        },
+                       ],
+                      },
+                      Variable {
+                       identifier: "baseName",
+                       position: (49, 31),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (49, 43),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (52, 5),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "hasSuffix",
+                     position: (52, 9),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: ".o",
+                     position: (52, 20),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "baseName",
+                   position: (52, 24),
+                  },
+                 ],
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (53, 5),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hasSuffix",
+                   position: (53, 9),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: ".so",
+                   position: (53, 20),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "baseName",
+                 position: (53, 25),
+                },
+               ],
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: LogicalAnd,
+             operands: [
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                Variable {
+                 identifier: "type",
+                 position: (55, 6),
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "symlink",
+                   position: (55, 15),
+                  },
+                 ],
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (55, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hasPrefix",
+                   position: (55, 31),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "result",
+                   position: (55, 42),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "baseName",
+                 position: (55, 50),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: EqualTo,
+           operands: [
+            Variable {
+             identifier: "type",
+             position: (57, 6),
+            },
+            String {
+             parts: [
+              Raw {
+               content: "unknown",
+               position: (57, 15),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       },
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cleanSource",
+       position: (66, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: Variable {
+       identifier: "cleanSourceWith",
+       position: (66, 22),
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "filter",
+             position: (66, 40),
+            },
+           ],
+          },
+          Variable {
+           identifier: "cleanSourceFilter",
+           position: (66, 49),
+          },
+         ),
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "src",
+            position: (66, 76),
+           },
+          ],
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cleanSourceWith",
+       position: (87, 3),
+      },
+     ],
+    },
+    Function {
+     argument: None,
+     arguments: FunctionArguments {
+      arguments: [
+       FunctionArgument {
+        identifier: "name",
+        default: Some(
+         Variable {
+          identifier: "null",
+          position: (100, 14),
+         },
+        ),
+       },
+       FunctionArgument {
+        identifier: "filter",
+        default: Some(
+         Function {
+          argument: Some(
+           "_path",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "_type",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Variable {
+            identifier: "true",
+            position: (97, 30),
+           },
+          },
+         },
+        ),
+       },
+       FunctionArgument {
+        identifier: "src",
+        default: None,
+       },
+      ],
+      ellipsis: false,
+     },
+     definition: LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "orig",
+           position: (103, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "toSourceAttributes",
+          position: (103, 14),
+         },
+         arguments: [
+          Variable {
+           identifier: "src",
+           position: (103, 33),
+          },
+         ],
+        },
+       ),
+      ],
+      target: FunctionApplication {
+       function: Variable {
+        identifier: "fromSourceAttributes",
+        position: (104, 8),
+       },
+       arguments: [
+        Map {
+         bindings: [
+          Inherit(
+           Some(
+            Variable {
+             identifier: "orig",
+             position: (105, 16),
+            },
+           ),
+           [
+            Raw {
+             content: "origSrc",
+             position: (105, 22),
+            },
+           ],
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "filter",
+              position: (106, 7),
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "path",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: Function {
+             argument: Some(
+              "type",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: BinaryOperation {
+              operator: LogicalAnd,
+              operands: [
+               FunctionApplication {
+                function: Variable {
+                 identifier: "filter",
+                 position: (106, 28),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "path",
+                  position: (106, 35),
+                 },
+                 Variable {
+                  identifier: "type",
+                  position: (106, 40),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "orig",
+                  position: (106, 48),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "filter",
+                    position: (106, 53),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "path",
+                  position: (106, 60),
+                 },
+                 Variable {
+                  identifier: "type",
+                  position: (106, 65),
+                 },
+                ],
+               },
+              ],
+             },
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "name",
+              position: (107, 7),
+             },
+            ],
+           },
+           IfThenElse {
+            predicate: BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              Variable {
+               identifier: "name",
+               position: (107, 17),
+              },
+              Variable {
+               identifier: "null",
+               position: (107, 25),
+              },
+             ],
+            },
+            then: Variable {
+             identifier: "name",
+             position: (107, 35),
+            },
+            else_: PropertyAccess {
+             expression: Variable {
+              identifier: "orig",
+              position: (107, 45),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "name",
+                position: (107, 50),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "trace",
+       position: (115, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "attrs",
+           position: (119, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "toSourceAttributes",
+          position: (119, 15),
+         },
+         arguments: [
+          Variable {
+           identifier: "src",
+           position: (119, 34),
+          },
+         ],
+        },
+       ),
+      ],
+      target: BinaryOperation {
+       operator: Update,
+       operands: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "fromSourceAttributes",
+          position: (121, 7),
+         },
+         arguments: [
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "attrs",
+             position: (122, 9),
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "filter",
+                  position: (123, 11),
+                 },
+                ],
+               },
+               Function {
+                argument: Some(
+                 "path",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: Function {
+                 argument: Some(
+                  "type",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: LetIn {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "r",
+                       position: (125, 15),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "attrs",
+                       position: (125, 19),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "filter",
+                         position: (125, 25),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "path",
+                       position: (125, 32),
+                      },
+                      Variable {
+                       identifier: "type",
+                       position: (125, 37),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  target: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "builtins",
+                     position: (127, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "trace",
+                       position: (127, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "attrs",
+                         position: (127, 33),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "name",
+                           position: (127, 39),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: ".filter ",
+                       position: (127, 44),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "path",
+                        position: (127, 54),
+                       },
+                      },
+                      Raw {
+                       content: " = ",
+                       position: (127, 59),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: Variable {
+                         identifier: "boolToString",
+                         position: (127, 64),
+                        },
+                        arguments: [
+                         Variable {
+                          identifier: "r",
+                          position: (127, 77),
+                         },
+                        ],
+                       },
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "r",
+                     position: (127, 81),
+                    },
+                   ],
+                  },
+                 },
+                },
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "satisfiesSubpathInvariant",
+              position: (130, 9),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: LogicalAnd,
+            operands: [
+             HasProperty {
+              expression: Variable {
+               identifier: "src",
+               position: (130, 37),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "satisfiesSubpathInvariant",
+                 position: (130, 43),
+                },
+               ],
+              },
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "src",
+               position: (130, 72),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "satisfiesSubpathInvariant",
+                 position: (130, 76),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "sourceByRegex",
+       position: (138, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: Function {
+      argument: Some(
+       "regexes",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "isFiltered",
+            position: (140, 7),
+           },
+          ],
+         },
+         HasProperty {
+          expression: Variable {
+           identifier: "src",
+           position: (140, 20),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "_isLibCleanSourceWith",
+             position: (140, 26),
+            },
+           ],
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "origSrc",
+            position: (141, 7),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: Variable {
+           identifier: "isFiltered",
+           position: (141, 20),
+          },
+          then: PropertyAccess {
+           expression: Variable {
+            identifier: "src",
+            position: (141, 36),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "origSrc",
+              position: (141, 40),
+             },
+            ],
+           },
+           default: None,
+          },
+          else_: Variable {
+           identifier: "src",
+           position: (141, 53),
+          },
+         },
+        ),
+       ],
+       target: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (142, 8),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "cleanSourceWith",
+            position: (142, 12),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "filter",
+               position: (143, 7),
+              },
+             ],
+            },
+            Function {
+             argument: Some(
+              "path",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: Function {
+              argument: Some(
+               "type",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: LetIn {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "relPath",
+                    position: (144, 13),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (144, 23),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "removePrefix",
+                      position: (144, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: Addition,
+                    operands: [
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "toString",
+                       position: (144, 41),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "origSrc",
+                        position: (144, 50),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "/",
+                        position: (144, 61),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "toString",
+                     position: (144, 66),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "path",
+                      position: (144, 75),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               target: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (145, 12),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "any",
+                    position: (145, 16),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Function {
+                  argument: Some(
+                   "re",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "match",
+                      position: (145, 25),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "re",
+                       position: (145, 31),
+                      },
+                      Variable {
+                       identifier: "relPath",
+                       position: (145, 34),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (145, 45),
+                    },
+                   ],
+                  },
+                 },
+                 Variable {
+                  identifier: "regexes",
+                  position: (145, 51),
+                 },
+                ],
+               },
+              },
+             },
+            },
+           ),
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "src",
+              position: (146, 15),
+             },
+            ],
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "sourceFilesBySuffices",
+       position: (160, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: Function {
+      argument: Some(
+       "exts",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "filter",
+            position: (165, 9),
+           },
+          ],
+         },
+         Function {
+          argument: Some(
+           "name",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "type",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "base",
+                 position: (166, 11),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "baseNameOf",
+                position: (166, 18),
+               },
+               arguments: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (166, 30),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "name",
+                   position: (166, 39),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            target: BinaryOperation {
+             operator: LogicalOr,
+             operands: [
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                Variable {
+                 identifier: "type",
+                 position: (167, 10),
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "directory",
+                   position: (167, 19),
+                  },
+                 ],
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (167, 33),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "any",
+                   position: (167, 37),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Function {
+                 argument: Some(
+                  "ext",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (167, 47),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "hasSuffix",
+                      position: (167, 51),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "ext",
+                    position: (167, 61),
+                   },
+                   Variable {
+                    identifier: "base",
+                    position: (167, 65),
+                   },
+                  ],
+                 },
+                },
+                Variable {
+                 identifier: "exts",
+                 position: (167, 71),
+                },
+               ],
+              },
+             ],
+            },
+           },
+          },
+         },
+        ),
+       ],
+       target: FunctionApplication {
+        function: Variable {
+         identifier: "cleanSourceWith",
+         position: (168, 8),
+        },
+        arguments: [
+         Map {
+          bindings: [
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "filter",
+              position: (168, 34),
+             },
+             Raw {
+              content: "src",
+              position: (168, 41),
+             },
+            ],
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pathIsGitRepo",
+       position: (170, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "path",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: PropertyAccess {
+      expression: FunctionApplication {
+       function: Variable {
+        identifier: "tryEval",
+        position: (170, 26),
+       },
+       arguments: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "commitIdFromGitRepo",
+          position: (170, 35),
+         },
+         arguments: [
+          Variable {
+           identifier: "path",
+           position: (170, 55),
+          },
+         ],
+        },
+       ],
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "success",
+         position: (170, 62),
+        },
+       ],
+      },
+      default: None,
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "commitIdFromGitRepo",
+       position: (177, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "readCommitFromFile",
+          position: (178, 9),
+         },
+        ],
+       },
+       Function {
+        argument: Some(
+         "file",
+        ),
+        arguments: FunctionArguments {
+         arguments: [],
+         ellipsis: false,
+        },
+        definition: Function {
+         argument: Some(
+          "path",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "fileName",
+               position: (179, 13),
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: Addition,
+             operands: [
+              BinaryOperation {
+               operator: Addition,
+               operands: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (179, 30),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "path",
+                   position: (179, 39),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "/",
+                   position: (179, 47),
+                  },
+                 ],
+                },
+               ],
+              },
+              Variable {
+               identifier: "file",
+               position: (179, 52),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "packedRefsName",
+               position: (180, 13),
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: Addition,
+             operands: [
+              FunctionApplication {
+               function: Variable {
+                identifier: "toString",
+                position: (180, 30),
+               },
+               arguments: [
+                Variable {
+                 identifier: "path",
+                 position: (180, 39),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/packed-refs",
+                 position: (180, 47),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "absolutePath",
+               position: (181, 13),
+              },
+             ],
+            },
+            Function {
+             argument: Some(
+              "base",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: Function {
+              argument: Some(
+               "path",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: IfThenElse {
+               predicate: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (182, 18),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "hasPrefix",
+                    position: (182, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/",
+                    position: (182, 33),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "path",
+                  position: (182, 36),
+                 },
+                ],
+               },
+               then: Variable {
+                identifier: "path",
+                position: (183, 20),
+               },
+               else_: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (184, 20),
+                },
+                arguments: [
+                 BinaryOperation {
+                  operator: Addition,
+                  operands: [
+                   Path {
+                    parts: [
+                     Raw {
+                      content: "/.",
+                      position: (184, 30),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "base",
+                       position: (184, 38),
+                      },
+                     },
+                     Raw {
+                      content: "/",
+                      position: (184, 43),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "path",
+                       position: (184, 46),
+                      },
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             },
+            },
+           ),
+          ],
+          target: IfThenElse {
+           predicate: FunctionApplication {
+            function: Variable {
+             identifier: "pathIsRegularFile",
+             position: (185, 15),
+            },
+            arguments: [
+             Variable {
+              identifier: "path",
+              position: (185, 33),
+             },
+            ],
+           },
+           then: LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "m",
+                 position: (188, 18),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "match",
+                position: (188, 24),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "^gitdir: (.*)$",
+                   position: (188, 31),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (188, 48),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "fileContents",
+                     position: (188, 52),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "path",
+                   position: (188, 65),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            target: IfThenElse {
+             predicate: BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               Variable {
+                identifier: "m",
+                position: (189, 20),
+               },
+               Variable {
+                identifier: "null",
+                position: (189, 25),
+               },
+              ],
+             },
+             then: FunctionApplication {
+              function: Variable {
+               identifier: "throw",
+               position: (190, 22),
+              },
+              arguments: [
+               BinaryOperation {
+                operator: Addition,
+                operands: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "File contains no gitdir reference: ",
+                    position: (190, 30),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "path",
+                  position: (190, 69),
+                 },
+                ],
+               },
+              ],
+             },
+             else_: LetIn {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "gitDir",
+                   position: (192, 23),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "absolutePath",
+                  position: (192, 37),
+                 },
+                 arguments: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "dirOf",
+                    position: (192, 51),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "path",
+                     position: (192, 57),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (192, 64),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "head",
+                       position: (192, 68),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "m",
+                     position: (192, 73),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "commonDir''",
+                   position: (193, 23),
+                  },
+                 ],
+                },
+                IfThenElse {
+                 predicate: FunctionApplication {
+                  function: Variable {
+                   identifier: "pathIsRegularFile",
+                   position: (193, 40),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "gitDir",
+                       position: (193, 61),
+                      },
+                     },
+                     Raw {
+                      content: "/commondir",
+                      position: (193, 68),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 then: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (194, 42),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "fileContents",
+                      position: (194, 46),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "gitDir",
+                       position: (194, 62),
+                      },
+                     },
+                     Raw {
+                      content: "/commondir",
+                      position: (194, 69),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 else_: Variable {
+                  identifier: "gitDir",
+                  position: (195, 42),
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "commonDir'",
+                   position: (196, 23),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (196, 37),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "removeSuffix",
+                     position: (196, 41),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/",
+                     position: (196, 55),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "commonDir''",
+                   position: (196, 58),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "commonDir",
+                   position: (197, 23),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "absolutePath",
+                  position: (197, 37),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "gitDir",
+                   position: (197, 50),
+                  },
+                  Variable {
+                   identifier: "commonDir'",
+                   position: (197, 57),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "refFile",
+                   position: (198, 23),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (198, 37),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "removePrefix",
+                     position: (198, 41),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "commonDir",
+                      position: (198, 57),
+                     },
+                    },
+                    Raw {
+                     content: "/",
+                     position: (198, 67),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "gitDir",
+                      position: (198, 73),
+                     },
+                    },
+                    Raw {
+                     content: "/",
+                     position: (198, 80),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "file",
+                      position: (198, 83),
+                     },
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              target: FunctionApplication {
+               function: Variable {
+                identifier: "readCommitFromFile",
+                position: (199, 22),
+               },
+               arguments: [
+                Variable {
+                 identifier: "refFile",
+                 position: (199, 41),
+                },
+                Variable {
+                 identifier: "commonDir",
+                 position: (199, 49),
+                },
+               ],
+              },
+             },
+            },
+           },
+           else_: IfThenElse {
+            predicate: FunctionApplication {
+             function: Variable {
+              identifier: "pathIsRegularFile",
+              position: (201, 20),
+             },
+             arguments: [
+              Variable {
+               identifier: "fileName",
+               position: (201, 38),
+              },
+             ],
+            },
+            then: LetIn {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "fileContent",
+                  position: (205, 18),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (205, 32),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "fileContents",
+                    position: (205, 36),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "fileName",
+                  position: (205, 49),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "matchRef",
+                  position: (206, 18),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "match",
+                 position: (206, 32),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "^ref: (.*)$",
+                    position: (206, 39),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "fileContent",
+                  position: (206, 52),
+                 },
+                ],
+               },
+              ),
+             ],
+             target: IfThenElse {
+              predicate: BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                Variable {
+                 identifier: "matchRef",
+                 position: (207, 21),
+                },
+                Variable {
+                 identifier: "null",
+                 position: (207, 33),
+                },
+               ],
+              },
+              then: Variable {
+               identifier: "fileContent",
+               position: (208, 22),
+              },
+              else_: FunctionApplication {
+               function: Variable {
+                identifier: "readCommitFromFile",
+                position: (209, 22),
+               },
+               arguments: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (209, 42),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "head",
+                     position: (209, 46),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "matchRef",
+                   position: (209, 51),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "path",
+                 position: (209, 61),
+                },
+               ],
+              },
+             },
+            },
+            else_: IfThenElse {
+             predicate: FunctionApplication {
+              function: Variable {
+               identifier: "pathIsRegularFile",
+               position: (211, 20),
+              },
+              arguments: [
+               Variable {
+                identifier: "packedRefsName",
+                position: (211, 38),
+               },
+              ],
+             },
+             then: LetIn {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "fileContent",
+                   position: (215, 18),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "readFile",
+                  position: (215, 32),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "packedRefsName",
+                   position: (215, 41),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "matchRef",
+                   position: (216, 18),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "match",
+                  position: (216, 29),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "([a-z0-9]+) ",
+                     position: (216, 36),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "file",
+                      position: (216, 50),
+                     },
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "isRef",
+                   position: (217, 18),
+                  },
+                 ],
+                },
+                Function {
+                 argument: Some(
+                  "s",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: BinaryOperation {
+                  operator: LogicalAnd,
+                  operands: [
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "isString",
+                     position: (217, 29),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "s",
+                      position: (217, 38),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "matchRef",
+                       position: (217, 44),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "s",
+                        position: (217, 53),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (217, 59),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "refs",
+                   position: (220, 18),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "filter",
+                  position: (220, 25),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "isRef",
+                   position: (220, 32),
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "split",
+                    position: (220, 39),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "\n",
+                       position: (220, 46),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "fileContent",
+                     position: (220, 50),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              target: IfThenElse {
+               predicate: BinaryOperation {
+                operator: EqualTo,
+                operands: [
+                 Variable {
+                  identifier: "refs",
+                  position: (221, 20),
+                 },
+                 List {
+                  elements: [],
+                 },
+                ],
+               },
+               then: FunctionApplication {
+                function: Variable {
+                 identifier: "throw",
+                 position: (222, 22),
+                },
+                arguments: [
+                 BinaryOperation {
+                  operator: Addition,
+                  operands: [
+                   BinaryOperation {
+                    operator: Addition,
+                    operands: [
+                     BinaryOperation {
+                      operator: Addition,
+                      operands: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Could not find ",
+                          position: (222, 30),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "file",
+                        position: (222, 49),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: " in ",
+                        position: (222, 57),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "packedRefsName",
+                    position: (222, 65),
+                   },
+                  ],
+                 },
+                ],
+               },
+               else_: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (223, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "head",
+                    position: (223, 26),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "matchRef",
+                   position: (223, 32),
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "lib",
+                      position: (223, 42),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "head",
+                        position: (223, 46),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "refs",
+                      position: (223, 51),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             },
+             else_: FunctionApplication {
+              function: Variable {
+               identifier: "throw",
+               position: (225, 17),
+              },
+              arguments: [
+               BinaryOperation {
+                operator: Addition,
+                operands: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Not a .git directory: ",
+                    position: (225, 25),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "path",
+                  position: (225, 51),
+                 },
+                ],
+               },
+              ],
+             },
+            },
+           },
+          },
+         },
+        },
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: Variable {
+       identifier: "readCommitFromFile",
+       position: (226, 8),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "HEAD",
+          position: (226, 28),
+         },
+        ],
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pathHasContext",
+       position: (228, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "builtins",
+      position: (228, 20),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "hasContext",
+        position: (228, 29),
+       },
+      ],
+     },
+     default: Some(
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (228, 44),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "hasPrefix",
+           position: (228, 48),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Variable {
+         identifier: "storeDir",
+         position: (228, 58),
+        },
+       ],
+      },
+     ),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "canCleanSource",
+       position: (230, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: BinaryOperation {
+      operator: LogicalOr,
+      operands: [
+       HasProperty {
+        expression: Variable {
+         identifier: "src",
+         position: (230, 25),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "_isLibCleanSourceWith",
+           position: (230, 31),
+          },
+         ],
+        },
+       },
+       UnaryOperation {
+        operator: Not,
+        operand: FunctionApplication {
+         function: Variable {
+          identifier: "pathHasContext",
+          position: (230, 58),
+         },
+         arguments: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (230, 74),
+           },
+           arguments: [
+            Variable {
+             identifier: "src",
+             position: (230, 83),
+            },
+           ],
+          },
+         ],
+        },
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "toSourceAttributes",
+       position: (243, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "src",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "isFiltered",
+           position: (245, 7),
+          },
+         ],
+        },
+        HasProperty {
+         expression: Variable {
+          identifier: "src",
+          position: (245, 20),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "_isLibCleanSourceWith",
+            position: (245, 26),
+           },
+          ],
+         },
+        },
+       ),
+      ],
+      target: Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "origSrc",
+            position: (249, 7),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: Variable {
+           identifier: "isFiltered",
+           position: (249, 20),
+          },
+          then: PropertyAccess {
+           expression: Variable {
+            identifier: "src",
+            position: (249, 36),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "origSrc",
+              position: (249, 40),
+             },
+            ],
+           },
+           default: None,
+          },
+          else_: Variable {
+           identifier: "src",
+           position: (249, 53),
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "filter",
+            position: (250, 7),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: Variable {
+           identifier: "isFiltered",
+           position: (250, 19),
+          },
+          then: PropertyAccess {
+           expression: Variable {
+            identifier: "src",
+            position: (250, 35),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "filter",
+              position: (250, 39),
+             },
+            ],
+           },
+           default: None,
+          },
+          else_: Function {
+           argument: Some(
+            "_",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "_",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: Variable {
+             identifier: "true",
+             position: (250, 57),
+            },
+           },
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "name",
+            position: (251, 7),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: Variable {
+           identifier: "isFiltered",
+           position: (251, 17),
+          },
+          then: PropertyAccess {
+           expression: Variable {
+            identifier: "src",
+            position: (251, 33),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "name",
+              position: (251, 37),
+             },
+            ],
+           },
+           default: None,
+          },
+          else_: String {
+           parts: [
+            Raw {
+             content: "source",
+             position: (251, 48),
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "fromSourceAttributes",
+       position: (257, 3),
+      },
+     ],
+    },
+    Function {
+     argument: None,
+     arguments: FunctionArguments {
+      arguments: [
+       FunctionArgument {
+        identifier: "name",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "filter",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "origSrc",
+        default: None,
+       },
+      ],
+      ellipsis: false,
+     },
+     definition: Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "_isLibCleanSourceWith",
+           position: (259, 7),
+          },
+         ],
+        },
+        Variable {
+         identifier: "true",
+         position: (259, 31),
+        },
+       ),
+       Inherit(
+        None,
+        [
+         Raw {
+          content: "origSrc",
+          position: (260, 15),
+         },
+         Raw {
+          content: "filter",
+          position: (260, 23),
+         },
+         Raw {
+          content: "name",
+          position: (260, 30),
+         },
+        ],
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "outPath",
+           position: (261, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (261, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "path",
+             position: (261, 26),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Map {
+           bindings: [
+            Inherit(
+             None,
+             [
+              Raw {
+               content: "filter",
+               position: (261, 41),
+              },
+              Raw {
+               content: "name",
+               position: (261, 48),
+              },
+             ],
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "path",
+                position: (261, 54),
+               },
+              ],
+             },
+             Variable {
+              identifier: "origSrc",
+              position: (261, 61),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    Inherit(
+     None,
+     [
+      Raw {
+       content: "pathType",
+       position: (266, 5),
+      },
+      Raw {
+       content: "pathIsDirectory",
+       position: (267, 5),
+      },
+      Raw {
+       content: "pathIsRegularFile",
+       position: (268, 5),
+      },
+      Raw {
+       content: "pathIsGitRepo",
+       position: (270, 5),
+      },
+      Raw {
+       content: "commitIdFromGitRepo",
+       position: (271, 5),
+      },
+      Raw {
+       content: "cleanSource",
+       position: (273, 5),
+      },
+      Raw {
+       content: "cleanSourceWith",
+       position: (274, 5),
+      },
+      Raw {
+       content: "cleanSourceFilter",
+       position: (275, 5),
+      },
+      Raw {
+       content: "pathHasContext",
+       position: (276, 5),
+      },
+      Raw {
+       content: "canCleanSource",
+       position: (277, 5),
+      },
+      Raw {
+       content: "sourceByRegex",
+       position: (279, 5),
+      },
+      Raw {
+       content: "sourceFilesBySuffices",
+       position: (280, 5),
+      },
+      Raw {
+       content: "trace",
+       position: (282, 5),
+      },
+     ],
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

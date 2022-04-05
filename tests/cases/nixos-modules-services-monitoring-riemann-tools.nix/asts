@@ -1,0 +1,844 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (3, 6),
+  },
+  target: With {
+   expression: Variable {
+    identifier: "lib",
+    position: (4, 6),
+   },
+   target: LetIn {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "cfg",
+         position: (8, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (8, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "services",
+          position: (8, 16),
+         },
+         Raw {
+          content: "riemann-tools",
+          position: (8, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "riemannHost",
+         position: (10, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (10, 20),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "riemannHost",
+             position: (10, 24),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "healthLauncher",
+         position: (12, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "writeScriptBin",
+        position: (12, 20),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "riemann-health",
+           position: (12, 36),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "#!/bin/sh\nexec ",
+           position: (13, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (14, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "riemann-tools",
+               position: (14, 17),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/riemann-health ",
+           position: (14, 31),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "builtins",
+              position: (14, 53),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "concatStringsSep",
+                position: (14, 62),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: " ",
+                position: (14, 80),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (14, 83),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "extraArgs",
+                 position: (14, 87),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " --host ",
+           position: (14, 97),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "riemannHost",
+            position: (14, 107),
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (14, 119),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    target: Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "options",
+          position: (20, 3),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (22, 5),
+            },
+            Raw {
+             content: "riemann-tools",
+             position: (22, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enableHealth",
+                position: (23, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (23, 22),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (24, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (24, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (24, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (25, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (25, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (26, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Enable the riemann-health daemon.\n",
+                     position: (27, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "riemannHost",
+                position: (30, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (30, 21),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (31, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (31, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (31, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (32, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "127.0.0.1",
+                     position: (32, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (33, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Address of the host riemann node. Defaults to localhost.\n",
+                     position: (34, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "extraArgs",
+                position: (37, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (37, 19),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (38, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (38, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "listOf",
+                       position: (38, 22),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (38, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "str",
+                        position: (38, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (39, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (40, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "A list of commandline-switches forwarded to a riemann-tool.\nSee for example `riemann-health --help` for available options.\n",
+                     position: (41, 1),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (44, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "-p 5555",
+                       position: (44, 21),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "--timeout=30",
+                       position: (44, 31),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "--attribute=myattribute=42",
+                       position: (44, 46),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "config",
+          position: (49, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkIf",
+         position: (49, 12),
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (49, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "enableHealth",
+             position: (49, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (51, 5),
+              },
+              Raw {
+               content: "groups",
+               position: (51, 11),
+              },
+              Raw {
+               content: "riemanntools",
+               position: (51, 18),
+              },
+              Raw {
+               content: "gid",
+               position: (51, 31),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (51, 37),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "ids",
+                position: (51, 44),
+               },
+               Raw {
+                content: "gids",
+                position: (51, 48),
+               },
+               Raw {
+                content: "riemanntools",
+                position: (51, 53),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (53, 5),
+              },
+              Raw {
+               content: "users",
+               position: (53, 11),
+              },
+              Raw {
+               content: "riemanntools",
+               position: (53, 17),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (54, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "riemann-tools daemon user",
+                  position: (54, 22),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "uid",
+                  position: (55, 7),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (55, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ids",
+                   position: (55, 20),
+                  },
+                  Raw {
+                   content: "uids",
+                   position: (55, 24),
+                  },
+                  Raw {
+                   content: "riemanntools",
+                   position: (55, 29),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (56, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "riemanntools",
+                  position: (56, 16),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (59, 5),
+              },
+              Raw {
+               content: "services",
+               position: (59, 13),
+              },
+              Raw {
+               content: "riemann-health",
+               position: (59, 22),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (60, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "multi-user.target",
+                    position: (60, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (61, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Variable {
+                  identifier: "procps",
+                  position: (61, 16),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (62, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "User",
+                     position: (63, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "riemanntools",
+                     position: (63, 17),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "ExecStart",
+                     position: (64, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "healthLauncher",
+                      position: (64, 24),
+                     },
+                    },
+                    Raw {
+                     content: "/bin/riemann-health",
+                     position: (64, 39),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   },
+  },
+ },
+}

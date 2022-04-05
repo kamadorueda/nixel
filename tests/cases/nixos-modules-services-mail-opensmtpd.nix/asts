@@ -1,0 +1,1793 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "opensmtpd",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "conf",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 10),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (8, 15),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "smtpd.conf",
+          position: (8, 26),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (8, 38),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "serverConfiguration",
+           position: (8, 42),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "args",
+        position: (9, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "concatStringsSep",
+       position: (9, 10),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: " ",
+          position: (9, 28),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (9, 31),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "extraServerArgs",
+           position: (9, 35),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "sendmail",
+        position: (11, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (11, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (11, 19),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "opensmtpd-sendmail",
+          position: (11, 31),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "preferLocalBuild",
+             position: (11, 53),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (11, 72),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p $out/bin\nln -s ",
+          position: (12, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (13, 13),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (13, 17),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/sbin/smtpctl $out/bin/sendmail\n",
+          position: (13, 25),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (20, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRenamedOptionModule",
+          position: (21, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (21, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "opensmtpd",
+               position: (21, 42),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "addSendmailToSystemPath",
+               position: (21, 54),
+              },
+             ],
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (21, 84),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "opensmtpd",
+               position: (21, 95),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "setSendmail",
+               position: (21, 107),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (24, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (26, 5),
+           },
+           Raw {
+            content: "opensmtpd",
+            position: (26, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (28, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (28, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (29, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (29, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (29, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (30, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (30, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (31, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable the OpenSMTPD server.",
+                    position: (31, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (34, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (34, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (35, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (35, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (35, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (36, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (36, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "opensmtpd",
+                     position: (36, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (37, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (37, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.opensmtpd",
+                      position: (37, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (38, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The OpenSMTPD package to use.",
+                    position: (38, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "setSendmail",
+               position: (41, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (41, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (42, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (42, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (43, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (44, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to set the system sendmail to OpenSMTPD's.",
+                    position: (44, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraServerArgs",
+               position: (47, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (47, 25),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (48, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (48, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (48, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (48, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (48, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (49, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (50, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "-v",
+                      position: (50, 22),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "-P mta",
+                      position: (50, 27),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (51, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Extra command line arguments provided when the smtpd process\nis started.\n",
+                    position: (52, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "serverConfiguration",
+               position: (57, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (57, 29),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (58, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (58, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (58, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "listen on lo\naccept for any deliver to lmtp localhost:24\n",
+                    position: (60, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (63, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The contents of the smtpd.conf configuration file. See the\nOpenSMTPD documentation for syntax information.\n",
+                    position: (64, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "procPackages",
+               position: (69, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (69, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (70, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (70, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (70, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (70, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (70, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (71, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (72, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Packages to search for filters, tables, queues, and schedulers.\n\nAdd OpenSMTPD-extras here if you want to use the filters, etc. from\nthat package.\n",
+                    position: (73, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (86, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (86, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (86, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (86, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (87, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (87, 11),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "smtpd",
+                 position: (88, 7),
+                },
+                Raw {
+                 content: "gid",
+                 position: (88, 13),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (88, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (88, 26),
+                 },
+                 Raw {
+                  content: "gids",
+                  position: (88, 30),
+                 },
+                 Raw {
+                  content: "smtpd",
+                  position: (88, 35),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "smtpq",
+                 position: (89, 7),
+                },
+                Raw {
+                 content: "gid",
+                 position: (89, 13),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (89, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (89, 26),
+                 },
+                 Raw {
+                  content: "gids",
+                  position: (89, 30),
+                 },
+                 Raw {
+                  content: "smtpq",
+                  position: (89, 35),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (92, 5),
+             },
+             Raw {
+              content: "users",
+              position: (92, 11),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "smtpd",
+                 position: (93, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (94, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "OpenSMTPD process user",
+                    position: (94, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "uid",
+                    position: (95, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (95, 15),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "ids",
+                     position: (95, 22),
+                    },
+                    Raw {
+                     content: "uids",
+                     position: (95, 26),
+                    },
+                    Raw {
+                     content: "smtpd",
+                     position: (95, 31),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (96, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "smtpd",
+                    position: (96, 18),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "smtpq",
+                 position: (98, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (99, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "OpenSMTPD queue user",
+                    position: (99, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "uid",
+                    position: (100, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (100, 15),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "ids",
+                     position: (100, 22),
+                    },
+                    Raw {
+                     content: "uids",
+                     position: (100, 26),
+                    },
+                    Raw {
+                     content: "smtpq",
+                     position: (100, 31),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (101, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "smtpq",
+                    position: (101, 18),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (105, 5),
+             },
+             Raw {
+              content: "wrappers",
+              position: (105, 14),
+             },
+             Raw {
+              content: "smtpctl",
+              position: (105, 23),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "owner",
+                 position: (106, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "root",
+                 position: (106, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (107, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "smtpq",
+                 position: (107, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "setuid",
+                 position: (108, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (108, 16),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "setgid",
+                 position: (109, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (109, 16),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (110, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (110, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (110, 23),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/smtpctl",
+                 position: (110, 31),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (113, 5),
+             },
+             Raw {
+              content: "mail",
+              position: (113, 14),
+             },
+             Raw {
+              content: "sendmailSetuidWrapper",
+              position: (113, 19),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (113, 43),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (113, 48),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "setSendmail",
+                 position: (113, 52),
+                },
+               ],
+              },
+              default: None,
+             },
+             BinaryOperation {
+              operator: Update,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "security",
+                 position: (114, 8),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "wrappers",
+                   position: (114, 17),
+                  },
+                  Raw {
+                   content: "smtpctl",
+                   position: (114, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "program",
+                     position: (114, 39),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "sendmail",
+                     position: (114, 50),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (116, 5),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (116, 13),
+             },
+             Raw {
+              content: "rules",
+              position: (116, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d /var/spool/smtpd 711 root - - -",
+                position: (117, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/spool/smtpd/offline 770 root smtpq - -",
+                position: (118, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/spool/smtpd/purge 700 smtpq root - -",
+                position: (119, 8),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (122, 5),
+             },
+             Raw {
+              content: "services",
+              position: (122, 13),
+             },
+             Raw {
+              content: "opensmtpd",
+              position: (122, 22),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "procEnv",
+                 position: (123, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (123, 17),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "buildEnv",
+                   position: (123, 22),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "name",
+                      position: (124, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "opensmtpd-procs",
+                      position: (124, 17),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "paths",
+                      position: (125, 9),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Concatenation,
+                    operands: [
+                     List {
+                      elements: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (125, 19),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (125, 23),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (125, 36),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "procPackages",
+                         position: (125, 40),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "pathsToLink",
+                      position: (126, 9),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "/libexec/opensmtpd",
+                        position: (126, 26),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+            ],
+            target: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (129, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "multi-user.target",
+                    position: (129, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "after",
+                  position: (130, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "network.target",
+                    position: (130, 18),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (131, 7),
+                 },
+                 Raw {
+                  content: "ExecStart",
+                  position: (131, 21),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (131, 36),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "package",
+                      position: (131, 40),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/sbin/smtpd -d -f ",
+                  position: (131, 48),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "conf",
+                   position: (131, 68),
+                  },
+                 },
+                 Raw {
+                  content: " ",
+                  position: (131, 73),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "args",
+                   position: (131, 76),
+                  },
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "environment",
+                  position: (132, 7),
+                 },
+                 Raw {
+                  content: "OPENSMTPD_PROC_PATH",
+                  position: (132, 19),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: Variable {
+                   identifier: "procEnv",
+                   position: (132, 44),
+                  },
+                 },
+                 Raw {
+                  content: "/libexec/opensmtpd",
+                  position: (132, 52),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+         ],
+         recursive: true,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

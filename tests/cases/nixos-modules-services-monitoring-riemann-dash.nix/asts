@@ -1,0 +1,891 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (3, 6),
+  },
+  target: With {
+   expression: Variable {
+    identifier: "lib",
+    position: (4, 6),
+   },
+   target: LetIn {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "cfg",
+         position: (8, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (8, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "services",
+          position: (8, 16),
+         },
+         Raw {
+          content: "riemann-dash",
+          position: (8, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "conf",
+         position: (10, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "writeText",
+        position: (10, 10),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "config.rb",
+           position: (10, 21),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "riemann_base = \"",
+           position: (11, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (11, 23),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "dataDir",
+               position: (11, 27),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "\"\nconfig.store[:ws_config] = \"#{riemann_base}/config/config.json\"\n",
+           position: (11, 35),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (13, 7),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "config",
+               position: (13, 11),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (13, 18),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "launcher",
+         position: (16, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "writeScriptBin",
+        position: (16, 14),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "riemann-dash",
+           position: (16, 30),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "#!/bin/sh\nexec ",
+           position: (17, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (18, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "riemann-dash",
+               position: (18, 17),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/riemann-dash ",
+           position: (18, 30),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "conf",
+            position: (18, 50),
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (18, 55),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    target: Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "options",
+          position: (23, 3),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (25, 5),
+            },
+            Raw {
+             content: "riemann-dash",
+             position: (25, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enable",
+                position: (26, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (26, 16),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (27, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (27, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (27, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (28, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (28, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (29, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Enable the riemann-dash dashboard daemon.\n",
+                     position: (30, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "config",
+                position: (33, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (33, 16),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (34, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (34, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "lines",
+                      position: (34, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (35, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Contents added to the end of the riemann-dash configuration file.\n",
+                     position: (36, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "dataDir",
+                position: (39, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (39, 17),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (40, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (40, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (40, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (41, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/var/riemann-dash",
+                     position: (41, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (42, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Location of the riemann-base dir. The dashboard configuration file is\nis stored to this directory. The directory is created automatically on\nservice start, and owner is set to the riemanndash user.\n",
+                     position: (43, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "config",
+          position: (52, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkIf",
+         position: (52, 12),
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (52, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "enable",
+             position: (52, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (54, 5),
+              },
+              Raw {
+               content: "groups",
+               position: (54, 11),
+              },
+              Raw {
+               content: "riemanndash",
+               position: (54, 18),
+              },
+              Raw {
+               content: "gid",
+               position: (54, 30),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (54, 36),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "ids",
+                position: (54, 43),
+               },
+               Raw {
+                content: "gids",
+                position: (54, 47),
+               },
+               Raw {
+                content: "riemanndash",
+                position: (54, 52),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (56, 5),
+              },
+              Raw {
+               content: "users",
+               position: (56, 11),
+              },
+              Raw {
+               content: "riemanndash",
+               position: (56, 17),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (57, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "riemann-dash daemon user",
+                  position: (57, 22),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "uid",
+                  position: (58, 7),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (58, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ids",
+                   position: (58, 20),
+                  },
+                  Raw {
+                   content: "uids",
+                   position: (58, 24),
+                  },
+                  Raw {
+                   content: "riemanndash",
+                   position: (58, 29),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (59, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "riemanndash",
+                  position: (59, 16),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (62, 5),
+              },
+              Raw {
+               content: "tmpfiles",
+               position: (62, 13),
+              },
+              Raw {
+               content: "rules",
+               position: (62, 22),
+              },
+             ],
+            },
+            List {
+             elements: [
+              String {
+               parts: [
+                Raw {
+                 content: "d '",
+                 position: (63, 8),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (63, 13),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "dataDir",
+                     position: (63, 17),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "' - riemanndash riemanndash - -",
+                 position: (63, 25),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (66, 5),
+              },
+              Raw {
+               content: "services",
+               position: (66, 13),
+              },
+              Raw {
+               content: "riemann-dash",
+               position: (66, 22),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (67, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "multi-user.target",
+                    position: (67, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wants",
+                  position: (68, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "riemann.service",
+                    position: (68, 18),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "after",
+                  position: (69, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "riemann.service",
+                    position: (69, 18),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "preStart",
+                  position: (70, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "mkdir -p ",
+                  position: (71, 1),
+                 },
+                 Raw {
+                  content: "'",
+                  position: (71, 18),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (71, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "dataDir",
+                      position: (71, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/config'\n",
+                  position: (71, 33),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (73, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "User",
+                     position: (74, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "riemanndash",
+                     position: (74, 17),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "ExecStart",
+                     position: (75, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "launcher",
+                      position: (75, 24),
+                     },
+                    },
+                    Raw {
+                     content: "/bin/riemann-dash",
+                     position: (75, 33),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   },
+  },
+ },
+}

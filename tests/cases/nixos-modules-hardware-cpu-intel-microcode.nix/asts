@@ -1,0 +1,248 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (9, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "hardware",
+           position: (11, 5),
+          },
+          Raw {
+           content: "cpu",
+           position: (11, 14),
+          },
+          Raw {
+           content: "intel",
+           position: (11, 18),
+          },
+          Raw {
+           content: "updateMicrocode",
+           position: (11, 24),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (11, 42),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (12, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "false",
+              position: (12, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (13, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (13, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "bool",
+                 position: (13, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (14, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Update the CPU microcode for Intel processors.\n",
+                position: (15, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (24, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (24, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "config",
+         position: (24, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "hardware",
+           position: (24, 24),
+          },
+          Raw {
+           content: "cpu",
+           position: (24, 33),
+          },
+          Raw {
+           content: "intel",
+           position: (24, 37),
+          },
+          Raw {
+           content: "updateMicrocode",
+           position: (24, 43),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "boot",
+             position: (26, 5),
+            },
+            Raw {
+             content: "initrd",
+             position: (26, 10),
+            },
+            Raw {
+             content: "prepend",
+             position: (26, 17),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkOrder",
+            position: (26, 27),
+           },
+           arguments: [
+            Int {
+             value: 1,
+             position: (26, 35),
+            },
+            List {
+             elements: [
+              String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (26, 42),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "microcodeIntel",
+                     position: (26, 47),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/intel-ucode.img",
+                 position: (26, 62),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

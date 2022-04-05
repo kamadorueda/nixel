@@ -1,0 +1,4467 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (3, 6),
+  },
+  target: With {
+   expression: Variable {
+    identifier: "lib",
+    position: (4, 6),
+   },
+   target: LetIn {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "cfg",
+         position: (8, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (8, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "hardware",
+          position: (8, 16),
+         },
+         Raw {
+          content: "pulseaudio",
+          position: (8, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "alsaCfg",
+         position: (9, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (9, 13),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "sound",
+          position: (9, 20),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "systemWide",
+         position: (11, 3),
+        },
+       ],
+      },
+      BinaryOperation {
+       operator: LogicalAnd,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (11, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (11, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (11, 30),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "systemWide",
+            position: (11, 34),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "nonSystemWide",
+         position: (12, 3),
+        },
+       ],
+      },
+      BinaryOperation {
+       operator: LogicalAnd,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (12, 19),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (12, 23),
+           },
+          ],
+         },
+         default: None,
+        },
+        UnaryOperation {
+         operator: Not,
+         operand: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (12, 34),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "systemWide",
+             position: (12, 38),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "hasZeroconf",
+         position: (13, 3),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "z",
+            position: (13, 21),
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (13, 25),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "zeroconf",
+             position: (13, 29),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+       ],
+       target: BinaryOperation {
+        operator: LogicalOr,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "z",
+           position: (13, 42),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "publish",
+             position: (13, 44),
+            },
+            Raw {
+             content: "enable",
+             position: (13, 52),
+            },
+           ],
+          },
+          default: None,
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "z",
+           position: (13, 62),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "discovery",
+             position: (13, 64),
+            },
+            Raw {
+             content: "enable",
+             position: (13, 74),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "overriddenPackage",
+         position: (15, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (15, 23),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "package",
+           position: (15, 27),
+          },
+          Raw {
+           content: "override",
+           position: (15, 35),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "optionalAttrs",
+          position: (16, 6),
+         },
+         arguments: [
+          Variable {
+           identifier: "hasZeroconf",
+           position: (16, 20),
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "zeroconfSupport",
+                position: (16, 34),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (16, 52),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "binary",
+         position: (17, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "getBin",
+           position: (17, 15),
+          },
+          arguments: [
+           Variable {
+            identifier: "overriddenPackage",
+            position: (17, 22),
+           },
+          ],
+         },
+        },
+        Raw {
+         content: "/bin/pulseaudio",
+         position: (17, 40),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "binaryNoDaemon",
+         position: (18, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Expression {
+         expression: Variable {
+          identifier: "binary",
+          position: (18, 23),
+         },
+        },
+        Raw {
+         content: " --daemonize=no",
+         position: (18, 30),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "enable32BitAlsaPlugins",
+         position: (22, 3),
+        },
+       ],
+      },
+      BinaryOperation {
+       operator: LogicalAnd,
+       operands: [
+        BinaryOperation {
+         operator: LogicalAnd,
+         operands: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (22, 28),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "support32Bit",
+              position: (22, 32),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "stdenv",
+            position: (22, 48),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "isx86_64",
+              position: (22, 55),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+        BinaryOperation {
+         operator: LogicalAnd,
+         operands: [
+          BinaryOperation {
+           operator: NotEqualTo,
+           operands: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (22, 68),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "pkgsi686Linux",
+                position: (22, 73),
+               },
+               Raw {
+                content: "alsa-lib",
+                position: (22, 87),
+               },
+              ],
+             },
+             default: None,
+            },
+            Variable {
+             identifier: "null",
+             position: (22, 99),
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: NotEqualTo,
+           operands: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (22, 107),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "pkgsi686Linux",
+                position: (22, 112),
+               },
+               Raw {
+                content: "libpulseaudio",
+                position: (22, 126),
+               },
+              ],
+             },
+             default: None,
+            },
+            Variable {
+             identifier: "null",
+             position: (22, 143),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "myConfigFile",
+         position: (25, 3),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "addModuleIf",
+            position: (27, 7),
+           },
+          ],
+         },
+         Function {
+          argument: Some(
+           "cond",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "mod",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: FunctionApplication {
+            function: Variable {
+             identifier: "optionalString",
+             position: (27, 32),
+            },
+            arguments: [
+             Variable {
+              identifier: "cond",
+              position: (27, 47),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "load-module ",
+                position: (27, 53),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "mod",
+                 position: (27, 67),
+                },
+               },
+              ],
+             },
+            ],
+           },
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "allAnon",
+            position: (28, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "optional",
+           position: (28, 17),
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (28, 26),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "tcp",
+               position: (28, 30),
+              },
+              Raw {
+               content: "anonymousClients",
+               position: (28, 34),
+              },
+              Raw {
+               content: "allowAll",
+               position: (28, 51),
+              },
+             ],
+            },
+            default: None,
+           },
+           String {
+            parts: [
+             Raw {
+              content: "auth-anonymous=1",
+              position: (28, 61),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "ipAnon",
+            position: (29, 7),
+           },
+          ],
+         },
+         LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "a",
+               position: (29, 21),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (29, 25),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "tcp",
+                position: (29, 29),
+               },
+               Raw {
+                content: "anonymousClients",
+                position: (29, 33),
+               },
+               Raw {
+                content: "allowedIpRanges",
+                position: (29, 50),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+          ],
+          target: FunctionApplication {
+           function: Variable {
+            identifier: "optional",
+            position: (30, 20),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              Variable {
+               identifier: "a",
+               position: (30, 30),
+              },
+              List {
+               elements: [],
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "auth-ip-acl=",
+               position: (30, 41),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (30, 55),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: ";",
+                    position: (30, 73),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "a",
+                  position: (30, 76),
+                 },
+                ],
+               },
+              },
+             ],
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       target: FunctionApplication {
+        function: Variable {
+         identifier: "writeTextFile",
+         position: (31, 8),
+        },
+        arguments: [
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "name",
+               position: (32, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "default.pa",
+               position: (32, 15),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "text",
+               position: (33, 9),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: ".include ",
+               position: (34, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (34, 20),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "configFile",
+                   position: (34, 24),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (34, 35),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "addModuleIf",
+                 position: (35, 11),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (35, 23),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "zeroconf",
+                     position: (35, 27),
+                    },
+                    Raw {
+                     content: "publish",
+                     position: (35, 36),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (35, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "module-zeroconf-publish",
+                    position: (35, 52),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (35, 77),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "addModuleIf",
+                 position: (36, 11),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (36, 23),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "zeroconf",
+                     position: (36, 27),
+                    },
+                    Raw {
+                     content: "discovery",
+                     position: (36, 36),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (36, 46),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "module-zeroconf-discover",
+                    position: (36, 54),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (36, 80),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "addModuleIf",
+                 position: (37, 11),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (37, 23),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "tcp",
+                     position: (37, 27),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (37, 31),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "concatStringsSep",
+                   position: (37, 39),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: " ",
+                      position: (37, 57),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Concatenation,
+                    operands: [
+                     List {
+                      elements: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "module-native-protocol-tcp",
+                          position: (38, 16),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                     BinaryOperation {
+                      operator: Concatenation,
+                      operands: [
+                       Variable {
+                        identifier: "allAnon",
+                        position: (38, 49),
+                       },
+                       Variable {
+                        identifier: "ipAnon",
+                        position: (38, 60),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (38, 69),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "addModuleIf",
+                 position: (39, 11),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (39, 23),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "services",
+                     position: (39, 30),
+                    },
+                    Raw {
+                     content: "jack",
+                     position: (39, 39),
+                    },
+                    Raw {
+                     content: "jackd",
+                     position: (39, 44),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (39, 50),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "module-jack-sink",
+                    position: (39, 58),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (39, 76),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "addModuleIf",
+                 position: (40, 11),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (40, 23),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "services",
+                     position: (40, 30),
+                    },
+                    Raw {
+                     content: "jack",
+                     position: (40, 39),
+                    },
+                    Raw {
+                     content: "jackd",
+                     position: (40, 44),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (40, 50),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "module-jack-source",
+                    position: (40, 58),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (40, 78),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (41, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "extraConfig",
+                   position: (41, 15),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (41, 27),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "ids",
+         position: (45, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (45, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "ids",
+          position: (45, 16),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "uid",
+         position: (47, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "ids",
+        position: (47, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "uids",
+          position: (47, 13),
+         },
+         Raw {
+          content: "pulseaudio",
+          position: (47, 18),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "gid",
+         position: (48, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "ids",
+        position: (48, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "gids",
+          position: (48, 13),
+         },
+         Raw {
+          content: "pulseaudio",
+          position: (48, 18),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "stateDir",
+         position: (50, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "/run/pulse",
+         position: (50, 15),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "clientConf",
+         position: (55, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "writeText",
+        position: (55, 16),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "client.conf",
+           position: (55, 27),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "autospawn=no\n",
+           position: (56, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (57, 7),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "extraClientConf",
+               position: (57, 11),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (57, 27),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "alsaConf",
+         position: (63, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "writeText",
+        position: (63, 14),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "asound.conf",
+           position: (63, 25),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "pcm_type.pulse {\n  libs.native = ",
+           position: (64, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (65, 23),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "alsa-plugins",
+               position: (65, 28),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/lib/alsa-lib/libasound_module_pcm_pulse.so ;\n  ",
+           position: (65, 41),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (66, 9),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalString",
+                position: (66, 13),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "enable32BitAlsaPlugins",
+              position: (66, 28),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "libs.32Bit = ",
+                position: (67, 7),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (67, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "pkgsi686Linux",
+                    position: (67, 27),
+                   },
+                   Raw {
+                    content: "alsa-plugins",
+                    position: (67, 41),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/lib/alsa-lib/libasound_module_pcm_pulse.so ;",
+                position: (67, 54),
+               },
+              ],
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\n}\npcm.!default {\n  type pulse\n  hint.description \"Default Audio Device (via PulseAudio)\"\n}\nctl_type.pulse {\n  libs.native = ",
+           position: (67, 101),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (74, 23),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "alsa-plugins",
+               position: (74, 28),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/lib/alsa-lib/libasound_module_ctl_pulse.so ;\n  ",
+           position: (74, 41),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (75, 9),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalString",
+                position: (75, 13),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "enable32BitAlsaPlugins",
+              position: (75, 28),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "libs.32Bit = ",
+                position: (76, 7),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (76, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "pkgsi686Linux",
+                    position: (76, 27),
+                   },
+                   Raw {
+                    content: "alsa-plugins",
+                    position: (76, 41),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/lib/alsa-lib/libasound_module_ctl_pulse.so ;",
+                position: (76, 54),
+               },
+              ],
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\n}\nctl.!default {\n  type pulse\n}\n",
+           position: (76, 101),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "alsaCfg",
+             position: (81, 7),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (81, 15),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (81, 27),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    target: Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "options",
+          position: (86, 3),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "hardware",
+             position: (88, 5),
+            },
+            Raw {
+             content: "pulseaudio",
+             position: (88, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enable",
+                position: (89, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (89, 16),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (90, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (90, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (90, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (91, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (91, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (92, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Whether to enable the PulseAudio sound server.\n",
+                     position: (93, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "systemWide",
+                position: (97, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (97, 20),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (98, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (98, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (98, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (99, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (99, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (100, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "If false, a PulseAudio server is launched automatically for\neach user that tries to use the sound system. The server runs\nwith user privileges. If true, one system-wide PulseAudio\nserver is launched on boot, running as the user \"pulse\", and\nonly users in the \"audio\" group will have access to the server.\nPlease read the PulseAudio documentation for more details.\n\nDon't enable this option unless you know what you are doing.\n",
+                     position: (101, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "support32Bit",
+                position: (112, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (112, 22),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (113, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (113, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (113, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (114, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (114, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (115, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Whether to include the 32-bit pulseaudio libraries in the system or not.\nThis is only useful on 64-bit systems and currently limited to x86_64-linux.\n",
+                     position: (116, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "configFile",
+                position: (121, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (121, 20),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (122, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (122, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nullOr",
+                       position: (122, 22),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (122, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "path",
+                        position: (122, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (123, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The path to the default configuration options the PulseAudio server\nshould use. By default, the \"default.pa\" configuration\nfrom the PulseAudio distribution is used.\n",
+                     position: (124, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "extraConfig",
+                position: (130, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (130, 21),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (131, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (131, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "lines",
+                      position: (131, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (132, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (133, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Literal string to append to <literal>configFile</literal>\nand the config file generated by the pulseaudio module.\n",
+                     position: (134, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "extraClientConf",
+                position: (139, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (139, 25),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (140, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (140, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "lines",
+                      position: (140, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (141, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (142, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Extra configuration appended to pulse/client.conf file.\n",
+                     position: (143, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "package",
+                position: (147, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (147, 17),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (148, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (148, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "package",
+                      position: (148, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (149, 9),
+                    },
+                   ],
+                  },
+                  IfThenElse {
+                   predicate: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (149, 22),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "services",
+                       position: (149, 29),
+                      },
+                      Raw {
+                       content: "jack",
+                       position: (149, 38),
+                      },
+                      Raw {
+                       content: "jackd",
+                       position: (149, 43),
+                      },
+                      Raw {
+                       content: "enable",
+                       position: (149, 49),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   then: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (150, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "pulseaudioFull",
+                       position: (150, 29),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   else_: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (151, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "pulseaudio",
+                       position: (151, 29),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "defaultText",
+                     position: (152, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (152, 23),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "pkgs.pulseaudio",
+                       position: (152, 42),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (153, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (153, 19),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "pkgs.pulseaudioFull",
+                       position: (153, 38),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (154, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The PulseAudio derivation to use.  This can be used to enable\nfeatures (such as JACK support, Bluetooth) via the\n<literal>pulseaudioFull</literal> package.\n",
+                     position: (155, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "extraModules",
+                position: (161, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (161, 22),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (162, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (162, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "listOf",
+                       position: (162, 22),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (162, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "package",
+                        position: (162, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (163, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (164, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (164, 19),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "[ pkgs.pulseaudio-modules-bt ]",
+                       position: (164, 38),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (165, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Extra pulseaudio modules to use. This is intended for out-of-tree\npulseaudio modules like extra bluetooth codecs.\n\nExtra modules take precedence over built-in pulseaudio modules.\n",
+                     position: (166, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "daemon",
+                position: (173, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "logLevel",
+                   position: (174, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (174, 20),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (175, 11),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (175, 18),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "str",
+                         position: (175, 24),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "default",
+                        position: (176, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "notice",
+                        position: (176, 22),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (177, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "The log level that the system-wide pulseaudio daemon should use,\nif activated.\n",
+                        position: (178, 1),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "config",
+                   position: (183, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (183, 18),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (184, 11),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "types",
+                        position: (184, 18),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "attrsOf",
+                          position: (184, 24),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (184, 32),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "unspecified",
+                           position: (184, 38),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "default",
+                        position: (185, 11),
+                       },
+                      ],
+                     },
+                     Map {
+                      bindings: [],
+                      recursive: false,
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (186, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Config of the pulse daemon. See <literal>man pulse-daemon.conf</literal>.",
+                        position: (186, 26),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (187, 11),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "literalExpression",
+                       position: (187, 21),
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "{ realtime-scheduling = \"yes\"; }",
+                          position: (187, 41),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "zeroconf",
+                position: (191, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "discovery",
+                   position: (192, 9),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (192, 19),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkEnableOption",
+                  position: (193, 11),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "discovery of pulseaudio sinks in the local network",
+                     position: (193, 27),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "publish",
+                   position: (194, 9),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (194, 17),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkEnableOption",
+                  position: (195, 11),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "publishing the pulseaudio sink in the local network",
+                     position: (195, 27),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "tcp",
+                position: (199, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "enable",
+                   position: (200, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkEnableOption",
+                  position: (200, 18),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "tcp streaming support",
+                     position: (200, 34),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "anonymousClients",
+                   position: (202, 9),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "allowAll",
+                      position: (203, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "mkEnableOption",
+                     position: (203, 22),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "all anonymous clients to stream to the server",
+                        position: (203, 38),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "allowedIpRanges",
+                      position: (204, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "mkOption",
+                     position: (204, 29),
+                    },
+                    arguments: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "type",
+                           position: (205, 13),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: PropertyAccess {
+                          expression: Variable {
+                           identifier: "types",
+                           position: (205, 20),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "listOf",
+                             position: (205, 26),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                         arguments: [
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "types",
+                            position: (205, 33),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "str",
+                              position: (205, 39),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "default",
+                           position: (206, 13),
+                          },
+                         ],
+                        },
+                        List {
+                         elements: [],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "example",
+                           position: (207, 13),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "literalExpression",
+                          position: (207, 23),
+                         },
+                         arguments: [
+                          String {
+                           parts: [
+                            Raw {
+                             content: "[ \"127.0.0.1\" \"192.168.1.0/24\" ]",
+                             position: (207, 43),
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "description",
+                           position: (208, 13),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "A list of IP subnets that are allowed to stream to the server.\n",
+                           position: (209, 1),
+                          },
+                         ],
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "config",
+          position: (220, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkMerge",
+         position: (220, 12),
+        },
+        arguments: [
+         List {
+          elements: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (222, 7),
+                },
+                Raw {
+                 content: "etc",
+                 position: (222, 19),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Expression {
+                    expression: String {
+                     parts: [
+                      Raw {
+                       content: "pulse/client.conf",
+                       position: (223, 10),
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: "source",
+                    position: (223, 29),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "clientConf",
+                  position: (223, 38),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "hardware",
+                 position: (226, 7),
+                },
+                Raw {
+                 content: "pulseaudio",
+                 position: (226, 16),
+                },
+                Raw {
+                 content: "configFile",
+                 position: (226, 27),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkDefault",
+                position: (226, 40),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "getBin",
+                     position: (226, 53),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "overriddenPackage",
+                      position: (226, 60),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "/etc/pulse/default.pa",
+                   position: (226, 78),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (229, 6),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (229, 11),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enable",
+                 position: (229, 15),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "environment",
+                   position: (230, 7),
+                  },
+                  Raw {
+                   content: "systemPackages",
+                   position: (230, 19),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Variable {
+                   identifier: "overriddenPackage",
+                   position: (230, 38),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "sound",
+                   position: (232, 7),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (232, 13),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (232, 22),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "environment",
+                   position: (234, 7),
+                  },
+                  Raw {
+                   content: "etc",
+                   position: (234, 19),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "asound.conf",
+                         position: (235, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (235, 23),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "alsaConf",
+                    position: (235, 32),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "pulse/daemon.conf",
+                         position: (237, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (237, 29),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "writeText",
+                     position: (237, 38),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "daemon.conf",
+                        position: (237, 49),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (238, 12),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "generators",
+                          position: (238, 16),
+                         },
+                         Raw {
+                          content: "toKeyValue",
+                          position: (238, 27),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       Map {
+                        bindings: [],
+                        recursive: false,
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (238, 41),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "daemon",
+                           position: (238, 45),
+                          },
+                          Raw {
+                           content: "config",
+                           position: (238, 52),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "openal/alsoft.conf",
+                         position: (240, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (240, 30),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "writeText",
+                     position: (240, 39),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "alsoft.conf",
+                        position: (240, 50),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "drivers=pulse",
+                        position: (240, 64),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "libao.conf",
+                         position: (242, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (242, 22),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "writeText",
+                     position: (242, 31),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "libao.conf",
+                        position: (242, 42),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "default_driver=pulse",
+                        position: (242, 55),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hardware",
+                   position: (246, 7),
+                  },
+                  Raw {
+                   content: "pulseaudio",
+                   position: (246, 16),
+                  },
+                  Raw {
+                   content: "daemon",
+                   position: (246, 27),
+                  },
+                  Raw {
+                   content: "config",
+                   position: (246, 34),
+                  },
+                  Raw {
+                   content: "flat-volumes",
+                   position: (246, 41),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkDefault",
+                  position: (246, 56),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "no",
+                     position: (246, 67),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hardware",
+                   position: (249, 7),
+                  },
+                  Raw {
+                   content: "pulseaudio",
+                   position: (249, 16),
+                  },
+                  Raw {
+                   content: "daemon",
+                   position: (249, 27),
+                  },
+                  Raw {
+                   content: "config",
+                   position: (249, 34),
+                  },
+                  Raw {
+                   content: "resample-method",
+                   position: (249, 41),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkDefault",
+                  position: (249, 59),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "speex-float-5",
+                     position: (249, 70),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "security",
+                   position: (252, 7),
+                  },
+                  Raw {
+                   content: "rtkit",
+                   position: (252, 16),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (252, 22),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (252, 31),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "systemd",
+                   position: (254, 7),
+                  },
+                  Raw {
+                   content: "packages",
+                   position: (254, 15),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Variable {
+                   identifier: "overriddenPackage",
+                   position: (254, 28),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "services",
+                   position: (257, 7),
+                  },
+                  Raw {
+                   content: "udev",
+                   position: (257, 16),
+                  },
+                  Raw {
+                   content: "packages",
+                   position: (257, 21),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Variable {
+                   identifier: "overriddenPackage",
+                   position: (257, 34),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (260, 6),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (260, 12),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "extraModules",
+                   position: (260, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               List {
+                elements: [],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hardware",
+                   position: (261, 7),
+                  },
+                  Raw {
+                   content: "pulseaudio",
+                   position: (261, 16),
+                  },
+                  Raw {
+                   content: "daemon",
+                   position: (261, 27),
+                  },
+                  Raw {
+                   content: "config",
+                   position: (261, 34),
+                  },
+                  Raw {
+                   content: "dl-search-path",
+                   position: (261, 41),
+                  },
+                 ],
+                },
+                LetIn {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "overriddenModules",
+                      position: (262, 9),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "builtins",
+                      position: (262, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "map",
+                        position: (262, 38),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Function {
+                      argument: Some(
+                       "drv",
+                      ),
+                      arguments: FunctionArguments {
+                       arguments: [],
+                       ellipsis: false,
+                      },
+                      definition: FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "drv",
+                         position: (263, 17),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "override",
+                           position: (263, 21),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        Map {
+                         bindings: [
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "pulseaudio",
+                              position: (263, 32),
+                             },
+                            ],
+                           },
+                           Variable {
+                            identifier: "overriddenPackage",
+                            position: (263, 45),
+                           },
+                          ),
+                         ],
+                         recursive: false,
+                        },
+                       ],
+                      },
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (264, 11),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "extraModules",
+                         position: (264, 15),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "modulePaths",
+                      position: (265, 9),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "builtins",
+                      position: (265, 23),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "map",
+                        position: (265, 32),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Function {
+                      argument: Some(
+                       "drv",
+                      ),
+                      arguments: FunctionArguments {
+                       arguments: [],
+                       ellipsis: false,
+                      },
+                      definition: String {
+                       parts: [
+                        Expression {
+                         expression: Variable {
+                          identifier: "drv",
+                          position: (266, 20),
+                         },
+                        },
+                        Raw {
+                         content: "/",
+                         position: (266, 24),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "overriddenPackage",
+                           position: (266, 27),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "pulseDir",
+                             position: (266, 45),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/modules",
+                         position: (266, 54),
+                        },
+                       ],
+                      },
+                     },
+                     BinaryOperation {
+                      operator: Concatenation,
+                      operands: [
+                       Variable {
+                        identifier: "overriddenModules",
+                        position: (268, 12),
+                       },
+                       List {
+                        elements: [
+                         Variable {
+                          identifier: "overriddenPackage",
+                          position: (268, 35),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 target: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (269, 10),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "concatStringsSep",
+                      position: (269, 14),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: ":",
+                      position: (269, 32),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "modulePaths",
+                    position: (269, 35),
+                   },
+                  ],
+                 },
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (272, 6),
+            },
+            arguments: [
+             Variable {
+              identifier: "hasZeroconf",
+              position: (272, 11),
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "services",
+                   position: (273, 7),
+                  },
+                  Raw {
+                   content: "avahi",
+                   position: (273, 16),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (273, 22),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (273, 31),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (275, 6),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (275, 11),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "zeroconf",
+                 position: (275, 15),
+                },
+                Raw {
+                 content: "publish",
+                 position: (275, 24),
+                },
+                Raw {
+                 content: "enable",
+                 position: (275, 32),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "services",
+                   position: (276, 7),
+                  },
+                  Raw {
+                   content: "avahi",
+                   position: (276, 16),
+                  },
+                  Raw {
+                   content: "publish",
+                   position: (276, 22),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (276, 30),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (276, 39),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "services",
+                   position: (277, 7),
+                  },
+                  Raw {
+                   content: "avahi",
+                   position: (277, 16),
+                  },
+                  Raw {
+                   content: "publish",
+                   position: (277, 22),
+                  },
+                  Raw {
+                   content: "userServices",
+                   position: (277, 30),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (277, 45),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (280, 6),
+            },
+            arguments: [
+             Variable {
+              identifier: "nonSystemWide",
+              position: (280, 11),
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "environment",
+                   position: (281, 7),
+                  },
+                  Raw {
+                   content: "etc",
+                   position: (281, 19),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "pulse/default.pa",
+                         position: (282, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (282, 28),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "myConfigFile",
+                    position: (282, 37),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "systemd",
+                   position: (284, 7),
+                  },
+                  Raw {
+                   content: "user",
+                   position: (284, 15),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "services",
+                      position: (285, 9),
+                     },
+                     Raw {
+                      content: "pulseaudio",
+                      position: (285, 18),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Update,
+                    operands: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "restartIfChanged",
+                           position: (286, 11),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "true",
+                         position: (286, 30),
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "serviceConfig",
+                           position: (287, 11),
+                          },
+                         ],
+                        },
+                        Map {
+                         bindings: [
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "RestartSec",
+                              position: (288, 13),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "500ms",
+                              position: (288, 27),
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "PassEnvironment",
+                              position: (289, 13),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "DISPLAY",
+                              position: (289, 32),
+                             },
+                            ],
+                           },
+                          ),
+                         ],
+                         recursive: false,
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "optionalAttrs",
+                       position: (291, 14),
+                      },
+                      arguments: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "config",
+                         position: (291, 28),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "services",
+                           position: (291, 35),
+                          },
+                          Raw {
+                           content: "jack",
+                           position: (291, 44),
+                          },
+                          Raw {
+                           content: "jackd",
+                           position: (291, 49),
+                          },
+                          Raw {
+                           content: "enable",
+                           position: (291, 55),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       Map {
+                        bindings: [
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "environment",
+                             position: (292, 11),
+                            },
+                            Raw {
+                             content: "JACK_PROMISCUOUS_SERVER",
+                             position: (292, 23),
+                            },
+                           ],
+                          },
+                          String {
+                           parts: [
+                            Raw {
+                             content: "jackaudio",
+                             position: (292, 50),
+                            },
+                           ],
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "sockets",
+                      position: (294, 9),
+                     },
+                     Raw {
+                      content: "pulseaudio",
+                      position: (294, 17),
+                     },
+                    ],
+                   },
+                   Map {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "wantedBy",
+                         position: (295, 11),
+                        },
+                       ],
+                      },
+                      List {
+                       elements: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "sockets.target",
+                           position: (295, 25),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ),
+                    ],
+                    recursive: false,
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (300, 6),
+            },
+            arguments: [
+             Variable {
+              identifier: "systemWide",
+              position: (300, 11),
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "users",
+                   position: (301, 7),
+                  },
+                  Raw {
+                   content: "users",
+                   position: (301, 13),
+                  },
+                  Raw {
+                   content: "pulse",
+                   position: (301, 19),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "uid",
+                      position: (303, 9),
+                     },
+                    ],
+                   },
+                   Assert {
+                    expression: BinaryOperation {
+                     operator: EqualTo,
+                     operands: [
+                      Variable {
+                       identifier: "uid",
+                       position: (303, 22),
+                      },
+                      Variable {
+                       identifier: "gid",
+                       position: (303, 29),
+                      },
+                     ],
+                    },
+                    target: Variable {
+                     identifier: "uid",
+                     position: (303, 34),
+                    },
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (304, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pulse",
+                      position: (304, 18),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraGroups",
+                      position: (305, 9),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "audio",
+                        position: (305, 26),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (306, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "PulseAudio system service user",
+                      position: (306, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "home",
+                      position: (307, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "stateDir",
+                    position: (307, 16),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "createHome",
+                      position: (308, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (308, 22),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "isSystemUser",
+                      position: (309, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (309, 24),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "users",
+                   position: (312, 7),
+                  },
+                  Raw {
+                   content: "groups",
+                   position: (312, 13),
+                  },
+                  Raw {
+                   content: "pulse",
+                   position: (312, 20),
+                  },
+                  Raw {
+                   content: "gid",
+                   position: (312, 26),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "gid",
+                 position: (312, 32),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "systemd",
+                   position: (314, 7),
+                  },
+                  Raw {
+                   content: "services",
+                   position: (314, 15),
+                  },
+                  Raw {
+                   content: "pulseaudio",
+                   position: (314, 24),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (315, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "PulseAudio System-Wide Server",
+                      position: (315, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "wantedBy",
+                      position: (316, 9),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "sound.target",
+                        position: (316, 23),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "before",
+                      position: (317, 9),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "sound.target",
+                        position: (317, 21),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "environment",
+                      position: (318, 9),
+                     },
+                     Raw {
+                      content: "PULSE_RUNTIME_PATH",
+                      position: (318, 21),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "stateDir",
+                    position: (318, 42),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "serviceConfig",
+                      position: (319, 9),
+                     },
+                    ],
+                   },
+                   Map {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "Type",
+                         position: (320, 11),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "notify",
+                         position: (320, 19),
+                        },
+                       ],
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "ExecStart",
+                         position: (321, 11),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Expression {
+                         expression: Variable {
+                          identifier: "binaryNoDaemon",
+                          position: (321, 26),
+                         },
+                        },
+                        Raw {
+                         content: " --log-level=",
+                         position: (321, 41),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (321, 56),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "daemon",
+                             position: (321, 60),
+                            },
+                            Raw {
+                             content: "logLevel",
+                             position: (321, 67),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: " --system -n --file=",
+                         position: (321, 76),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "myConfigFile",
+                          position: (321, 98),
+                         },
+                        },
+                       ],
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "Restart",
+                         position: (322, 11),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "on-failure",
+                         position: (322, 22),
+                        },
+                       ],
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "RestartSec",
+                         position: (323, 11),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "500ms",
+                         position: (323, 25),
+                        },
+                       ],
+                      },
+                     ),
+                    ],
+                    recursive: false,
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "environment",
+                   position: (327, 7),
+                  },
+                  Raw {
+                   content: "variables",
+                   position: (327, 19),
+                  },
+                  Raw {
+                   content: "PULSE_COOKIE",
+                   position: (327, 29),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: Variable {
+                    identifier: "stateDir",
+                    position: (327, 47),
+                   },
+                  },
+                  Raw {
+                   content: "/.config/pulse/cookie",
+                   position: (327, 56),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   },
+  },
+ },
+}

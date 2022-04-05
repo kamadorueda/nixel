@@ -1,0 +1,726 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "fonts",
+         position: (7, 16),
+        },
+        Raw {
+         content: "fontDir",
+         position: (7, 22),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "x11Fonts",
+        position: (9, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (9, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (9, 19),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "X11-fonts",
+          position: (9, 31),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "preferLocalBuild",
+             position: (9, 44),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (9, 63),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p \"$out/share/X11/fonts\"\nfont_regexp='.*\\.\\(ttf\\|ttc\\|otf\\|pcf\\|pfa\\|pfb\\|bdf\\)\\(\\.gz\\)?'\nfind ",
+          position: (10, 1),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (12, 12),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (12, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "fonts",
+                position: (12, 28),
+               },
+               Raw {
+                content: "fonts",
+                position: (12, 34),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " -regex \"$font_regexp\" \\\n  -exec ln -sf -t \"$out/share/X11/fonts\" '{}' \\;\ncd \"$out/share/X11/fonts\"\n",
+          position: (12, 40),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (15, 7),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (15, 22),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "decompressFonts",
+                position: (15, 26),
+               },
+              ],
+             },
+             default: None,
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (16, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (16, 9),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "gzip",
+                   position: (16, 14),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/gunzip -f *.gz\n",
+               position: (16, 19),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (17, 8),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (18, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "xorg",
+              position: (18, 12),
+             },
+             Raw {
+              content: "mkfontscale",
+              position: (18, 17),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/mkfontscale\n",
+          position: (18, 29),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (19, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "xorg",
+              position: (19, 12),
+             },
+             Raw {
+              content: "mkfontdir",
+              position: (19, 17),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/mkfontdir\ncat $(find ",
+          position: (19, 27),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (20, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "xorg",
+              position: (20, 23),
+             },
+             Raw {
+              content: "fontalias",
+              position: (20, 28),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/ -name fonts.alias) >fonts.alias\n",
+          position: (20, 38),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (27, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "fonts",
+            position: (28, 5),
+           },
+           Raw {
+            content: "fontDir",
+            position: (28, 11),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (30, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (30, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (31, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (31, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (31, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (32, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (32, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (33, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to create a directory with links to all fonts in\n<filename>/run/current-system/sw/share/X11/fonts</filename>.\n",
+                    position: (34, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "decompressFonts",
+               position: (39, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (39, 25),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (40, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (40, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (40, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (41, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "programs",
+                     position: (41, 26),
+                    },
+                    Raw {
+                     content: "xwayland",
+                     position: (41, 35),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (41, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (42, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "config.programs.xwayland.enable",
+                      position: (42, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to decompress fonts in\n<filename>/run/current-system/sw/share/X11/fonts</filename>.\n",
+                    position: (44, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (52, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (52, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (52, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (52, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (54, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (54, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "x11Fonts",
+              position: (54, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (55, 5),
+             },
+             Raw {
+              content: "pathsToLink",
+              position: (55, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "/share/X11/fonts",
+                position: (55, 34),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (57, 5),
+             },
+             Raw {
+              content: "xserver",
+              position: (57, 14),
+             },
+             Raw {
+              content: "filesSection",
+              position: (57, 22),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "FontPath \"",
+              position: (58, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "x11Fonts",
+               position: (58, 19),
+              },
+             },
+             Raw {
+              content: "/share/X11/fonts\"\n",
+              position: (58, 28),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (63, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRenamedOptionModule",
+          position: (64, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "fonts",
+               position: (64, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "enableFontDir",
+               position: (64, 39),
+              },
+             ],
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "fonts",
+               position: (64, 59),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "fontDir",
+               position: (64, 67),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "enable",
+               position: (64, 77),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

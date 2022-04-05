@@ -1,0 +1,273 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (7, 16),
+        },
+        Raw {
+         content: "steam-hardware",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (12, 3),
+        },
+        Raw {
+         content: "hardware",
+         position: (12, 11),
+        },
+        Raw {
+         content: "steam-hardware",
+         position: (12, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (13, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (13, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (14, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (14, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (14, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (15, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (15, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (16, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Enable udev rules for Steam hardware such as the Steam Controller, other supported controllers and the HTC Vive",
+                 position: (16, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (20, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (20, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (20, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (20, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (21, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (21, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (21, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (22, 7),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "steamPackages",
+                 position: (22, 12),
+                },
+                Raw {
+                 content: "steam",
+                 position: (22, 26),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (30, 5),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (30, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "uinput",
+                position: (30, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

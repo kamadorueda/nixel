@@ -1,0 +1,724 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (6, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (6, 36),
+        },
+        Raw {
+         content: "dovecot",
+         position: (6, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (9, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9166,
+       position: (9, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "extraOpts",
+         position: (10, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "telemetryPath",
+            position: (11, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (11, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (12, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (12, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (12, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (13, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/metrics",
+                 position: (13, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (14, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Path under which to expose metrics.\n",
+                 position: (15, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "socketPath",
+            position: (18, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (18, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (19, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (19, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (19, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (20, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/run/dovecot/stats",
+                 position: (20, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (21, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/run/dovecot2/old-stats",
+                 position: (21, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (22, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Path under which the stats socket is placed.\nThe user/group under which the exporter runs,\nshould be able to access the socket in order\nto scrape the metrics successfully.\n\nPlease keep in mind that the stats module has changed in\n<link xlink:href=\"https://wiki2.dovecot.org/Upgrading/2.3\">Dovecot 2.3+</link> which\nis not <link xlink:href=\"https://github.com/kumina/dovecot_exporter/issues/8\">compatible with this exporter</link>.\n\nThe following extra config has to be passed to Dovecot to ensure that recent versions\nwork with this exporter:\n<programlisting>\n{\n  <xref linkend=\"opt-services.prometheus.exporters.dovecot.enable\" /> = true;\n  <xref linkend=\"opt-services.prometheus.exporters.dovecot.socketPath\" /> = \"/var/run/dovecot2/old-stats\";\n  <xref linkend=\"opt-services.dovecot2.mailPlugins.globally.enable\" /> = [ \"old_stats\" ];\n  <xref linkend=\"opt-services.dovecot2.extraConfig\" /> = ",
+                 position: (23, 1),
+                },
+                Raw {
+                 content: "''",
+                 position: (39, 66),
+                },
+                Raw {
+                 content: "\n    service old-stats {\n      unix_listener old-stats {\n        user = dovecot-exporter\n        group = dovecot-exporter\n        mode = 0660\n      }\n      fifo_listener old-stats-mail {\n        mode = 0660\n        user = dovecot\n        group = dovecot\n      }\n      fifo_listener old-stats-user {\n        mode = 0660\n        user = dovecot\n        group = dovecot\n      }\n    }\n    plugin {\n      old_stats_refresh = 30 secs\n      old_stats_track_cmds = yes\n    }\n  ",
+                 position: (39, 69),
+                },
+                Raw {
+                 content: "''",
+                 position: (61, 11),
+                },
+                Raw {
+                 content: ";\n}\n</programlisting>\n",
+                 position: (61, 14),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "scopes",
+            position: (66, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (66, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (67, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (67, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (67, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (67, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (67, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (68, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "user",
+                   position: (68, 20),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (69, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "user",
+                   position: (69, 20),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "global",
+                   position: (69, 27),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (70, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Stats scopes to query.\n",
+                 position: (71, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (75, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "serviceConfig",
+            position: (76, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "DynamicUser",
+               position: (77, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "false",
+             position: (77, 21),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ExecStart",
+               position: (78, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (79, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (79, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "prometheus-dovecot-exporter",
+                   position: (79, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/dovecot_exporter \\\n  --web.listen-address ",
+               position: (79, 44),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (80, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listenAddress",
+                   position: (80, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: ":",
+               position: (80, 52),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (80, 55),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (80, 64),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "port",
+                     position: (80, 68),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  --web.telemetry-path ",
+               position: (80, 73),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (81, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "telemetryPath",
+                   position: (81, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " \\\n  --dovecot.socket-path ",
+               position: (81, 52),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "escapeShellArg",
+                 position: (82, 35),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (82, 50),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "socketPath",
+                     position: (82, 54),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  --dovecot.scopes ",
+               position: (82, 65),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (83, 30),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: ",",
+                    position: (83, 48),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (83, 51),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "scopes",
+                     position: (83, 55),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  ",
+               position: (83, 62),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (84, 13),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: " \\\n  ",
+                    position: (84, 31),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (84, 40),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "extraFlags",
+                     position: (84, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (84, 55),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "RestrictAddressFamilies",
+               position: (86, 7),
+              },
+             ],
+            },
+            List {
+             elements: [
+              String {
+               parts: [
+                Raw {
+                 content: "AF_UNIX",
+                 position: (88, 10),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

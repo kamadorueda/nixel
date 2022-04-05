@@ -1,0 +1,758 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (7, 16),
+        },
+        Raw {
+         content: "htop",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "fmt",
+        position: (9, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "value",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: IfThenElse {
+       predicate: FunctionApplication {
+        function: Variable {
+         identifier: "isList",
+         position: (10, 8),
+        },
+        arguments: [
+         Variable {
+          identifier: "value",
+          position: (10, 15),
+         },
+        ],
+       },
+       then: FunctionApplication {
+        function: Variable {
+         identifier: "concatStringsSep",
+         position: (10, 26),
+        },
+        arguments: [
+         String {
+          parts: [
+           Raw {
+            content: " ",
+            position: (10, 44),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (10, 48),
+          },
+          arguments: [
+           Variable {
+            identifier: "fmt",
+            position: (10, 52),
+           },
+           Variable {
+            identifier: "value",
+            position: (10, 56),
+           },
+          ],
+         },
+        ],
+       },
+       else_: IfThenElse {
+        predicate: FunctionApplication {
+         function: Variable {
+          identifier: "isString",
+          position: (11, 8),
+         },
+         arguments: [
+          Variable {
+           identifier: "value",
+           position: (11, 17),
+          },
+         ],
+        },
+        then: Variable {
+         identifier: "value",
+         position: (11, 28),
+        },
+        else_: IfThenElse {
+         predicate: BinaryOperation {
+          operator: LogicalOr,
+          operands: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "isBool",
+             position: (12, 8),
+            },
+            arguments: [
+             Variable {
+              identifier: "value",
+              position: (12, 15),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "isInt",
+             position: (12, 24),
+            },
+            arguments: [
+             Variable {
+              identifier: "value",
+              position: (12, 30),
+             },
+            ],
+           },
+          ],
+         },
+         then: FunctionApplication {
+          function: Variable {
+           identifier: "toString",
+           position: (12, 41),
+          },
+          arguments: [
+           Variable {
+            identifier: "value",
+            position: (12, 50),
+           },
+          ],
+         },
+         else_: FunctionApplication {
+          function: Variable {
+           identifier: "throw",
+           position: (13, 5),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Unrecognized type ",
+              position: (13, 12),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "typeOf",
+                position: (13, 32),
+               },
+               arguments: [
+                Variable {
+                 identifier: "value",
+                 position: (13, 39),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: " in htop settings",
+              position: (13, 45),
+             },
+            ],
+           },
+          ],
+         },
+        },
+       },
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (19, 3),
+        },
+        Raw {
+         content: "programs",
+         position: (19, 11),
+        },
+        Raw {
+         content: "htop",
+         position: (19, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "package",
+            position: (20, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (20, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (21, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (21, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (21, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (22, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (22, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "htop",
+                  position: (22, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (23, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "pkgs.htop",
+                 position: (23, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (24, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The htop package that should be used.\n",
+                 position: (25, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (29, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (29, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "htop process monitor",
+              position: (29, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "settings",
+            position: (31, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (31, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (32, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (32, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "attrsOf",
+                 position: (32, 26),
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "oneOf",
+                   position: (32, 35),
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     Variable {
+                      identifier: "str",
+                      position: (32, 43),
+                     },
+                     Variable {
+                      identifier: "int",
+                      position: (32, 47),
+                     },
+                     Variable {
+                      identifier: "bool",
+                      position: (32, 51),
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "listOf",
+                       position: (32, 57),
+                      },
+                      arguments: [
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "oneOf",
+                         position: (32, 65),
+                        },
+                        arguments: [
+                         List {
+                          elements: [
+                           Variable {
+                            identifier: "str",
+                            position: (32, 73),
+                           },
+                           Variable {
+                            identifier: "int",
+                            position: (32, 77),
+                           },
+                           Variable {
+                            identifier: "bool",
+                            position: (32, 81),
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (33, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (34, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "hide_kernel_threads",
+                    position: (35, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (35, 31),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "hide_userland_threads",
+                    position: (36, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (36, 33),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (38, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Extra global default configuration for htop\nwhich is read on first startup only.\nHtop subsequently uses ~/.config/htop/htoprc\nas configuration source.\n",
+                 position: (39, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (47, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (47, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (47, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (47, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (48, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (48, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (49, 7),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (49, 11),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (52, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (52, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "htoprc",
+                 position: (52, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "text",
+              position: (52, 30),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Addition,
+            operands: [
+             String {
+              parts: [
+               Raw {
+                content: "# Global htop configuration\n# To change set: programs.htop.settings.KEY = VALUE;\n",
+                position: (53, 1),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "concatStringsSep",
+               position: (55, 10),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "\n",
+                  position: (55, 28),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mapAttrsToList",
+                 position: (55, 33),
+                },
+                arguments: [
+                 Function {
+                  argument: Some(
+                   "key",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: Function {
+                   argument: Some(
+                    "value",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "key",
+                       position: (55, 64),
+                      },
+                     },
+                     Raw {
+                      content: "=",
+                      position: (55, 68),
+                     },
+                     Expression {
+                      expression: FunctionApplication {
+                       function: Variable {
+                        identifier: "fmt",
+                        position: (55, 71),
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "value",
+                         position: (55, 75),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                  },
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (55, 84),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "settings",
+                     position: (55, 88),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

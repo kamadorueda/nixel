@@ -1,0 +1,239 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "cnping",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (9, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (10, 5),
+           },
+           Raw {
+            content: "cnping",
+            position: (10, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (11, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (11, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to install a setcap wrapper for cnping",
+                 position: (11, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (15, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (15, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (15, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (15, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (16, 5),
+             },
+             Raw {
+              content: "wrappers",
+              position: (16, 14),
+             },
+             Raw {
+              content: "cnping",
+              position: (16, 23),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (17, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (17, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cnping",
+                     position: (17, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/cnping",
+                 position: (17, 31),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "capabilities",
+                 position: (18, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "cap_net_raw+ep",
+                 position: (18, 23),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

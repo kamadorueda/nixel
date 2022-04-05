@@ -1,0 +1,2892 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (4, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "nagios",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosState",
+        position: (9, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "/var/lib/nagios",
+        position: (9, 18),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosLogDir",
+        position: (10, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "/var/log/nagios",
+        position: (10, 19),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "urlPath",
+        position: (11, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "/nagios",
+        position: (11, 14),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosObjectDefs",
+        position: (13, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "cfg",
+       position: (13, 22),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "objectDefs",
+         position: (13, 26),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosObjectDefsDir",
+        position: (15, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (15, 25),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (15, 30),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "nagios-objects",
+          position: (15, 42),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "nagiosObjectDefs",
+            position: (16, 15),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "preferLocalBuild",
+             position: (17, 7),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (17, 26),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p $out; ln -s $nagiosObjectDefs $out/",
+          position: (18, 8),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosCfgFile",
+        position: (20, 3),
+       },
+      ],
+     },
+     LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "default",
+           position: (21, 5),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "log_file",
+              position: (22, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosLogDir",
+               position: (22, 19),
+              },
+             },
+             Raw {
+              content: "/current",
+              position: (22, 32),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "log_archive_path",
+              position: (23, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosLogDir",
+               position: (23, 27),
+              },
+             },
+             Raw {
+              content: "/archive",
+              position: (23, 40),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "status_file",
+              position: (24, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (24, 22),
+              },
+             },
+             Raw {
+              content: "/status.dat",
+              position: (24, 34),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "object_cache_file",
+              position: (25, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (25, 28),
+              },
+             },
+             Raw {
+              content: "/objects.cache",
+              position: (25, 40),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "temp_file",
+              position: (26, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (26, 20),
+              },
+             },
+             Raw {
+              content: "/nagios.tmp",
+              position: (26, 32),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "lock_file",
+              position: (27, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/run/nagios.lock",
+              position: (27, 18),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "state_retention_file",
+              position: (28, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (28, 31),
+              },
+             },
+             Raw {
+              content: "/retention.dat",
+              position: (28, 43),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "query_socket",
+              position: (29, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (29, 23),
+              },
+             },
+             Raw {
+              content: "/nagios.qh",
+              position: (29, 35),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "check_result_path",
+              position: (30, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (30, 28),
+              },
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "command_file",
+              position: (31, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosState",
+               position: (31, 23),
+              },
+             },
+             Raw {
+              content: "/nagios.cmd",
+              position: (31, 35),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "cfg_dir",
+              position: (32, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "nagiosObjectDefsDir",
+               position: (32, 18),
+              },
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "nagios_user",
+              position: (33, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "nagios",
+              position: (33, 20),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "nagios_group",
+              position: (34, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "nagios",
+              position: (34, 21),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "illegal_macro_output_chars",
+              position: (35, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "`~$&|'\"<>",
+              position: (35, 35),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "retain_state_information",
+              position: (36, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "1",
+              position: (36, 33),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "lines",
+           position: (38, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mapAttrsToList",
+          position: (38, 13),
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "key",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "value",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: String {
+             parts: [
+              Expression {
+               expression: Variable {
+                identifier: "key",
+                position: (38, 44),
+               },
+              },
+              Raw {
+               content: "=",
+               position: (38, 48),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "value",
+                position: (38, 51),
+               },
+              },
+             ],
+            },
+           },
+          },
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "default",
+             position: (38, 61),
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (38, 72),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "extraConfig",
+                position: (38, 76),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "content",
+           position: (39, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "concatStringsSep",
+          position: (39, 15),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "\n",
+             position: (39, 33),
+            },
+           ],
+          },
+          Variable {
+           identifier: "lines",
+           position: (39, 37),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "file",
+           position: (40, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (40, 12),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "writeText",
+             position: (40, 17),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "nagios.cfg",
+             position: (40, 28),
+            },
+           ],
+          },
+          Variable {
+           identifier: "content",
+           position: (40, 40),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "validated",
+           position: (41, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (41, 18),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "runCommand",
+             position: (41, 23),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "nagios-checked.cfg",
+             position: (41, 35),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "preferLocalBuild",
+                position: (41, 56),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (41, 73),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+          String {
+           parts: [
+            Raw {
+             content: "cp ",
+             position: (42, 1),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "file",
+              position: (42, 12),
+             },
+            },
+            Raw {
+             content: " nagios.cfg\n# nagios checks the existence of /var/lib/nagios, but\n# it does not exist in the build sandbox, so we fake it\nmkdir lib\nlib=$(readlink -f lib)\nsed -i s@=",
+             position: (42, 17),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "nagiosState",
+              position: (47, 19),
+             },
+            },
+            Raw {
+             content: "@=$lib@ nagios.cfg\n",
+             position: (47, 31),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (48, 9),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "nagios",
+                 position: (48, 14),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "/bin/nagios -v nagios.cfg && cp ",
+             position: (48, 21),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "file",
+              position: (48, 55),
+             },
+            },
+            Raw {
+             content: " $out\n",
+             position: (48, 60),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "defaultCfgFile",
+           position: (50, 5),
+          },
+         ],
+        },
+        IfThenElse {
+         predicate: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (50, 25),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "validateConfig",
+             position: (50, 29),
+            },
+           ],
+          },
+          default: None,
+         },
+         then: Variable {
+          identifier: "validated",
+          position: (50, 49),
+         },
+         else_: Variable {
+          identifier: "file",
+          position: (50, 64),
+         },
+        },
+       ),
+      ],
+      target: IfThenElse {
+       predicate: BinaryOperation {
+        operator: EqualTo,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (52, 6),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mainConfigFile",
+             position: (52, 10),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "null",
+          position: (52, 28),
+         },
+        ],
+       },
+       then: Variable {
+        identifier: "defaultCfgFile",
+        position: (52, 38),
+       },
+       else_: PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (52, 58),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mainConfigFile",
+           position: (52, 62),
+          },
+         ],
+        },
+        default: None,
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nagiosCGICfgFile",
+        position: (56, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (56, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (56, 27),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "nagios.cgi.conf",
+          position: (56, 38),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "main_config_file=",
+          position: (58, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (58, 26),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mainConfigFile",
+              position: (58, 30),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\nuse_authentication=0\nurl_html_path=",
+          position: (58, 45),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "urlPath",
+           position: (60, 23),
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (60, 31),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "extraHttpdConfig",
+        position: (63, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "ScriptAlias ",
+        position: (65, 1),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "urlPath",
+         position: (65, 21),
+        },
+       },
+       Raw {
+        content: "/cgi-bin ",
+        position: (65, 29),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (65, 40),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nagios",
+            position: (65, 45),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/sbin\n\n<Directory \"",
+        position: (65, 52),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (67, 21),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nagios",
+            position: (67, 26),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/sbin\">\n  Options ExecCGI\n  Require all granted\n  SetEnv NAGIOS_CGI_CONFIG ",
+        position: (67, 33),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (70, 36),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "cgiConfigFile",
+            position: (70, 40),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "\n</Directory>\n\nAlias ",
+        position: (70, 54),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "urlPath",
+         position: (73, 15),
+        },
+       },
+       Raw {
+        content: " ",
+        position: (73, 23),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (73, 26),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nagios",
+            position: (73, 31),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/share\n\n<Directory \"",
+        position: (73, 38),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (75, 21),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nagios",
+            position: (75, 26),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/share\">\n  Options None\n  Require all granted\n</Directory>\n",
+        position: (75, 33),
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (83, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRemovedOptionModule",
+          position: (84, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (84, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "nagios",
+               position: (84, 42),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "urlPath",
+               position: (84, 51),
+              },
+             ],
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "The urlPath option has been removed as it is hard coded to /nagios in the nagios package.",
+             position: (84, 63),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (87, 3),
+        },
+        Raw {
+         content: "maintainers",
+         position: (87, 8),
+        },
+       ],
+      },
+      With {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (87, 27),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "maintainers",
+           position: (87, 31),
+          },
+         ],
+        },
+        default: None,
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "symphorien",
+          position: (87, 46),
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (89, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (90, 5),
+           },
+           Raw {
+            content: "nagios",
+            position: (90, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (91, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (91, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "<link xlink:href='http://www.nagios.org/'>Nagios</link> to monitor your system or network.",
+                 position: (91, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "objectDefs",
+               position: (93, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (93, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (94, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          A list of Nagios object configuration files that must define\n          the hosts, host groups, services and contacts for the\n          network that you want Nagios to monitor.\n        ",
+                    position: (94, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (99, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (99, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (99, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (99, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (99, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (100, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (100, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "[ ./objects.cfg ]",
+                      position: (100, 38),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "plugins",
+               position: (103, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (103, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (104, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (104, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (104, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (104, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (104, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (105, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (105, 24),
+                  },
+                  target: List {
+                   elements: [
+                    Variable {
+                     identifier: "monitoring-plugins",
+                     position: (105, 32),
+                    },
+                    Variable {
+                     identifier: "ssmtp",
+                     position: (105, 51),
+                    },
+                    Variable {
+                     identifier: "mailutils",
+                     position: (105, 57),
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (106, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (106, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "[pkgs.monitoring-plugins pkgs.ssmtp pkgs.mailutils]",
+                      position: (106, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (107, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          Packages to be added to the Nagios <envar>PATH</envar>.\n          Typically used to add plugins, but can be anything.\n        ",
+                    position: (107, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "mainConfigFile",
+               position: (113, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (113, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (114, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (114, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (114, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (114, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (114, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (115, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (115, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (116, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          If non-null, overrides the main configuration file of Nagios.\n        ",
+                    position: (116, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (121, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (121, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (122, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (122, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "attrsOf",
+                      position: (122, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (122, 30),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (122, 36),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (123, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "debug_level",
+                       position: (124, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "-1",
+                       position: (124, 26),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "debug_file",
+                       position: (125, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "/var/log/nagios/debug.log",
+                       position: (125, 25),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (127, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (128, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Configuration to add to /etc/nagios.cfg",
+                    position: (128, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "validateConfig",
+               position: (131, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (131, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (132, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (132, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (132, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (133, 9),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (133, 19),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "stdenv",
+                       position: (133, 24),
+                      },
+                      Raw {
+                       content: "hostPlatform",
+                       position: (133, 31),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (133, 47),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "stdenv",
+                       position: (133, 52),
+                      },
+                      Raw {
+                       content: "buildPlatform",
+                       position: (133, 59),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (134, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (134, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform",
+                      position: (134, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (135, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "if true, the syntax of the nagios configuration file is checked at build time",
+                    position: (135, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "cgiConfigFile",
+               position: (138, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (138, 23),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (139, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (139, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (139, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (140, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "nagiosCGICfgFile",
+                  position: (140, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (141, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (141, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "nagiosCGICfgFile",
+                      position: (141, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (142, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          Derivation for the configuration file of Nagios CGI scripts\n          that can be used in web servers for running the Nagios web interface.\n        ",
+                    position: (142, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enableWebInterface",
+               position: (148, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (148, 28),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (149, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (149, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (149, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (150, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (150, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (151, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          Whether to enable the Nagios web interface.  You should also\n          enable Apache (<option>services.httpd.enable</option>).\n        ",
+                    position: (151, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "virtualHost",
+               position: (157, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (157, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (158, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (158, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "submodule",
+                      position: (158, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "import",
+                     position: (158, 33),
+                    },
+                    arguments: [
+                     Path {
+                      parts: [
+                       Raw {
+                        content: "../web-servers/apache-httpd/vhost-options.nix",
+                        position: (158, 40),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (159, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (159, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{ hostName = \"example.org\";\n  adminAddr = \"webmaster@example.org\";\n  enableSSL = true;\n  sslServerCert = \"/var/lib/acme/example.org/full.pem\";\n  sslServerKey = \"/var/lib/acme/example.org/key.pem\";\n}\n",
+                      position: (160, 1),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (167, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Apache configuration can be done by adapting <option>services.httpd.virtualHosts</option>.\nSee <xref linkend=\"opt-services.httpd.virtualHosts\"/> for further information.\n",
+                    position: (168, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (176, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (176, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (176, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (176, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (177, 5),
+             },
+             Raw {
+              content: "users",
+              position: (177, 11),
+             },
+             Raw {
+              content: "nagios",
+              position: (177, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (178, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Nagios user ",
+                 position: (178, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (179, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (179, 21),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (179, 28),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (179, 32),
+                 },
+                 Raw {
+                  content: "nagios",
+                  position: (179, 37),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "home",
+                 position: (180, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "nagiosState",
+               position: (180, 21),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (181, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "nagios",
+                 position: (181, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (184, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (184, 11),
+             },
+             Raw {
+              content: "nagios",
+              position: (184, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (188, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (188, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "nagios.cfg",
+                 position: (188, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "source",
+              position: (188, 34),
+             },
+            ],
+           },
+           Variable {
+            identifier: "nagiosCfgFile",
+            position: (188, 43),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (190, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (190, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (190, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "nagios",
+                 position: (190, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (191, 5),
+             },
+             Raw {
+              content: "services",
+              position: (191, 13),
+             },
+             Raw {
+              content: "nagios",
+              position: (191, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (192, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Nagios monitoring daemon",
+                 position: (192, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "path",
+                 position: (193, 7),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Concatenation,
+               operands: [
+                List {
+                 elements: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (193, 20),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nagios",
+                      position: (193, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (193, 37),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "plugins",
+                    position: (193, 41),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (194, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (194, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (195, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (195, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "restartTriggers",
+                 position: (196, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                Variable {
+                 identifier: "nagiosCfgFile",
+                 position: (196, 27),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (198, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (199, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "nagios",
+                    position: (199, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (200, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "nagios",
+                    position: (200, 18),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Restart",
+                    position: (201, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "always",
+                    position: (201, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "RestartSec",
+                    position: (202, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 2,
+                  position: (202, 22),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "LogsDirectory",
+                    position: (203, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "nagios",
+                    position: (203, 26),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "StateDirectory",
+                    position: (204, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "nagios",
+                    position: (204, 27),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (205, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (205, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nagios",
+                        position: (205, 29),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/nagios /etc/nagios.cfg",
+                    position: (205, 36),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (209, 5),
+             },
+             Raw {
+              content: "httpd",
+              position: (209, 14),
+             },
+             Raw {
+              content: "virtualHosts",
+              position: (209, 20),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optionalAttrs",
+             position: (209, 35),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (209, 49),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableWebInterface",
+                 position: (209, 53),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (210, 9),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "virtualHost",
+                       position: (210, 13),
+                      },
+                      Raw {
+                       content: "hostName",
+                       position: (210, 25),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkMerge",
+                  position: (210, 37),
+                 },
+                 arguments: [
+                  List {
+                   elements: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (210, 47),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "virtualHost",
+                        position: (210, 51),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "extraConfig",
+                          position: (210, 65),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "extraHttpdConfig",
+                        position: (210, 79),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,1420 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (3, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "literalExpression",
+      position: (3, 17),
+     },
+     Raw {
+      content: "mkOption",
+      position: (3, 35),
+     },
+     Raw {
+      content: "mkEnableOption",
+      position: (3, 44),
+     },
+     Raw {
+      content: "mkIf",
+      position: (3, 59),
+     },
+     Raw {
+      content: "mkMerge",
+      position: (3, 64),
+     },
+     Raw {
+      content: "types",
+      position: (3, 72),
+     },
+     Raw {
+      content: "optional",
+      position: (3, 78),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (5, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (5, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (5, 16),
+       },
+       Raw {
+        content: "uptime",
+        position: (5, 25),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "opt",
+       position: (6, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "options",
+      position: (6, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (6, 17),
+       },
+       Raw {
+        content: "uptime",
+        position: (6, 26),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "configDir",
+       position: (8, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (8, 15),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "runCommand",
+         position: (8, 20),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "config",
+         position: (8, 32),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "preferLocalBuild",
+            position: (8, 42),
+           },
+          ],
+         },
+         Variable {
+          identifier: "true",
+          position: (8, 61),
+         },
+        ),
+       ],
+       recursive: false,
+      },
+      IfThenElse {
+       predicate: BinaryOperation {
+        operator: NotEqualTo,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (9, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "configFile",
+             position: (9, 11),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "null",
+          position: (9, 25),
+         },
+        ],
+       },
+       then: String {
+        parts: [
+         Raw {
+          content: "mkdir $out\next=`echo ",
+          position: (10, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (11, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "configFile",
+              position: (11, 21),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " | grep -o \\\\..*`\nln -sv ",
+          position: (11, 32),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "configFile",
+              position: (12, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " $out/default$ext\nln -sv /var/lib/uptime/runtime.json $out/runtime.json\n",
+          position: (12, 29),
+         },
+        ],
+       },
+       else_: String {
+        parts: [
+         Raw {
+          content: "mkdir $out\ncat ",
+          position: (15, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (16, 11),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "nodePackages",
+              position: (16, 16),
+             },
+             Raw {
+              content: "node-uptime",
+              position: (16, 29),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/lib/node_modules/node-uptime/config/default.yaml > $out/default.yaml\ncat >> $out/default.yaml <<EOF\n\nautoStartMonitor: false\n\nmongodb:\n  connectionString: 'mongodb://localhost/uptime'\nEOF\nln -sv /var/lib/uptime/runtime.json $out/runtime.json\n",
+          position: (16, 41),
+         },
+        ],
+       },
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (27, 3),
+       },
+       Raw {
+        content: "services",
+        position: (27, 11),
+       },
+       Raw {
+        content: "uptime",
+        position: (27, 20),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "configFile",
+           position: (28, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (28, 18),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (29, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The uptime configuration file\n\nIf mongodb: server != localhost, please set usesRemoteMongo = true\n\nIf you only want to run the monitor, please set enableWebService = false\nand enableSeparateMonitoringService = true\n\nIf autoStartMonitor: false (recommended) and you want to run both\nservices, please set enableSeparateMonitoringService = true\n",
+                position: (30, 1),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (41, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (41, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (41, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (41, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "path",
+                   position: (41, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (43, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (43, 17),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "usesRemoteMongo",
+           position: (46, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (46, 23),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (47, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Whether the configuration file specifies a remote mongo instance",
+                position: (47, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (49, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "false",
+              position: (49, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (51, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (51, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "bool",
+                 position: (51, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "enableWebService",
+           position: (54, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkEnableOption",
+          position: (54, 24),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "the uptime monitoring program web service",
+             position: (54, 40),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "enableSeparateMonitoringService",
+           position: (56, 5),
+          },
+         ],
+        },
+        BinaryOperation {
+         operator: Update,
+         operands: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkEnableOption",
+            position: (56, 39),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "the uptime monitoring service",
+               position: (56, 55),
+              },
+             ],
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (57, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (57, 17),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableWebService",
+                 position: (57, 21),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "defaultText",
+                position: (58, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalExpression",
+               position: (58, 21),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "config.",
+                  position: (58, 40),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "opt",
+                    position: (58, 49),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enableWebService",
+                      position: (58, 53),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "nodeEnv",
+           position: (61, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (61, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (62, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The node environment to run in (development, production, etc.)",
+                position: (62, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (64, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (64, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (64, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (66, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "production",
+                position: (66, 18),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (70, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkMerge",
+       position: (70, 12),
+      },
+      arguments: [
+       List {
+        elements: [
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkIf",
+           position: (70, 23),
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (70, 28),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "enableWebService",
+               position: (70, 32),
+              },
+             ],
+            },
+            default: None,
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "systemd",
+                 position: (71, 5),
+                },
+                Raw {
+                 content: "services",
+                 position: (71, 13),
+                },
+                Raw {
+                 content: "uptime",
+                 position: (71, 22),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (72, 7),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "uptime web service",
+                    position: (72, 22),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "wantedBy",
+                    position: (73, 7),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "multi-user.target",
+                      position: (73, 21),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "environment",
+                    position: (74, 7),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_CONFIG_DIR",
+                       position: (75, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "configDir",
+                     position: (75, 27),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_ENV",
+                       position: (76, 9),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (76, 20),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodeEnv",
+                        position: (76, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_PATH",
+                       position: (77, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "pkgs",
+                         position: (77, 24),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "nodePackages",
+                           position: (77, 29),
+                          },
+                          Raw {
+                           content: "node-uptime",
+                           position: (77, 42),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/lib/node_modules/node-uptime/node_modules",
+                       position: (77, 54),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "preStart",
+                    position: (79, 7),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "mkdir -p /var/lib/uptime",
+                    position: (79, 19),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "serviceConfig",
+                    position: (80, 7),
+                   },
+                   Raw {
+                    content: "ExecStart",
+                    position: (80, 21),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (80, 36),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodejs",
+                        position: (80, 41),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/node ",
+                    position: (80, 48),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (80, 60),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodePackages",
+                        position: (80, 65),
+                       },
+                       Raw {
+                        content: "node-uptime",
+                        position: (80, 78),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/lib/node_modules/node-uptime/app.js",
+                    position: (80, 90),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (83, 5),
+                },
+                Raw {
+                 content: "mongodb",
+                 position: (83, 14),
+                },
+                Raw {
+                 content: "enable",
+                 position: (83, 22),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkIf",
+                position: (83, 31),
+               },
+               arguments: [
+                UnaryOperation {
+                 operator: Not,
+                 operand: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (83, 38),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "usesRemoteMongo",
+                     position: (83, 42),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Variable {
+                 identifier: "true",
+                 position: (83, 59),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkIf",
+           position: (84, 7),
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (84, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "enableSeparateMonitoringService",
+               position: (84, 16),
+              },
+             ],
+            },
+            default: None,
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "systemd",
+                 position: (85, 5),
+                },
+                Raw {
+                 content: "services",
+                 position: (85, 13),
+                },
+                Raw {
+                 content: "uptime-monitor",
+                 position: (85, 22),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (86, 7),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "uptime monitoring service",
+                    position: (86, 22),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "wantedBy",
+                    position: (87, 7),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "multi-user.target",
+                      position: (87, 21),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "requires",
+                    position: (88, 7),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optional",
+                   position: (88, 18),
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (88, 27),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "enableWebService",
+                       position: (88, 31),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "uptime.service",
+                      position: (88, 49),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "after",
+                    position: (89, 7),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optional",
+                   position: (89, 15),
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (89, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "enableWebService",
+                       position: (89, 28),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "uptime.service",
+                      position: (89, 46),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "environment",
+                    position: (90, 7),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_CONFIG_DIR",
+                       position: (91, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "configDir",
+                     position: (91, 27),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_ENV",
+                       position: (92, 9),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (92, 20),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodeEnv",
+                        position: (92, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "NODE_PATH",
+                       position: (93, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "pkgs",
+                         position: (93, 24),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "nodePackages",
+                           position: (93, 29),
+                          },
+                          Raw {
+                           content: "node-uptime",
+                           position: (93, 42),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/lib/node_modules/node-uptime/node_modules",
+                       position: (93, 54),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "preStart",
+                    position: (96, 7),
+                   },
+                  ],
+                 },
+                 IfThenElse {
+                  predicate: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (96, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enableWebService",
+                      position: (96, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  then: String {
+                   parts: [
+                    Raw {
+                     content: "sleep 1s",
+                     position: (96, 48),
+                    },
+                   ],
+                  },
+                  else_: String {
+                   parts: [
+                    Raw {
+                     content: "mkdir -p /var/lib/uptime",
+                     position: (96, 64),
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "serviceConfig",
+                    position: (97, 7),
+                   },
+                   Raw {
+                    content: "ExecStart",
+                    position: (97, 21),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (97, 36),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodejs",
+                        position: (97, 41),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/node ",
+                    position: (97, 48),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (97, 60),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nodePackages",
+                        position: (97, 65),
+                       },
+                       Raw {
+                        content: "node-uptime",
+                        position: (97, 78),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/lib/node_modules/node-uptime/monitor.js",
+                    position: (97, 90),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

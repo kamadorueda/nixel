@@ -1,0 +1,645 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "security",
+         position: (7, 16),
+        },
+        Raw {
+         content: "googleOsLogin",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "package",
+        position: (8, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (8, 13),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "google-guest-oslogin",
+         position: (8, 18),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (14, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (16, 5),
+           },
+           Raw {
+            content: "googleOsLogin",
+            position: (16, 14),
+           },
+           Raw {
+            content: "enable",
+            position: (16, 28),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (16, 37),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (17, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (17, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (17, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (18, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (18, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (19, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable Google OS Login.\n\nThe OS Login package enables the following components:\nAuthorizedKeysCommand to query valid SSH keys from the user's OS Login\nprofile during ssh authentication phase.\nNSS Module to provide user and group information\nPAM Module for the sshd service, providing authorization and\nauthentication support, allowing the system to use data stored in\nGoogle Cloud IAM permissions to control both, the ability to log into\nan instance, and to perform operations as root (sudo).\n",
+                 position: (20, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (35, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (35, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (35, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (35, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (36, 5),
+             },
+             Raw {
+              content: "pam",
+              position: (36, 14),
+             },
+             Raw {
+              content: "services",
+              position: (36, 18),
+             },
+             Raw {
+              content: "sshd",
+              position: (36, 27),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "makeHomeDir",
+                 position: (37, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (37, 21),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "googleOsLoginAccountVerification",
+                 position: (38, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (38, 42),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "googleOsLoginAuthentication",
+                 position: (39, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (39, 37),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (42, 5),
+             },
+             Raw {
+              content: "sudo",
+              position: (42, 14),
+             },
+             Raw {
+              content: "extraConfig",
+              position: (42, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "#includedir /run/google-sudoers.d\n",
+              position: (43, 1),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (45, 5),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (45, 13),
+             },
+             Raw {
+              content: "rules",
+              position: (45, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d /run/google-sudoers.d 750 root root -",
+                position: (46, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/google-users.d 750 root root -",
+                position: (47, 8),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (50, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (50, 13),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (50, 26),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (51, 5),
+             },
+             Raw {
+              content: "timers",
+              position: (51, 13),
+             },
+             Raw {
+              content: "google-oslogin-cache",
+              position: (51, 20),
+             },
+             Raw {
+              content: "wantedBy",
+              position: (51, 41),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "timers.target",
+                position: (51, 55),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (54, 5),
+             },
+             Raw {
+              content: "nssModules",
+              position: (54, 12),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (54, 27),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (55, 5),
+             },
+             Raw {
+              content: "nssDatabases",
+              position: (55, 12),
+             },
+             Raw {
+              content: "passwd",
+              position: (55, 25),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "cache_oslogin",
+                position: (55, 37),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "oslogin",
+                position: (55, 53),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (56, 5),
+             },
+             Raw {
+              content: "nssDatabases",
+              position: (56, 12),
+             },
+             Raw {
+              content: "group",
+              position: (56, 25),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "cache_oslogin",
+                position: (56, 36),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "oslogin",
+                position: (56, 52),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (60, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (60, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "ssh/authorized_keys_command_google_oslogin",
+                 position: (60, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (61, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0755",
+                 position: (61, 15),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (62, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "#!/bin/sh\nexec ",
+                 position: (63, 1),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "package",
+                  position: (64, 16),
+                 },
+                },
+                Raw {
+                 content: "/bin/google_authorized_keys \"$@\"\n",
+                 position: (64, 24),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (67, 5),
+             },
+             Raw {
+              content: "openssh",
+              position: (67, 14),
+             },
+             Raw {
+              content: "authorizedKeysCommand",
+              position: (67, 22),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/etc/ssh/authorized_keys_command_google_oslogin %u",
+              position: (67, 47),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (68, 5),
+             },
+             Raw {
+              content: "openssh",
+              position: (68, 14),
+             },
+             Raw {
+              content: "authorizedKeysCommandUser",
+              position: (68, 22),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "nobody",
+              position: (68, 51),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

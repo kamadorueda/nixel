@@ -1,0 +1,920 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "logPrefix",
+        position: (6, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "services.prometheus.exporter.blackbox",
+        position: (6, 16),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (7, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (7, 36),
+        },
+        Raw {
+         content: "blackbox",
+         position: (7, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "coerceConfigFile",
+        position: (11, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "file",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: IfThenElse {
+       predicate: BinaryOperation {
+        operator: LogicalOr,
+        operands: [
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "builtins",
+            position: (12, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "isPath",
+              position: (12, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Variable {
+            identifier: "file",
+            position: (12, 25),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (12, 35),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "isStorePath",
+              position: (12, 39),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Variable {
+            identifier: "file",
+            position: (12, 51),
+           },
+          ],
+         },
+        ],
+       },
+       then: Variable {
+        identifier: "file",
+        position: (13, 7),
+       },
+       else_: BinaryOperation {
+        operator: Addition,
+        operands: [
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (15, 8),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "warn",
+              position: (15, 12),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "",
+              position: (16, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "logPrefix",
+               position: (16, 11),
+              },
+             },
+             Raw {
+              content: ": configuration file \"",
+              position: (16, 21),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "file",
+               position: (16, 45),
+              },
+             },
+             Raw {
+              content: "\" is being copied to the nix-store.\nIf you would like to avoid that, please set enableConfigCheck to false.\n",
+              position: (16, 50),
+             },
+            ],
+           },
+           Path {
+            parts: [
+             Raw {
+              content: "/.",
+              position: (18, 10),
+             },
+            ],
+           },
+          ],
+         },
+         Variable {
+          identifier: "file",
+          position: (18, 15),
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "checkConfigLocation",
+        position: (19, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "file",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: IfThenElse {
+       predicate: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (20, 8),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "hasPrefix",
+            position: (20, 12),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         String {
+          parts: [
+           Raw {
+            content: "/tmp/",
+            position: (20, 23),
+           },
+          ],
+         },
+         Variable {
+          identifier: "file",
+          position: (20, 30),
+         },
+        ],
+       },
+       then: FunctionApplication {
+        function: Variable {
+         identifier: "throw",
+         position: (21, 7),
+        },
+        arguments: [
+         String {
+          parts: [
+           Expression {
+            expression: Variable {
+             identifier: "logPrefix",
+             position: (22, 10),
+            },
+           },
+           Raw {
+            content: ": configuration file must not reside within /tmp - it won't be visible to the systemd service.",
+            position: (22, 20),
+           },
+          ],
+         },
+        ],
+       },
+       else_: Variable {
+        identifier: "true",
+        position: (24, 7),
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "checkConfig",
+        position: (25, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "file",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (26, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "runCommand",
+           position: (26, 10),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "checked-blackbox-exporter.conf",
+           position: (26, 22),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "preferLocalBuild",
+              position: (27, 7),
+             },
+            ],
+           },
+           Variable {
+            identifier: "true",
+            position: (27, 26),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "buildInputs",
+              position: (28, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (28, 23),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "buildPackages",
+                 position: (28, 28),
+                },
+                Raw {
+                 content: "prometheus-blackbox-exporter",
+                 position: (28, 42),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "ln -s ",
+           position: (30, 1),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "coerceConfigFile",
+             position: (30, 15),
+            },
+            arguments: [
+             Variable {
+              identifier: "file",
+              position: (30, 32),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " $out\nblackbox_exporter --config.check --config.file $out\n",
+           position: (30, 37),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (34, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9115,
+       position: (34, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "extraOpts",
+         position: (35, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "configFile",
+            position: (36, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (36, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (37, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (37, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (37, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (38, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Path to configuration file.\n",
+                 position: (39, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enableConfigCheck",
+            position: (42, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (42, 25),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (43, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (43, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (43, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (44, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (44, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (45, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to run a correctness check for the configuration file. This depends\non the configuration file residing in the nix-store. Paths passed as string will\nbe copied to the store.\n",
+                 position: (46, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (53, 3),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "adjustedConfigFile",
+            position: (54, 5),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (54, 29),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "enableConfigCheck",
+              position: (54, 33),
+             },
+            ],
+           },
+           default: None,
+          },
+          then: FunctionApplication {
+           function: Variable {
+            identifier: "checkConfig",
+            position: (55, 7),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (55, 19),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "configFile",
+                position: (55, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+          else_: FunctionApplication {
+           function: Variable {
+            identifier: "checkConfigLocation",
+            position: (57, 7),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (57, 27),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "configFile",
+                position: (57, 31),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       target: Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "serviceConfig",
+             position: (59, 5),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "AmbientCapabilities",
+                position: (60, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "CAP_NET_RAW",
+                  position: (60, 32),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "ExecStart",
+                position: (61, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "",
+                position: (62, 1),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (62, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "prometheus-blackbox-exporter",
+                    position: (62, 16),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/bin/blackbox_exporter \\\n  --web.listen-address ",
+                position: (62, 45),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (63, 34),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "listenAddress",
+                    position: (63, 38),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: ":",
+                position: (63, 52),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (63, 55),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (63, 64),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "port",
+                      position: (63, 68),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: " \\\n  --config.file ",
+                position: (63, 73),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "escapeShellArg",
+                  position: (64, 27),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "adjustedConfigFile",
+                   position: (64, 42),
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: " \\\n  ",
+                position: (64, 61),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (65, 13),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " \\\n  ",
+                     position: (65, 31),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (65, 40),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraFlags",
+                      position: (65, 44),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (65, 55),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "ExecReload",
+                position: (67, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (67, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "coreutils",
+                    position: (67, 28),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/bin/kill -HUP $MAINPID",
+                position: (67, 38),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

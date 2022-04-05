@@ -1,0 +1,2825 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (5, 16),
+        },
+        Raw {
+         content: "duplicity",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "stateDirectory",
+        position: (7, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "/var/lib/duplicity",
+        position: (7, 21),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "localTarget",
+        position: (9, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: FunctionApplication {
+       function: Variable {
+        identifier: "hasPrefix",
+        position: (10, 8),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "file://",
+           position: (10, 19),
+          },
+         ],
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (10, 28),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "targetUrl",
+            position: (10, 32),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+      then: FunctionApplication {
+       function: Variable {
+        identifier: "removePrefix",
+        position: (11, 10),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "file://",
+           position: (11, 24),
+          },
+         ],
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (11, 33),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "targetUrl",
+            position: (11, 37),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+      else_: Variable {
+       identifier: "null",
+       position: (11, 52),
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (15, 3),
+        },
+        Raw {
+         content: "services",
+         position: (15, 11),
+        },
+        Raw {
+         content: "duplicity",
+         position: (15, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (16, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (16, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "backups with duplicity",
+              position: (16, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "root",
+            position: (18, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (18, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (19, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (19, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (19, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (20, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/",
+                 position: (20, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (21, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Root directory to backup.\n",
+                 position: (22, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "include",
+            position: (26, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (26, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (27, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (27, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (27, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (27, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (27, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (28, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (29, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "/home",
+                   position: (29, 20),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (30, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "List of paths to include into the backups. See the FILE SELECTION\nsection in <citerefentry><refentrytitle>duplicity</refentrytitle>\n<manvolnum>1</manvolnum></citerefentry> for details on the syntax.\n",
+                 position: (31, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "exclude",
+            position: (37, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (37, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (38, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (38, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (38, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (38, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (38, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (39, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (40, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "List of paths to exclude from backups. See the FILE SELECTION section in\n<citerefentry><refentrytitle>duplicity</refentrytitle>\n<manvolnum>1</manvolnum></citerefentry> for details on the syntax.\n",
+                 position: (41, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "targetUrl",
+            position: (47, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (47, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (48, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (48, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (48, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (49, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "s3://host:port/prefix",
+                 position: (49, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (50, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Target url to backup to. See the URL FORMAT section in\n<citerefentry><refentrytitle>duplicity</refentrytitle>\n<manvolnum>1</manvolnum></citerefentry> for supported urls.\n",
+                 position: (51, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "secretFile",
+            position: (57, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (57, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (58, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (58, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (58, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (58, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "path",
+                    position: (58, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (59, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (59, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (60, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Path of a file containing secrets (gpg passphrase, access key...) in\nthe format of EnvironmentFile as described by\n<citerefentry><refentrytitle>systemd.exec</refentrytitle>\n<manvolnum>5</manvolnum></citerefentry>. For example:\n<programlisting>\nPASSPHRASE=<replaceable>...</replaceable>\nAWS_ACCESS_KEY_ID=<replaceable>...</replaceable>\nAWS_SECRET_ACCESS_KEY=<replaceable>...</replaceable>\n</programlisting>\n",
+                 position: (61, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "frequency",
+            position: (73, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (73, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (74, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (74, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (74, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (74, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (74, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (75, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "daily",
+                 position: (75, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (76, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Run duplicity with the given frequency (see\n<citerefentry><refentrytitle>systemd.time</refentrytitle>\n<manvolnum>7</manvolnum></citerefentry> for the format).\nIf null, do not run automatically.\n",
+                 position: (77, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "extraFlags",
+            position: (84, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (84, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (85, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (85, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (85, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (85, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (85, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (86, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (87, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "--backend-retry-delay",
+                   position: (87, 20),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "100",
+                   position: (87, 44),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (88, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Extra command-line flags passed to duplicity. See\n<citerefentry><refentrytitle>duplicity</refentrytitle>\n<manvolnum>1</manvolnum></citerefentry>.\n",
+                 position: (89, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "fullIfOlderThan",
+            position: (95, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (95, 23),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (96, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (96, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (96, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (97, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "never",
+                 position: (97, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (98, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "1M",
+                 position: (98, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (99, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "If <literal>\"never\"</literal> (the default) always do incremental\nbackups (the first backup will be a full backup, of course).  If\n<literal>\"always\"</literal> always do full backups.  Otherwise, this\nmust be a string representing a duration. Full backups will be made\nwhen the latest full backup is older than this duration. If this is not\nthe case, an incremental backup is performed.\n",
+                 position: (100, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "cleanup",
+            position: (109, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "maxAge",
+               position: (110, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (110, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (111, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (111, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (111, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (111, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (111, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (112, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (112, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (113, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "6M",
+                    position: (113, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (114, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "If non-null, delete all backup sets older than the given time.  Old backup sets\nwill not be deleted if backup sets newer than time depend on them.\n",
+                    position: (115, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "maxFull",
+               position: (119, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (119, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (120, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (120, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (120, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (120, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "int",
+                       position: (120, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (121, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (121, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (122, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 2,
+                  position: (122, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (123, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "If non-null, delete all backups sets that are older than the count:th last full\nbackup (in other words, keep the last count full backups and\nassociated incremental sets).\n",
+                    position: (124, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "maxIncr",
+               position: (129, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (129, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (130, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (130, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (130, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (130, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "int",
+                       position: (130, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (131, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (131, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (132, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 1,
+                  position: (132, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (133, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "If non-null, delete incremental sets of all backups sets that are\nolder than the count:th last full backup (in other words, keep only\nold full backups and not their increments).\n",
+                    position: (134, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (142, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (142, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (142, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (142, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (143, 5),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (144, 7),
+                },
+                Raw {
+                 content: "duplicity",
+                 position: (144, 16),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Update,
+               operands: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (145, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "backup files with duplicity",
+                      position: (145, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "environment",
+                      position: (147, 9),
+                     },
+                     Raw {
+                      content: "HOME",
+                      position: (147, 21),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "stateDirectory",
+                    position: (147, 28),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "script",
+                      position: (149, 9),
+                     },
+                    ],
+                   },
+                   LetIn {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "target",
+                         position: (151, 13),
+                        },
+                       ],
+                      },
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "escapeShellArg",
+                        position: (151, 22),
+                       },
+                       arguments: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (151, 37),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "targetUrl",
+                            position: (151, 41),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       ],
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "extra",
+                         position: (152, 13),
+                        },
+                       ],
+                      },
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "escapeShellArgs",
+                        position: (152, 21),
+                       },
+                       arguments: [
+                        BinaryOperation {
+                         operator: Concatenation,
+                         operands: [
+                          List {
+                           elements: [
+                            String {
+                             parts: [
+                              Raw {
+                               content: "--archive-dir",
+                               position: (152, 41),
+                              },
+                             ],
+                            },
+                            Variable {
+                             identifier: "stateDirectory",
+                             position: (152, 56),
+                            },
+                           ],
+                          },
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (152, 76),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "extraFlags",
+                              position: (152, 80),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "dup",
+                         position: (153, 13),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "pkgs",
+                           position: (153, 22),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "duplicity",
+                             position: (153, 27),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/bin/duplicity",
+                         position: (153, 37),
+                        },
+                       ],
+                      },
+                     ),
+                    ],
+                    target: String {
+                     parts: [
+                      Raw {
+                       content: "set -x\n",
+                       position: (156, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "dup",
+                        position: (157, 15),
+                       },
+                      },
+                      Raw {
+                       content: " cleanup ",
+                       position: (157, 19),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "target",
+                        position: (157, 30),
+                       },
+                      },
+                      Raw {
+                       content: " --force ",
+                       position: (157, 37),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "extra",
+                        position: (157, 48),
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (157, 54),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "lib",
+                          position: (158, 15),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "optionalString",
+                            position: (158, 19),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (158, 35),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "cleanup",
+                               position: (158, 39),
+                              },
+                              Raw {
+                               content: "maxAge",
+                               position: (158, 47),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                           Variable {
+                            identifier: "null",
+                            position: (158, 57),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: Variable {
+                             identifier: "dup",
+                             position: (158, 66),
+                            },
+                           },
+                           Raw {
+                            content: " remove-older-than ",
+                            position: (158, 70),
+                           },
+                           Expression {
+                            expression: FunctionApplication {
+                             function: PropertyAccess {
+                              expression: Variable {
+                               identifier: "lib",
+                               position: (158, 91),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "escapeShellArg",
+                                 position: (158, 95),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             arguments: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "cfg",
+                                position: (158, 110),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "cleanup",
+                                  position: (158, 114),
+                                 },
+                                 Raw {
+                                  content: "maxAge",
+                                  position: (158, 122),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             ],
+                            },
+                           },
+                           Raw {
+                            content: " ",
+                            position: (158, 129),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "target",
+                             position: (158, 132),
+                            },
+                           },
+                           Raw {
+                            content: " --force ",
+                            position: (158, 139),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "extra",
+                             position: (158, 150),
+                            },
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (158, 158),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "lib",
+                          position: (159, 15),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "optionalString",
+                            position: (159, 19),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (159, 35),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "cleanup",
+                               position: (159, 39),
+                              },
+                              Raw {
+                               content: "maxFull",
+                               position: (159, 47),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                           Variable {
+                            identifier: "null",
+                            position: (159, 58),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: Variable {
+                             identifier: "dup",
+                             position: (159, 67),
+                            },
+                           },
+                           Raw {
+                            content: " remove-all-but-n-full ",
+                            position: (159, 71),
+                           },
+                           Expression {
+                            expression: FunctionApplication {
+                             function: Variable {
+                              identifier: "toString",
+                              position: (159, 96),
+                             },
+                             arguments: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "cfg",
+                                position: (159, 105),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "cleanup",
+                                  position: (159, 109),
+                                 },
+                                 Raw {
+                                  content: "maxFull",
+                                  position: (159, 117),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             ],
+                            },
+                           },
+                           Raw {
+                            content: " ",
+                            position: (159, 125),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "target",
+                             position: (159, 128),
+                            },
+                           },
+                           Raw {
+                            content: " --force ",
+                            position: (159, 135),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "extra",
+                             position: (159, 146),
+                            },
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (159, 154),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "lib",
+                          position: (160, 15),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "optionalString",
+                            position: (160, 19),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (160, 35),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "cleanup",
+                               position: (160, 39),
+                              },
+                              Raw {
+                               content: "maxIncr",
+                               position: (160, 47),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                           Variable {
+                            identifier: "null",
+                            position: (160, 58),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: Variable {
+                             identifier: "dup",
+                             position: (160, 67),
+                            },
+                           },
+                           Raw {
+                            content: " remove-all-inc-of-but-n-full ",
+                            position: (160, 71),
+                           },
+                           Expression {
+                            expression: FunctionApplication {
+                             function: Variable {
+                              identifier: "toString",
+                              position: (160, 103),
+                             },
+                             arguments: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "cfg",
+                                position: (160, 112),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "cleanup",
+                                  position: (160, 116),
+                                 },
+                                 Raw {
+                                  content: "maxIncr",
+                                  position: (160, 124),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             ],
+                            },
+                           },
+                           Raw {
+                            content: " ",
+                            position: (160, 132),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "target",
+                             position: (160, 135),
+                            },
+                           },
+                           Raw {
+                            content: " --force ",
+                            position: (160, 142),
+                           },
+                           Expression {
+                            expression: Variable {
+                             identifier: "extra",
+                             position: (160, 153),
+                            },
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "\nexec ",
+                       position: (160, 161),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "dup",
+                        position: (161, 20),
+                       },
+                      },
+                      Raw {
+                       content: " ",
+                       position: (161, 24),
+                      },
+                      Expression {
+                       expression: IfThenElse {
+                        predicate: BinaryOperation {
+                         operator: EqualTo,
+                         operands: [
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (161, 30),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "fullIfOlderThan",
+                              position: (161, 34),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                          String {
+                           parts: [
+                            Raw {
+                             content: "always",
+                             position: (161, 54),
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                        then: String {
+                         parts: [
+                          Raw {
+                           content: "full",
+                           position: (161, 68),
+                          },
+                         ],
+                        },
+                        else_: String {
+                         parts: [
+                          Raw {
+                           content: "incr",
+                           position: (161, 80),
+                          },
+                         ],
+                        },
+                       },
+                      },
+                      Raw {
+                       content: " ",
+                       position: (161, 86),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "lib",
+                          position: (161, 89),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "escapeShellArgs",
+                            position: (161, 93),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: Concatenation,
+                          operands: [
+                           List {
+                            elements: [
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "cfg",
+                               position: (162, 17),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "root",
+                                 position: (162, 21),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "cfg",
+                               position: (162, 26),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "targetUrl",
+                                 position: (162, 30),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            ],
+                           },
+                           BinaryOperation {
+                            operator: Concatenation,
+                            operands: [
+                             FunctionApplication {
+                              function: Variable {
+                               identifier: "concatMap",
+                               position: (163, 18),
+                              },
+                              arguments: [
+                               Function {
+                                argument: Some(
+                                 "p",
+                                ),
+                                arguments: FunctionArguments {
+                                 arguments: [],
+                                 ellipsis: false,
+                                },
+                                definition: List {
+                                 elements: [
+                                  String {
+                                   parts: [
+                                    Raw {
+                                     content: "--include",
+                                     position: (163, 35),
+                                    },
+                                   ],
+                                  },
+                                  Variable {
+                                   identifier: "p",
+                                   position: (163, 46),
+                                  },
+                                 ],
+                                },
+                               },
+                               PropertyAccess {
+                                expression: Variable {
+                                 identifier: "cfg",
+                                 position: (163, 51),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "include",
+                                   position: (163, 55),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                              ],
+                             },
+                             BinaryOperation {
+                              operator: Concatenation,
+                              operands: [
+                               FunctionApplication {
+                                function: Variable {
+                                 identifier: "concatMap",
+                                 position: (164, 18),
+                                },
+                                arguments: [
+                                 Function {
+                                  argument: Some(
+                                   "p",
+                                  ),
+                                  arguments: FunctionArguments {
+                                   arguments: [],
+                                   ellipsis: false,
+                                  },
+                                  definition: List {
+                                   elements: [
+                                    String {
+                                     parts: [
+                                      Raw {
+                                       content: "--exclude",
+                                       position: (164, 35),
+                                      },
+                                     ],
+                                    },
+                                    Variable {
+                                     identifier: "p",
+                                     position: (164, 46),
+                                    },
+                                   ],
+                                  },
+                                 },
+                                 PropertyAccess {
+                                  expression: Variable {
+                                   identifier: "cfg",
+                                   position: (164, 51),
+                                  },
+                                  attribute_path: AttributePath {
+                                   attributes: [
+                                    Raw {
+                                     content: "exclude",
+                                     position: (164, 55),
+                                    },
+                                   ],
+                                  },
+                                  default: None,
+                                 },
+                                ],
+                               },
+                               FunctionApplication {
+                                function: PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "lib",
+                                  position: (165, 19),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "optionals",
+                                    position: (165, 23),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                                arguments: [
+                                 BinaryOperation {
+                                  operator: LogicalAnd,
+                                  operands: [
+                                   BinaryOperation {
+                                    operator: NotEqualTo,
+                                    operands: [
+                                     PropertyAccess {
+                                      expression: Variable {
+                                       identifier: "cfg",
+                                       position: (165, 34),
+                                      },
+                                      attribute_path: AttributePath {
+                                       attributes: [
+                                        Raw {
+                                         content: "fullIfOlderThan",
+                                         position: (165, 38),
+                                        },
+                                       ],
+                                      },
+                                      default: None,
+                                     },
+                                     String {
+                                      parts: [
+                                       Raw {
+                                        content: "never",
+                                        position: (165, 58),
+                                       },
+                                      ],
+                                     },
+                                    ],
+                                   },
+                                   BinaryOperation {
+                                    operator: NotEqualTo,
+                                    operands: [
+                                     PropertyAccess {
+                                      expression: Variable {
+                                       identifier: "cfg",
+                                       position: (165, 68),
+                                      },
+                                      attribute_path: AttributePath {
+                                       attributes: [
+                                        Raw {
+                                         content: "fullIfOlderThan",
+                                         position: (165, 72),
+                                        },
+                                       ],
+                                      },
+                                      default: None,
+                                     },
+                                     String {
+                                      parts: [
+                                       Raw {
+                                        content: "always",
+                                        position: (165, 92),
+                                       },
+                                      ],
+                                     },
+                                    ],
+                                   },
+                                  ],
+                                 },
+                                 List {
+                                  elements: [
+                                   String {
+                                    parts: [
+                                     Raw {
+                                      content: "--full-if-older-than",
+                                      position: (165, 104),
+                                     },
+                                    ],
+                                   },
+                                   PropertyAccess {
+                                    expression: Variable {
+                                     identifier: "cfg",
+                                     position: (165, 126),
+                                    },
+                                    attribute_path: AttributePath {
+                                     attributes: [
+                                      Raw {
+                                       content: "fullIfOlderThan",
+                                       position: (165, 130),
+                                      },
+                                     ],
+                                    },
+                                    default: None,
+                                   },
+                                  ],
+                                 },
+                                ],
+                               },
+                              ],
+                             },
+                            ],
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: " ",
+                       position: (166, 17),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "extra",
+                        position: (166, 20),
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (166, 26),
+                      },
+                     ],
+                    },
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "serviceConfig",
+                      position: (168, 9),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Update,
+                    operands: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "PrivateTmp",
+                           position: (169, 11),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "true",
+                         position: (169, 24),
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "ProtectSystem",
+                           position: (170, 11),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "strict",
+                           position: (170, 28),
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "ProtectHome",
+                           position: (171, 11),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "read-only",
+                           position: (171, 26),
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "StateDirectory",
+                           position: (172, 11),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "baseNameOf",
+                          position: (172, 28),
+                         },
+                         arguments: [
+                          Variable {
+                           identifier: "stateDirectory",
+                           position: (172, 39),
+                          },
+                         ],
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                     BinaryOperation {
+                      operator: Update,
+                      operands: [
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "optionalAttrs",
+                         position: (173, 14),
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           Variable {
+                            identifier: "localTarget",
+                            position: (173, 29),
+                           },
+                           Variable {
+                            identifier: "null",
+                            position: (173, 44),
+                           },
+                          ],
+                         },
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "ReadWritePaths",
+                               position: (174, 11),
+                              },
+                             ],
+                            },
+                            Variable {
+                             identifier: "localTarget",
+                             position: (174, 28),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "optionalAttrs",
+                         position: (175, 14),
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (175, 29),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "secretFile",
+                               position: (175, 33),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                           Variable {
+                            identifier: "null",
+                            position: (175, 47),
+                           },
+                          ],
+                         },
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "EnvironmentFile",
+                               position: (176, 11),
+                              },
+                             ],
+                            },
+                            PropertyAccess {
+                             expression: Variable {
+                              identifier: "cfg",
+                              position: (176, 29),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "secretFile",
+                                position: (176, 33),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "optionalAttrs",
+                  position: (178, 12),
+                 },
+                 arguments: [
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (178, 27),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "frequency",
+                        position: (178, 31),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (178, 44),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "startAt",
+                        position: (179, 9),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (179, 19),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "frequency",
+                         position: (179, 23),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "tmpfiles",
+                 position: (182, 7),
+                },
+                Raw {
+                 content: "rules",
+                 position: (182, 16),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optional",
+                position: (182, 24),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: NotEqualTo,
+                 operands: [
+                  Variable {
+                   identifier: "localTarget",
+                   position: (182, 34),
+                  },
+                  Variable {
+                   identifier: "null",
+                   position: (182, 49),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "d ",
+                   position: (182, 56),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "localTarget",
+                    position: (182, 60),
+                   },
+                  },
+                  Raw {
+                   content: " 0700 root root -",
+                   position: (182, 72),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (185, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "singleton",
+             position: (185, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (188, 7),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Implication,
+                 operands: [
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (188, 19),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "include",
+                        position: (188, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    List {
+                     elements: [],
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: LogicalOr,
+                   operands: [
+                    BinaryOperation {
+                     operator: NotEqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (188, 41),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "exclude",
+                          position: (188, 45),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      List {
+                       elements: [],
+                      },
+                     ],
+                    },
+                    BinaryOperation {
+                     operator: NotEqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (188, 63),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "extraFlags",
+                          position: (188, 67),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      List {
+                       elements: [],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (189, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Duplicity will fail if you only specify included paths (\"Because the\ndefault is to include all files, the expression is redundant. Exiting\nbecause this probably isn't what you meant.\")\n",
+                   position: (190, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,458 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (5, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (8, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (8, 10),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (8, 17),
+        },
+        Raw {
+         content: "mininet",
+         position: (8, 26),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "generatedPath",
+        position: (10, 3),
+       },
+      ],
+     },
+     With {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (10, 24),
+      },
+      target: FunctionApplication {
+       function: Variable {
+        identifier: "makeSearchPath",
+        position: (10, 30),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "bin",
+           position: (10, 46),
+          },
+         ],
+        },
+        List {
+         elements: [
+          Variable {
+           identifier: "iperf",
+           position: (11, 5),
+          },
+          Variable {
+           identifier: "ethtool",
+           position: (11, 11),
+          },
+          Variable {
+           identifier: "iproute2",
+           position: (11, 19),
+          },
+          Variable {
+           identifier: "socat",
+           position: (11, 28),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pyEnv",
+        position: (14, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (14, 11),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "python",
+          position: (14, 16),
+         },
+         Raw {
+          content: "withPackages",
+          position: (14, 23),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Function {
+        argument: Some(
+         "ps",
+        ),
+        arguments: FunctionArguments {
+         arguments: [],
+         ellipsis: false,
+        },
+        definition: List {
+         elements: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "ps",
+            position: (14, 42),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mininet-python",
+              position: (14, 45),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "mnexecWrapped",
+        position: (16, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (16, 19),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (16, 24),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "mnexec-wrapper",
+          position: (16, 36),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "buildInputs",
+             position: (17, 7),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (17, 23),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "makeWrapper",
+                position: (17, 28),
+               },
+              ],
+             },
+             default: None,
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (17, 40),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "pythonPackages",
+                position: (17, 45),
+               },
+               Raw {
+                content: "wrapPython",
+                position: (17, 60),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "makeWrapper ",
+          position: (19, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (19, 21),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mininet",
+              position: (19, 26),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/mnexec \\\n  $out/bin/mnexec \\\n  --prefix PATH : \"",
+          position: (19, 34),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "generatedPath",
+           position: (21, 28),
+          },
+         },
+         Raw {
+          content: "\"\n\nln -s ",
+          position: (21, 42),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "pyEnv",
+           position: (23, 15),
+          },
+         },
+         Raw {
+          content: "/bin/mn $out/bin/mn\n\n# mn errors out without a telnet binary\n# pkgs.telnet brings an undesired ifconfig into PATH see #43105\nln -s ",
+          position: (23, 21),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (27, 15),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "telnet",
+              position: (27, 20),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/telnet $out/bin/telnet\n",
+          position: (27, 27),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (31, 3),
+        },
+        Raw {
+         content: "programs",
+         position: (31, 11),
+        },
+        Raw {
+         content: "mininet",
+         position: (31, 20),
+        },
+        Raw {
+         content: "enable",
+         position: (31, 28),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkEnableOption",
+        position: (31, 37),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "Mininet",
+           position: (31, 53),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (33, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (33, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (33, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (33, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "virtualisation",
+              position: (35, 5),
+             },
+             Raw {
+              content: "vswitch",
+              position: (35, 20),
+             },
+             Raw {
+              content: "enable",
+              position: (35, 28),
+             },
+            ],
+           },
+           Variable {
+            identifier: "true",
+            position: (35, 37),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (37, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (37, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "mnexecWrapped",
+              position: (37, 36),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

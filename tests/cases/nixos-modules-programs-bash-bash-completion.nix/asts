@@ -1,0 +1,216 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "enable",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 19),
+        },
+        Raw {
+         content: "bash",
+         position: (6, 28),
+        },
+        Raw {
+         content: "enableCompletion",
+         position: (6, 33),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (9, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (10, 5),
+           },
+           Raw {
+            content: "bash",
+            position: (10, 14),
+           },
+           Raw {
+            content: "enableCompletion",
+            position: (10, 19),
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: Update,
+          operands: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkEnableOption",
+             position: (10, 38),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "Bash completion for all interactive bash shells",
+                position: (10, 54),
+               },
+              ],
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (11, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (11, 17),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (15, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (15, 12),
+       },
+       arguments: [
+        Variable {
+         identifier: "enable",
+         position: (15, 17),
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "programs",
+              position: (16, 5),
+             },
+             Raw {
+              content: "bash",
+              position: (16, 14),
+             },
+             Raw {
+              content: "promptPluginInit",
+              position: (16, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "# Check whether we're running a version of Bash that has support for\n# programmable completion. If we do, enable all modules installed in\n# the system and user profile in obsolete /etc/bash_completion.d/\n# directories. Bash loads completions in all\n# $XDG_DATA_DIRS/bash-completion/completions/\n# on demand, so they do not need to be sourced here.\nif shopt -q progcomp &>/dev/null; then\n  . \"",
+              position: (17, 1),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (24, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bash-completion",
+                  position: (24, 19),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/etc/profile.d/bash_completion.sh\"\n  nullglobStatus=$(shopt -p nullglob)\n  shopt -s nullglob\n  for p in $NIX_PROFILES; do\n    for m in \"$p/etc/bash_completion.d/\"*; do\n      . \"$m\"\n    done\n  done\n  eval \"$nullglobStatus\"\n  unset nullglobStatus p m\nfi\n",
+              position: (24, 35),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,265 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (6, 16),
+        },
+        Raw {
+         content: "bladeRF",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (11, 3),
+        },
+        Raw {
+         content: "hardware",
+         position: (11, 11),
+        },
+        Raw {
+         content: "bladeRF",
+         position: (11, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (12, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (12, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (13, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (13, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (13, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (14, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (14, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (15, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Enables udev rules for BladeRF devices. By default grants access\nto users in the \"bladerf\" group. You may want to install the\nlibbladeRF package.\n",
+                 position: (16, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (24, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (24, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (24, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (24, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (25, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (25, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (25, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (25, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libbladeRF",
+                 position: (25, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (26, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (26, 11),
+             },
+             Raw {
+              content: "bladerf",
+              position: (26, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

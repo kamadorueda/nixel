@@ -1,0 +1,246 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: Some(
+     BinaryOperation {
+      operator: Update,
+      operands: [
+       FunctionApplication {
+        function: Variable {
+         identifier: "import",
+         position: (3, 10),
+        },
+        arguments: [
+         Path {
+          parts: [
+           Raw {
+            content: "../..",
+            position: (3, 17),
+           },
+          ],
+         },
+         Map {
+          bindings: [],
+          recursive: false,
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "lib",
+             position: (3, 31),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "throw",
+            position: (3, 37),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "pkgs.lib accessed, but the lib tests should use nixpkgs' lib path directly!",
+               position: (3, 44),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "pkgs",
+    position: (6, 1),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "runCommand",
+      position: (6, 6),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   String {
+    parts: [
+     Raw {
+      content: "nixpkgs-lib-tests",
+      position: (6, 18),
+     },
+    ],
+   },
+   Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildInputs",
+         position: (7, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (8, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nix",
+            position: (8, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "import",
+          position: (9, 6),
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./check-eval.nix",
+             position: (9, 13),
+            },
+           ],
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "import",
+          position: (10, 6),
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./maintainers.nix",
+             position: (10, 13),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            Inherit(
+             None,
+             [
+              Raw {
+               content: "pkgs",
+               position: (11, 15),
+              },
+             ],
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "lib",
+                position: (12, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "import",
+               position: (12, 13),
+              },
+              arguments: [
+               Path {
+                parts: [
+                 Raw {
+                  content: "../.",
+                  position: (12, 20),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+   String {
+    parts: [
+     Raw {
+      content: "datadir=\"",
+      position: (16, 1),
+     },
+     Expression {
+      expression: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (16, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "nix",
+          position: (16, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+     },
+     Raw {
+      content: "/share\"\nexport TEST_ROOT=$(pwd)/test-tmp\nexport NIX_BUILD_HOOK=\nexport NIX_CONF_DIR=$TEST_ROOT/etc\nexport NIX_LOCALSTATE_DIR=$TEST_ROOT/var\nexport NIX_LOG_DIR=$TEST_ROOT/var/log/nix\nexport NIX_STATE_DIR=$TEST_ROOT/var/nix\nexport NIX_STORE_DIR=$TEST_ROOT/store\nexport PAGER=cat\ncacheDir=$TEST_ROOT/binary-cache\n\nmkdir -p $NIX_CONF_DIR\necho \"experimental-features = nix-command\" >> $NIX_CONF_DIR/nix.conf\n\nnix-store --init\n\ncp -r ",
+      position: (16, 25),
+     },
+     Expression {
+      expression: Path {
+       parts: [
+        Raw {
+         content: "../.",
+         position: (32, 13),
+        },
+       ],
+      },
+     },
+     Raw {
+      content: " lib\necho \"Running lib/tests/modules.sh\"\nbash lib/tests/modules.sh\n\necho \"Running lib/tests/sources.sh\"\nTEST_LIB=$PWD/lib bash lib/tests/sources.sh\n\ntouch $out\n",
+      position: (32, 18),
+     },
+    ],
+   },
+  ],
+ },
+}

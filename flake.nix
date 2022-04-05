@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Kevin Amado <kamadorueda@gmail.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -18,9 +22,7 @@
               src = ./.;
               cargoLock.lockFile = ./Cargo.lock;
 
-              passthru.tests = {
-                version = self.testVersion {package = super.nixel;};
-              };
+              doCheck = false;
 
               meta = {
                 description = "Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for the Nix Expressions Language.";
@@ -76,14 +78,14 @@
           copyright='Kevin Amado <kamadorueda@gmail.com>'
           license='AGPL-3.0-only'
 
+          find . -type f -name '*.license' -exec rm {} +
+
           reuse addheader \
             --copyright="$copyright" \
             --license="$license" \
             --explicit-license \
             .envrc \
             Cargo.lock \
-            Cargo.toml \
-            flake.nix \
             flake.lock \
             tests/cases/*/* \
 

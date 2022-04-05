@@ -1,0 +1,240 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (5, 6),
+  },
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "imports",
+        position: (8, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       Path {
+        parts: [
+         Raw {
+          content: "../../../modules/installer/cd-dvd/channel.nix",
+          position: (9, 7),
+         },
+        ],
+       },
+       Path {
+        parts: [
+         Raw {
+          content: "../../../modules/virtualisation/openstack-config.nix",
+          position: (10, 7),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "system",
+        position: (13, 3),
+       },
+       Raw {
+        content: "build",
+        position: (13, 10),
+       },
+       Raw {
+        content: "openstackImage",
+        position: (13, 16),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "import",
+       position: (13, 33),
+      },
+      arguments: [
+       Path {
+        parts: [
+         Raw {
+          content: "../../../lib/make-disk-image.nix",
+          position: (13, 40),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "lib",
+            position: (14, 13),
+           },
+           Raw {
+            content: "config",
+            position: (14, 17),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "additionalSpace",
+             position: (15, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "1024M",
+             position: (15, 24),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "pkgs",
+             position: (16, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "import",
+            position: (16, 12),
+           },
+           arguments: [
+            Path {
+             parts: [
+              Raw {
+               content: "../../../..",
+               position: (16, 19),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              Inherit(
+               Some(
+                Variable {
+                 identifier: "pkgs",
+                 position: (16, 42),
+                },
+               ),
+               [
+                Raw {
+                 content: "system",
+                 position: (16, 48),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "format",
+             position: (17, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "qcow2",
+             position: (17, 15),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "configFile",
+             position: (18, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (18, 18),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "writeText",
+               position: (18, 23),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "configuration.nix",
+               position: (18, 34),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "{\n  imports = [ <nixpkgs/nixos/modules/virtualisation/openstack-config.nix> ];\n}\n",
+               position: (20, 1),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

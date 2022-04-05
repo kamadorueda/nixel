@@ -1,0 +1,1102 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "networking",
+         position: (6, 16),
+        },
+        Raw {
+         content: "iproute2",
+         position: (6, 27),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (9, 3),
+        },
+        Raw {
+         content: "networking",
+         position: (9, 11),
+        },
+        Raw {
+         content: "iproute2",
+         position: (9, 22),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (10, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (10, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "copy IP route configuration files",
+              position: (10, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "rttablesExtraConfig",
+            position: (11, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (11, 27),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (12, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (12, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "lines",
+                  position: (12, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (13, 7),
+                },
+               ],
+              },
+              String {
+               parts: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (14, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Verbatim lines to add to /etc/iproute2/rt_tables\n",
+                 position: (15, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (20, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (20, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (20, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (20, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (21, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (21, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/bpf_pinning",
+                 position: (21, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (21, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (21, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (21, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (21, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (21, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (21, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/bpf_pinning",
+                   position: (21, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (22, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (22, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/ematch_map",
+                 position: (22, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (22, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (22, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (22, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (22, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (22, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (22, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/ematch_map",
+                   position: (22, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (23, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (23, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/group",
+                 position: (23, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (23, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (23, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (23, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (23, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (23, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (23, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/group",
+                   position: (23, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (24, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (24, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/nl_protos",
+                 position: (24, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (24, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (24, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (24, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (24, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (24, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (24, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/nl_protos",
+                   position: (24, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (25, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (25, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/rt_dsfield",
+                 position: (25, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (25, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (25, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (25, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (25, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (25, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (25, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/rt_dsfield",
+                   position: (25, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (26, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (26, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/rt_protos",
+                 position: (26, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (26, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (26, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (26, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (26, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (26, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (26, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/rt_protos",
+                   position: (26, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (27, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (27, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/rt_realms",
+                 position: (27, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (27, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (27, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (27, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (27, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (27, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (27, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/rt_realms",
+                   position: (27, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (28, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (28, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/rt_scopes",
+                 position: (28, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (28, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (28, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (28, 63),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "fileContents",
+                position: (28, 70),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (28, 86),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "iproute2",
+                       position: (28, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/etc/iproute2/rt_scopes",
+                   position: (28, 100),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (29, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (29, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "iproute2/rt_tables",
+                 position: (29, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (29, 48),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0644",
+                 position: (29, 56),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (29, 63),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Addition,
+               operands: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "fileContents",
+                  position: (29, 71),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "pkgs",
+                       position: (29, 87),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "iproute2",
+                         position: (29, 92),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/etc/iproute2/rt_tables",
+                     position: (29, 101),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "optionalString",
+                  position: (30, 71),
+                 },
+                 arguments: [
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (30, 87),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "rttablesExtraConfig",
+                        position: (30, 91),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    String {
+                     parts: [],
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "\n\n",
+                     position: (30, 119),
+                    },
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (30, 125),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "rttablesExtraConfig",
+                         position: (30, 129),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

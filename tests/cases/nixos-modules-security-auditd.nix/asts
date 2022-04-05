@@ -1,0 +1,421 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (6, 3),
+       },
+       Raw {
+        content: "security",
+        position: (6, 11),
+       },
+       Raw {
+        content: "auditd",
+        position: (6, 20),
+       },
+       Raw {
+        content: "enable",
+        position: (6, 27),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkEnableOption",
+       position: (6, 36),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "the Linux Audit daemon",
+          position: (6, 52),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (8, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "config",
+         position: (8, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "security",
+           position: (8, 24),
+          },
+          Raw {
+           content: "auditd",
+           position: (8, 33),
+          },
+          Raw {
+           content: "enable",
+           position: (8, 40),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "boot",
+             position: (9, 5),
+            },
+            Raw {
+             content: "kernelParams",
+             position: (9, 10),
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "audit=1",
+               position: (9, 28),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "environment",
+             position: (11, 5),
+            },
+            Raw {
+             content: "systemPackages",
+             position: (11, 17),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (11, 36),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "audit",
+                position: (11, 41),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (13, 5),
+            },
+            Raw {
+             content: "services",
+             position: (13, 13),
+            },
+            Raw {
+             content: "auditd",
+             position: (13, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (14, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Linux Audit daemon",
+                position: (14, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (15, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "basic.target",
+                  position: (15, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "unitConfig",
+                position: (17, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ConditionVirtualization",
+                   position: (18, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "!container",
+                   position: (18, 36),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ConditionSecurity",
+                   position: (19, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "audit",
+                     position: (19, 32),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "DefaultDependencies",
+                   position: (20, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "false",
+                 position: (20, 31),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "path",
+                position: (23, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (23, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "audit",
+                   position: (23, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (25, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStartPre",
+                   position: (26, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (26, 25),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "coreutils",
+                       position: (26, 30),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/mkdir -p /var/log/audit",
+                   position: (26, 40),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (27, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (27, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "audit",
+                       position: (27, 29),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/auditd -l -n -s nochange",
+                   position: (27, 35),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

@@ -1,0 +1,409 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "feedbackd",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (8, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (9, 5),
+           },
+           Raw {
+            content: "feedbackd",
+            position: (9, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (10, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (10, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable the feedbackd D-BUS service and udev rules.\n\nYour user needs to be in the `feedbackd` group to trigger effects.\n",
+                 position: (11, 1),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (15, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (15, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (16, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Which feedbackd package to use.\n",
+                    position: (17, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (19, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (19, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (19, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (20, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "feedbackd",
+                     position: (20, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (21, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (21, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.feedbackd",
+                      position: (21, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (25, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (25, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (25, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (25, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (26, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (26, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (26, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (26, 40),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (28, 5),
+             },
+             Raw {
+              content: "dbus",
+              position: (28, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (28, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (28, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (28, 36),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (29, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (29, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (29, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (29, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (29, 36),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (31, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (31, 11),
+             },
+             Raw {
+              content: "feedbackd",
+              position: (31, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

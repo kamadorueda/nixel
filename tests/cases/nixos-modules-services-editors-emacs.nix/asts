@@ -1,0 +1,1142 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "emacs",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "editorScript",
+        position: (9, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (9, 18),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeScriptBin",
+          position: (9, 23),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "emacseditor",
+          position: (9, 39),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "#!",
+          position: (10, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (10, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "runtimeShell",
+              position: (10, 14),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\nif [ -z \"$1\" ]; then\n  exec ",
+          position: (10, 27),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (12, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/emacsclient --create-frame --alternate-editor ",
+          position: (12, 26),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 79),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (12, 83),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/emacs\nelse\n  exec ",
+          position: (12, 91),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (14, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (14, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/emacsclient --alternate-editor ",
+          position: (14, 26),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (14, 64),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (14, 68),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/emacs \"$@\"\nfi\n",
+          position: (14, 76),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "desktopApplicationFile",
+        position: (18, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (18, 28),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeTextFile",
+          position: (18, 33),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (19, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "emacsclient.desktop",
+             position: (19, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "destination",
+             position: (20, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "/share/applications/emacsclient.desktop",
+             position: (20, 20),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "text",
+             position: (21, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "[Desktop Entry]\nName=Emacsclient\nGenericName=Text Editor\nComment=Edit text\nMimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;\nExec=emacseditor %F\nIcon=emacs\nType=Application\nTerminal=false\nCategories=Development;TextEditor;\nStartupWMClass=Emacs\nKeywords=Text;Editor;\n",
+             position: (22, 1),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (40, 3),
+        },
+        Raw {
+         content: "services",
+         position: (40, 11),
+        },
+        Raw {
+         content: "emacs",
+         position: (40, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (41, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (41, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (42, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (42, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (42, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (43, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (43, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (44, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable a user service for the Emacs daemon. Use <literal>emacsclient</literal> to connect to the\ndaemon. If <literal>true</literal>, <varname>services.emacs.install</varname> is\nconsidered <literal>true</literal>, whatever its value.\n",
+                 position: (45, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "install",
+            position: (51, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (51, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (52, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (52, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (52, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (53, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (53, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (54, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to install a user service for the Emacs daemon. Once\nthe service is started, use emacsclient to connect to the\ndaemon.\n\nThe service must be manually started for each user with\n\"systemctl --user start emacs\" or globally through\n<varname>services.emacs.enable</varname>.\n",
+                 position: (55, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "package",
+            position: (66, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (66, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (67, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (67, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (67, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (68, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (68, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "emacs",
+                  position: (68, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (69, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (69, 21),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.emacs",
+                   position: (69, 40),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (70, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "emacs derivation to use.\n",
+                 position: (71, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "defaultEditor",
+            position: (75, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (75, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (76, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (76, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (76, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (77, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (77, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (78, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "When enabled, configures emacsclient to be the default editor\nusing the EDITOR environment variable.\n",
+                 position: (79, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (85, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (85, 12),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: LogicalOr,
+         operands: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (85, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (85, 22),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (85, 32),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "install",
+              position: (85, 36),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (86, 5),
+             },
+             Raw {
+              content: "user",
+              position: (86, 13),
+             },
+             Raw {
+              content: "services",
+              position: (86, 18),
+             },
+             Raw {
+              content: "emacs",
+              position: (86, 27),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Update,
+            operands: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (87, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Emacs: the extensible, self-documenting text editor",
+                   position: (87, 22),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "serviceConfig",
+                   position: (89, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "Type",
+                      position: (90, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "forking",
+                      position: (90, 17),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ExecStart",
+                      position: (91, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (91, 24),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "bash",
+                          position: (91, 29),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "/bin/bash -c 'source ",
+                      position: (91, 34),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "config",
+                        position: (91, 57),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "system",
+                          position: (91, 64),
+                         },
+                         Raw {
+                          content: "build",
+                          position: (91, 71),
+                         },
+                         Raw {
+                          content: "setEnvironment",
+                          position: (91, 77),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "; exec ",
+                      position: (91, 92),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (91, 101),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "package",
+                          position: (91, 105),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "/bin/emacs --daemon'",
+                      position: (91, 113),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ExecStop",
+                      position: (92, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (92, 23),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "package",
+                          position: (92, 27),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "/bin/emacsclient --eval (kill-emacs)",
+                      position: (92, 35),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "Restart",
+                      position: (93, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "always",
+                      position: (93, 20),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "optionalAttrs",
+               position: (95, 10),
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (95, 24),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "enable",
+                   position: (95, 28),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wantedBy",
+                     position: (95, 37),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "default.target",
+                       position: (95, 51),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (97, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (97, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (97, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (97, 40),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "editorScript",
+              position: (97, 48),
+             },
+             Variable {
+              identifier: "desktopApplicationFile",
+              position: (97, 61),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (99, 5),
+             },
+             Raw {
+              content: "variables",
+              position: (99, 17),
+             },
+             Raw {
+              content: "EDITOR",
+              position: (99, 27),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (99, 36),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (99, 41),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultEditor",
+                 position: (99, 45),
+                },
+               ],
+              },
+              default: None,
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOverride",
+               position: (99, 60),
+              },
+              arguments: [
+               Int {
+                value: 900,
+                position: (99, 71),
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: Variable {
+                   identifier: "editorScript",
+                   position: (99, 78),
+                  },
+                 },
+                 Raw {
+                  content: "/bin/emacseditor",
+                  position: (99, 91),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (102, 3),
+        },
+        Raw {
+         content: "doc",
+         position: (102, 8),
+        },
+       ],
+      },
+      Path {
+       parts: [
+        Raw {
+         content: "./emacs.xml",
+         position: (102, 14),
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

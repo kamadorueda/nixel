@@ -1,0 +1,1502 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "spamassassin",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "spamassassin-local-cf",
+        position: (7, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (7, 27),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (7, 32),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "local.cf",
+          position: (7, 43),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (7, 53),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "config",
+           position: (7, 57),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (12, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (14, 5),
+           },
+           Raw {
+            content: "spamassassin",
+            position: (14, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (15, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (15, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "the SpamAssassin daemon",
+                 position: (15, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "debug",
+               position: (17, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (17, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (18, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (18, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (18, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (19, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (19, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to run the SpamAssassin daemon in debug mode",
+                    position: (20, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "config",
+               position: (23, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (23, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (24, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (24, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (24, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (25, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The SpamAssassin local.cf config\n\nIf you are using this configuration:\n  add_header all Status _YESNO_, score=_SCORE_ required=_REQD_ tests=_TESTS_ autolearn=_AUTOLEARN_ version=_VERSION_\n\nThen you can Use this sieve filter:\n  require [\"fileinto\", \"reject\", \"envelope\"];\n\n  if header :contains \"X-Spam-Flag\" \"YES\" {\n    fileinto \"spam\";\n  }\n\nOr this procmail filter:\n  :0:\n  * ^X-Spam-Flag: YES\n  /var/vpopmail/domains/lastlog.de/js/.maildir/.spam/new\n\nTo filter your messages based on the additional mail headers added by spamassassin.\n",
+                    position: (26, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (45, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "#rewrite_header Subject [***** SPAM _SCORE_ *****]\nrequired_score          5.0\nuse_bayes               1\nbayes_auto_learn        1\nadd_header all Status _YESNO_, score=_SCORE_ required=_REQD_ tests=_TESTS_ autolearn=_AUTOLEARN_ version=_VERSION_\n",
+                    position: (46, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (52, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "initPreConf",
+               position: (55, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (55, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (56, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (56, 21),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "either",
+                    position: (56, 28),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "str",
+                     position: (56, 35),
+                    },
+                    Variable {
+                     identifier: "path",
+                     position: (56, 39),
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (57, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The SpamAssassin init.pre config.",
+                    position: (57, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "apply",
+                    position: (58, 9),
+                   },
+                  ],
+                 },
+                 Function {
+                  argument: Some(
+                   "val",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: IfThenElse {
+                   predicate: FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "builtins",
+                      position: (58, 25),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "isPath",
+                        position: (58, 34),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "val",
+                      position: (58, 41),
+                     },
+                    ],
+                   },
+                   then: Variable {
+                    identifier: "val",
+                    position: (58, 50),
+                   },
+                   else_: FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (58, 59),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "writeText",
+                        position: (58, 64),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "init.pre",
+                        position: (58, 75),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "val",
+                      position: (58, 85),
+                     },
+                    ],
+                   },
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "#\n# to update this list, run this command in the rules directory:\n# grep 'loadplugin.*Mail::SpamAssassin::Plugin::.*' -o -h * | sort | uniq\n#\n\n#loadplugin Mail::SpamAssassin::Plugin::AccessDB\n#loadplugin Mail::SpamAssassin::Plugin::AntiVirus\nloadplugin Mail::SpamAssassin::Plugin::AskDNS\n# loadplugin Mail::SpamAssassin::Plugin::ASN\nloadplugin Mail::SpamAssassin::Plugin::AutoLearnThreshold\n#loadplugin Mail::SpamAssassin::Plugin::AWL\nloadplugin Mail::SpamAssassin::Plugin::Bayes\nloadplugin Mail::SpamAssassin::Plugin::BodyEval\nloadplugin Mail::SpamAssassin::Plugin::Check\n#loadplugin Mail::SpamAssassin::Plugin::DCC\nloadplugin Mail::SpamAssassin::Plugin::DKIM\nloadplugin Mail::SpamAssassin::Plugin::DNSEval\nloadplugin Mail::SpamAssassin::Plugin::FreeMail\nloadplugin Mail::SpamAssassin::Plugin::Hashcash\nloadplugin Mail::SpamAssassin::Plugin::HeaderEval\nloadplugin Mail::SpamAssassin::Plugin::HTMLEval\nloadplugin Mail::SpamAssassin::Plugin::HTTPSMismatch\nloadplugin Mail::SpamAssassin::Plugin::ImageInfo\nloadplugin Mail::SpamAssassin::Plugin::MIMEEval\nloadplugin Mail::SpamAssassin::Plugin::MIMEHeader\n# loadplugin Mail::SpamAssassin::Plugin::PDFInfo\n#loadplugin Mail::SpamAssassin::Plugin::PhishTag\nloadplugin Mail::SpamAssassin::Plugin::Pyzor\nloadplugin Mail::SpamAssassin::Plugin::Razor2\n# loadplugin Mail::SpamAssassin::Plugin::RelayCountry\nloadplugin Mail::SpamAssassin::Plugin::RelayEval\nloadplugin Mail::SpamAssassin::Plugin::ReplaceTags\n# loadplugin Mail::SpamAssassin::Plugin::Rule2XSBody\n# loadplugin Mail::SpamAssassin::Plugin::Shortcircuit\nloadplugin Mail::SpamAssassin::Plugin::SpamCop\nloadplugin Mail::SpamAssassin::Plugin::SPF\n#loadplugin Mail::SpamAssassin::Plugin::TextCat\n# loadplugin Mail::SpamAssassin::Plugin::TxRep\nloadplugin Mail::SpamAssassin::Plugin::URIDetail\nloadplugin Mail::SpamAssassin::Plugin::URIDNSBL\nloadplugin Mail::SpamAssassin::Plugin::URIEval\n# loadplugin Mail::SpamAssassin::Plugin::URILocalBL\nloadplugin Mail::SpamAssassin::Plugin::VBounce\nloadplugin Mail::SpamAssassin::Plugin::WhiteListSubject\nloadplugin Mail::SpamAssassin::Plugin::WLBLEval\n",
+                    position: (61, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (111, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (111, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (111, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (111, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (112, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (112, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "mail/spamassassin/init.pre",
+                 position: (112, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "source",
+              position: (112, 50),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (112, 59),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "initPreConf",
+               position: (112, 63),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (113, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (113, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "mail/spamassassin/local.cf",
+                 position: (113, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "source",
+              position: (113, 50),
+             },
+            ],
+           },
+           Variable {
+            identifier: "spamassassin-local-cf",
+            position: (113, 59),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (116, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (116, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (116, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "spamassassin",
+                 position: (116, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (118, 5),
+             },
+             Raw {
+              content: "users",
+              position: (118, 11),
+             },
+             Raw {
+              content: "spamd",
+              position: (118, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (119, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Spam Assassin Daemon",
+                 position: (119, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (120, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (120, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (120, 20),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (120, 24),
+                 },
+                 Raw {
+                  content: "spamd",
+                  position: (120, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (121, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "spamd",
+                 position: (121, 16),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (124, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (124, 11),
+             },
+             Raw {
+              content: "spamd",
+              position: (124, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "gid",
+                 position: (125, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (125, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (125, 20),
+                 },
+                 Raw {
+                  content: "gids",
+                  position: (125, 24),
+                 },
+                 Raw {
+                  content: "spamd",
+                  position: (125, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (128, 5),
+             },
+             Raw {
+              content: "services",
+              position: (128, 13),
+             },
+             Raw {
+              content: "sa-update",
+              position: (128, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wants",
+                 position: (130, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network-online.target",
+                   position: (130, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (131, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network-online.target",
+                   position: (131, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (133, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Type",
+                    position: (134, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "oneshot",
+                    position: (134, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (135, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamd",
+                    position: (135, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (136, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamd",
+                    position: (136, 18),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "StateDirectory",
+                    position: (137, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamassassin",
+                    position: (137, 27),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStartPost",
+                    position: (138, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "+",
+                    position: (138, 26),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (138, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "systemd",
+                        position: (138, 34),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/systemctl -q --no-block try-reload-or-restart spamd.service",
+                    position: (138, 42),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "script",
+                 position: (141, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "set +e\n",
+                 position: (142, 1),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (143, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "spamassassin",
+                     position: (143, 16),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/sa-update --verbose --gpghomedir=/var/lib/spamassassin/sa-update-keys/\nrc=$?\nset -e\n\nif [[ $rc -gt 1 ]]; then\n  # sa-update failed.\n  exit $rc\nfi\n\nif [[ $rc -eq 1 ]]; then\n  # No update was available, exit successfully.\n  exit 0\nfi\n\n# An update was available and installed. Compile the rules.\n",
+                 position: (143, 29),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (158, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "spamassassin",
+                     position: (158, 16),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/sa-compile\n",
+                 position: (158, 29),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (162, 5),
+             },
+             Raw {
+              content: "timers",
+              position: (162, 13),
+             },
+             Raw {
+              content: "sa-update",
+              position: (162, 20),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (163, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "sa-update-service",
+                 position: (163, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "partOf",
+                 position: (164, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "sa-update.service",
+                   position: (164, 24),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (165, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "timers.target",
+                   position: (165, 24),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "timerConfig",
+                 position: (166, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "OnCalendar",
+                    position: (167, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "1:*",
+                    position: (167, 23),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Persistent",
+                    position: (168, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (168, 22),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (172, 5),
+             },
+             Raw {
+              content: "services",
+              position: (172, 13),
+             },
+             Raw {
+              content: "spamd",
+              position: (172, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (173, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "SpamAssassin Server",
+                 position: (173, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (175, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (175, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wants",
+                 position: (176, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "sa-update.service",
+                   position: (176, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (177, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (178, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "sa-update.service",
+                   position: (179, 10),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (182, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (183, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamd",
+                    position: (183, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (184, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamd",
+                    position: (184, 18),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (185, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "+",
+                    position: (185, 22),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (185, 25),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "spamassassin",
+                        position: (185, 30),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/spamd ",
+                    position: (185, 43),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "optionalString",
+                      position: (185, 56),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (185, 71),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "debug",
+                          position: (185, 75),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "-D",
+                         position: (185, 82),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: " --username=spamd --groupname=spamd --virtual-config-dir=%S/spamassassin/user-%u --allow-tell --pidfile=/run/spamd.pid",
+                    position: (185, 86),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecReload",
+                    position: (186, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "+",
+                    position: (186, 23),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (186, 26),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "coreutils",
+                        position: (186, 31),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/kill -HUP $MAINPID",
+                    position: (186, 41),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "StateDirectory",
+                    position: (187, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "spamassassin",
+                    position: (187, 27),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

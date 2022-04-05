@@ -1,0 +1,411 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "power-profiles-daemon",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "package",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (7, 13),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "power-profiles-daemon",
+         position: (7, 18),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (14, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (16, 5),
+           },
+           Raw {
+            content: "power-profiles-daemon",
+            position: (16, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (18, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (18, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (19, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (19, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (19, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (20, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (21, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable power-profiles-daemon, a DBus daemon that allows\nchanging system behavior based upon user-selected power profiles.\n",
+                    position: (22, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (34, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (34, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (34, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (34, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (36, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (37, 9),
+                  },
+                 ],
+                },
+                UnaryOperation {
+                 operator: Not,
+                 operand: PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (37, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "services",
+                     position: (37, 29),
+                    },
+                    Raw {
+                     content: "tlp",
+                     position: (37, 38),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (37, 42),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (38, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "You have set services.power-profiles-daemon.enable = true;\nwhich conflicts with services.tlp.enable = true;\n",
+                   position: (39, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (45, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (45, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (45, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (47, 5),
+             },
+             Raw {
+              content: "dbus",
+              position: (47, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (47, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (47, 32),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (49, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (49, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (49, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (49, 32),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (51, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (51, 13),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "package",
+              position: (51, 26),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,569 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (6, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (6, 36),
+        },
+        Raw {
+         content: "process",
+         position: (6, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (7, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (7, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (7, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "process-exporter.yaml",
+          position: (7, 32),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "builtins",
+          position: (7, 56),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "toJSON",
+            position: (7, 65),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (7, 72),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "settings",
+             position: (7, 76),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (10, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9256,
+       position: (10, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "extraOpts",
+         position: (11, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "settings",
+            position: (12, 5),
+           },
+           Raw {
+            content: "process_names",
+            position: (12, 14),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (12, 30),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (13, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (13, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (13, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (13, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "anything",
+                    position: (13, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (14, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (15, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (15, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "[\n  # Remove nix store path from process name\n  { name = \"{{.Matches.Wrapped}} {{ .Matches.Args }}\"; cmdline = [ \"^/nix/store[^ ]*/(?P<Wrapped>[^ /]*) (?P<Args>.*)\" ]; }\n]\n",
+                   position: (16, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (21, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "All settings expressed as an Nix attrset.\n\nCheck the official documentation for the corresponding YAML\nsettings that can all be used here: <link xlink:href=\"https://github.com/ncabatoff/process-exporter\" />\n",
+                 position: (22, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (29, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "serviceConfig",
+            position: (30, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "DynamicUser",
+               position: (31, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "false",
+             position: (31, 21),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ExecStart",
+               position: (32, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (33, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (33, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "prometheus-process-exporter",
+                   position: (33, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/process-exporter \\\n  --web.listen-address ",
+               position: (33, 44),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (34, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listenAddress",
+                   position: (34, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: ":",
+               position: (34, 52),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (34, 55),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (34, 64),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "port",
+                     position: (34, 68),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  --config.path ",
+               position: (34, 73),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "configFile",
+                position: (35, 27),
+               },
+              },
+              Raw {
+               content: " \\\n  ",
+               position: (35, 38),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (36, 13),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: " \\\n  ",
+                    position: (36, 31),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (36, 40),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "extraFlags",
+                     position: (36, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (36, 55),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "NoNewPrivileges",
+               position: (38, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (38, 25),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ProtectHome",
+               position: (39, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (39, 21),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ProtectSystem",
+               position: (40, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (40, 23),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ProtectKernelTunables",
+               position: (41, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (41, 31),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ProtectKernelModules",
+               position: (42, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (42, 30),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ProtectControlGroups",
+               position: (43, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (43, 30),
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

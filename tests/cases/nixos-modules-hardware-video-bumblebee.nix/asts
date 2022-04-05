@@ -1,0 +1,1259 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (5, 16),
+        },
+        Raw {
+         content: "bumblebee",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "kernel",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (7, 19),
+        },
+        Raw {
+         content: "kernelPackages",
+         position: (7, 24),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "useNvidia",
+        position: (9, 3),
+       },
+      ],
+     },
+     BinaryOperation {
+      operator: EqualTo,
+      operands: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (9, 15),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "driver",
+           position: (9, 19),
+          },
+         ],
+        },
+        default: None,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "nvidia",
+          position: (9, 30),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "bumblebee",
+        position: (11, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (11, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "bumblebee",
+          position: (11, 20),
+         },
+         Raw {
+          content: "override",
+          position: (11, 30),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "useNvidia",
+            position: (12, 13),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "useDisplayDevice",
+             position: (13, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (13, 24),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "connectDisplay",
+              position: (13, 28),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "useBbswitch",
+        position: (16, 3),
+       },
+      ],
+     },
+     BinaryOperation {
+      operator: LogicalOr,
+      operands: [
+       BinaryOperation {
+        operator: EqualTo,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (16, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "pmMethod",
+             position: (16, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         String {
+          parts: [
+           Raw {
+            content: "bbswitch",
+            position: (16, 34),
+           },
+          ],
+         },
+        ],
+       },
+       BinaryOperation {
+        operator: LogicalAnd,
+        operands: [
+         BinaryOperation {
+          operator: EqualTo,
+          operands: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (16, 47),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "pmMethod",
+               position: (16, 51),
+              },
+             ],
+            },
+            default: None,
+           },
+           String {
+            parts: [
+             Raw {
+              content: "auto",
+              position: (16, 64),
+             },
+            ],
+           },
+          ],
+         },
+         Variable {
+          identifier: "useNvidia",
+          position: (16, 73),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "primus",
+        position: (18, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (18, 12),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "primus",
+          position: (18, 17),
+         },
+         Raw {
+          content: "override",
+          position: (18, 24),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "useNvidia",
+            position: (19, 13),
+           },
+          ],
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (26, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "hardware",
+            position: (27, 5),
+           },
+           Raw {
+            content: "bumblebee",
+            position: (27, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (29, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (29, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (30, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (30, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (31, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (31, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (31, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (32, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Enable the bumblebee daemon to manage Optimus hybrid video cards.\nThis should power off secondary GPU until its use is requested\nby running an application with optirun.\n",
+                    position: (33, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "group",
+               position: (39, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (39, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (40, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "wheel",
+                    position: (40, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "video",
+                    position: (41, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (42, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (42, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Group for bumblebee socket",
+                    position: (43, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "connectDisplay",
+               position: (46, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (46, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (47, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (47, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (48, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (48, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (48, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (49, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Set to true if you intend to connect your discrete card to a\nmonitor. This option will set up your Nvidia card for EDID\ndiscovery and to turn on the monitor signal.\n\nOnly nvidia driver is supported so far.\n",
+                    position: (50, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "driver",
+               position: (58, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (58, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "nvidia",
+                    position: (59, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (60, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (60, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enum",
+                      position: (60, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "nvidia",
+                        position: (60, 30),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "nouveau",
+                        position: (60, 39),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (61, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Set driver used by bumblebeed. Supported are nouveau and nvidia.\n",
+                    position: (62, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "pmMethod",
+               position: (66, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (66, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (67, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "auto",
+                    position: (67, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (68, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (68, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enum",
+                      position: (68, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "auto",
+                        position: (68, 30),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "bbswitch",
+                        position: (68, 37),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "switcheroo",
+                        position: (68, 48),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "none",
+                        position: (68, 61),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (69, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Set preferred power management method for unused card.\n",
+                    position: (70, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (77, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (77, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (77, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (77, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (78, 5),
+             },
+             Raw {
+              content: "blacklistedKernelModules",
+              position: (78, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "nvidia-drm",
+                position: (78, 40),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "nvidia",
+                position: (78, 53),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "nouveau",
+                position: (78, 62),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (79, 5),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (79, 10),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optional",
+             position: (79, 26),
+            },
+            arguments: [
+             Variable {
+              identifier: "useBbswitch",
+              position: (79, 35),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "bbswitch",
+                position: (79, 48),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (80, 5),
+             },
+             Raw {
+              content: "extraModulePackages",
+              position: (80, 10),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             FunctionApplication {
+              function: Variable {
+               identifier: "optional",
+               position: (80, 32),
+              },
+              arguments: [
+               Variable {
+                identifier: "useBbswitch",
+                position: (80, 41),
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "kernel",
+                 position: (80, 53),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "bbswitch",
+                   position: (80, 60),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "optional",
+               position: (80, 72),
+              },
+              arguments: [
+               Variable {
+                identifier: "useNvidia",
+                position: (80, 81),
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "kernel",
+                 position: (80, 91),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nvidia_x11",
+                   position: (80, 98),
+                  },
+                  Raw {
+                   content: "bin",
+                   position: (80, 109),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (82, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (82, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "bumblebee",
+              position: (82, 36),
+             },
+             Variable {
+              identifier: "primus",
+              position: (82, 46),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (84, 5),
+             },
+             Raw {
+              content: "services",
+              position: (84, 13),
+             },
+             Raw {
+              content: "bumblebeed",
+              position: (84, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (85, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Bumblebee Hybrid Graphics Switcher",
+                 position: (85, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (86, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (86, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "before",
+                 position: (87, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "display-manager.service",
+                   position: (87, 19),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (88, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (89, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "bumblebee",
+                     position: (89, 24),
+                    },
+                   },
+                   Raw {
+                    content: "/bin/bumblebeed --use-syslog -g ",
+                    position: (89, 34),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (89, 68),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "group",
+                        position: (89, 72),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: " --driver ",
+                    position: (89, 78),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (89, 90),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "driver",
+                        position: (89, 94),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: " --pm-method ",
+                    position: (89, 101),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (89, 116),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "pmMethod",
+                        position: (89, 120),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

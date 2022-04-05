@@ -1,0 +1,473 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (5, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (9, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (9, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "environment",
+         position: (9, 16),
+        },
+        Raw {
+         content: "freetds",
+         position: (9, 28),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (15, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (17, 5),
+           },
+           Raw {
+            content: "freetds",
+            position: (17, 17),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (17, 27),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (18, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (18, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "attrsOf",
+                   position: (18, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (18, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (18, 34),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (19, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (20, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (20, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "{ MYDATABASE = ",
+                   position: (21, 1),
+                  },
+                  Raw {
+                   content: "''",
+                   position: (21, 24),
+                  },
+                  Raw {
+                   content: "\n    host = 10.0.2.100\n    port = 1433\n    tds version = 7.2\n  ",
+                   position: (21, 27),
+                  },
+                  Raw {
+                   content: "''",
+                   position: (25, 11),
+                  },
+                  Raw {
+                   content: ";\n}\n",
+                   position: (25, 14),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (28, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Configure freetds database entries. Each attribute denotes\na section within freetds.conf, and the value (a string) is the config\ncontent for that section. When at least one entry is configured\nthe global environment variables FREETDSCONF, FREETDS and SYBASE\nwill be configured to allow the programs that use freetds to find the\nlibrary and config.\n",
+                 position: (30, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (44, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (44, 12),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: GreaterThan,
+         operands: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "length",
+            position: (44, 18),
+           },
+           arguments: [
+            FunctionApplication {
+             function: Variable {
+              identifier: "attrNames",
+              position: (44, 26),
+             },
+             arguments: [
+              Variable {
+               identifier: "cfg",
+               position: (44, 36),
+              },
+             ],
+            },
+           ],
+          },
+          Int {
+           value: 0,
+           position: (44, 43),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (46, 5),
+             },
+             Raw {
+              content: "variables",
+              position: (46, 17),
+             },
+             Raw {
+              content: "FREETDSCONF",
+              position: (46, 27),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/etc/freetds.conf",
+              position: (46, 42),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (47, 5),
+             },
+             Raw {
+              content: "variables",
+              position: (47, 17),
+             },
+             Raw {
+              content: "FREETDS",
+              position: (47, 27),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/etc/freetds.conf",
+              position: (47, 38),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (48, 5),
+             },
+             Raw {
+              content: "variables",
+              position: (48, 17),
+             },
+             Raw {
+              content: "SYBASE",
+              position: (48, 27),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (48, 39),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "freetds",
+                  position: (48, 44),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (50, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (50, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "freetds.conf",
+                 position: (50, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "text",
+                 position: (50, 40),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "concatStrings",
+                position: (51, 8),
+               },
+               arguments: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mapAttrsToList",
+                  position: (51, 23),
+                 },
+                 arguments: [
+                  Function {
+                   argument: Some(
+                    "name",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: Function {
+                    argument: Some(
+                     "value",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: String {
+                     parts: [
+                      Raw {
+                       content: "[",
+                       position: (53, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "name",
+                        position: (53, 12),
+                       },
+                      },
+                      Raw {
+                       content: "]\n",
+                       position: (53, 17),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "value",
+                        position: (54, 11),
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (54, 17),
+                      },
+                     ],
+                    },
+                   },
+                  },
+                  Variable {
+                   identifier: "cfg",
+                   position: (56, 9),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

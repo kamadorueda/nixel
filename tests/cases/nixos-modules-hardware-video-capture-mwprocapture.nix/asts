@@ -1,0 +1,343 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (7, 16),
+        },
+        Raw {
+         content: "mwProCapture",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "kernelPackages",
+        position: (9, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (9, 20),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (9, 27),
+        },
+        Raw {
+         content: "kernelPackages",
+         position: (9, 32),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (15, 3),
+        },
+        Raw {
+         content: "hardware",
+         position: (15, 11),
+        },
+        Raw {
+         content: "mwProCapture",
+         position: (15, 20),
+        },
+        Raw {
+         content: "enable",
+         position: (15, 33),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkEnableOption",
+        position: (15, 42),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "Magewell Pro Capture family kernel module",
+           position: (15, 58),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (17, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (17, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (17, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (17, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (19, 5),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (19, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "ProCapture",
+                position: (19, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (21, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (21, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "kernelPackages",
+               position: (21, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mwprocapture",
+                 position: (21, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (23, 5),
+             },
+             Raw {
+              content: "extraModulePackages",
+              position: (23, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "kernelPackages",
+               position: (23, 34),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mwprocapture",
+                 position: (23, 49),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (25, 5),
+             },
+             Raw {
+              content: "extraModprobeConfig",
+              position: (25, 10),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "# Set the png picture to be displayed when no input signal is detected.\noptions ProCapture nosignal_file=",
+              position: (26, 1),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "kernelPackages",
+                position: (27, 42),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "mwprocapture",
+                  position: (27, 57),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/res/NoSignal.png\n\n# Set the png picture to be displayed when an unsupported input signal is detected.\noptions ProCapture unsupported_file=",
+              position: (27, 70),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "kernelPackages",
+                position: (30, 45),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "mwprocapture",
+                  position: (30, 60),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/res/Unsupported.png\n\n# Set the png picture to be displayed when an loking input signal is detected.\noptions ProCapture locking_file=",
+              position: (30, 73),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "kernelPackages",
+                position: (33, 41),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "mwprocapture",
+                  position: (33, 56),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/res/Locking.png\n\n# Message signaled interrupts switch\n#options ProCapture disable_msi=0\n\n# Set the debug level\n#options ProCapture debug_level=0\n\n# Force init switch eeprom\n#options ProCapture init_switch_eeprom=0\n\n# Min frame interval for VIDIOC_ENUM_FRAMEINTERVALS (default: 166666(100ns))\n#options ProCapture enum_frameinterval_min=166666\n\n# VIDIOC_ENUM_FRAMESIZES type (1: DISCRETE; 2: STEPWISE; otherwise: CONTINUOUS )\n#options ProCapture enum_framesizes_type=0\n\n# Parameters for internal usage\n#options ProCapture internal_params=\"\"\n",
+              position: (33, 69),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

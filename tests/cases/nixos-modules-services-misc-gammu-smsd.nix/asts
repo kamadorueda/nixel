@@ -1,0 +1,4696 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (5, 16),
+        },
+        Raw {
+         content: "gammu-smsd",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (7, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (7, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (7, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "gammu-smsd.conf",
+          position: (7, 32),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "[gammu]\nDevice = ",
+          position: (8, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (9, 16),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "device",
+              position: (9, 20),
+             },
+             Raw {
+              content: "path",
+              position: (9, 27),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\nConnection = ",
+          position: (9, 32),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (10, 20),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "device",
+              position: (10, 24),
+             },
+             Raw {
+              content: "connection",
+              position: (10, 31),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\nSynchronizeTime = ",
+          position: (10, 42),
+         },
+         Expression {
+          expression: IfThenElse {
+           predicate: PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (11, 28),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "device",
+               position: (11, 32),
+              },
+              Raw {
+               content: "synchronizeTime",
+               position: (11, 39),
+              },
+             ],
+            },
+            default: None,
+           },
+           then: String {
+            parts: [
+             Raw {
+              content: "yes",
+              position: (11, 61),
+             },
+            ],
+           },
+           else_: String {
+            parts: [
+             Raw {
+              content: "no",
+              position: (11, 72),
+             },
+            ],
+           },
+          },
+         },
+         Raw {
+          content: "\nLogFormat = ",
+          position: (11, 76),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 19),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "log",
+              position: (12, 23),
+             },
+             Raw {
+              content: "format",
+              position: (12, 27),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (12, 34),
+         },
+         Expression {
+          expression: IfThenElse {
+           predicate: BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (13, 11),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "device",
+                 position: (13, 15),
+                },
+                Raw {
+                 content: "pin",
+                 position: (13, 22),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "null",
+              position: (13, 29),
+             },
+            ],
+           },
+           then: String {
+            parts: [
+             Raw {
+              content: "PIN = ",
+              position: (13, 41),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (13, 49),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "device",
+                  position: (13, 53),
+                 },
+                 Raw {
+                  content: "pin",
+                  position: (13, 60),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+           else_: String {
+            parts: [],
+           },
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (13, 74),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (14, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "extraConfig",
+              position: (14, 11),
+             },
+             Raw {
+              content: "gammu",
+              position: (14, 23),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n\n\n[smsd]\nLogFile = ",
+          position: (14, 29),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (18, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "log",
+              position: (18, 21),
+             },
+             Raw {
+              content: "file",
+              position: (18, 25),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\nService = ",
+          position: (18, 30),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (19, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "backend",
+              position: (19, 21),
+             },
+             Raw {
+              content: "service",
+              position: (19, 29),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n\n",
+          position: (19, 37),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (21, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (21, 23),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "backend",
+                  position: (21, 27),
+                 },
+                 Raw {
+                  content: "service",
+                  position: (21, 35),
+                 },
+                ],
+               },
+               default: None,
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "files",
+                 position: (21, 47),
+                },
+               ],
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "InboxPath = ",
+               position: (22, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (22, 21),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (22, 25),
+                  },
+                  Raw {
+                   content: "files",
+                   position: (22, 33),
+                  },
+                  Raw {
+                   content: "inboxPath",
+                   position: (22, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\nOutboxPath = ",
+               position: (22, 49),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (23, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (23, 26),
+                  },
+                  Raw {
+                   content: "files",
+                   position: (23, 34),
+                  },
+                  Raw {
+                   content: "outboxPath",
+                   position: (23, 40),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\nSentSMSPath = ",
+               position: (23, 51),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (24, 23),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (24, 27),
+                  },
+                  Raw {
+                   content: "files",
+                   position: (24, 35),
+                  },
+                  Raw {
+                   content: "sentSMSPath",
+                   position: (24, 41),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\nErrorSMSPath = ",
+               position: (24, 53),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (25, 24),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (25, 28),
+                  },
+                  Raw {
+                   content: "files",
+                   position: (25, 36),
+                  },
+                  Raw {
+                   content: "errorSMSPath",
+                   position: (25, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (25, 55),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n\n",
+          position: (26, 8),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (28, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: LogicalAnd,
+             operands: [
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (28, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "backend",
+                    position: (28, 27),
+                   },
+                   Raw {
+                    content: "service",
+                    position: (28, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "sql",
+                   position: (28, 47),
+                  },
+                 ],
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (28, 55),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "backend",
+                    position: (28, 59),
+                   },
+                   Raw {
+                    content: "sql",
+                    position: (28, 67),
+                   },
+                   Raw {
+                    content: "driver",
+                    position: (28, 71),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "sqlite",
+                   position: (28, 82),
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "Driver = ",
+               position: (29, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (29, 18),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (29, 22),
+                  },
+                  Raw {
+                   content: "sql",
+                   position: (29, 30),
+                  },
+                  Raw {
+                   content: "driver",
+                   position: (29, 34),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\nDBDir = ",
+               position: (29, 41),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (30, 17),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (30, 21),
+                  },
+                  Raw {
+                   content: "sql",
+                   position: (30, 29),
+                  },
+                  Raw {
+                   content: "database",
+                   position: (30, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (30, 42),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n\n",
+          position: (31, 8),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (33, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: LogicalAnd,
+             operands: [
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (33, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "backend",
+                    position: (33, 27),
+                   },
+                   Raw {
+                    content: "service",
+                    position: (33, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "sql",
+                   position: (33, 47),
+                  },
+                 ],
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (33, 55),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "backend",
+                    position: (33, 59),
+                   },
+                   Raw {
+                    content: "sql",
+                    position: (33, 67),
+                   },
+                   Raw {
+                    content: "driver",
+                    position: (33, 71),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "native_pgsql",
+                   position: (33, 82),
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+            With {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (34, 12),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "backend",
+                 position: (34, 16),
+                },
+               ],
+              },
+              default: None,
+             },
+             target: String {
+              parts: [
+               Raw {
+                content: "Driver = ",
+                position: (35, 1),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "sql",
+                  position: (35, 20),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "driver",
+                    position: (35, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (35, 31),
+               },
+               Expression {
+                expression: IfThenElse {
+                 predicate: BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "sql",
+                     position: (36, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (36, 19),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (36, 30),
+                   },
+                  ],
+                 },
+                 then: String {
+                  parts: [
+                   Raw {
+                    content: "Database = ",
+                    position: (36, 42),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "sql",
+                      position: (36, 55),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "database",
+                        position: (36, 59),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                 else_: String {
+                  parts: [],
+                 },
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (36, 78),
+               },
+               Expression {
+                expression: IfThenElse {
+                 predicate: BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "sql",
+                     position: (37, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "host",
+                       position: (37, 19),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (37, 27),
+                   },
+                  ],
+                 },
+                 then: String {
+                  parts: [
+                   Raw {
+                    content: "Host = ",
+                    position: (37, 39),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "sql",
+                      position: (37, 48),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "host",
+                        position: (37, 52),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                 else_: String {
+                  parts: [],
+                 },
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (37, 67),
+               },
+               Expression {
+                expression: IfThenElse {
+                 predicate: BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "sql",
+                     position: (38, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "user",
+                       position: (38, 19),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (38, 27),
+                   },
+                  ],
+                 },
+                 then: String {
+                  parts: [
+                   Raw {
+                    content: "User = ",
+                    position: (38, 39),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "sql",
+                      position: (38, 48),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "user",
+                        position: (38, 52),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                 else_: String {
+                  parts: [],
+                 },
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (38, 67),
+               },
+               Expression {
+                expression: IfThenElse {
+                 predicate: BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "sql",
+                     position: (39, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "password",
+                       position: (39, 19),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (39, 31),
+                   },
+                  ],
+                 },
+                 then: String {
+                  parts: [
+                   Raw {
+                    content: "Password = ",
+                    position: (39, 43),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "sql",
+                      position: (39, 56),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "password",
+                        position: (39, 60),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                 else_: String {
+                  parts: [],
+                 },
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (39, 79),
+               },
+              ],
+             },
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n\n",
+          position: (40, 11),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (42, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "extraConfig",
+              position: (42, 11),
+             },
+             Raw {
+              content: "smsd",
+              position: (42, 23),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (42, 28),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "initDBDir",
+        position: (45, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "share/doc/gammu/examples/sql",
+        position: (45, 16),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "gammuPackage",
+        position: (47, 3),
+       },
+      ],
+     },
+     With {
+      expression: PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (47, 23),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "backend",
+          position: (47, 27),
+         },
+        ],
+       },
+       default: None,
+      },
+      target: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (47, 37),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "gammu",
+           position: (47, 42),
+          },
+          Raw {
+           content: "override",
+           position: (47, 48),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "dbiSupport",
+              position: (48, 5),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: LogicalAnd,
+            operands: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               Variable {
+                identifier: "service",
+                position: (48, 19),
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "sql",
+                  position: (48, 31),
+                 },
+                ],
+               },
+              ],
+             },
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "sql",
+                 position: (48, 39),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "driver",
+                   position: (48, 43),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "sqlite",
+                  position: (48, 54),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "postgresSupport",
+              position: (49, 5),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: LogicalAnd,
+            operands: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               Variable {
+                identifier: "service",
+                position: (49, 24),
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "sql",
+                  position: (49, 36),
+                 },
+                ],
+               },
+              ],
+             },
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "sql",
+                 position: (49, 44),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "driver",
+                   position: (49, 48),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "native_pgsql",
+                  position: (49, 59),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (53, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (54, 5),
+           },
+           Raw {
+            content: "gammu-smsd",
+            position: (54, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (56, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (56, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "gammu-smsd daemon",
+                 position: (56, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "user",
+               position: (58, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (58, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (59, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (59, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (60, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "smsd",
+                    position: (60, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (61, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "User that has access to the device",
+                    position: (61, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "device",
+               position: (64, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (65, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (65, 16),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (66, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (66, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "path",
+                        position: (66, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (67, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Device node or address of the phone",
+                       position: (67, 26),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (68, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "/dev/ttyUSB2",
+                       position: (68, 22),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (71, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (71, 17),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (72, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (72, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "str",
+                        position: (72, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (73, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "root",
+                       position: (73, 22),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (74, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Owner group of the device",
+                       position: (74, 26),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (75, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "dialout",
+                       position: (75, 22),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "connection",
+                  position: (78, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (78, 22),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (79, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (79, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "str",
+                        position: (79, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (80, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "at",
+                       position: (80, 22),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (81, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Protocol which will be used to talk to the phone",
+                       position: (81, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "synchronizeTime",
+                  position: (84, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (84, 27),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (85, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (85, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "bool",
+                        position: (85, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (86, 11),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "true",
+                     position: (86, 21),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (87, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Whether to set time from computer to the phone during starting connection",
+                       position: (87, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "pin",
+                  position: (90, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (90, 15),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (91, 11),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (91, 18),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "nullOr",
+                         position: (91, 24),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "types",
+                        position: (91, 31),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "str",
+                          position: (91, 37),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (92, 11),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (92, 21),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (93, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "PIN code for the simcard",
+                       position: (93, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "log",
+               position: (98, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "file",
+                  position: (99, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (99, 16),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (100, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (100, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "str",
+                        position: (100, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (101, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "syslog",
+                       position: (101, 22),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (102, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Path to file where information about communication will be stored",
+                       position: (102, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "format",
+                  position: (105, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (105, 18),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (106, 11),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (106, 18),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "enum",
+                         position: (106, 24),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      List {
+                       elements: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "nothing",
+                           position: (106, 32),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "text",
+                           position: (106, 42),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "textall",
+                           position: (106, 49),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "textalldate",
+                           position: (106, 59),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "errors",
+                           position: (106, 73),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "errorsdate",
+                           position: (106, 82),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "binary",
+                           position: (106, 95),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (107, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "errors",
+                       position: (107, 22),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (108, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Determines what will be logged to the LogFile",
+                       position: (108, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (113, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "gammu",
+                  position: (114, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (114, 17),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (115, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (115, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "lines",
+                        position: (115, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (116, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (117, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Extra config lines to be added into [gammu] section",
+                       position: (117, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "smsd",
+                  position: (121, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (121, 16),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (122, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (122, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "lines",
+                        position: (122, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (123, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (124, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Extra config lines to be added into [smsd] section",
+                       position: (124, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "backend",
+               position: (129, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "service",
+                  position: (130, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (130, 19),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (131, 11),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (131, 18),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "enum",
+                         position: (131, 24),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      List {
+                       elements: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "null",
+                           position: (131, 32),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "files",
+                           position: (131, 39),
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "sql",
+                           position: (131, 47),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (132, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "null",
+                       position: (132, 22),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (133, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Service to use to store sms data.",
+                       position: (133, 26),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "files",
+                  position: (136, 9),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "inboxPath",
+                     position: (137, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (137, 23),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (138, 13),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (138, 20),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "path",
+                           position: (138, 26),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (139, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "/var/spool/sms/inbox/",
+                          position: (139, 24),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (140, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Where the received SMSes are stored",
+                          position: (140, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "outboxPath",
+                     position: (143, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (143, 24),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (144, 13),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (144, 20),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "path",
+                           position: (144, 26),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (145, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "/var/spool/sms/outbox/",
+                          position: (145, 24),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (146, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Where SMSes to be sent should be placed",
+                          position: (146, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "sentSMSPath",
+                     position: (149, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (149, 25),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (150, 13),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (150, 20),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "path",
+                           position: (150, 26),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (151, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "/var/spool/sms/sent/",
+                          position: (151, 24),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (152, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Where the transmitted SMSes are placed",
+                          position: (152, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "errorSMSPath",
+                     position: (155, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (155, 26),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (156, 13),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (156, 20),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "path",
+                           position: (156, 26),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (157, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "/var/spool/sms/error/",
+                          position: (157, 24),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (158, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Where SMSes with error in transmission is placed",
+                          position: (158, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sql",
+                  position: (162, 9),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "driver",
+                     position: (163, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (163, 20),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (164, 13),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "types",
+                          position: (164, 20),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "enum",
+                            position: (164, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         List {
+                          elements: [
+                           String {
+                            parts: [
+                             Raw {
+                              content: "native_mysql",
+                              position: (164, 34),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "native_pgsql",
+                              position: (164, 49),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "odbc",
+                              position: (164, 64),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "dbi",
+                              position: (164, 71),
+                             },
+                            ],
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (165, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "DB driver to use",
+                          position: (165, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "sqlDialect",
+                     position: (168, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (168, 24),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (169, 13),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "types",
+                          position: (169, 20),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "nullOr",
+                            position: (169, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "types",
+                           position: (169, 33),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "str",
+                             position: (169, 39),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (170, 13),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "null",
+                        position: (170, 23),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (171, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "SQL dialect to use (odbc driver only)",
+                          position: (171, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (174, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (174, 22),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (175, 13),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "types",
+                          position: (175, 20),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "nullOr",
+                            position: (175, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "types",
+                           position: (175, 33),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "str",
+                             position: (175, 39),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (176, 13),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "null",
+                        position: (176, 23),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (177, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Database name to store sms data",
+                          position: (177, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "host",
+                     position: (180, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (180, 18),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (181, 13),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "types",
+                         position: (181, 20),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "str",
+                           position: (181, 26),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (182, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "localhost",
+                          position: (182, 24),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (183, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Database server address",
+                          position: (183, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "user",
+                     position: (186, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (186, 18),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (187, 13),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "types",
+                          position: (187, 20),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "nullOr",
+                            position: (187, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "types",
+                           position: (187, 33),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "str",
+                             position: (187, 39),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (188, 13),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "null",
+                        position: (188, 23),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (189, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "User name used for connection to the database",
+                          position: (189, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "password",
+                     position: (192, 11),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (192, 22),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (193, 13),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: PropertyAccess {
+                         expression: Variable {
+                          identifier: "types",
+                          position: (193, 20),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "nullOr",
+                            position: (193, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "types",
+                           position: (193, 33),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "str",
+                             position: (193, 39),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (194, 13),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "null",
+                        position: (194, 23),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (195, 13),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "User password used for connetion to the database",
+                          position: (195, 28),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (202, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (202, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (202, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (202, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (203, 5),
+             },
+             Raw {
+              content: "users",
+              position: (203, 11),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (203, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "user",
+                  position: (203, 23),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (204, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "gammu-smsd user",
+                 position: (204, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "isSystemUser",
+                 position: (205, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (205, 22),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (206, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (206, 15),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "device",
+                  position: (206, 19),
+                 },
+                 Raw {
+                  content: "group",
+                  position: (206, 26),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (209, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (209, 17),
+             },
+            ],
+           },
+           With {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (209, 39),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "backend",
+                position: (209, 43),
+               },
+              ],
+             },
+             default: None,
+            },
+            target: BinaryOperation {
+             operator: Concatenation,
+             operands: [
+              List {
+               elements: [
+                Variable {
+                 identifier: "gammuPackage",
+                 position: (209, 54),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optionals",
+                position: (210, 8),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: LogicalAnd,
+                 operands: [
+                  BinaryOperation {
+                   operator: EqualTo,
+                   operands: [
+                    Variable {
+                     identifier: "service",
+                     position: (210, 19),
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "sql",
+                       position: (210, 31),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: EqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "sql",
+                      position: (210, 39),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "driver",
+                        position: (210, 43),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "sqlite",
+                       position: (210, 54),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (210, 66),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "sqlite",
+                      position: (210, 71),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (212, 5),
+             },
+             Raw {
+              content: "services",
+              position: (212, 13),
+             },
+             Raw {
+              content: "gammu-smsd",
+              position: (212, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (213, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "gammu-smsd daemon",
+                 position: (213, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (215, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (215, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wants",
+                 position: (217, 7),
+                },
+               ],
+              },
+              With {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (217, 20),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (217, 24),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               target: BinaryOperation {
+                operator: Concatenation,
+                operands: [
+                 List {
+                  elements: [],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optionals",
+                   position: (218, 10),
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: LogicalAnd,
+                    operands: [
+                     BinaryOperation {
+                      operator: EqualTo,
+                      operands: [
+                       Variable {
+                        identifier: "service",
+                        position: (218, 21),
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "sql",
+                          position: (218, 33),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                     BinaryOperation {
+                      operator: EqualTo,
+                      operands: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "sql",
+                         position: (218, 41),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "driver",
+                           position: (218, 45),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "native_pgsql",
+                          position: (218, 56),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "postgresql.service",
+                        position: (218, 74),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "preStart",
+                 position: (220, 7),
+                },
+               ],
+              },
+              With {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (220, 23),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "backend",
+                   position: (220, 27),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               target: BinaryOperation {
+                operator: Addition,
+                operands: [
+                 BinaryOperation {
+                  operator: Addition,
+                  operands: [
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "optionalString",
+                     position: (222, 9),
+                    },
+                    arguments: [
+                     BinaryOperation {
+                      operator: EqualTo,
+                      operands: [
+                       Variable {
+                        identifier: "service",
+                        position: (222, 25),
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "files",
+                          position: (222, 37),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                     With {
+                      expression: Variable {
+                       identifier: "files",
+                       position: (222, 51),
+                      },
+                      target: String {
+                       parts: [
+                        Raw {
+                         content: "mkdir -m 755 -p ",
+                         position: (223, 1),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "inboxPath",
+                          position: (223, 29),
+                         },
+                        },
+                        Raw {
+                         content: " ",
+                         position: (223, 39),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "outboxPath",
+                          position: (223, 42),
+                         },
+                        },
+                        Raw {
+                         content: " ",
+                         position: (223, 53),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "sentSMSPath",
+                          position: (223, 56),
+                         },
+                        },
+                        Raw {
+                         content: " ",
+                         position: (223, 68),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "errorSMSPath",
+                          position: (223, 71),
+                         },
+                        },
+                        Raw {
+                         content: "\nchown ",
+                         position: (223, 84),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (224, 19),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "user",
+                             position: (224, 23),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: " -R ",
+                         position: (224, 28),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "inboxPath",
+                          position: (224, 34),
+                         },
+                        },
+                        Raw {
+                         content: "\nchown ",
+                         position: (224, 44),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (225, 19),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "user",
+                             position: (225, 23),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: " -R ",
+                         position: (225, 28),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "outboxPath",
+                          position: (225, 34),
+                         },
+                        },
+                        Raw {
+                         content: "\nchown ",
+                         position: (225, 45),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (226, 19),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "user",
+                             position: (226, 23),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: " -R ",
+                         position: (226, 28),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "sentSMSPath",
+                          position: (226, 34),
+                         },
+                        },
+                        Raw {
+                         content: "\nchown ",
+                         position: (226, 46),
+                        },
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (227, 19),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "user",
+                             position: (227, 23),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: " -R ",
+                         position: (227, 28),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "errorSMSPath",
+                          position: (227, 34),
+                         },
+                        },
+                        Raw {
+                         content: "\n",
+                         position: (227, 47),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "optionalString",
+                     position: (229, 9),
+                    },
+                    arguments: [
+                     BinaryOperation {
+                      operator: LogicalAnd,
+                      operands: [
+                       BinaryOperation {
+                        operator: EqualTo,
+                        operands: [
+                         Variable {
+                          identifier: "service",
+                          position: (229, 25),
+                         },
+                         String {
+                          parts: [
+                           Raw {
+                            content: "sql",
+                            position: (229, 37),
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                       BinaryOperation {
+                        operator: EqualTo,
+                        operands: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "sql",
+                           position: (229, 45),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "driver",
+                             position: (229, 49),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                         String {
+                          parts: [
+                           Raw {
+                            content: "sqlite",
+                            position: (229, 60),
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "cat \"",
+                        position: (230, 1),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "gammuPackage",
+                         position: (230, 17),
+                        },
+                       },
+                       Raw {
+                        content: "/",
+                        position: (230, 30),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "initDBDir",
+                         position: (230, 33),
+                        },
+                       },
+                       Raw {
+                        content: "/sqlite.sql\" \\\n| ",
+                        position: (230, 43),
+                       },
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "pkgs",
+                          position: (231, 14),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "sqlite",
+                            position: (231, 19),
+                           },
+                           Raw {
+                            content: "bin",
+                            position: (231, 26),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "/bin/sqlite3 ",
+                        position: (231, 30),
+                       },
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "sql",
+                          position: (231, 45),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "database",
+                            position: (231, 49),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "\n",
+                        position: (231, 58),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 LetIn {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "execPsql",
+                       position: (233, 14),
+                      },
+                     ],
+                    },
+                    Function {
+                     argument: Some(
+                      "extraArgs",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: FunctionApplication {
+                      function: Variable {
+                       identifier: "concatStringsSep",
+                       position: (233, 36),
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: " ",
+                          position: (233, 54),
+                         },
+                        ],
+                       },
+                       List {
+                        elements: [
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "optionalString",
+                           position: (234, 12),
+                          },
+                          arguments: [
+                           BinaryOperation {
+                            operator: NotEqualTo,
+                            operands: [
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "sql",
+                               position: (234, 28),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "password",
+                                 position: (234, 32),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             Variable {
+                              identifier: "null",
+                              position: (234, 44),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "PGPASSWORD=",
+                              position: (234, 51),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "sql",
+                                position: (234, 64),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "password",
+                                  position: (234, 68),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                            ],
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: PropertyAccess {
+                             expression: Variable {
+                              identifier: "config",
+                              position: (235, 14),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "services",
+                                position: (235, 21),
+                               },
+                               Raw {
+                                content: "postgresql",
+                                position: (235, 30),
+                               },
+                               Raw {
+                                content: "package",
+                                position: (235, 41),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           },
+                           Raw {
+                            content: "/bin/psql",
+                            position: (235, 49),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "optionalString",
+                           position: (236, 12),
+                          },
+                          arguments: [
+                           BinaryOperation {
+                            operator: NotEqualTo,
+                            operands: [
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "sql",
+                               position: (236, 28),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "host",
+                                 position: (236, 32),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             Variable {
+                              identifier: "null",
+                              position: (236, 40),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "-h ",
+                              position: (236, 47),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "sql",
+                                position: (236, 52),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "host",
+                                  position: (236, 56),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                            ],
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "optionalString",
+                           position: (237, 12),
+                          },
+                          arguments: [
+                           BinaryOperation {
+                            operator: NotEqualTo,
+                            operands: [
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "sql",
+                               position: (237, 28),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "user",
+                                 position: (237, 32),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             Variable {
+                              identifier: "null",
+                              position: (237, 40),
+                             },
+                            ],
+                           },
+                           String {
+                            parts: [
+                             Raw {
+                              content: "-U ",
+                              position: (237, 47),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "sql",
+                                position: (237, 52),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "user",
+                                  position: (237, 56),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                            ],
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Raw {
+                            content: "$extraArgs",
+                            position: (238, 12),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: PropertyAccess {
+                             expression: Variable {
+                              identifier: "sql",
+                              position: (239, 14),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "database",
+                                position: (239, 18),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    },
+                   ),
+                  ],
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "optionalString",
+                    position: (240, 15),
+                   },
+                   arguments: [
+                    BinaryOperation {
+                     operator: LogicalAnd,
+                     operands: [
+                      BinaryOperation {
+                       operator: EqualTo,
+                       operands: [
+                        Variable {
+                         identifier: "service",
+                         position: (240, 31),
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "sql",
+                           position: (240, 43),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                      BinaryOperation {
+                       operator: EqualTo,
+                       operands: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "sql",
+                          position: (240, 51),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "driver",
+                            position: (240, 55),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "native_pgsql",
+                           position: (240, 66),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "echo '\\i '\"",
+                       position: (241, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "gammuPackage",
+                        position: (241, 23),
+                       },
+                      },
+                      Raw {
+                       content: "/",
+                       position: (241, 36),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "initDBDir",
+                        position: (241, 39),
+                       },
+                      },
+                      Raw {
+                       content: "/pgsql.sql\" | ",
+                       position: (241, 49),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: Variable {
+                         identifier: "execPsql",
+                         position: (241, 65),
+                        },
+                        arguments: [
+                         String {
+                          parts: [],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (241, 77),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (244, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (245, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (245, 19),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "user",
+                        position: (245, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (246, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (246, 20),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "device",
+                        position: (246, 24),
+                       },
+                       Raw {
+                        content: "group",
+                        position: (246, 31),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "PermissionsStartOnly",
+                    position: (247, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (247, 32),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (248, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "gammuPackage",
+                     position: (248, 24),
+                    },
+                   },
+                   Raw {
+                    content: "/bin/gammu-smsd -c ",
+                    position: (248, 37),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "configFile",
+                     position: (248, 58),
+                    },
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

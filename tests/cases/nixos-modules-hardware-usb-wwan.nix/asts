@@ -1,0 +1,305 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (8, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "hardware",
+           position: (10, 5),
+          },
+          Raw {
+           content: "usbWwan",
+           position: (10, 14),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (11, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (11, 16),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (12, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (12, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "bool",
+                    position: (12, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (13, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "false",
+                 position: (13, 19),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (14, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Enable this option to support USB WWAN adapters.\n",
+                   position: (15, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (23, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (23, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "config",
+         position: (23, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "hardware",
+           position: (23, 24),
+          },
+          Raw {
+           content: "usbWwan",
+           position: (23, 33),
+          },
+          Raw {
+           content: "enable",
+           position: (23, 41),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (25, 5),
+            },
+            Raw {
+             content: "udev",
+             position: (25, 14),
+            },
+            Raw {
+             content: "packages",
+             position: (25, 19),
+            },
+           ],
+          },
+          With {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (25, 35),
+           },
+           target: List {
+            elements: [
+             Variable {
+              identifier: "usb-modeswitch-data",
+              position: (25, 43),
+             },
+            ],
+           },
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (29, 5),
+            },
+            Raw {
+             content: "packages",
+             position: (29, 13),
+            },
+           ],
+          },
+          With {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (29, 29),
+           },
+           target: List {
+            elements: [
+             Variable {
+              identifier: "usb-modeswitch",
+              position: (29, 37),
+             },
+            ],
+           },
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "environment",
+             position: (37, 5),
+            },
+            Raw {
+             content: "etc",
+             position: (37, 17),
+            },
+            Expression {
+             expression: String {
+              parts: [
+               Raw {
+                content: "usb_modeswitch.d",
+                position: (37, 22),
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "source",
+             position: (37, 40),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (37, 52),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "usb-modeswitch-data",
+                 position: (37, 57),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "/share/usb_modeswitch",
+             position: (37, 77),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

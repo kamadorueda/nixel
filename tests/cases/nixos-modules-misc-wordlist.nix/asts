@@ -1,0 +1,598 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (2, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "concatAndSort",
+        position: (4, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: Some(
+        "files",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (4, 32),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "runCommand",
+            position: (4, 37),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Variable {
+          identifier: "name",
+          position: (4, 48),
+         },
+         Map {
+          bindings: [],
+          recursive: false,
+         },
+         String {
+          parts: [
+           Raw {
+            content: "awk 1 ",
+            position: (5, 1),
+           },
+           Expression {
+            expression: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (5, 13),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "escapeShellArgs",
+                 position: (5, 17),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              Variable {
+               identifier: "files",
+               position: (5, 33),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: " | sed '{ /^\\s*$/d; s/^\\s\\+//; s/\\s\\+$// }' | sort | uniq > $out\n",
+            position: (5, 39),
+           },
+          ],
+         },
+        ],
+       },
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (9, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (10, 5),
+           },
+           Raw {
+            content: "wordlist",
+            position: (10, 17),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (11, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (11, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "environment variables for lists of words",
+                 position: (11, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "lists",
+               position: (13, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (13, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (14, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (14, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "attrsOf",
+                      position: (14, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (14, 31),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nonEmptyListOf",
+                        position: (14, 37),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (14, 52),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "path",
+                         position: (14, 58),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (16, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "WORDLIST",
+                       position: (17, 11),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "pkgs",
+                           position: (17, 27),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "scowl",
+                             position: (17, 32),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/share/dict/words.txt",
+                         position: (17, 38),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (20, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  WORDLIST = [ \"",
+                      position: (21, 1),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (22, 27),
+                     },
+                     Raw {
+                      content: "{pkgs.scowl}/share/dict/words.txt\" ];\n}\n",
+                      position: (22, 30),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (26, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "A set with the key names being the environment variable you'd like to\nset and the values being a list of paths to text documents containing\nlists of words. The various files will be merged, sorted, duplicates\nremoved, and extraneous spacing removed.\n\nIf you have a handful of words that you want to add to an already\nexisting wordlist, you may find `builtins.toFile` useful for this\ntask.\n",
+                    position: (27, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (37, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (37, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  WORDLIST = [ \"",
+                      position: (38, 1),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (39, 27),
+                     },
+                     Raw {
+                      content: "{pkgs.scowl}/share/dict/words.txt\" ];\n  AUGMENTED_WORDLIST = [\n    \"",
+                      position: (39, 30),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (41, 16),
+                     },
+                     Raw {
+                      content: "{pkgs.scowl}/share/dict/words.txt\"\n    \"",
+                      position: (41, 19),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (42, 16),
+                     },
+                     Raw {
+                      content: "{pkgs.scowl}/share/dict/words.variants.txt\"\n    (builtins.toFile \"extra-words\" ",
+                      position: (42, 19),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (43, 46),
+                     },
+                     Raw {
+                      content: "\n      desynchonization\n      oobleck",
+                      position: (43, 49),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (45, 24),
+                     },
+                     Raw {
+                      content: ")\n  ];\n}\n",
+                      position: (45, 27),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (53, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (53, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (53, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (53, 24),
+           },
+           Raw {
+            content: "wordlist",
+            position: (53, 36),
+           },
+           Raw {
+            content: "enable",
+            position: (53, 45),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (54, 5),
+             },
+             Raw {
+              content: "variables",
+              position: (54, 17),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (55, 7),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mapAttrs",
+                position: (55, 11),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "name",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: Function {
+               argument: Some(
+                "value",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: String {
+                parts: [
+                 Expression {
+                  expression: FunctionApplication {
+                   function: Variable {
+                    identifier: "concatAndSort",
+                    position: (56, 26),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "wordlist-",
+                       position: (56, 41),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "name",
+                        position: (56, 52),
+                       },
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "value",
+                     position: (56, 59),
+                    },
+                   ],
+                  },
+                 },
+                ],
+               },
+              },
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (57, 9),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (57, 16),
+                },
+                Raw {
+                 content: "wordlist",
+                 position: (57, 28),
+                },
+                Raw {
+                 content: "lists",
+                 position: (57, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

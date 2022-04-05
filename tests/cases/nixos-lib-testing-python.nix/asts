@@ -1,0 +1,2864 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "extraConfigurations",
+    default: Some(
+     List {
+      elements: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "specialArgs",
+    default: Some(
+     Map {
+      bindings: [],
+      recursive: false,
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: Some(
+     Map {
+      bindings: [],
+      recursive: false,
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "minimal",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (4, 13),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: Some(
+     FunctionApplication {
+      function: Variable {
+       identifier: "import",
+       position: (2, 10),
+      },
+      arguments: [
+       Path {
+        parts: [
+         Raw {
+          content: "../..",
+          position: (2, 17),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "system",
+            position: (2, 33),
+           },
+           Raw {
+            content: "config",
+            position: (2, 40),
+           },
+          ],
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "system",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (13, 6),
+  },
+  target: Map {
+   bindings: [
+    Inherit(
+     None,
+     [
+      Raw {
+       content: "pkgs",
+       position: (17, 11),
+      },
+     ],
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "runTests",
+        position: (20, 3),
+       },
+      ],
+     },
+     Function {
+      argument: None,
+      arguments: FunctionArguments {
+       arguments: [
+        FunctionArgument {
+         identifier: "pos",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "driverInteractive",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "driver",
+         default: None,
+        },
+       ],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "stdenv",
+         position: (21, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mkDerivation",
+           position: (21, 12),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "name",
+              position: (22, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "vm-test-run-",
+              position: (22, 15),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "driver",
+                position: (22, 29),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "testName",
+                  position: (22, 36),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "requiredSystemFeatures",
+              position: (24, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "kvm",
+                position: (24, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "nixos-test",
+                position: (24, 41),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "buildCommand",
+              position: (26, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "mkdir -p $out\n\n# effectively mute the XMLLogger\nexport LOGFILE=/dev/null\n\n",
+              position: (28, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "driver",
+               position: (33, 13),
+              },
+             },
+             Raw {
+              content: "/bin/nixos-test-driver -o $out\n",
+              position: (33, 20),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "passthru",
+              position: (36, 7),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Update,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "driver",
+               position: (36, 18),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "passthru",
+                 position: (36, 25),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               Inherit(
+                None,
+                [
+                 Raw {
+                  content: "driver",
+                  position: (37, 17),
+                 },
+                 Raw {
+                  content: "driverInteractive",
+                  position: (37, 24),
+                 },
+                ],
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          Inherit(
+           None,
+           [
+            Raw {
+             content: "pos",
+             position: (40, 15),
+            },
+           ],
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "setupDriverForTest",
+        position: (46, 3),
+       },
+      ],
+     },
+     Function {
+      argument: None,
+      arguments: FunctionArguments {
+       arguments: [
+        FunctionArgument {
+         identifier: "interactive",
+         default: Some(
+          Variable {
+           identifier: "false",
+           position: (54, 21),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "passthru",
+         default: Some(
+          Map {
+           bindings: [],
+           recursive: false,
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "skipLint",
+         default: Some(
+          Variable {
+           identifier: "false",
+           position: (52, 18),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "enableOCR",
+         default: Some(
+          Variable {
+           identifier: "false",
+           position: (51, 19),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "qemu_pkg",
+         default: Some(
+          PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (50, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "qemu_test",
+              position: (50, 23),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "nodes",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "testName",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "testScript",
+         default: None,
+        },
+       ],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "testDriver",
+            position: (59, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (59, 20),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "callPackage",
+              position: (59, 25),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Path {
+            parts: [
+             Raw {
+              content: "./test-driver",
+              position: (59, 37),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "enableOCR",
+                position: (60, 17),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "qemu_pkg",
+                 position: (61, 9),
+                },
+               ],
+              },
+              Variable {
+               identifier: "qemu_test",
+               position: (61, 20),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "imagemagick_light",
+                 position: (62, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "imagemagick_light",
+                 position: (62, 29),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "override",
+                   position: (62, 47),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  Inherit(
+                   None,
+                   [
+                    Raw {
+                     content: "libtiff",
+                     position: (62, 66),
+                    },
+                   ],
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "tesseract4",
+                 position: (63, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "tesseract4",
+                 position: (63, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "override",
+                   position: (63, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enableLanguages",
+                      position: (63, 44),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "eng",
+                        position: (63, 65),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "testDriverName",
+            position: (67, 7),
+           },
+          ],
+         },
+         LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "maxTestNameLen",
+               position: (73, 11),
+              },
+             ],
+            },
+            Int {
+             value: 50,
+             position: (73, 28),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "testNameLen",
+               position: (74, 11),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (74, 25),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "stringLength",
+                 position: (74, 34),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              Variable {
+               identifier: "testName",
+               position: (74, 47),
+              },
+             ],
+            },
+           ),
+          ],
+          target: With {
+           expression: Variable {
+            identifier: "builtins",
+            position: (75, 17),
+           },
+           target: IfThenElse {
+            predicate: BinaryOperation {
+             operator: GreaterThan,
+             operands: [
+              Variable {
+               identifier: "testNameLen",
+               position: (76, 14),
+              },
+              Variable {
+               identifier: "maxTestNameLen",
+               position: (76, 28),
+              },
+             ],
+            },
+            then: FunctionApplication {
+             function: Variable {
+              identifier: "abort",
+              position: (77, 13),
+             },
+             arguments: [
+              BinaryOperation {
+               operator: Addition,
+               operands: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "The name of the test '",
+                   position: (78, 17),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "testName",
+                    position: (78, 41),
+                   },
+                  },
+                  Raw {
+                   content: "' must not be longer than ",
+                   position: (78, 50),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "toString",
+                     position: (78, 78),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "maxTestNameLen",
+                      position: (78, 87),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: " ",
+                   position: (78, 102),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "it's currently ",
+                   position: (79, 18),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "toString",
+                     position: (79, 35),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "testNameLen",
+                      position: (79, 44),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: " characters long.",
+                   position: (79, 56),
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+            else_: String {
+             parts: [
+              Raw {
+               content: "nixos-test-driver-",
+               position: (81, 14),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "testName",
+                position: (81, 34),
+               },
+              },
+             ],
+            },
+           },
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "vlans",
+            position: (83, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (83, 15),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "m",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "m",
+              position: (83, 23),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "config",
+                position: (83, 25),
+               },
+               Raw {
+                content: "virtualisation",
+                position: (83, 32),
+               },
+               Raw {
+                content: "vlans",
+                position: (83, 47),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (83, 55),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "attrValues",
+                position: (83, 59),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "nodes",
+              position: (83, 70),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "vms",
+            position: (84, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (84, 13),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "m",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "m",
+              position: (84, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "config",
+                position: (84, 23),
+               },
+               Raw {
+                content: "system",
+                position: (84, 30),
+               },
+               Raw {
+                content: "build",
+                position: (84, 37),
+               },
+               Raw {
+                content: "vm",
+                position: (84, 43),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (84, 48),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "attrValues",
+                position: (84, 52),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "nodes",
+              position: (84, 63),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nodeHostNames",
+            position: (86, 7),
+           },
+          ],
+         },
+         LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "nodesList",
+               position: (87, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "map",
+              position: (87, 21),
+             },
+             arguments: [
+              Function {
+               argument: Some(
+                "c",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: PropertyAccess {
+                expression: Variable {
+                 identifier: "c",
+                 position: (87, 29),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "config",
+                   position: (87, 31),
+                  },
+                  Raw {
+                   content: "system",
+                   position: (87, 38),
+                  },
+                  Raw {
+                   content: "name",
+                   position: (87, 45),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (87, 52),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "attrValues",
+                   position: (87, 56),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Variable {
+                 identifier: "nodes",
+                 position: (87, 67),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          target: BinaryOperation {
+           operator: Concatenation,
+           operands: [
+            Variable {
+             identifier: "nodesList",
+             position: (88, 10),
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (88, 23),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "optional",
+                 position: (88, 27),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              BinaryOperation {
+               operator: EqualTo,
+               operands: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (88, 37),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "length",
+                     position: (88, 41),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "nodesList",
+                   position: (88, 48),
+                  },
+                 ],
+                },
+                Int {
+                 value: 1,
+                 position: (88, 61),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "machine",
+                 position: (88, 65),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "invalidNodeNames",
+            position: (93, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (93, 26),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "filter",
+              position: (93, 30),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "node",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (94, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "match",
+                   position: (94, 25),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "^[A-z_]([A-z0-9_]+)?$",
+                   position: (94, 32),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "node",
+                 position: (94, 55),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (94, 63),
+              },
+             ],
+            },
+           },
+           Variable {
+            identifier: "nodeHostNames",
+            position: (95, 9),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "testScript'",
+            position: (97, 7),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (99, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "isFunction",
+               position: (99, 16),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "testScript",
+             position: (99, 27),
+            },
+           ],
+          },
+          then: FunctionApplication {
+           function: Variable {
+            identifier: "testScript",
+            position: (100, 14),
+           },
+           arguments: [
+            Map {
+             bindings: [
+              Inherit(
+               None,
+               [
+                Raw {
+                 content: "nodes",
+                 position: (100, 35),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+          else_: Variable {
+           identifier: "testScript",
+           position: (101, 14),
+          },
+         },
+        ),
+       ],
+       target: IfThenElse {
+        predicate: BinaryOperation {
+         operator: GreaterThan,
+         operands: [
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (104, 8),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "length",
+               position: (104, 12),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "invalidNodeNames",
+             position: (104, 19),
+            },
+           ],
+          },
+          Int {
+           value: 0,
+           position: (104, 38),
+          },
+         ],
+        },
+        then: FunctionApplication {
+         function: Variable {
+          identifier: "throw",
+          position: (105, 7),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "Cannot create machines out of (",
+             position: (106, 1),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (106, 42),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "concatStringsSep",
+                  position: (106, 46),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: ", ",
+                  position: (106, 64),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "invalidNodeNames",
+                position: (106, 68),
+               },
+              ],
+             },
+            },
+            Raw {
+             content: ")!\nAll machines are referenced as python variables in the testing framework which will break the\nscript when special characters are used.\n\nThis is an IMPLEMENTATION ERROR and needs to be fixed. Meanwhile,\nplease stick to alphanumeric chars and underscores as separation.\n",
+             position: (106, 85),
+            },
+           ],
+          },
+         ],
+        },
+        else_: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (113, 10),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "warnIf",
+             position: (113, 14),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Variable {
+           identifier: "skipLint",
+           position: (113, 21),
+          },
+          String {
+           parts: [
+            Raw {
+             content: "Linting is disabled",
+             position: (113, 31),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "runCommand",
+            position: (113, 53),
+           },
+           arguments: [
+            Variable {
+             identifier: "testDriverName",
+             position: (113, 64),
+            },
+            Map {
+             bindings: [
+              Inherit(
+               None,
+               [
+                Raw {
+                 content: "testName",
+                 position: (115, 17),
+                },
+               ],
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nativeBuildInputs",
+                  position: (116, 9),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Variable {
+                  identifier: "makeWrapper",
+                  position: (116, 31),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "testScript",
+                  position: (117, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "testScript'",
+                position: (117, 22),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "preferLocalBuild",
+                  position: (118, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (118, 28),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "passthru",
+                  position: (119, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Update,
+                operands: [
+                 Variable {
+                  identifier: "passthru",
+                  position: (119, 20),
+                 },
+                 Map {
+                  bindings: [
+                   Inherit(
+                    None,
+                    [
+                     Raw {
+                      content: "nodes",
+                      position: (120, 19),
+                     },
+                    ],
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            String {
+             parts: [
+              Raw {
+               content: "mkdir -p $out/bin\n\nvmStartScripts=($(for i in ",
+               position: (124, 1),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (126, 38),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "vms",
+                  position: (126, 47),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "; do echo $i/bin/run-*-vm; done))\necho -n \"$testScript\" > $out/test-script\nln -s ",
+               position: (126, 51),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "testDriver",
+                position: (128, 17),
+               },
+              },
+              Raw {
+               content: "/bin/nixos-test-driver $out/bin/nixos-test-driver\n\n",
+               position: (128, 28),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "testDriver",
+                position: (130, 11),
+               },
+              },
+              Raw {
+               content: "/bin/generate-driver-symbols\n",
+               position: (130, 22),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (131, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "optionalString",
+                    position: (131, 15),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 UnaryOperation {
+                  operator: Not,
+                  operand: Variable {
+                   identifier: "skipLint",
+                   position: (131, 32),
+                  },
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "PYFLAKES_BUILTINS=\"$(\n  echo -n ",
+                    position: (132, 1),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "lib",
+                       position: (133, 23),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "escapeShellArg",
+                         position: (133, 27),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "lib",
+                         position: (133, 43),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "concatStringsSep",
+                           position: (133, 47),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: ",",
+                           position: (133, 65),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "nodeHostNames",
+                         position: (133, 68),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: ",\n  < ",
+                    position: (133, 83),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "lib",
+                       position: (134, 17),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "escapeShellArg",
+                         position: (134, 21),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "driver-symbols",
+                         position: (134, 37),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: "\n)\" ",
+                    position: (134, 53),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "python3Packages",
+                      position: (135, 16),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "pyflakes",
+                        position: (135, 32),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/pyflakes $out/test-script\n",
+                    position: (135, 41),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n\n# set defaults through environment\n# see: ./test-driver/test-driver.py argparse implementation\nwrapProgram $out/bin/nixos-test-driver \\\n  --set startScripts \"",
+               position: (136, 12),
+              },
+              Raw {
+               content: "$",
+               position: (141, 31),
+              },
+              Raw {
+               content: "{vmStartScripts[*]}\" \\\n  --set testScript \"$out/test-script\" \\\n  --set vlans ",
+               position: (141, 34),
+              },
+              Raw {
+               content: "'",
+               position: (143, 23),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (143, 26),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "vlans",
+                  position: (143, 35),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "' \\\n  ",
+               position: (143, 41),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (144, 13),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "optionalString",
+                    position: (144, 17),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "interactive",
+                  position: (144, 33),
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "--add-flags --interactive",
+                    position: (144, 47),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (144, 74),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "makeTest",
+        position: (148, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "t",
+      ),
+      arguments: FunctionArguments {
+       arguments: [
+        FunctionArgument {
+         identifier: "pos",
+         default: Some(
+          IfThenElse {
+           predicate: BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "t",
+               position: (157, 13),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "meta",
+                 position: (157, 15),
+                },
+                Raw {
+                 content: "description",
+                 position: (157, 20),
+                },
+               ],
+              },
+              default: Some(
+               Variable {
+                identifier: "null",
+                position: (157, 35),
+               },
+              ),
+             },
+             Variable {
+              identifier: "null",
+              position: (157, 43),
+             },
+            ],
+           },
+           then: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "builtins",
+              position: (158, 16),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "unsafeGetAttrPos",
+                position: (158, 25),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "description",
+                position: (158, 43),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "t",
+               position: (158, 56),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "meta",
+                 position: (158, 58),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+           else_: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "builtins",
+              position: (159, 16),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "unsafeGetAttrPos",
+                position: (159, 25),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "testScript",
+                position: (159, 43),
+               },
+              ],
+             },
+             Variable {
+              identifier: "t",
+              position: (159, 55),
+             },
+            ],
+           },
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "passthru",
+         default: Some(
+          Map {
+           bindings: [],
+           recursive: false,
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "skipLint",
+         default: Some(
+          Variable {
+           identifier: "false",
+           position: (153, 18),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "name",
+         default: Some(
+          String {
+           parts: [
+            Raw {
+             content: "unnamed",
+             position: (151, 15),
+            },
+           ],
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "enableOCR",
+         default: Some(
+          Variable {
+           identifier: "false",
+           position: (150, 19),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "testScript",
+         default: None,
+        },
+       ],
+       ellipsis: true,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nodes",
+            position: (163, 7),
+           },
+          ],
+         },
+         Function {
+          argument: Some(
+           "qemu_pkg",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: LetIn {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "testScript'",
+                position: (165, 11),
+               },
+              ],
+             },
+             IfThenElse {
+              predicate: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (167, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "isFunction",
+                   position: (167, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Variable {
+                 identifier: "testScript",
+                 position: (167, 31),
+                },
+               ],
+              },
+              then: FunctionApplication {
+               function: Variable {
+                identifier: "testScript",
+                position: (168, 18),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nodes",
+                      position: (168, 31),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "nodes",
+                     position: (168, 39),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "qemu_pkg",
+                      position: (168, 45),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+              else_: Variable {
+               identifier: "testScript",
+               position: (169, 18),
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "build-vms",
+                position: (171, 11),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "import",
+               position: (171, 23),
+              },
+              arguments: [
+               Path {
+                parts: [
+                 Raw {
+                  content: "./build-vms.nix",
+                  position: (171, 30),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 Inherit(
+                  None,
+                  [
+                   Raw {
+                    content: "system",
+                    position: (172, 21),
+                   },
+                   Raw {
+                    content: "lib",
+                    position: (172, 28),
+                   },
+                   Raw {
+                    content: "pkgs",
+                    position: (172, 32),
+                   },
+                   Raw {
+                    content: "minimal",
+                    position: (172, 37),
+                   },
+                   Raw {
+                    content: "specialArgs",
+                    position: (172, 45),
+                   },
+                  ],
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "extraConfigurations",
+                     position: (173, 13),
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: Concatenation,
+                   operands: [
+                    Variable {
+                     identifier: "extraConfigurations",
+                     position: (173, 35),
+                    },
+                    List {
+                     elements: [
+                      Function {
+                       argument: None,
+                       arguments: FunctionArguments {
+                        arguments: [
+                         FunctionArgument {
+                          identifier: "config",
+                          default: None,
+                         },
+                        ],
+                        ellipsis: true,
+                       },
+                       definition: Map {
+                        bindings: [
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "virtualisation",
+                             position: (176, 17),
+                            },
+                            Raw {
+                             content: "qemu",
+                             position: (176, 32),
+                            },
+                            Raw {
+                             content: "package",
+                             position: (176, 37),
+                            },
+                           ],
+                          },
+                          Variable {
+                           identifier: "qemu_pkg",
+                           position: (176, 47),
+                          },
+                         ),
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "virtualisation",
+                             position: (185, 17),
+                            },
+                            Raw {
+                             content: "additionalPaths",
+                             position: (185, 32),
+                            },
+                           ],
+                          },
+                          FunctionApplication {
+                           function: PropertyAccess {
+                            expression: Variable {
+                             identifier: "lib",
+                             position: (186, 19),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "optional",
+                               position: (186, 23),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                           arguments: [
+                            BinaryOperation {
+                             operator: LogicalAnd,
+                             operands: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "config",
+                                position: (197, 22),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "virtualisation",
+                                  position: (197, 29),
+                                 },
+                                 Raw {
+                                  content: "useNixStoreImage",
+                                  position: (197, 44),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                              FunctionApplication {
+                               function: PropertyAccess {
+                                expression: Variable {
+                                 identifier: "builtins",
+                                 position: (197, 64),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "hasContext",
+                                   position: (197, 73),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                               arguments: [
+                                Variable {
+                                 identifier: "testScript'",
+                                 position: (197, 84),
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                            FunctionApplication {
+                             function: PropertyAccess {
+                              expression: Variable {
+                               identifier: "pkgs",
+                               position: (198, 22),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "writeStringReferencesToFile",
+                                 position: (198, 27),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                             arguments: [
+                              Variable {
+                               identifier: "testScript'",
+                               position: (198, 55),
+                              },
+                             ],
+                            },
+                           ],
+                          },
+                         ),
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "nixpkgs",
+                             position: (202, 17),
+                            },
+                            Raw {
+                             content: "config",
+                             position: (202, 25),
+                            },
+                            Raw {
+                             content: "allowAliases",
+                             position: (202, 32),
+                            },
+                           ],
+                          },
+                          Variable {
+                           identifier: "false",
+                           position: (202, 47),
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                       },
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+           ],
+           target: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "build-vms",
+              position: (207, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "buildVirtualNetwork",
+                position: (207, 21),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "t",
+               position: (208, 15),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "nodes",
+                 position: (208, 17),
+                },
+               ],
+              },
+              default: Some(
+               IfThenElse {
+                predicate: HasProperty {
+                 expression: Variable {
+                  identifier: "t",
+                  position: (208, 30),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "machine",
+                    position: (208, 34),
+                   },
+                  ],
+                 },
+                },
+                then: Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "machine",
+                      position: (208, 49),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "t",
+                     position: (208, 59),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "machine",
+                       position: (208, 61),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+                else_: Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               },
+              ),
+             },
+            ],
+           },
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "driver",
+            position: (211, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "setupDriverForTest",
+           position: (211, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "testScript",
+                position: (212, 17),
+               },
+               Raw {
+                content: "enableOCR",
+                position: (212, 28),
+               },
+               Raw {
+                content: "skipLint",
+                position: (212, 38),
+               },
+               Raw {
+                content: "passthru",
+                position: (212, 47),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "testName",
+                 position: (213, 9),
+                },
+               ],
+              },
+              Variable {
+               identifier: "name",
+               position: (213, 20),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "qemu_pkg",
+                 position: (214, 9),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (214, 20),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "qemu_test",
+                  position: (214, 25),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "nodes",
+                 position: (215, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "nodes",
+                position: (215, 17),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (215, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "qemu_test",
+                    position: (215, 28),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "driverInteractive",
+            position: (217, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "setupDriverForTest",
+           position: (217, 27),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "testScript",
+                position: (218, 17),
+               },
+               Raw {
+                content: "enableOCR",
+                position: (218, 28),
+               },
+               Raw {
+                content: "skipLint",
+                position: (218, 38),
+               },
+               Raw {
+                content: "passthru",
+                position: (218, 47),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "testName",
+                 position: (219, 9),
+                },
+               ],
+              },
+              Variable {
+               identifier: "name",
+               position: (219, 20),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "qemu_pkg",
+                 position: (220, 9),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (220, 20),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "qemu",
+                  position: (220, 25),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "nodes",
+                 position: (221, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "nodes",
+                position: (221, 17),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (221, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "qemu",
+                    position: (221, 28),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "interactive",
+                 position: (222, 9),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (222, 23),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "test",
+            position: (225, 7),
+           },
+          ],
+         },
+         LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "passMeta",
+               position: (227, 11),
+              },
+             ],
+            },
+            Function {
+             argument: Some(
+              "drv",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: BinaryOperation {
+              operator: Update,
+              operands: [
+               Variable {
+                identifier: "drv",
+                position: (227, 27),
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (227, 34),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "optionalAttrs",
+                    position: (227, 38),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 HasProperty {
+                  expression: Variable {
+                   identifier: "t",
+                   position: (227, 53),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "meta",
+                     position: (227, 57),
+                    },
+                   ],
+                  },
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "meta",
+                       position: (228, 13),
+                      },
+                     ],
+                    },
+                    BinaryOperation {
+                     operator: Update,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "drv",
+                        position: (228, 21),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "meta",
+                          position: (228, 25),
+                         },
+                        ],
+                       },
+                       default: Some(
+                        Map {
+                         bindings: [],
+                         recursive: false,
+                        },
+                       ),
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "t",
+                        position: (228, 41),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "meta",
+                          position: (228, 43),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ],
+             },
+            },
+           ),
+          ],
+          target: FunctionApplication {
+           function: Variable {
+            identifier: "passMeta",
+            position: (230, 12),
+           },
+           arguments: [
+            FunctionApplication {
+             function: Variable {
+              identifier: "runTests",
+              position: (230, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                Inherit(
+                 None,
+                 [
+                  Raw {
+                   content: "driver",
+                   position: (230, 41),
+                  },
+                  Raw {
+                   content: "pos",
+                   position: (230, 48),
+                  },
+                  Raw {
+                   content: "driverInteractive",
+                   position: (230, 52),
+                  },
+                 ],
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       target: BinaryOperation {
+        operator: Update,
+        operands: [
+         Variable {
+          identifier: "test",
+          position: (233, 7),
+         },
+         Map {
+          bindings: [
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "test",
+              position: (234, 17),
+             },
+             Raw {
+              content: "driver",
+              position: (234, 22),
+             },
+             Raw {
+              content: "driverInteractive",
+              position: (234, 29),
+             },
+             Raw {
+              content: "nodes",
+              position: (234, 47),
+             },
+            ],
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "abortForFunction",
+        position: (237, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "functionName",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "abort",
+        position: (237, 36),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "The ",
+           position: (237, 44),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "functionName",
+            position: (237, 50),
+           },
+          },
+          Raw {
+           content: " function was\n    removed because it is not an essential part of the NixOS testing\n    infrastructure. It had no usage in NixOS or Nixpkgs and it had no designated\n    maintainer. You are free to reintroduce it by documenting it in the manual\n    and adding yourself as maintainer. It was removed in\n    https://github.com/NixOS/nixpkgs/pull/137013\n  ",
+           position: (237, 63),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "runInMachine",
+        position: (245, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "abortForFunction",
+       position: (245, 18),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "runInMachine",
+          position: (245, 36),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "runInMachineWithX",
+        position: (247, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "abortForFunction",
+       position: (247, 23),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "runInMachineWithX",
+          position: (247, 41),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "simpleTest",
+        position: (249, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "as",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: PropertyAccess {
+       expression: FunctionApplication {
+        function: Variable {
+         identifier: "makeTest",
+         position: (249, 21),
+        },
+        arguments: [
+         Variable {
+          identifier: "as",
+          position: (249, 30),
+         },
+        ],
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "test",
+          position: (249, 34),
+         },
+        ],
+       },
+       default: None,
+      },
+     },
+    ),
+   ],
+   recursive: true,
+  },
+ },
+}

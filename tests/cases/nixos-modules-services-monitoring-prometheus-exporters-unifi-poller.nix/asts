@@ -1,0 +1,566 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (6, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (6, 36),
+        },
+        Raw {
+         content: "unifi-poller",
+         position: (6, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (8, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "prometheus-unifi-poller-exporter.json",
+          position: (8, 32),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "generators",
+          position: (8, 72),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "toJSON",
+            position: (8, 83),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Map {
+          bindings: [],
+          recursive: false,
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "poller",
+               position: (9, 5),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              Inherit(
+               Some(
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (9, 25),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "log",
+                    position: (9, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               [
+                Raw {
+                 content: "debug",
+                 position: (9, 34),
+                },
+                Raw {
+                 content: "quiet",
+                 position: (9, 40),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "unifi",
+               position: (10, 5),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              Inherit(
+               Some(
+                Variable {
+                 identifier: "cfg",
+                 position: (10, 24),
+                },
+               ),
+               [
+                Raw {
+                 content: "controllers",
+                 position: (10, 29),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "influxdb",
+               position: (11, 5),
+              },
+              Raw {
+               content: "disable",
+               position: (11, 14),
+              },
+             ],
+            },
+            Variable {
+             identifier: "true",
+             position: (11, 24),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "prometheus",
+               position: (12, 5),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "http_listen",
+                  position: (13, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (13, 24),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listenAddress",
+                      position: (13, 28),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: ":",
+                  position: (13, 42),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: Variable {
+                    identifier: "toString",
+                    position: (13, 45),
+                   },
+                   arguments: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (13, 54),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "port",
+                        position: (13, 58),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "report_errors",
+                  position: (14, 7),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (14, 23),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "log",
+                   position: (14, 27),
+                  },
+                  Raw {
+                   content: "prometheusErrors",
+                   position: (14, 31),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (19, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9130,
+       position: (19, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "extraOpts",
+         position: (21, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        Inherit(
+         Some(
+          PropertyAccess {
+           expression: Variable {
+            identifier: "options",
+            position: (22, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (22, 22),
+             },
+             Raw {
+              content: "unifi-poller",
+              position: (22, 31),
+             },
+             Raw {
+              content: "unifi",
+              position: (22, 44),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         [
+          Raw {
+           content: "controllers",
+           position: (22, 51),
+          },
+         ],
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "log",
+            position: (23, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "debug",
+               position: (24, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (24, 15),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "debug logging including line numbers, high resolution timestamps, per-device logs.",
+                 position: (24, 31),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "quiet",
+               position: (25, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (25, 15),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "startup and error logs only.",
+                 position: (25, 31),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "prometheusErrors",
+               position: (26, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (26, 26),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "emitting errors to prometheus.",
+                 position: (26, 42),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (30, 3),
+        },
+        Raw {
+         content: "serviceConfig",
+         position: (30, 15),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "ExecStart",
+            position: (31, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (31, 20),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "unifi-poller",
+                position: (31, 25),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: "/bin/unifi-poller --config ",
+            position: (31, 38),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "configFile",
+             position: (31, 67),
+            },
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "DynamicUser",
+            position: (32, 5),
+           },
+          ],
+         },
+         Variable {
+          identifier: "false",
+          position: (32, 19),
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

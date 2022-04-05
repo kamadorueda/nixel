@@ -1,0 +1,3192 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "dd-agent",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ddConf",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 12),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (8, 17),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "datadog.conf",
+          position: (8, 28),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "[Main]\ndd_url: https://app.datadoghq.com\nskip_ssl_validation: no\napi_key: ",
+          position: (9, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 16),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "api_key",
+              position: (12, 20),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (12, 28),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (13, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (13, 23),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "hostname",
+                  position: (13, 27),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (13, 39),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "hostname: ",
+               position: (13, 46),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (13, 58),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "hostname",
+                   position: (13, 62),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n\ncollector_log_file: /var/log/datadog/collector.log\nforwarder_log_file: /var/log/datadog/forwarder.log\ndogstatsd_log_file: /var/log/datadog/dogstatsd.log\npup_log_file:       /var/log/datadog/pup.log\n\n# proxy_host: my-proxy.com\n# proxy_port: 3128\n# proxy_user: user\n# proxy_password: password\n\n# tags: mytag0, mytag1\n",
+          position: (13, 73),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (26, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (26, 23),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "tags",
+                  position: (26, 27),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (26, 35),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "tags: ",
+               position: (26, 43),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (26, 51),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: ", ",
+                    position: (26, 69),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (26, 73),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "tags",
+                     position: (26, 77),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n\n# collect_ec2_tags: no\n# recent_point_threshold: 30\n# use_mount: no\n# listen_port: 17123\n# graphite_listen_port: 17124\n# non_local_traffic: no\n# use_curl_http_client: False\n# bind_host: localhost\n\n# use_pup: no\n# pup_port: 17125\n# pup_interface: localhost\n# pup_url: http://localhost:17125\n\n# dogstatsd_port : 8125\n# dogstatsd_interval : 10\n# dogstatsd_normalize : yes\n# statsd_forward_host: address_of_own_statsd_server\n# statsd_forward_port: 8125\n\n# device_blacklist_re: .*\\/dev\\/mapper\\/lxc-box.*\n\n# ganglia_host: localhost\n# ganglia_port: 8651\n",
+          position: (26, 85),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "diskConfig",
+        position: (54, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (54, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (54, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "disk.yaml",
+          position: (54, 32),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "init_config:\n\ninstances:\n  - use_mount: no\n",
+          position: (55, 1),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "networkConfig",
+        position: (61, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (61, 19),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (61, 24),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "network.yaml",
+          position: (61, 35),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "init_config:\n\ninstances:\n  # Network check only supports one configured instance\n  - collect_connection_state: false\n    excluded_interfaces:\n      - lo\n      - lo0\n",
+          position: (62, 1),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "postgresqlConfig",
+        position: (72, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (72, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (72, 27),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "postgres.yaml",
+          position: (72, 38),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (72, 53),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "postgresqlConfig",
+           position: (72, 57),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "nginxConfig",
+        position: (73, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (73, 17),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (73, 22),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "nginx.yaml",
+          position: (73, 33),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (73, 45),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "nginxConfig",
+           position: (73, 49),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "mongoConfig",
+        position: (74, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (74, 17),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (74, 22),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "mongo.yaml",
+          position: (74, 33),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (74, 45),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mongoConfig",
+           position: (74, 49),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "jmxConfig",
+        position: (75, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (75, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (75, 20),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "jmx.yaml",
+          position: (75, 31),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (75, 41),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "jmxConfig",
+           position: (75, 45),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "processConfig",
+        position: (76, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (76, 19),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (76, 24),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "process.yaml",
+          position: (76, 35),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (76, 49),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "processConfig",
+           position: (76, 53),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "etcfiles",
+        position: (78, 3),
+       },
+      ],
+     },
+     LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "defaultConfd",
+           position: (80, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "import",
+          position: (80, 22),
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./dd-agent-defaults.nix",
+             position: (80, 29),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+      ],
+      target: BinaryOperation {
+       operator: Update,
+       operands: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "listToAttrs",
+          position: (82, 7),
+         },
+         arguments: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "map",
+            position: (82, 20),
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "f",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "name",
+                   position: (83, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "dd-agent/conf.d/",
+                   position: (83, 17),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "f",
+                    position: (83, 35),
+                   },
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "value",
+                   position: (84, 9),
+                  },
+                  Raw {
+                   content: "source",
+                   position: (84, 15),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (84, 27),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "dd-agent",
+                       position: (84, 32),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/agent/conf.d-system/",
+                   position: (84, 41),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "f",
+                    position: (84, 64),
+                   },
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            },
+            Variable {
+             identifier: "defaultConfd",
+             position: (85, 10),
+            },
+           ],
+          },
+         ],
+        },
+        BinaryOperation {
+         operator: Update,
+         operands: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Expression {
+                expression: String {
+                 parts: [
+                  Raw {
+                   content: "dd-agent/datadog.conf",
+                   position: (87, 10),
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "source",
+                position: (87, 33),
+               },
+              ],
+             },
+             Variable {
+              identifier: "ddConf",
+              position: (87, 42),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Expression {
+                expression: String {
+                 parts: [
+                  Raw {
+                   content: "dd-agent/conf.d/disk.yaml",
+                   position: (88, 10),
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "source",
+                position: (88, 37),
+               },
+              ],
+             },
+             Variable {
+              identifier: "diskConfig",
+              position: (88, 46),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Expression {
+                expression: String {
+                 parts: [
+                  Raw {
+                   content: "dd-agent/conf.d/network.yaml",
+                   position: (89, 10),
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "source",
+                position: (89, 40),
+               },
+              ],
+             },
+             Variable {
+              identifier: "networkConfig",
+              position: (89, 49),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            FunctionApplication {
+             function: Variable {
+              identifier: "optionalAttrs",
+              position: (91, 8),
+             },
+             arguments: [
+              BinaryOperation {
+               operator: NotEqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (91, 23),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "postgresqlConfig",
+                    position: (91, 27),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                Variable {
+                 identifier: "null",
+                 position: (91, 47),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Expression {
+                    expression: String {
+                     parts: [
+                      Raw {
+                       content: "dd-agent/conf.d/postgres.yaml",
+                       position: (93, 10),
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: "source",
+                    position: (93, 41),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "postgresqlConfig",
+                  position: (93, 50),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: Update,
+             operands: [
+              FunctionApplication {
+               function: Variable {
+                identifier: "optionalAttrs",
+                position: (95, 8),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: NotEqualTo,
+                 operands: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (95, 23),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nginxConfig",
+                      position: (95, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  Variable {
+                   identifier: "null",
+                   position: (95, 42),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "dd-agent/conf.d/nginx.yaml",
+                         position: (97, 10),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "source",
+                      position: (97, 38),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "nginxConfig",
+                    position: (97, 47),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Update,
+               operands: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "optionalAttrs",
+                  position: (99, 8),
+                 },
+                 arguments: [
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (99, 23),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "mongoConfig",
+                        position: (99, 27),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (99, 42),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Expression {
+                        expression: String {
+                         parts: [
+                          Raw {
+                           content: "dd-agent/conf.d/mongo.yaml",
+                           position: (101, 10),
+                          },
+                         ],
+                        },
+                       },
+                       Raw {
+                        content: "source",
+                        position: (101, 38),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "mongoConfig",
+                      position: (101, 47),
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Update,
+                 operands: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "optionalAttrs",
+                    position: (103, 8),
+                   },
+                   arguments: [
+                    BinaryOperation {
+                     operator: NotEqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (103, 23),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "processConfig",
+                          position: (103, 27),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      Variable {
+                       identifier: "null",
+                       position: (103, 44),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Expression {
+                          expression: String {
+                           parts: [
+                            Raw {
+                             content: "dd-agent/conf.d/process.yaml",
+                             position: (105, 10),
+                            },
+                           ],
+                          },
+                         },
+                         Raw {
+                          content: "source",
+                          position: (105, 40),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "processConfig",
+                        position: (105, 49),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "optionalAttrs",
+                    position: (107, 8),
+                   },
+                   arguments: [
+                    BinaryOperation {
+                     operator: NotEqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (107, 23),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "jmxConfig",
+                          position: (107, 27),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      Variable {
+                       identifier: "null",
+                       position: (107, 40),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Expression {
+                          expression: String {
+                           parts: [
+                            Raw {
+                             content: "dd-agent/conf.d/jmx.yaml",
+                             position: (109, 10),
+                            },
+                           ],
+                          },
+                         },
+                         Raw {
+                          content: "source",
+                          position: (109, 36),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "jmxConfig",
+                        position: (109, 45),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (113, 3),
+        },
+        Raw {
+         content: "services",
+         position: (113, 11),
+        },
+        Raw {
+         content: "dd-agent",
+         position: (113, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (114, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (114, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (115, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable the dd-agent v5 monitoring service.\nFor datadog-agent v6, see <option>services.datadog-agent.enable</option>.\n",
+                 position: (116, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (119, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (119, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (120, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (120, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (120, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "api_key",
+            position: (123, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (123, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (124, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The Datadog API key to associate the agent with your account.\n\nWarning: this key is stored in cleartext within the world-readable\nNix store! Consider using the new v6\n<option>services.datadog-agent</option> module instead.\n",
+                 position: (125, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (131, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "ae0aa6a8f08efa988ba0a17578f009ab",
+                 position: (131, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (132, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (132, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (132, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "tags",
+            position: (135, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (135, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (136, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The tags to mark this Datadog agent",
+                 position: (136, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (137, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "test",
+                   position: (137, 20),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "service",
+                   position: (137, 27),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (138, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (138, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (139, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (139, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (139, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (139, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "listOf",
+                     position: (139, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (139, 41),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (139, 47),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "hostname",
+            position: (142, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (142, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (143, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The hostname to show in the Datadog dashboard (optional)",
+                 position: (143, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (144, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (144, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (145, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "mymachine.mydomain",
+                 position: (145, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (146, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (146, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (146, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (146, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (146, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "postgresqlConfig",
+            position: (149, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (149, 24),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (150, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Datadog PostgreSQL integration configuration",
+                 position: (150, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (151, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (151, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (152, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (152, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (152, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (152, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (152, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nginxConfig",
+            position: (155, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (155, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (156, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Datadog nginx integration configuration",
+                 position: (156, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (157, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (157, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (158, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (158, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (158, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (158, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (158, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "mongoConfig",
+            position: (161, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (161, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (162, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "MongoDB integration configuration",
+                 position: (162, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (163, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (163, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (164, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (164, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (164, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (164, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (164, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "jmxConfig",
+            position: (167, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (167, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (168, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "JMX integration configuration",
+                 position: (168, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (169, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (169, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (170, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (170, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (170, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (170, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (170, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "processConfig",
+            position: (173, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (173, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (174, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Process integration configuration\nSee <link xlink:href=\"https://docs.datadoghq.com/integrations/process/\"/>\n",
+                 position: (175, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (178, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (178, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (179, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (179, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (179, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (179, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (179, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (184, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (184, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (184, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (184, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (185, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (185, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (185, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "dd-agent",
+                 position: (185, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (185, 50),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "sysstat",
+                 position: (185, 55),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (185, 63),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "procps",
+                 position: (185, 68),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (187, 5),
+             },
+             Raw {
+              content: "users",
+              position: (187, 11),
+             },
+             Raw {
+              content: "datadog",
+              position: (187, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (188, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Datadog Agent User",
+                 position: (188, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (189, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (189, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (189, 20),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (189, 24),
+                 },
+                 Raw {
+                  content: "datadog",
+                  position: (189, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (190, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "datadog",
+                 position: (190, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "home",
+                 position: (191, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/log/datadog/",
+                 position: (191, 15),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "createHome",
+                 position: (192, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (192, 20),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (195, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (195, 11),
+             },
+             Raw {
+              content: "datadog",
+              position: (195, 18),
+             },
+             Raw {
+              content: "gid",
+              position: (195, 26),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "config",
+             position: (195, 32),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "ids",
+               position: (195, 39),
+              },
+              Raw {
+               content: "gids",
+               position: (195, 43),
+              },
+              Raw {
+               content: "datadog",
+               position: (195, 48),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (197, 5),
+             },
+             Raw {
+              content: "services",
+              position: (197, 13),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "makeService",
+                 position: (198, 7),
+                },
+               ],
+              },
+              Function {
+               argument: Some(
+                "attrs",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: FunctionApplication {
+                function: Variable {
+                 identifier: "recursiveUpdate",
+                 position: (198, 28),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (199, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (199, 18),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "dd-agent",
+                          position: (199, 23),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (199, 32),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "python",
+                          position: (199, 37),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (199, 44),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "sysstat",
+                          position: (199, 49),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (199, 57),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "procps",
+                          position: (199, 62),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (199, 69),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "gohai",
+                          position: (199, 74),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "wantedBy",
+                       position: (200, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "multi-user.target",
+                         position: (200, 23),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "serviceConfig",
+                       position: (201, 9),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "User",
+                          position: (202, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "datadog",
+                          position: (202, 19),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "Group",
+                          position: (203, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "datadog",
+                          position: (203, 20),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "Restart",
+                          position: (204, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "always",
+                          position: (204, 22),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "RestartSec",
+                          position: (205, 11),
+                         },
+                        ],
+                       },
+                       Int {
+                        value: 2,
+                        position: (205, 24),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "PrivateTmp",
+                          position: (206, 11),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "true",
+                        position: (206, 24),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "restartTriggers",
+                       position: (208, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (208, 29),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "dd-agent",
+                          position: (208, 34),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      Variable {
+                       identifier: "ddConf",
+                       position: (208, 43),
+                      },
+                      Variable {
+                       identifier: "diskConfig",
+                       position: (208, 50),
+                      },
+                      Variable {
+                       identifier: "networkConfig",
+                       position: (208, 61),
+                      },
+                      Variable {
+                       identifier: "postgresqlConfig",
+                       position: (208, 75),
+                      },
+                      Variable {
+                       identifier: "nginxConfig",
+                       position: (208, 92),
+                      },
+                      Variable {
+                       identifier: "mongoConfig",
+                       position: (208, 104),
+                      },
+                      Variable {
+                       identifier: "jmxConfig",
+                       position: (208, 116),
+                      },
+                      Variable {
+                       identifier: "processConfig",
+                       position: (208, 126),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                 Variable {
+                  identifier: "attrs",
+                  position: (209, 9),
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            target: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dd-agent",
+                  position: (211, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "makeService",
+                 position: (211, 18),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (212, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Datadog agent monitor",
+                       position: (212, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "serviceConfig",
+                       position: (213, 9),
+                      },
+                      Raw {
+                       content: "ExecStart",
+                       position: (213, 23),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "pkgs",
+                         position: (213, 38),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "dd-agent",
+                           position: (213, 43),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/bin/dd-agent foreground",
+                       position: (213, 52),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dogstatsd",
+                  position: (216, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "makeService",
+                 position: (216, 19),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (217, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Datadog statsd",
+                       position: (217, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "environment",
+                       position: (218, 9),
+                      },
+                      Raw {
+                       content: "TMPDIR",
+                       position: (218, 21),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "/run/dogstatsd",
+                       position: (218, 31),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "serviceConfig",
+                       position: (219, 9),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "ExecStart",
+                          position: (220, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Expression {
+                          expression: PropertyAccess {
+                           expression: Variable {
+                            identifier: "pkgs",
+                            position: (220, 26),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "dd-agent",
+                              position: (220, 31),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         },
+                         Raw {
+                          content: "/bin/dogstatsd start",
+                          position: (220, 40),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "Type",
+                          position: (221, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "forking",
+                          position: (221, 19),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "PIDFile",
+                          position: (222, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "/run/dogstatsd/dogstatsd.pid",
+                          position: (222, 22),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "RuntimeDirectory",
+                          position: (223, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "dogstatsd",
+                          position: (223, 31),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dd-jmxfetch",
+                  position: (227, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (227, 21),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "mkIf",
+                    position: (227, 25),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (227, 31),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "jmxConfig",
+                       position: (227, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (227, 48),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (228, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Datadog JMX Fetcher",
+                       position: (228, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (229, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (229, 18),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "dd-agent",
+                          position: (229, 23),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (229, 32),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "python",
+                          position: (229, 37),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (229, 44),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "sysstat",
+                          position: (229, 49),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (229, 57),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "procps",
+                          position: (229, 62),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (229, 69),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "jdk",
+                          position: (229, 74),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "serviceConfig",
+                       position: (230, 9),
+                      },
+                      Raw {
+                       content: "ExecStart",
+                       position: (230, 23),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "pkgs",
+                         position: (230, 38),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "dd-agent",
+                           position: (230, 43),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/bin/dd-jmxfetch",
+                       position: (230, 52),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (234, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (234, 17),
+             },
+            ],
+           },
+           Variable {
+            identifier: "etcfiles",
+            position: (234, 23),
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

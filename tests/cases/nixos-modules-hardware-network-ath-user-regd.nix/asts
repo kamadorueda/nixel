@@ -1,0 +1,418 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "kernelVersion",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 19),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (5, 26),
+        },
+        Raw {
+         content: "kernelPackages",
+         position: (5, 31),
+        },
+        Raw {
+         content: "kernel",
+         position: (5, 46),
+        },
+        Raw {
+         content: "version",
+         position: (5, 53),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "linuxKernelMinVersion",
+        position: (6, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "5.8",
+        position: (6, 28),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "kernelPatch",
+        position: (7, 3),
+       },
+      ],
+     },
+     BinaryOperation {
+      operator: Update,
+      operands: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (7, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "kernelPatches",
+           position: (7, 22),
+          },
+          Raw {
+           content: "ath_regd_optional",
+           position: (7, 36),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "extraConfig",
+             position: (8, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "ATH_USER_REGD y\n",
+             position: (9, 1),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (14, 3),
+        },
+        Raw {
+         content: "networking",
+         position: (14, 11),
+        },
+        Raw {
+         content: "wireless",
+         position: (14, 22),
+        },
+        Raw {
+         content: "athUserRegulatoryDomain",
+         position: (14, 31),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkOption",
+        position: (14, 57),
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "default",
+              position: (15, 5),
+             },
+            ],
+           },
+           Variable {
+            identifier: "false",
+            position: (15, 15),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "type",
+              position: (16, 5),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "types",
+             position: (16, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "bool",
+               position: (16, 18),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "description",
+              position: (17, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "If enabled, sets the ATH_USER_REGD kernel config switch to true to\ndisable the enforcement of EEPROM regulatory restrictions for ath\ndrivers. Requires at least Linux ",
+              position: (18, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "linuxKernelMinVersion",
+               position: (20, 42),
+              },
+             },
+             Raw {
+              content: ".\n",
+              position: (20, 64),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (24, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (24, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (24, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "networking",
+            position: (24, 24),
+           },
+           Raw {
+            content: "wireless",
+            position: (24, 35),
+           },
+           Raw {
+            content: "athUserRegulatoryDomain",
+            position: (24, 44),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (25, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "singleton",
+             position: (25, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (26, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "lessThan",
+                  position: (26, 19),
+                 },
+                 arguments: [
+                  Int {
+                   value: 0,
+                   position: (26, 28),
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "builtins",
+                     position: (26, 31),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "compareVersions",
+                       position: (26, 40),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "kernelVersion",
+                     position: (26, 56),
+                    },
+                    Variable {
+                     identifier: "linuxKernelMinVersion",
+                     position: (26, 70),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (27, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "ATH_USER_REGD patch for kernels older than ",
+                   position: (27, 18),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "linuxKernelMinVersion",
+                    position: (27, 63),
+                   },
+                  },
+                  Raw {
+                   content: " not ported yet!",
+                   position: (27, 85),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (29, 5),
+             },
+             Raw {
+              content: "kernelPatches",
+              position: (29, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "kernelPatch",
+              position: (29, 28),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

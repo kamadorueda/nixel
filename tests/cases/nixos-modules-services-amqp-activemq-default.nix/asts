@@ -1,0 +1,1661 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (3, 6),
+  },
+  target: With {
+   expression: Variable {
+    identifier: "lib",
+    position: (4, 6),
+   },
+   target: LetIn {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "cfg",
+         position: (8, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (8, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "services",
+          position: (8, 16),
+         },
+         Raw {
+          content: "activemq",
+          position: (8, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "activemqBroker",
+         position: (10, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "stdenv",
+         position: (10, 20),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mkDerivation",
+           position: (10, 27),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "name",
+              position: (11, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "activemq-broker",
+              position: (11, 13),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "phases",
+              position: (12, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "installPhase",
+                position: (12, 17),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "buildInputs",
+              position: (13, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "jdk",
+              position: (13, 21),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "installPhase",
+              position: (14, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "mkdir -p $out/lib\nsource ",
+              position: (15, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "activemq",
+               position: (16, 16),
+              },
+             },
+             Raw {
+              content: "/lib/classpath.env\nexport CLASSPATH\nln -s \"",
+              position: (16, 25),
+             },
+             Expression {
+              expression: Path {
+               parts: [
+                Raw {
+                 content: "./ActiveMQBroker.java",
+                 position: (18, 16),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\" ActiveMQBroker.java\njavac -d $out/lib ActiveMQBroker.java\n",
+              position: (18, 38),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    target: Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "options",
+          position: (25, 3),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (26, 5),
+            },
+            Raw {
+             content: "activemq",
+             position: (26, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enable",
+                position: (27, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (27, 16),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (28, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (28, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "bool",
+                      position: (28, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (29, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (29, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (30, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Enable the Apache ActiveMQ message broker service.\n",
+                     position: (31, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "configurationDir",
+                position: (34, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (34, 26),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (35, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "activemq",
+                      position: (35, 22),
+                     },
+                    },
+                    Raw {
+                     content: "/conf",
+                     position: (35, 31),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "defaultText",
+                     position: (36, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (36, 23),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "\"",
+                       position: (36, 43),
+                      },
+                      Raw {
+                       content: "$",
+                       position: (36, 44),
+                      },
+                      Raw {
+                       content: "{pkgs.activemq}/conf\"",
+                       position: (36, 47),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (37, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (37, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (37, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (38, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The base directory for ActiveMQ's configuration.\nBy default, this directory is searched for a file named activemq.xml,\nwhich should contain the configuration for the broker service.\n",
+                     position: (39, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "configurationURI",
+                position: (44, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (44, 26),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (45, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (45, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (45, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (46, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "xbean:activemq.xml",
+                     position: (46, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (47, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The URI that is passed along to the BrokerFactory to\nset up the configuration of the ActiveMQ broker service.\nYou should not need to change this. For custom configuration,\nset the <literal>configurationDir</literal> instead, and create\nan activemq.xml configuration file in it.\n",
+                     position: (48, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "baseDir",
+                position: (55, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (55, 17),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (56, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (56, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (56, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (57, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/var/activemq",
+                     position: (57, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (58, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The base directory where ActiveMQ stores its persistent data and logs.\nThis will be overridden if you set \"activemq.base\" and \"activemq.data\"\nin the <literal>javaProperties</literal> option. You can also override\nthis in activemq.xml.\n",
+                     position: (59, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "javaProperties",
+                position: (65, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (65, 24),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (66, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (66, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "attrs",
+                      position: (66, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (67, 9),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [],
+                   recursive: false,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (68, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (68, 19),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "{\n  \"java.net.preferIPv4Stack\" = \"true\";\n}\n",
+                       position: (69, 1),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "apply",
+                     position: (73, 9),
+                    },
+                   ],
+                  },
+                  Function {
+                   argument: Some(
+                    "attrs",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: BinaryOperation {
+                    operator: Update,
+                    operands: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Expression {
+                           expression: String {
+                            parts: [
+                             Raw {
+                              content: "activemq.base",
+                              position: (74, 12),
+                             },
+                            ],
+                           },
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Expression {
+                           expression: PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (74, 32),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "baseDir",
+                               position: (74, 36),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Expression {
+                           expression: String {
+                            parts: [
+                             Raw {
+                              content: "activemq.data",
+                              position: (75, 12),
+                             },
+                            ],
+                           },
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Expression {
+                           expression: PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (75, 32),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "baseDir",
+                               position: (75, 36),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          },
+                          Raw {
+                           content: "/data",
+                           position: (75, 44),
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Expression {
+                           expression: String {
+                            parts: [
+                             Raw {
+                              content: "activemq.conf",
+                              position: (76, 12),
+                             },
+                            ],
+                           },
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Expression {
+                           expression: PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (76, 32),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "configurationDir",
+                               position: (76, 36),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Expression {
+                           expression: String {
+                            parts: [
+                             Raw {
+                              content: "activemq.home",
+                              position: (77, 12),
+                             },
+                            ],
+                           },
+                          },
+                         ],
+                        },
+                        String {
+                         parts: [
+                          Expression {
+                           expression: Variable {
+                            identifier: "activemq",
+                            position: (77, 32),
+                           },
+                          },
+                         ],
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                     Variable {
+                      identifier: "attrs",
+                      position: (78, 14),
+                     },
+                    ],
+                   },
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (79, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Specifies Java properties that are sent to the ActiveMQ\nbroker service with the \"-D\" option. You can set properties\nhere to change the behaviour and configuration of the broker.\nAll essential properties that are not set here are automatically\ngiven reasonable defaults.\n",
+                     position: (80, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "extraJavaOptions",
+                position: (87, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (87, 26),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (88, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (88, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "separatedString",
+                       position: (88, 22),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: " ",
+                       position: (88, 39),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (89, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (90, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "-Xmx2G -Xms2G -XX:MaxPermSize=512M",
+                     position: (90, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (91, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Add extra options here that you want to be sent to the\nJava runtime when the broker service is started.\n",
+                     position: (92, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "config",
+          position: (99, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkIf",
+         position: (99, 12),
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (99, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "enable",
+             position: (99, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (100, 5),
+              },
+              Raw {
+               content: "users",
+               position: (100, 11),
+              },
+              Raw {
+               content: "activemq",
+               position: (100, 17),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (101, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "ActiveMQ server user",
+                  position: (101, 22),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (102, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "activemq",
+                  position: (102, 16),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "uid",
+                  position: (103, 7),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (103, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ids",
+                   position: (103, 20),
+                  },
+                  Raw {
+                   content: "uids",
+                   position: (103, 24),
+                  },
+                  Raw {
+                   content: "activemq",
+                   position: (103, 29),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "users",
+               position: (106, 5),
+              },
+              Raw {
+               content: "groups",
+               position: (106, 11),
+              },
+              Raw {
+               content: "activemq",
+               position: (106, 18),
+              },
+              Raw {
+               content: "gid",
+               position: (106, 27),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (106, 33),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "ids",
+                position: (106, 40),
+               },
+               Raw {
+                content: "gids",
+                position: (106, 44),
+               },
+               Raw {
+                content: "activemq",
+                position: (106, 49),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (108, 5),
+              },
+              Raw {
+               content: "services",
+               position: (108, 13),
+              },
+              Raw {
+               content: "activemq_init",
+               position: (108, 22),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (109, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "activemq.service",
+                    position: (109, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "partOf",
+                  position: (110, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "activemq.service",
+                    position: (110, 19),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "before",
+                  position: (111, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "activemq.service",
+                    position: (111, 19),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (112, 7),
+                 },
+                 Raw {
+                  content: "Type",
+                  position: (112, 21),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "oneshot",
+                  position: (112, 29),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "script",
+                  position: (113, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "mkdir -p \"",
+                  position: (114, 1),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (114, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "javaProperties",
+                      position: (114, 25),
+                     },
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "activemq.data",
+                         position: (114, 41),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\"\nchown -R activemq \"",
+                  position: (114, 56),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (115, 30),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "javaProperties",
+                      position: (115, 34),
+                     },
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "activemq.data",
+                         position: (115, 50),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\"\n",
+                  position: (115, 65),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (119, 5),
+              },
+              Raw {
+               content: "services",
+               position: (119, 13),
+              },
+              Raw {
+               content: "activemq",
+               position: (119, 22),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (120, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "multi-user.target",
+                    position: (120, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "after",
+                  position: (121, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "network.target",
+                    position: (121, 18),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (122, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Variable {
+                  identifier: "jre",
+                  position: (122, 16),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (123, 7),
+                 },
+                 Raw {
+                  content: "User",
+                  position: (123, 21),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "activemq",
+                  position: (123, 29),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "script",
+                  position: (124, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "source ",
+                  position: (125, 1),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "activemq",
+                   position: (125, 18),
+                  },
+                 },
+                 Raw {
+                  content: "/lib/classpath.env\nexport CLASSPATH=",
+                  position: (125, 27),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "activemqBroker",
+                   position: (126, 28),
+                  },
+                 },
+                 Raw {
+                  content: "/lib:",
+                  position: (126, 43),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (126, 50),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "configurationDir",
+                      position: (126, 54),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: ":$CLASSPATH\nexec java \\\n  ",
+                  position: (126, 71),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: Variable {
+                    identifier: "concatStringsSep",
+                    position: (128, 13),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: " \\\n",
+                       position: (128, 31),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "mapAttrsToList",
+                      position: (128, 39),
+                     },
+                     arguments: [
+                      Function {
+                       argument: Some(
+                        "name",
+                       ),
+                       arguments: FunctionArguments {
+                        arguments: [],
+                        ellipsis: false,
+                       },
+                       definition: Function {
+                        argument: Some(
+                         "value",
+                        ),
+                        arguments: FunctionArguments {
+                         arguments: [],
+                         ellipsis: false,
+                        },
+                        definition: String {
+                         parts: [
+                          Raw {
+                           content: "-D",
+                           position: (128, 69),
+                          },
+                          Expression {
+                           expression: Variable {
+                            identifier: "name",
+                            position: (128, 73),
+                           },
+                          },
+                          Raw {
+                           content: "=",
+                           position: (128, 78),
+                          },
+                          Expression {
+                           expression: Variable {
+                            identifier: "value",
+                            position: (128, 81),
+                           },
+                          },
+                         ],
+                        },
+                       },
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (128, 90),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "javaProperties",
+                          position: (128, 94),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: " \\\n  ",
+                  position: (128, 110),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (129, 13),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraJavaOptions",
+                      position: (129, 17),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: " ActiveMQBroker \"",
+                  position: (129, 34),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (129, 53),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "configurationURI",
+                      position: (129, 57),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\"\n",
+                  position: (129, 74),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   },
+  },
+ },
+}

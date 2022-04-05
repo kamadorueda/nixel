@@ -1,0 +1,1484 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "utils",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (5, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "loginDefs",
+        position: (19, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "DEFAULT_HOME yes\n\nSYS_UID_MIN  400\nSYS_UID_MAX  999\nUID_MIN      1000\nUID_MAX      29999\n\nSYS_GID_MIN  400\nSYS_GID_MAX  999\nGID_MIN      1000\nGID_MAX      29999\n\nTTYGROUP     tty\nTTYPERM      0620\n\n# Ensure privacy for newly created home directories.\nUMASK        077\n\n# Uncomment this and install chfn SUID to allow non-root\n# users to change their account GECOS information.\n# This should be made configurable.\n#CHFN_RESTRICT frwh\n\n",
+        position: (21, 1),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "mkSetuidRoot",
+        position: (46, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "source",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "setuid",
+            position: (47, 7),
+           },
+          ],
+         },
+         Variable {
+          identifier: "true",
+          position: (47, 16),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "owner",
+            position: (48, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "root",
+            position: (48, 16),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "group",
+            position: (49, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "root",
+            position: (49, 16),
+           },
+          ],
+         },
+        ),
+        Inherit(
+         None,
+         [
+          Raw {
+           content: "source",
+           position: (50, 15),
+          },
+         ],
+        ),
+       ],
+       recursive: false,
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (59, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "users",
+            position: (61, 5),
+           },
+           Raw {
+            content: "defaultUserShell",
+            position: (61, 11),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (61, 30),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkOption",
+              position: (61, 34),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (62, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This option defines the default shell assigned to user\naccounts. This can be either a full system path or a shell package.\n\nThis must not be a store path, since the path is\nused outside the store (in particular in /etc/passwd).\n",
+                 position: (63, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (69, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (69, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.zsh",
+                   position: (69, 36),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (70, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (70, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "either",
+                   position: (70, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (70, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "path",
+                    position: (70, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (70, 38),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "shellPackage",
+                    position: (70, 44),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (78, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (80, 5),
+           },
+           Raw {
+            content: "systemPackages",
+            position: (80, 17),
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: Concatenation,
+          operands: [
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (81, 7),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optional",
+                position: (81, 11),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (81, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "users",
+                 position: (81, 27),
+                },
+                Raw {
+                 content: "mutableUsers",
+                 position: (81, 33),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (81, 46),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "shadow",
+                 position: (81, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (82, 7),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optional",
+                position: (82, 11),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (82, 21),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "shellPackage",
+                  position: (82, 27),
+                 },
+                 Raw {
+                  content: "check",
+                  position: (82, 40),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (82, 46),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "users",
+                   position: (82, 53),
+                  },
+                  Raw {
+                   content: "defaultUserShell",
+                   position: (82, 59),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (83, 9),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "users",
+                 position: (83, 16),
+                },
+                Raw {
+                 content: "defaultUserShell",
+                 position: (83, 22),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (85, 5),
+           },
+           Raw {
+            content: "etc",
+            position: (85, 17),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Expression {
+               expression: String {
+                parts: [
+                 Raw {
+                  content: "login.defs",
+                  position: (88, 10),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "source",
+               position: (88, 22),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (88, 31),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "writeText",
+                 position: (88, 36),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "login.defs",
+                 position: (88, 47),
+                },
+               ],
+              },
+              Variable {
+               identifier: "loginDefs",
+               position: (88, 59),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Expression {
+               expression: String {
+                parts: [
+                 Raw {
+                  content: "default/useradd",
+                  position: (91, 10),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "source",
+               position: (91, 27),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (91, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "writeText",
+                 position: (91, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "useradd",
+                 position: (91, 52),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "GROUP=100\nHOME=/home\nSHELL=",
+                 position: (93, 1),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "utils",
+                    position: (95, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "toShellPath",
+                      position: (95, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (95, 39),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "users",
+                       position: (95, 46),
+                      },
+                      Raw {
+                       content: "defaultUserShell",
+                       position: (95, 52),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "\n",
+                 position: (95, 69),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (99, 5),
+           },
+           Raw {
+            content: "pam",
+            position: (99, 14),
+           },
+           Raw {
+            content: "services",
+            position: (99, 18),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "chsh",
+               position: (100, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (100, 18),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (100, 27),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "chfn",
+               position: (101, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (101, 18),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (101, 27),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "su",
+               position: (102, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (102, 16),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (102, 25),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "forwardXAuth",
+                  position: (102, 31),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (102, 46),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "logFailures",
+                  position: (102, 52),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (102, 66),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "passwd",
+               position: (103, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "useradd",
+               position: (107, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (107, 21),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (107, 30),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "usermod",
+               position: (108, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (108, 21),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (108, 30),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "userdel",
+               position: (109, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (109, 21),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (109, 30),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "groupadd",
+               position: (110, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (110, 22),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (110, 31),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "groupmod",
+               position: (111, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (111, 22),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (111, 31),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "groupmems",
+               position: (112, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (112, 23),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (112, 32),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "groupdel",
+               position: (113, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (113, 22),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (113, 31),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "login",
+               position: (114, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "startSession",
+                  position: (114, 19),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (114, 34),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "allowNullPassword",
+                  position: (114, 40),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (114, 60),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "showMotd",
+                  position: (114, 66),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (114, 77),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "updateWtmp",
+                  position: (114, 83),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (114, 96),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "chpasswd",
+               position: (115, 9),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "rootOK",
+                  position: (115, 22),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (115, 31),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (118, 5),
+           },
+           Raw {
+            content: "wrappers",
+            position: (118, 14),
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: Update,
+          operands: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "su",
+                 position: (119, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkSetuidRoot",
+                position: (119, 19),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (119, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "shadow",
+                       position: (119, 40),
+                      },
+                      Raw {
+                       content: "su",
+                       position: (119, 47),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/su",
+                   position: (119, 50),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "sg",
+                 position: (120, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkSetuidRoot",
+                position: (120, 19),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (120, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "shadow",
+                       position: (120, 40),
+                      },
+                      Raw {
+                       content: "out",
+                       position: (120, 47),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/sg",
+                   position: (120, 51),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "newgrp",
+                 position: (121, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkSetuidRoot",
+                position: (121, 19),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (121, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "shadow",
+                       position: (121, 40),
+                      },
+                      Raw {
+                       content: "out",
+                       position: (121, 47),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/newgrp",
+                   position: (121, 51),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "newuidmap",
+                 position: (122, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkSetuidRoot",
+                position: (122, 19),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (122, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "shadow",
+                       position: (122, 40),
+                      },
+                      Raw {
+                       content: "out",
+                       position: (122, 47),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/newuidmap",
+                   position: (122, 51),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "newgidmap",
+                 position: (123, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkSetuidRoot",
+                position: (123, 19),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (123, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "shadow",
+                       position: (123, 40),
+                      },
+                      Raw {
+                       content: "out",
+                       position: (123, 47),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/newgidmap",
+                   position: (123, 51),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (124, 10),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalAttrs",
+                position: (124, 14),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (124, 28),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "users",
+                 position: (124, 35),
+                },
+                Raw {
+                 content: "mutableUsers",
+                 position: (124, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "chsh",
+                   position: (125, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkSetuidRoot",
+                  position: (125, 16),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "pkgs",
+                       position: (125, 32),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "shadow",
+                         position: (125, 37),
+                        },
+                        Raw {
+                         content: "out",
+                         position: (125, 44),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/bin/chsh",
+                     position: (125, 48),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "passwd",
+                   position: (126, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkSetuidRoot",
+                  position: (126, 16),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "pkgs",
+                       position: (126, 32),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "shadow",
+                         position: (126, 37),
+                        },
+                        Raw {
+                         content: "out",
+                         position: (126, 44),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/bin/passwd",
+                     position: (126, 48),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

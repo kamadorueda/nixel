@@ -1,0 +1,1189 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "syslogd",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "syslogConf",
+        position: (9, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (9, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (9, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "syslog.conf",
+          position: (9, 32),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "",
+          position: (10, 1),
+         },
+         Expression {
+          expression: IfThenElse {
+           predicate: BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (10, 11),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "tty",
+                 position: (10, 15),
+                },
+               ],
+              },
+              default: None,
+             },
+             String {
+              parts: [],
+             },
+            ],
+           },
+           then: String {
+            parts: [
+             Raw {
+              content: "kern.warning;*.err;authpriv.none /dev/",
+              position: (10, 32),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (10, 72),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "tty",
+                  position: (10, 76),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+           else_: String {
+            parts: [],
+           },
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (10, 90),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (11, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "defaultConfig",
+              position: (11, 11),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (11, 25),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (12, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "extraConfig",
+              position: (12, 11),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (12, 23),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "defaultConf",
+        position: (15, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "# Send emergency messages to all users.\n*.emerg                       *\n\n# \"local1\" is used for dhcpd messages.\nlocal1.*                     -/var/log/dhcpd\n\nmail.*                       -/var/log/mail\n\n*.=warning;*.=err            -/var/log/warn\n*.crit                        /var/log/warn\n\n*.*;mail.none;local1.none    -/var/log/messages\n",
+        position: (16, 1),
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (35, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (37, 5),
+           },
+           Raw {
+            content: "syslogd",
+            position: (37, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (39, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (39, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (40, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (40, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (40, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (41, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable syslogd.  Note that systemd also logs\nsyslog messages, so you normally don't need to run syslogd.\n",
+                    position: (43, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "tty",
+               position: (48, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (48, 13),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (49, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (49, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (49, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (50, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "tty10",
+                    position: (50, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (51, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The tty device on which syslogd will print important log\nmessages. Leave this option blank to disable tty logging.\n",
+                    position: (52, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "defaultConfig",
+               position: (57, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (57, 23),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (58, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (58, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (58, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "defaultConf",
+                  position: (59, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (60, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The default <filename>syslog.conf</filename> file configures a\nfairly standard setup of log files, which can be extended by\nmeans of <varname>extraConfig</varname>.\n",
+                    position: (61, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enableNetworkInput",
+               position: (67, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (67, 28),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (68, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (68, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (68, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (69, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (69, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (70, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Accept logging through UDP. Option -r of syslogd(8).\n",
+                    position: (71, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (75, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (75, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (76, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (76, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (76, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (77, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (78, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "news.* -/var/log/news",
+                    position: (78, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (79, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Additional text appended to <filename>syslog.conf</filename>,\ni.e. the contents of <varname>defaultConfig</varname>.\n",
+                    position: (80, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraParams",
+               position: (85, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (85, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (86, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (86, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (86, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (86, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (86, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (87, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (88, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "-m 0",
+                      position: (88, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (89, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Additional parameters passed to <command>syslogd</command>.\n",
+                    position: (90, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (101, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (101, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (101, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (101, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (103, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (104, 11),
+                  },
+                 ],
+                },
+                UnaryOperation {
+                 operator: Not,
+                 operand: PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (104, 24),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "services",
+                     position: (104, 31),
+                    },
+                    Raw {
+                     content: "rsyslogd",
+                     position: (104, 40),
+                    },
+                    Raw {
+                     content: "enable",
+                     position: (104, 49),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (105, 11),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "rsyslogd conflicts with syslogd",
+                   position: (105, 22),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (109, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (109, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (109, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "sysklogd",
+                 position: (109, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (111, 5),
+             },
+             Raw {
+              content: "syslogd",
+              position: (111, 14),
+             },
+             Raw {
+              content: "extraParams",
+              position: (111, 22),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optional",
+             position: (111, 36),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (111, 45),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableNetworkInput",
+                 position: (111, 49),
+                },
+               ],
+              },
+              default: None,
+             },
+             String {
+              parts: [
+               Raw {
+                content: "-r",
+                position: (111, 69),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (114, 5),
+             },
+             Raw {
+              content: "services",
+              position: (114, 13),
+             },
+             Raw {
+              content: "syslog",
+              position: (114, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (115, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Syslog Daemon",
+                 position: (115, 24),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "requires",
+                 position: (117, 9),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "syslog.socket",
+                   position: (117, 23),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (119, 9),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (119, 23),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (121, 9),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (122, 13),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (122, 28),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "sysklogd",
+                        position: (122, 33),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/sbin/syslogd ",
+                    position: (122, 42),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "toString",
+                      position: (122, 58),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (122, 67),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "extraParams",
+                          position: (122, 71),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: " -f ",
+                    position: (122, 83),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "syslogConf",
+                     position: (122, 89),
+                    },
+                   },
+                   Raw {
+                    content: " -n",
+                    position: (122, 100),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "StandardOutput",
+                    position: (124, 13),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "null",
+                    position: (124, 31),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

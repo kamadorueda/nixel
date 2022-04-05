@@ -1,0 +1,915 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (5, 16),
+        },
+        Raw {
+         content: "ssm-agent",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "fake-lsb-release",
+        position: (10, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (10, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeScriptBin",
+          position: (10, 27),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "lsb_release",
+          position: (10, 43),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "#!",
+          position: (11, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (11, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "runtimeShell",
+              position: (11, 14),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n\ncase \"$1\" in\n  -i) echo \"nixos\";;\n  -r) echo \"",
+          position: (11, 27),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (15, 19),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (15, 26),
+             },
+             Raw {
+              content: "nixos",
+              position: (15, 33),
+             },
+             Raw {
+              content: "version",
+              position: (15, 39),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\";;\nesac\n",
+          position: (15, 47),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (19, 3),
+        },
+        Raw {
+         content: "services",
+         position: (19, 11),
+        },
+        Raw {
+         content: "ssm-agent",
+         position: (19, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (20, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (20, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "AWS SSM agent",
+              position: (20, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "package",
+            position: (22, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (22, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (23, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (23, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (23, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (24, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The SSM agent package to use",
+                 position: (24, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (25, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (25, 17),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ssm-agent",
+                   position: (25, 22),
+                  },
+                  Raw {
+                   content: "override",
+                   position: (25, 32),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "overrideEtc",
+                      position: (25, 43),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "false",
+                    position: (25, 57),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (26, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (26, 21),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.ssm-agent.override { overrideEtc = false; }",
+                   position: (26, 40),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (30, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (30, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (30, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (30, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (31, 5),
+             },
+             Raw {
+              content: "services",
+              position: (31, 13),
+             },
+             Raw {
+              content: "ssm-agent",
+              position: (31, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             Inherit(
+              Some(
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (32, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "package",
+                   position: (32, 20),
+                  },
+                  Raw {
+                   content: "meta",
+                   position: (32, 28),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              [
+               Raw {
+                content: "description",
+                position: (32, 34),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (33, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (33, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (34, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (34, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "path",
+                 position: (36, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                Variable {
+                 identifier: "fake-lsb-release",
+                 position: (36, 16),
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (36, 33),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "coreutils",
+                    position: (36, 38),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (37, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (38, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (38, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "package",
+                        position: (38, 28),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/amazon-ssm-agent",
+                    position: (38, 36),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "KillMode",
+                    position: (39, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "process",
+                    position: (39, 21),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Restart",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "always",
+                    position: (42, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "RestartSec",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "1min",
+                    position: (43, 23),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (49, 5),
+             },
+             Raw {
+              content: "sudo",
+              position: (49, 14),
+             },
+             Raw {
+              content: "extraRules",
+              position: (49, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "users",
+                   position: (51, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "ssm-user",
+                     position: (51, 20),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "commands",
+                   position: (52, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "command",
+                        position: (54, 13),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "ALL",
+                        position: (54, 24),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "options",
+                        position: (55, 13),
+                       },
+                      ],
+                     },
+                     List {
+                      elements: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "NOPASSWD",
+                          position: (55, 26),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (62, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (62, 11),
+             },
+             Raw {
+              content: "ssm-user",
+              position: (62, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (63, 5),
+             },
+             Raw {
+              content: "users",
+              position: (63, 11),
+             },
+             Raw {
+              content: "ssm-user",
+              position: (63, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "isNormalUser",
+                 position: (64, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (64, 22),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (65, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "ssm-user",
+                 position: (65, 16),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (68, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (68, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "amazon/ssm/seelog.xml",
+                 position: (68, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "source",
+              position: (68, 45),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (68, 57),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (68, 61),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/seelog.xml.template",
+              position: (68, 69),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (70, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (70, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "amazon/ssm/amazon-ssm-agent.json",
+                 position: (70, 22),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "source",
+              position: (70, 56),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (70, 69),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (70, 73),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/etc/amazon/ssm/amazon-ssm-agent.json.template",
+              position: (70, 81),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

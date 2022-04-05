@@ -1,0 +1,1682 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (2, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (4, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (4, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (4, 16),
+        },
+        Raw {
+         content: "tlp",
+         position: (4, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "enableRDW",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 15),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "networking",
+         position: (5, 22),
+        },
+        Raw {
+         content: "networkmanager",
+         position: (5, 33),
+        },
+        Raw {
+         content: "enable",
+         position: (5, 48),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "tlp",
+        position: (6, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (6, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "tlp",
+          position: (6, 14),
+         },
+         Raw {
+          content: "override",
+          position: (6, 18),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "enableRDW",
+            position: (6, 37),
+           },
+          ],
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "mkTlpConfig",
+        position: (8, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "tlpConfig",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "generators",
+         position: (8, 28),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "toKeyValue",
+           position: (8, 39),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "mkKeyValue",
+              position: (9, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "generators",
+              position: (9, 18),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkKeyValueDefault",
+                position: (9, 29),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "mkValueString",
+                   position: (10, 7),
+                  },
+                 ],
+                },
+                Function {
+                 argument: Some(
+                  "val",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: IfThenElse {
+                  predicate: FunctionApplication {
+                   function: Variable {
+                    identifier: "isList",
+                    position: (11, 12),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "val",
+                     position: (11, 19),
+                    },
+                   ],
+                  },
+                  then: BinaryOperation {
+                   operator: Addition,
+                   operands: [
+                    BinaryOperation {
+                     operator: Addition,
+                     operands: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "\"",
+                         position: (11, 29),
+                        },
+                       ],
+                      },
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "toString",
+                        position: (11, 36),
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "val",
+                         position: (11, 45),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "\"",
+                       position: (11, 53),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                  else_: FunctionApplication {
+                   function: Variable {
+                    identifier: "toString",
+                    position: (12, 14),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "val",
+                     position: (12, 23),
+                    },
+                   ],
+                  },
+                 },
+                },
+               ),
+              ],
+              recursive: false,
+             },
+             String {
+              parts: [
+               Raw {
+                content: "=",
+                position: (13, 8),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Variable {
+         identifier: "tlpConfig",
+         position: (14, 5),
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (18, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (19, 5),
+           },
+           Raw {
+            content: "tlp",
+            position: (19, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (20, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (20, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (21, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (21, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (21, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (22, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (22, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (23, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable the TLP power management daemon.",
+                    position: (23, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "settings",
+               position: (26, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (26, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (26, 28),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (26, 40),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (26, 47),
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "oneOf",
+                      position: (26, 56),
+                     },
+                     arguments: [
+                      List {
+                       elements: [
+                        Variable {
+                         identifier: "bool",
+                         position: (26, 63),
+                        },
+                        Variable {
+                         identifier: "int",
+                         position: (26, 68),
+                        },
+                        Variable {
+                         identifier: "float",
+                         position: (26, 72),
+                        },
+                        Variable {
+                         identifier: "str",
+                         position: (26, 78),
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "listOf",
+                          position: (26, 83),
+                         },
+                         arguments: [
+                          Variable {
+                           identifier: "str",
+                           position: (26, 90),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (27, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (28, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "SATA_LINKPWR_ON_BAT",
+                       position: (29, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "med_power_with_dipm",
+                       position: (29, 34),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "USB_BLACKLIST_PHONE",
+                       position: (30, 11),
+                      },
+                     ],
+                    },
+                    Int {
+                     value: 1,
+                     position: (30, 33),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (32, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Options passed to TLP. See https://linrunner.de/tlp for all supported options..\n",
+                    position: (33, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (37, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (37, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (38, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (38, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (38, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (39, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (40, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Verbatim additional configuration variables for TLP.\nDEPRECATED: use services.tlp.settings instead.\n",
+                    position: (41, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (49, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (49, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (49, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (49, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (50, 5),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (50, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "msr",
+                position: (50, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "warnings",
+              position: (52, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optional",
+             position: (52, 16),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (52, 26),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "extraConfig",
+                   position: (52, 30),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [],
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Using config.services.tlp.extraConfig is deprecated and will become unsupported in a future release. Use config.services.tlp.settings instead.\n",
+                position: (53, 1),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (56, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (57, 7),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Implication,
+                 operands: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (57, 19),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enable",
+                      position: (57, 23),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  BinaryOperation {
+                   operator: EqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "config",
+                      position: (57, 33),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "powerManagement",
+                        position: (57, 40),
+                       },
+                       Raw {
+                        content: "scsiLinkPolicy",
+                        position: (57, 56),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (57, 74),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (58, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "`services.tlp.enable` and `config.powerManagement.scsiLinkPolicy` cannot be set both.\nSet `services.tlp.settings.SATA_LINKPWR_ON_AC` and `services.tlp.settings.SATA_LINKPWR_ON_BAT` instead.\n",
+                   position: (59, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (64, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (64, 17),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Update,
+            operands: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "tlp.conf",
+                      position: (65, 8),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "text",
+                   position: (65, 18),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Addition,
+                 operands: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkTlpConfig",
+                    position: (65, 26),
+                   },
+                   arguments: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (65, 38),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "settings",
+                        position: (65, 42),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (65, 54),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraConfig",
+                      position: (65, 58),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "optionalAttrs",
+               position: (66, 10),
+              },
+              arguments: [
+               Variable {
+                identifier: "enableRDW",
+                position: (66, 24),
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Expression {
+                     expression: String {
+                      parts: [
+                       Raw {
+                        content: "NetworkManager/dispatcher.d/99tlp-rdw-nm",
+                        position: (67, 8),
+                       },
+                      ],
+                     },
+                    },
+                    Raw {
+                     content: "source",
+                     position: (67, 50),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: Variable {
+                      identifier: "tlp",
+                      position: (68, 12),
+                     },
+                    },
+                    Raw {
+                     content: "/etc/NetworkManager/dispatcher.d/99tlp-rdw-nm",
+                     position: (68, 16),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (71, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (71, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "tlp",
+              position: (71, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (74, 5),
+             },
+             Raw {
+              content: "tlp",
+              position: (74, 14),
+             },
+             Raw {
+              content: "settings",
+              position: (74, 18),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "cfg",
+                 position: (75, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (75, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "powerManagement",
+                  position: (75, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "maybeDefault",
+                 position: (76, 7),
+                },
+               ],
+              },
+              Function {
+               argument: Some(
+                "val",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (76, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "mkIf",
+                    position: (76, 31),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   Variable {
+                    identifier: "val",
+                    position: (76, 37),
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (76, 44),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (76, 51),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mkDefault",
+                      position: (76, 55),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "val",
+                    position: (76, 65),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            target: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_GOVERNOR_ON_AC",
+                  position: (78, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (78, 36),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (78, 49),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpuFreqGovernor",
+                     position: (78, 53),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_GOVERNOR_ON_BAT",
+                  position: (79, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (79, 37),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (79, 50),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpuFreqGovernor",
+                     position: (79, 54),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_MIN_FREQ_ON_AC",
+                  position: (80, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (80, 36),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (80, 49),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpufreq",
+                     position: (80, 53),
+                    },
+                    Raw {
+                     content: "min",
+                     position: (80, 61),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_MAX_FREQ_ON_AC",
+                  position: (81, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (81, 36),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (81, 49),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpufreq",
+                     position: (81, 53),
+                    },
+                    Raw {
+                     content: "max",
+                     position: (81, 61),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_MIN_FREQ_ON_BAT",
+                  position: (82, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (82, 37),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (82, 50),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpufreq",
+                     position: (82, 54),
+                    },
+                    Raw {
+                     content: "min",
+                     position: (82, 62),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "CPU_SCALING_MAX_FREQ_ON_BAT",
+                  position: (83, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "maybeDefault",
+                 position: (83, 37),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (83, 50),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "cpufreq",
+                     position: (83, 54),
+                    },
+                    Raw {
+                     content: "max",
+                     position: (83, 62),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (86, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (86, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (86, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "tlp",
+              position: (86, 32),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (88, 5),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (90, 7),
+                },
+                Raw {
+                 content: "cpufreq",
+                 position: (90, 16),
+                },
+                Raw {
+                 content: "enable",
+                 position: (90, 24),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (90, 33),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "packages",
+                 position: (92, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                Variable {
+                 identifier: "tlp",
+                 position: (92, 20),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "sockets",
+                 position: (96, 7),
+                },
+                Raw {
+                 content: "systemd-rfkill",
+                 position: (96, 15),
+                },
+                Raw {
+                 content: "enable",
+                 position: (96, 30),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (96, 39),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (97, 7),
+                },
+                Raw {
+                 content: "systemd-rfkill",
+                 position: (97, 16),
+                },
+                Raw {
+                 content: "enable",
+                 position: (97, 31),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (97, 40),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (99, 7),
+                },
+                Raw {
+                 content: "tlp",
+                 position: (99, 16),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "restartTriggers",
+                    position: (103, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (103, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "environment",
+                       position: (103, 36),
+                      },
+                      Raw {
+                       content: "etc",
+                       position: (103, 48),
+                      },
+                      Expression {
+                       expression: String {
+                        parts: [
+                         Raw {
+                          content: "tlp.conf",
+                          position: (103, 53),
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "source",
+                       position: (103, 63),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "wantedBy",
+                    position: (107, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "multi-user.target",
+                      position: (107, 23),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (110, 7),
+                },
+                Raw {
+                 content: "tlp-sleep",
+                 position: (110, 16),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "before",
+                    position: (114, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "sleep.target",
+                      position: (114, 21),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "wantedBy",
+                    position: (115, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "sleep.target",
+                      position: (115, 23),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "serviceConfig",
+                    position: (120, 9),
+                   },
+                   Raw {
+                    content: "StateDirectory",
+                    position: (120, 23),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "tlp",
+                    position: (120, 41),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

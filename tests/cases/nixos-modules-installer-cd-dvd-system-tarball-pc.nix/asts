@@ -1,0 +1,1143 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (6, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pkgs2storeContents",
+        position: (10, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "l",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "map",
+        position: (10, 28),
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "x",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "object",
+               position: (10, 38),
+              },
+             ],
+            },
+            Variable {
+             identifier: "x",
+             position: (10, 47),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "symlink",
+               position: (10, 50),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "none",
+               position: (10, 61),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        },
+        Variable {
+         identifier: "l",
+         position: (10, 71),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pxeconfig",
+        position: (13, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (13, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (13, 20),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "pxeconfig-default",
+          position: (13, 31),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "default menu.c32\nprompt 0\n\nlabel bootlocal\n  menu default\n  localboot 0\n  timeout 80\n  TOTALTIMEOUT 9000\n\nlabel nixos\n  MENU LABEL ^NixOS using nfsroot\n  KERNEL bzImage\n  append ip=dhcp nfsroot=/home/pcroot init=",
+          position: (14, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (26, 50),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (26, 57),
+             },
+             Raw {
+              content: "build",
+              position: (26, 64),
+             },
+             Raw {
+              content: "toplevel",
+              position: (26, 70),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/init rw\n\n# I don't know how to make this boot with nfsroot (using the initrd)\nlabel nixos_initrd\n  MENU LABEL NixOS booting the poor ^initrd.\n  KERNEL bzImage\n  append initrd=initrd ip=dhcp nfsroot=/home/pcroot init=",
+          position: (26, 79),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (32, 64),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (32, 71),
+             },
+             Raw {
+              content: "build",
+              position: (32, 78),
+             },
+             Raw {
+              content: "toplevel",
+              position: (32, 84),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/init rw\n\nlabel memtest\n  MENU LABEL ^",
+          position: (32, 93),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (35, 21),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "memtest86",
+              position: (35, 26),
+             },
+             Raw {
+              content: "name",
+              position: (35, 36),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n  KERNEL memtest\n",
+          position: (35, 41),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "dhcpdExampleConfig",
+        position: (39, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (39, 24),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (39, 29),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "dhcpd.conf-example",
+          position: (39, 40),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "# Example configuration for booting PXE.\nallow booting;\nallow bootp;\n\n# Adapt this to your network configuration.\noption domain-name \"local\";\noption subnet-mask 255.255.255.0;\noption broadcast-address 192.168.1.255;\noption domain-name-servers 192.168.1.1;\noption routers 192.168.1.1;\n\n# PXE-specific configuration directives...\n# Some BIOS don't accept slashes for paths inside the tftp servers,\n# and will report Access Violation if they see slashes.\nfilename \"pxelinux.0\";\n# For the TFTP and NFS root server. Set the IP of your server.\nnext-server 192.168.1.34;\n\nsubnet 192.168.1.0 netmask 255.255.255.0 {\n  range 192.168.1.50 192.168.1.55;\n}\n",
+          position: (40, 1),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "readme",
+        position: (63, 3),
+       },
+      ],
+     },
+     Path {
+      parts: [
+       Raw {
+        content: "./system-tarball-pc-readme.txt",
+        position: (63, 12),
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (68, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Path {
+         parts: [
+          Raw {
+           content: "./system-tarball.nix",
+           position: (69, 7),
+          },
+         ],
+        },
+        Path {
+         parts: [
+          Raw {
+           content: "../../profiles/all-hardware.nix",
+           position: (72, 7),
+          },
+         ],
+        },
+        Path {
+         parts: [
+          Raw {
+           content: "../../profiles/base.nix",
+           position: (73, 7),
+          },
+         ],
+        },
+        Path {
+         parts: [
+          Raw {
+           content: "../../profiles/installation-device.nix",
+           position: (74, 7),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "tarball",
+         position: (79, 3),
+        },
+        Raw {
+         content: "storeContents",
+         position: (79, 11),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "pkgs2storeContents",
+        position: (79, 27),
+       },
+       arguments: [
+        List {
+         elements: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (79, 48),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "stdenv",
+              position: (79, 53),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "tarball",
+         position: (81, 3),
+        },
+        Raw {
+         content: "contents",
+         position: (81, 11),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (82, 9),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Addition,
+            operands: [
+             BinaryOperation {
+              operator: Addition,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (82, 18),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "boot",
+                   position: (82, 25),
+                  },
+                  Raw {
+                   content: "kernelPackages",
+                   position: (82, 30),
+                  },
+                  Raw {
+                   content: "kernel",
+                   position: (82, 45),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "/",
+                  position: (82, 55),
+                 },
+                ],
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (82, 60),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "system",
+                 position: (82, 67),
+                },
+                Raw {
+                 content: "boot",
+                 position: (82, 74),
+                },
+                Raw {
+                 content: "loader",
+                 position: (82, 79),
+                },
+                Raw {
+                 content: "kernelFile",
+                 position: (82, 86),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (83, 9),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Addition,
+            operands: [
+             String {
+              parts: [
+               Raw {
+                content: "/boot/",
+                position: (83, 19),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (83, 29),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "system",
+                 position: (83, 36),
+                },
+                Raw {
+                 content: "boot",
+                 position: (83, 43),
+                },
+                Raw {
+                 content: "loader",
+                 position: (83, 48),
+                },
+                Raw {
+                 content: "kernelFile",
+                 position: (83, 55),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (85, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (85, 21),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "syslinux",
+                  position: (85, 26),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/share/syslinux/pxelinux.0",
+              position: (85, 35),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (86, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/boot/pxelinux.0",
+              position: (86, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (88, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (88, 21),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "syslinux",
+                  position: (88, 26),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/share/syslinux/menu.c32",
+              position: (88, 35),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (89, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/boot/menu.c32",
+              position: (89, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (91, 9),
+             },
+            ],
+           },
+           Variable {
+            identifier: "pxeconfig",
+            position: (91, 18),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (92, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/boot/pxelinux.cfg/default",
+              position: (92, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (94, 9),
+             },
+            ],
+           },
+           Variable {
+            identifier: "readme",
+            position: (94, 18),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (95, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/readme.txt",
+              position: (95, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (97, 9),
+             },
+            ],
+           },
+           Variable {
+            identifier: "dhcpdExampleConfig",
+            position: (97, 18),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (98, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/boot/dhcpd.conf-example",
+              position: (98, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "source",
+              position: (100, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (100, 21),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "memtest86",
+                  position: (100, 26),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/memtest.bin",
+              position: (100, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "target",
+              position: (104, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "/boot/memtest",
+              position: (104, 19),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (111, 3),
+        },
+        Raw {
+         content: "openssh",
+         position: (111, 12),
+        },
+        Raw {
+         content: "enable",
+         position: (111, 20),
+        },
+       ],
+      },
+      Variable {
+       identifier: "true",
+       position: (111, 29),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "systemd",
+         position: (112, 3),
+        },
+        Raw {
+         content: "services",
+         position: (112, 11),
+        },
+        Raw {
+         content: "openssh",
+         position: (112, 20),
+        },
+        Raw {
+         content: "wantedBy",
+         position: (112, 28),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (112, 39),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mkOverride",
+           position: (112, 43),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Int {
+         value: 50,
+         position: (112, 54),
+        },
+        List {
+         elements: [],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (115, 3),
+        },
+        Raw {
+         content: "crashDump",
+         position: (115, 8),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (116, 5),
+           },
+          ],
+         },
+         Variable {
+          identifier: "true",
+          position: (116, 14),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "kernelPackages",
+            position: (117, 5),
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (117, 22),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "linuxKernel",
+             position: (117, 27),
+            },
+            Raw {
+             content: "packages",
+             position: (117, 39),
+            },
+            Raw {
+             content: "linux_3_4",
+             position: (117, 48),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (121, 3),
+        },
+        Raw {
+         content: "loader",
+         position: (121, 8),
+        },
+        Raw {
+         content: "grub",
+         position: (121, 15),
+        },
+        Raw {
+         content: "enable",
+         position: (121, 20),
+        },
+       ],
+      },
+      Variable {
+       identifier: "false",
+       position: (121, 29),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "fileSystems",
+         position: (125, 3),
+        },
+        Raw {
+         content: "fake",
+         position: (125, 15),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "mountPoint",
+            position: (126, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "/",
+            position: (126, 21),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "device",
+            position: (127, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "/dev/something",
+            position: (127, 17),
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "nixpkgs",
+         position: (130, 3),
+        },
+        Raw {
+         content: "config",
+         position: (130, 11),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "packageOverrides",
+            position: (131, 5),
+           },
+          ],
+         },
+         Function {
+          argument: Some(
+           "p",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "linux_3_4",
+                position: (132, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "p",
+                position: (132, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "linux_3_4",
+                  position: (132, 21),
+                 },
+                 Raw {
+                  content: "override",
+                  position: (132, 31),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "extraConfig",
+                     position: (133, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "# Enable drivers in kernel for most NICs.\nE1000 y\n# E1000E y\n# ATH5K y\n8139TOO y\nNE2K_PCI y\nATL1 y\nATL1E y\nATL1C y\nVORTEX y\nVIA_RHINE y\nR8169 y\n\n# Enable nfs root boot\nUNIX y # http://www.linux-mips.org/archives/linux-mips/2006-11/msg00113.html\nIP_PNP y\nIP_PNP_DHCP y\nFSCACHE y\nNFS_FS y\nNFS_FSCACHE y\nROOT_NFS y\n\n# Enable devtmpfs\nDEVTMPFS y\nDEVTMPFS_MOUNT y\n",
+                     position: (134, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

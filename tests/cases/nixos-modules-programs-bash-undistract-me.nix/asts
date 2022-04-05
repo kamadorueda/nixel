@@ -1,0 +1,431 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "bash",
+         position: (6, 25),
+        },
+        Raw {
+         content: "undistractMe",
+         position: (6, 30),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (9, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (10, 5),
+           },
+           Raw {
+            content: "bash",
+            position: (10, 14),
+           },
+           Raw {
+            content: "undistractMe",
+            position: (10, 19),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (11, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (11, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "notifications when long-running terminal commands complete",
+                 position: (11, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "playSound",
+               position: (13, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (13, 19),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "notification sounds when long-running terminal commands complete",
+                 position: (13, 35),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "timeout",
+               position: (15, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (15, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (16, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 10,
+                  position: (16, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (17, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Number of seconds it would take for a command to be considered long-running.\n",
+                    position: (18, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (20, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "int",
+                     position: (20, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (25, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (25, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (25, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (25, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "programs",
+              position: (26, 5),
+             },
+             Raw {
+              content: "bash",
+              position: (26, 14),
+             },
+             Raw {
+              content: "promptPluginInit",
+              position: (26, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "export LONG_RUNNING_COMMAND_TIMEOUT=",
+              position: (27, 1),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "toString",
+                position: (27, 45),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (27, 54),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "timeout",
+                    position: (27, 58),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\nexport UDM_PLAY_SOUND=",
+              position: (27, 66),
+             },
+             Expression {
+              expression: IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (28, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "playSound",
+                   position: (28, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "1",
+                  position: (28, 54),
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "0",
+                  position: (28, 63),
+                 },
+                ],
+               },
+              },
+             },
+             Raw {
+              content: "\n. \"",
+              position: (28, 66),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (29, 12),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "undistract-me",
+                  position: (29, 17),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/etc/profile.d/undistract-me.sh\"\n",
+              position: (29, 31),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (33, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "maintainers",
+            position: (34, 5),
+           },
+          ],
+         },
+         With {
+          expression: Variable {
+           identifier: "maintainers",
+           position: (34, 24),
+          },
+          target: List {
+           elements: [
+            Variable {
+             identifier: "kira-bruneau",
+             position: (34, 39),
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

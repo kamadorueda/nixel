@@ -1,0 +1,3124 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (4, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "security",
+         position: (4, 19),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    [
+     Raw {
+      content: "wrapperDir",
+      position: (4, 29),
+     },
+     Raw {
+      content: "wrappers",
+      position: (4, 40),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "parentWrapperDir",
+       position: (6, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "dirOf",
+      position: (6, 22),
+     },
+     arguments: [
+      Variable {
+       identifier: "wrapperDir",
+       position: (6, 28),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "securityWrapper",
+       position: (8, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (8, 21),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "callPackage",
+         position: (8, 26),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Path {
+       parts: [
+        Raw {
+         content: "./wrapper.nix",
+         position: (8, 38),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        Inherit(
+         None,
+         [
+          Raw {
+           content: "parentWrapperDir",
+           position: (9, 13),
+          },
+         ],
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "fileModeType",
+       position: (12, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "symbolic",
+          position: (15, 7),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+",
+          position: (15, 19),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "numeric",
+          position: (16, 7),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "[-+=]?[0-7]{0,4}",
+          position: (16, 18),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "mode",
+          position: (17, 7),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "((",
+          position: (17, 15),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "symbolic",
+           position: (17, 19),
+          },
+         },
+         Raw {
+          content: ")(,",
+          position: (17, 28),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "symbolic",
+           position: (17, 33),
+          },
+         },
+         Raw {
+          content: ")*)|(",
+          position: (17, 42),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "numeric",
+           position: (17, 49),
+          },
+         },
+         Raw {
+          content: ")",
+          position: (17, 57),
+         },
+        ],
+       },
+      ),
+     ],
+     target: BinaryOperation {
+      operator: Update,
+      operands: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (19, 6),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "types",
+            position: (19, 10),
+           },
+           Raw {
+            content: "strMatching",
+            position: (19, 16),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Variable {
+          identifier: "mode",
+          position: (19, 28),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "description",
+             position: (20, 11),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "file mode string",
+             position: (20, 26),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "wrapperType",
+       position: (22, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "lib",
+       position: (22, 17),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "types",
+         position: (22, 21),
+        },
+        Raw {
+         content: "submodule",
+         position: (22, 27),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Function {
+       argument: None,
+       arguments: FunctionArguments {
+        arguments: [
+         FunctionArgument {
+          identifier: "config",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "name",
+          default: None,
+         },
+        ],
+        ellipsis: true,
+       },
+       definition: Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (23, 5),
+            },
+            Raw {
+             content: "source",
+             position: (23, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (23, 22),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (23, 26),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (24, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (24, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (24, 20),
+                  },
+                  Raw {
+                   content: "path",
+                   position: (24, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (25, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The absolute path to the program to be wrapped.",
+                  position: (25, 24),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (27, 5),
+            },
+            Raw {
+             content: "program",
+             position: (27, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (27, 23),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (27, 27),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (28, 9),
+                 },
+                ],
+               },
+               With {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (28, 21),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "types",
+                    position: (28, 25),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                target: FunctionApplication {
+                 function: Variable {
+                  identifier: "nullOr",
+                  position: (28, 32),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "str",
+                   position: (28, 39),
+                  },
+                 ],
+                },
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "default",
+                  position: (29, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "name",
+                position: (29, 19),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (30, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The name of the wrapper program. Defaults to the attribute name.\n",
+                  position: (31, 1),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (34, 5),
+            },
+            Raw {
+             content: "owner",
+             position: (34, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (34, 21),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (34, 25),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (35, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (35, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (35, 20),
+                  },
+                  Raw {
+                   content: "str",
+                   position: (35, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (36, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The owner of the wrapper program.",
+                  position: (36, 24),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (38, 5),
+            },
+            Raw {
+             content: "group",
+             position: (38, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (38, 21),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (38, 25),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (39, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (39, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (39, 20),
+                  },
+                  Raw {
+                   content: "str",
+                   position: (39, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (40, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The group of the wrapper program.",
+                  position: (40, 24),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (42, 5),
+            },
+            Raw {
+             content: "permissions",
+             position: (42, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (42, 27),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (42, 31),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (43, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "fileModeType",
+                position: (43, 16),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "default",
+                  position: (44, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "u+rx,g+x,o+x",
+                  position: (44, 21),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "example",
+                  position: (45, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "a+rx",
+                  position: (45, 20),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (46, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The permissions of the wrapper program. The format is that of a\nsymbolic or numeric file mode understood by <command>chmod</command>.\n",
+                  position: (47, 1),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (51, 5),
+            },
+            Raw {
+             content: "capabilities",
+             position: (51, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (51, 28),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (51, 32),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (52, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (52, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (52, 20),
+                  },
+                  Raw {
+                   content: "commas",
+                   position: (52, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "default",
+                  position: (53, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (54, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "A comma-separated list of capabilities to be given to the wrapper\nprogram. For capabilities supported by the system check the\n<citerefentry>\n  <refentrytitle>capabilities</refentrytitle>\n  <manvolnum>7</manvolnum>\n</citerefentry>\nmanual page.\n\n<note><para>\n  <literal>cap_setpcap</literal>, which is required for the wrapper\n  program to be able to raise caps into the Ambient set is NOT raised\n  to the Ambient set so that the real program cannot modify its own\n  capabilities!! This may be too restrictive for cases in which the\n  real program needs cap_setpcap but it at least leans on the side\n  security paranoid vs. too relaxed.\n</para></note>\n",
+                  position: (55, 1),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (73, 5),
+            },
+            Raw {
+             content: "setuid",
+             position: (73, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (73, 22),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (73, 26),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (74, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (74, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (74, 20),
+                  },
+                  Raw {
+                   content: "bool",
+                   position: (74, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "default",
+                  position: (75, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "false",
+                position: (75, 19),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (76, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Whether to add the setuid bit the wrapper program.",
+                  position: (76, 24),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "options",
+             position: (78, 5),
+            },
+            Raw {
+             content: "setgid",
+             position: (78, 13),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (78, 22),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mkOption",
+               position: (78, 26),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "type",
+                  position: (79, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (79, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "types",
+                   position: (79, 20),
+                  },
+                  Raw {
+                   content: "bool",
+                   position: (79, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "default",
+                  position: (80, 9),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "false",
+                position: (80, 19),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (81, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Whether to add the setgid bit the wrapper program.",
+                  position: (81, 24),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mkSetcapProgram",
+       position: (86, 3),
+      },
+     ],
+    },
+    Function {
+     argument: None,
+     arguments: FunctionArguments {
+      arguments: [
+       FunctionArgument {
+        identifier: "permissions",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "group",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "owner",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "source",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "capabilities",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "program",
+        default: None,
+       },
+      ],
+      ellipsis: true,
+     },
+     definition: String {
+      parts: [
+       Raw {
+        content: "cp ",
+        position: (96, 1),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "securityWrapper",
+         position: (96, 12),
+        },
+       },
+       Raw {
+        content: "/bin/security-wrapper \"$wrapperDir/",
+        position: (96, 28),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (96, 65),
+        },
+       },
+       Raw {
+        content: "\"\necho -n \"",
+        position: (96, 73),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "source",
+         position: (97, 18),
+        },
+       },
+       Raw {
+        content: "\" > \"$wrapperDir/",
+        position: (97, 25),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (97, 44),
+        },
+       },
+       Raw {
+        content: ".real\"\n\n# Prevent races\nchmod 0000 \"$wrapperDir/",
+        position: (97, 52),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (100, 33),
+        },
+       },
+       Raw {
+        content: "\"\nchown ",
+        position: (100, 41),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "owner",
+         position: (101, 15),
+        },
+       },
+       Raw {
+        content: ".",
+        position: (101, 21),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "group",
+         position: (101, 24),
+        },
+       },
+       Raw {
+        content: " \"$wrapperDir/",
+        position: (101, 30),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (101, 46),
+        },
+       },
+       Raw {
+        content: "\"\n\n# Set desired capabilities on the file plus cap_setpcap so\n# the wrapper program can elevate the capabilities set on\n# its file into the Ambient set.\n",
+        position: (101, 54),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (106, 9),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "libcap",
+            position: (106, 14),
+           },
+           Raw {
+            content: "out",
+            position: (106, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/bin/setcap \"cap_setpcap,",
+        position: (106, 25),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "capabilities",
+         position: (106, 52),
+        },
+       },
+       Raw {
+        content: "\" \"$wrapperDir/",
+        position: (106, 65),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (106, 82),
+        },
+       },
+       Raw {
+        content: "\"\n\n# Set the executable bit\nchmod ",
+        position: (106, 90),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "permissions",
+         position: (109, 15),
+        },
+       },
+       Raw {
+        content: " \"$wrapperDir/",
+        position: (109, 27),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (109, 43),
+        },
+       },
+       Raw {
+        content: "\"\n",
+        position: (109, 51),
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mkSetuidProgram",
+       position: (113, 3),
+      },
+     ],
+    },
+    Function {
+     argument: None,
+     arguments: FunctionArguments {
+      arguments: [
+       FunctionArgument {
+        identifier: "permissions",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "setgid",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "setuid",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "group",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "owner",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "source",
+        default: None,
+       },
+       FunctionArgument {
+        identifier: "program",
+        default: None,
+       },
+      ],
+      ellipsis: true,
+     },
+     definition: String {
+      parts: [
+       Raw {
+        content: "cp ",
+        position: (124, 1),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "securityWrapper",
+         position: (124, 12),
+        },
+       },
+       Raw {
+        content: "/bin/security-wrapper \"$wrapperDir/",
+        position: (124, 28),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (124, 65),
+        },
+       },
+       Raw {
+        content: "\"\necho -n \"",
+        position: (124, 73),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "source",
+         position: (125, 18),
+        },
+       },
+       Raw {
+        content: "\" > \"$wrapperDir/",
+        position: (125, 25),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (125, 44),
+        },
+       },
+       Raw {
+        content: ".real\"\n\n# Prevent races\nchmod 0000 \"$wrapperDir/",
+        position: (125, 52),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (128, 33),
+        },
+       },
+       Raw {
+        content: "\"\nchown ",
+        position: (128, 41),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "owner",
+         position: (129, 15),
+        },
+       },
+       Raw {
+        content: ".",
+        position: (129, 21),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "group",
+         position: (129, 24),
+        },
+       },
+       Raw {
+        content: " \"$wrapperDir/",
+        position: (129, 30),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (129, 46),
+        },
+       },
+       Raw {
+        content: "\"\n\nchmod \"u",
+        position: (129, 54),
+       },
+       Expression {
+        expression: IfThenElse {
+         predicate: Variable {
+          identifier: "setuid",
+          position: (131, 20),
+         },
+         then: String {
+          parts: [
+           Raw {
+            content: "+",
+            position: (131, 33),
+           },
+          ],
+         },
+         else_: String {
+          parts: [
+           Raw {
+            content: "-",
+            position: (131, 42),
+           },
+          ],
+         },
+        },
+       },
+       Raw {
+        content: "s,g",
+        position: (131, 45),
+       },
+       Expression {
+        expression: IfThenElse {
+         predicate: Variable {
+          identifier: "setgid",
+          position: (131, 53),
+         },
+         then: String {
+          parts: [
+           Raw {
+            content: "+",
+            position: (131, 66),
+           },
+          ],
+         },
+         else_: String {
+          parts: [
+           Raw {
+            content: "-",
+            position: (131, 75),
+           },
+          ],
+         },
+        },
+       },
+       Raw {
+        content: "s,",
+        position: (131, 78),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "permissions",
+         position: (131, 82),
+        },
+       },
+       Raw {
+        content: "\" \"$wrapperDir/",
+        position: (131, 94),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "program",
+         position: (131, 111),
+        },
+       },
+       Raw {
+        content: "\"\n",
+        position: (131, 119),
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mkWrappedPrograms",
+       position: (134, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "builtins",
+       position: (135, 5),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "map",
+         position: (135, 14),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Function {
+       argument: Some(
+        "opts",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: IfThenElse {
+        predicate: BinaryOperation {
+         operator: NotEqualTo,
+         operands: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "opts",
+            position: (137, 12),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "capabilities",
+              position: (137, 17),
+             },
+            ],
+           },
+           default: None,
+          },
+          String {
+           parts: [],
+          },
+         ],
+        },
+        then: FunctionApplication {
+         function: Variable {
+          identifier: "mkSetcapProgram",
+          position: (138, 14),
+         },
+         arguments: [
+          Variable {
+           identifier: "opts",
+           position: (138, 30),
+          },
+         ],
+        },
+        else_: FunctionApplication {
+         function: Variable {
+          identifier: "mkSetuidProgram",
+          position: (139, 14),
+         },
+         arguments: [
+          Variable {
+           identifier: "opts",
+           position: (139, 30),
+          },
+         ],
+        },
+       },
+      },
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (140, 10),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "attrValues",
+           position: (140, 14),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Variable {
+         identifier: "wrappers",
+         position: (140, 25),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "imports",
+        position: (143, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (144, 6),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mkRemovedOptionModule",
+            position: (144, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "security",
+              position: (144, 35),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "setuidOwners",
+              position: (144, 46),
+             },
+            ],
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Use security.wrappers instead",
+            position: (144, 63),
+           },
+          ],
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (145, 6),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mkRemovedOptionModule",
+            position: (145, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "security",
+              position: (145, 35),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "setuidPrograms",
+              position: (145, 46),
+             },
+            ],
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Use security.wrappers instead",
+            position: (145, 65),
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (150, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "security",
+           position: (151, 5),
+          },
+          Raw {
+           content: "wrappers",
+           position: (151, 14),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (151, 25),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mkOption",
+             position: (151, 29),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (152, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (152, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "types",
+                  position: (152, 18),
+                 },
+                 Raw {
+                  content: "attrsOf",
+                  position: (152, 24),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               Variable {
+                identifier: "wrapperType",
+                position: (152, 32),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (153, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (154, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (154, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "literalExpression",
+                  position: (154, 21),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "{\n  # a setuid root program\n  doas =\n    { setuid = true;\n      owner = \"root\";\n      group = \"root\";\n      source = \"",
+                  position: (156, 1),
+                 },
+                 Raw {
+                  content: "$",
+                  position: (162, 27),
+                 },
+                 Raw {
+                  content: "{pkgs.doas}/bin/doas\";\n    };\n\n  # a setgid program\n  locate =\n    { setgid = true;\n      owner = \"root\";\n      group = \"mlocate\";\n      source = \"",
+                  position: (162, 30),
+                 },
+                 Raw {
+                  content: "$",
+                  position: (170, 27),
+                 },
+                 Raw {
+                  content: "{pkgs.locate}/bin/locate\";\n    };\n\n  # a program with the CAP_NET_RAW capability\n  ping =\n    { owner = \"root\";\n      group = \"root\";\n      capabilities = \"cap_net_raw+ep\";\n      source = \"",
+                  position: (170, 30),
+                 },
+                 Raw {
+                  content: "$",
+                  position: (178, 27),
+                 },
+                 Raw {
+                  content: "{pkgs.iputils.out}/bin/ping\";\n    };\n}\n",
+                  position: (178, 30),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (182, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "This option effectively allows adding setuid/setgid bits, capabilities,\nchanging file ownership and permissions of a program without directly\nmodifying it. This works by creating a wrapper program under the\n<option>security.wrapperDir</option> directory, which is then added to\nthe shell <literal>PATH</literal>.\n",
+                position: (183, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "security",
+           position: (191, 5),
+          },
+          Raw {
+           content: "wrapperDir",
+           position: (191, 14),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (191, 27),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mkOption",
+             position: (191, 31),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (192, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (192, 21),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "types",
+                 position: (192, 25),
+                },
+                Raw {
+                 content: "path",
+                 position: (192, 31),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (193, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/run/wrappers/bin",
+                position: (193, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "internal",
+                position: (194, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (194, 21),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (195, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "This option defines the path to the wrapper programs. It\nshould not be overriden.\n",
+                position: (196, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (203, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "assertions",
+           position: (205, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (205, 18),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mapAttrsToList",
+             position: (205, 22),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "name",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "opts",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (207, 11),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 BinaryOperation {
+                  operator: LogicalOr,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "opts",
+                     position: (207, 23),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "setuid",
+                       position: (207, 28),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "opts",
+                     position: (207, 38),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "setgid",
+                       position: (207, 43),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "opts",
+                     position: (207, 53),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "capabilities",
+                       position: (207, 58),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (208, 11),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "The security.wrappers.",
+                  position: (209, 1),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "name",
+                   position: (209, 37),
+                  },
+                 },
+                 Raw {
+                  content: " wrapper is not valid:\n    setuid/setgid and capabilities are mutually exclusive.\n",
+                  position: (209, 42),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          },
+          Variable {
+           identifier: "wrappers",
+           position: (213, 9),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "security",
+           position: (215, 5),
+          },
+          Raw {
+           content: "wrappers",
+           position: (215, 14),
+          },
+         ],
+        },
+        LetIn {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "mkSetuidRoot",
+              position: (217, 9),
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "source",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "setuid",
+                  position: (218, 13),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (218, 22),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "owner",
+                  position: (219, 13),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "root",
+                  position: (219, 22),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (220, 13),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "root",
+                  position: (220, 22),
+                 },
+                ],
+               },
+              ),
+              Inherit(
+               None,
+               [
+                Raw {
+                 content: "source",
+                 position: (221, 21),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+         ],
+         target: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "fusermount",
+               position: (225, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkSetuidRoot",
+              position: (225, 23),
+             },
+             arguments: [
+              String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (225, 39),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "fuse",
+                     position: (225, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/fusermount",
+                 position: (225, 49),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "fusermount3",
+               position: (226, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkSetuidRoot",
+              position: (226, 23),
+             },
+             arguments: [
+              String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (226, 39),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "fuse3",
+                     position: (226, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/fusermount3",
+                 position: (226, 50),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "mount",
+               position: (227, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkSetuidRoot",
+              position: (227, 18),
+             },
+             arguments: [
+              String {
+               parts: [
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (227, 34),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "getBin",
+                      position: (227, 38),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (227, 45),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "util-linux",
+                       position: (227, 50),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "/bin/mount",
+                 position: (227, 61),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "umount",
+               position: (228, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkSetuidRoot",
+              position: (228, 18),
+             },
+             arguments: [
+              String {
+               parts: [
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (228, 34),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "getBin",
+                      position: (228, 38),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (228, 45),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "util-linux",
+                       position: (228, 50),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "/bin/umount",
+                 position: (228, 61),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "boot",
+           position: (231, 5),
+          },
+          Raw {
+           content: "specialFileSystems",
+           position: (231, 10),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "parentWrapperDir",
+            position: (231, 31),
+           },
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "fsType",
+              position: (232, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "tmpfs",
+              position: (232, 17),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "options",
+              position: (233, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "nodev",
+                position: (233, 20),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "mode=755",
+                position: (233, 28),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "environment",
+           position: (238, 5),
+          },
+          Raw {
+           content: "extraInit",
+           position: (238, 17),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "# Wrappers override other bin directories.\nexport PATH=\"",
+           position: (239, 1),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "wrapperDir",
+            position: (240, 22),
+           },
+          },
+          Raw {
+           content: ":$PATH\"\n",
+           position: (240, 33),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "security",
+           position: (243, 5),
+          },
+          Raw {
+           content: "apparmor",
+           position: (243, 14),
+          },
+          Raw {
+           content: "includes",
+           position: (243, 23),
+          },
+          Expression {
+           expression: String {
+            parts: [
+             Raw {
+              content: "nixos/security.wrappers",
+              position: (243, 33),
+             },
+            ],
+           },
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "include \"",
+           position: (244, 1),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (244, 18),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "apparmorRulesFromClosure",
+                position: (244, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "name",
+                   position: (244, 50),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "security.wrappers",
+                   position: (244, 56),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+             List {
+              elements: [
+               Variable {
+                identifier: "securityWrapper",
+                position: (245, 9),
+               },
+              ],
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\"\n",
+           position: (246, 9),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "system",
+           position: (250, 5),
+          },
+          Raw {
+           content: "activationScripts",
+           position: (250, 12),
+          },
+          Raw {
+           content: "wrappers",
+           position: (250, 30),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (251, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "stringAfter",
+             position: (251, 11),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "specialfs",
+               position: (251, 26),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "users",
+               position: (251, 38),
+              },
+             ],
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "chmod 755 \"",
+             position: (253, 1),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "parentWrapperDir",
+              position: (253, 24),
+             },
+            },
+            Raw {
+             content: "\"\n\n# We want to place the tmpdirs for the wrappers to the parent dir.\nwrapperDir=$(mktemp --directory --tmpdir=\"",
+             position: (253, 41),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "parentWrapperDir",
+              position: (256, 55),
+             },
+            },
+            Raw {
+             content: "\" wrappers.XXXXXXXXXX)\nchmod a+rx \"$wrapperDir\"\n\n",
+             position: (256, 72),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (259, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "concatStringsSep",
+                  position: (259, 17),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "\n",
+                  position: (259, 35),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "mkWrappedPrograms",
+                position: (259, 39),
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\nif [ -L ",
+             position: (259, 57),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (261, 21),
+             },
+            },
+            Raw {
+             content: " ]; then\n  # Atomically replace the symlink\n  # See https://axialcorps.com/2013/07/03/atomically-replacing-files-and-directories/\n  old=$(readlink -f ",
+             position: (261, 32),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (264, 33),
+             },
+            },
+            Raw {
+             content: ")\n  if [ -e \"",
+             position: (264, 44),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (265, 24),
+             },
+            },
+            Raw {
+             content: "-tmp\" ]; then\n    rm --force --recursive \"",
+             position: (265, 35),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (266, 41),
+             },
+            },
+            Raw {
+             content: "-tmp\"\n  fi\n  ln --symbolic --force --no-dereference \"$wrapperDir\" \"",
+             position: (266, 52),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (268, 69),
+             },
+            },
+            Raw {
+             content: "-tmp\"\n  mv --no-target-directory \"",
+             position: (268, 80),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (269, 41),
+             },
+            },
+            Raw {
+             content: "-tmp\" \"",
+             position: (269, 52),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (269, 61),
+             },
+            },
+            Raw {
+             content: "\"\n  rm --force --recursive \"$old\"\nelse\n  # For initial setup\n  ln --symbolic \"$wrapperDir\" \"",
+             position: (269, 72),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "wrapperDir",
+              position: (273, 44),
+             },
+            },
+            Raw {
+             content: "\"\nfi\n",
+             position: (273, 55),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "system",
+           position: (278, 5),
+          },
+          Raw {
+           content: "extraDependencies",
+           position: (278, 12),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (278, 32),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "singleton",
+             position: (278, 36),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (278, 47),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "runCommandLocal",
+               position: (278, 52),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "ensure-all-wrappers-paths-exist",
+               position: (279, 8),
+              },
+             ],
+            },
+            Map {
+             bindings: [],
+             recursive: false,
+            },
+            String {
+             parts: [
+              Raw {
+               content: "# make sure we produce output\nmkdir -p $out\n\necho -n \"Checking that Nix store paths of all wrapped programs exist... \"\n\ndeclare -A wrappers\n",
+               position: (281, 1),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (287, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "concatStringsSep",
+                    position: (287, 15),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n",
+                    position: (287, 33),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (287, 38),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mapAttrsToList",
+                      position: (287, 42),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Function {
+                    argument: Some(
+                     "n",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: Function {
+                     argument: Some(
+                      "v",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: String {
+                      parts: [
+                       Raw {
+                        content: "wrappers['",
+                        position: (288, 12),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "n",
+                         position: (288, 24),
+                        },
+                       },
+                       Raw {
+                        content: "']='",
+                        position: (288, 26),
+                       },
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "v",
+                          position: (288, 32),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "source",
+                            position: (288, 34),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "'",
+                        position: (288, 41),
+                       },
+                      ],
+                     },
+                    },
+                   },
+                   Variable {
+                    identifier: "wrappers",
+                    position: (288, 45),
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n\nfor name in \"",
+               position: (288, 55),
+              },
+              Raw {
+               content: "$",
+               position: (290, 22),
+              },
+              Raw {
+               content: "{!wrappers[@]}\"; do\n  path=\"",
+               position: (290, 25),
+              },
+              Raw {
+               content: "$",
+               position: (291, 17),
+              },
+              Raw {
+               content: "{wrappers[$name]}\"\n  if [[ \"$path\" =~ /nix/store ]] && [ ! -e \"$path\" ]; then\n    test -t 1 && echo -ne '\\033[1;31m'\n    echo \"FAIL\"\n    echo \"The path $path does not exist!\"\n    echo 'Please, check the value of `security.wrappers.\"",
+               position: (291, 20),
+              },
+              Raw {
+               content: "'",
+               position: (296, 66),
+              },
+              Raw {
+               content: "$name'\".source`.'\n    test -t 1 && echo -ne '\\033[0m'\n    exit 1\n  fi\ndone\n\necho \"OK\"\n",
+               position: (296, 67),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

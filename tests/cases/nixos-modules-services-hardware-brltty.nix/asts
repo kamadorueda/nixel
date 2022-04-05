@@ -1,0 +1,683 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "brltty",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "targets",
+        position: (8, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       String {
+        parts: [
+         Raw {
+          content: "default.target",
+          position: (9, 6),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "multi-user.target",
+          position: (9, 23),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "rescue.target",
+          position: (10, 6),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "emergency.target",
+          position: (10, 22),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "genApiKey",
+        position: (13, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (13, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writers",
+          position: (13, 20),
+         },
+         Raw {
+          content: "writeDash",
+          position: (13, 28),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "generate-brlapi-key",
+          position: (13, 39),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "if ! test -f /etc/brlapi.key; then\n  echo -n generating brlapi key...\n  ",
+          position: (14, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (16, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "brltty",
+              position: (16, 14),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/brltty-genkey -f /etc/brlapi.key\n  echo done\nfi\n",
+          position: (16, 21),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (23, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (25, 5),
+           },
+           Raw {
+            content: "brltty",
+            position: (25, 14),
+           },
+           Raw {
+            content: "enable",
+            position: (25, 21),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (25, 30),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (26, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (26, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (26, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (27, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (27, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (28, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable the BRLTTY daemon.",
+                 position: (28, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (33, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (33, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (33, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (33, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (34, 5),
+             },
+             Raw {
+              content: "users",
+              position: (34, 11),
+             },
+             Raw {
+              content: "brltty",
+              position: (34, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (35, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "BRLTTY daemon user",
+                 position: (35, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (36, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "brltty",
+                 position: (36, 16),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (38, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (38, 11),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "brltty",
+                 position: (39, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "brlapi",
+                 position: (40, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (43, 5),
+             },
+             Raw {
+              content: "services",
+              position: (43, 13),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "brltty@",
+                 position: (43, 23),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "serviceConfig",
+              position: (43, 32),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "ExecStartPre",
+                 position: (44, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "!",
+                 position: (44, 25),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "genApiKey",
+                  position: (44, 28),
+                 },
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (47, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (47, 13),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (47, 26),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "brltty",
+                 position: (47, 31),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (48, 5),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (48, 13),
+             },
+             Raw {
+              content: "packages",
+              position: (48, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (48, 35),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "brltty",
+                 position: (48, 40),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (49, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (49, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (49, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (49, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "brltty",
+                 position: (49, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (50, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (50, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (50, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "brltty",
+                 position: (50, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (53, 5),
+             },
+             Raw {
+              content: "paths",
+              position: (53, 13),
+             },
+             Raw {
+              content: "brltty",
+              position: (53, 19),
+             },
+             Raw {
+              content: "wantedBy",
+              position: (53, 26),
+             },
+            ],
+           },
+           Variable {
+            identifier: "targets",
+            position: (53, 37),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (54, 5),
+             },
+             Raw {
+              content: "paths",
+              position: (54, 13),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "brltty@",
+                 position: (54, 20),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "wantedBy",
+              position: (54, 29),
+             },
+            ],
+           },
+           Variable {
+            identifier: "targets",
+            position: (54, 40),
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

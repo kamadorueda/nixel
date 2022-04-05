@@ -1,0 +1,1769 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "prefix",
+    default: Some(
+     Path {
+      parts: [
+       Raw {
+        content: "../../..",
+        position: (9, 12),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "warningsAreErrors",
+    default: Some(
+     Variable {
+      identifier: "true",
+      position: (8, 23),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "baseOptionsJSON",
+    default: Some(
+     Variable {
+      identifier: "null",
+      position: (7, 21),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "extraSources",
+    default: Some(
+     List {
+      elements: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "revision",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "version",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "pkgs",
+   position: (12, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "lib",
+        position: (15, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (15, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "lib",
+         position: (15, 14),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "prefixesToStrip",
+        position: (23, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "map",
+       position: (23, 21),
+      },
+      arguments: [
+       Function {
+        argument: Some(
+         "p",
+        ),
+        arguments: FunctionArguments {
+         arguments: [],
+         ellipsis: false,
+        },
+        definition: String {
+         parts: [
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "toString",
+             position: (23, 32),
+            },
+            arguments: [
+             Variable {
+              identifier: "p",
+              position: (23, 41),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "/",
+           position: (23, 43),
+          },
+         ],
+        },
+       },
+       BinaryOperation {
+        operator: Concatenation,
+        operands: [
+         List {
+          elements: [
+           Variable {
+            identifier: "prefix",
+            position: (23, 50),
+           },
+          ],
+         },
+         Variable {
+          identifier: "extraSources",
+          position: (23, 62),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "stripAnyPrefixes",
+        position: (24, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (24, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "flip",
+          position: (24, 26),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (24, 32),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "foldr",
+            position: (24, 36),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (24, 42),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "removePrefix",
+             position: (24, 46),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+       Variable {
+        identifier: "prefixesToStrip",
+        position: (24, 60),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "optionsDoc",
+        position: (26, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "buildPackages",
+        position: (26, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "nixosOptionsDoc",
+          position: (26, 30),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "options",
+            position: (27, 13),
+           },
+           Raw {
+            content: "revision",
+            position: (27, 21),
+           },
+           Raw {
+            content: "baseOptionsJSON",
+            position: (27, 30),
+           },
+           Raw {
+            content: "warningsAreErrors",
+            position: (27, 46),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "transformOptions",
+             position: (28, 5),
+            },
+           ],
+          },
+          Function {
+           argument: Some(
+            "opt",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: BinaryOperation {
+            operator: Update,
+            operands: [
+             Variable {
+              identifier: "opt",
+              position: (28, 29),
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "declarations",
+                   position: (30, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "map",
+                  position: (30, 22),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "stripAnyPrefixes",
+                   position: (30, 26),
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "opt",
+                    position: (30, 43),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "declarations",
+                      position: (30, 47),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "sources",
+        position: (34, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (34, 13),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "sourceFilesBySuffices",
+          position: (34, 17),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Path {
+        parts: [
+         Raw {
+          content: "./.",
+          position: (34, 39),
+         },
+        ],
+       },
+       List {
+        elements: [
+         String {
+          parts: [
+           Raw {
+            content: ".xml",
+            position: (34, 45),
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "modulesDoc",
+        position: (36, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "builtins",
+        position: (36, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "toFile",
+          position: (36, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "modules.xml",
+          position: (36, 33),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "<section xmlns:xi=\"http://www.w3.org/2001/XInclude\" id=\"modules\">\n",
+          position: (37, 1),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (38, 8),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "concatMapStrings",
+               position: (38, 12),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "path",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: String {
+              parts: [
+               Raw {
+                content: "<xi:include href=\"",
+                position: (39, 1),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "path",
+                 position: (39, 27),
+                },
+               },
+               Raw {
+                content: "\" />\n",
+                position: (39, 32),
+               },
+              ],
+             },
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (40, 10),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "catAttrs",
+                 position: (40, 14),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "value",
+                 position: (40, 24),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (40, 31),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "meta",
+                  position: (40, 38),
+                 },
+                 Raw {
+                  content: "doc",
+                  position: (40, 43),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n</section>\n",
+          position: (40, 49),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "generatedSources",
+        position: (44, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "runCommand",
+       position: (44, 22),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "generated-docbook",
+          position: (44, 34),
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir $out\nln -s ",
+          position: (45, 1),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "modulesDoc",
+           position: (46, 13),
+          },
+         },
+         Raw {
+          content: " $out/modules.xml\nln -s ",
+          position: (46, 24),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "optionsDoc",
+            position: (47, 13),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "optionsDocBook",
+              position: (47, 24),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " $out/options-db.xml\nprintf \"%s\" \"",
+          position: (47, 39),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "version",
+           position: (48, 20),
+          },
+         },
+         Raw {
+          content: "\" > $out/version\n",
+          position: (48, 28),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "copySources",
+        position: (51, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "cp -prd $sources/* . # */\nln -s ",
+        position: (53, 1),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "generatedSources",
+         position: (54, 15),
+        },
+       },
+       Raw {
+        content: " ./generated\nchmod -R u+w .\n",
+        position: (54, 32),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "toc",
+        position: (58, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "builtins",
+        position: (58, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "toFile",
+          position: (58, 18),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "toc.xml",
+          position: (58, 26),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "<toc role=\"chunk-toc\">\n  <d:tocentry xmlns:d=\"http://docbook.org/ns/docbook\" linkend=\"book-nixos-manual\"><?dbhtml filename=\"index.html\"?>\n    <d:tocentry linkend=\"ch-options\"><?dbhtml filename=\"options.html\"?></d:tocentry>\n    <d:tocentry linkend=\"ch-release-notes\"><?dbhtml filename=\"release-notes.html\"?></d:tocentry>\n  </d:tocentry>\n</toc>\n",
+          position: (60, 1),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "manualXsltprocOptions",
+        position: (68, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "toString",
+       position: (68, 27),
+      },
+      arguments: [
+       List {
+        elements: [
+         String {
+          parts: [
+           Raw {
+            content: "--param section.autolabel 1",
+            position: (69, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param section.label.includes.component.label 1",
+            position: (70, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam html.stylesheet 'style.css overrides.css highlightjs/mono-blue.css'",
+            position: (71, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam html.script './highlightjs/highlight.pack.js ./highlightjs/loader.js'",
+            position: (72, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param xref.with.number.and.title 1",
+            position: (73, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param toc.section.depth 0",
+            position: (74, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param generate.consistent.ids 1",
+            position: (75, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam admon.style ''",
+            position: (76, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam callout.graphics.extension .svg",
+            position: (77, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam current.docid manual",
+            position: (78, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param chunk.section.depth 0",
+            position: (79, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param chunk.first.sections 1",
+            position: (80, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--param use.id.as.filename 1",
+            position: (81, 6),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--stringparam chunk.toc ",
+            position: (82, 6),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "toc",
+             position: (82, 32),
+            },
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "manual-combined",
+        position: (85, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "runCommand",
+       position: (85, 21),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "nixos-manual-combined",
+          position: (85, 33),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "sources",
+            position: (86, 15),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "nativeBuildInputs",
+             position: (87, 7),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "buildPackages",
+              position: (87, 29),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "libxml2",
+                position: (87, 43),
+               },
+               Raw {
+                content: "bin",
+                position: (87, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "buildPackages",
+              position: (87, 55),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "libxslt",
+                position: (87, 69),
+               },
+               Raw {
+                content: "bin",
+                position: (87, 77),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "meta",
+             position: (88, 7),
+            },
+            Raw {
+             content: "description",
+             position: (88, 12),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "The NixOS manual as plain docbook XML",
+             position: (88, 27),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "",
+          position: (91, 1),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "copySources",
+           position: (91, 9),
+          },
+         },
+         Raw {
+          content: "\n\nxmllint --xinclude --output ./manual-combined.xml ./manual.xml\nxmllint --xinclude --noxincludenode \\\n   --output ./man-pages-combined.xml ./man-pages.xml\n\n# outputs the context of an xmllint error output\n# LEN lines around the failing line are printed\nfunction context {\n  # length of context\n  local LEN=6\n  # lines to print before error line\n  local BEFORE=4\n\n  # xmllint output lines are:\n  # file.xml:1234: there was an error on line 1234\n  while IFS=':' read -r file line rest; do\n    echo\n    if [[ -n \"$rest\" ]]; then\n      echo \"$file:$line:$rest\"\n      local FROM=$(($line>$BEFORE ? $line - $BEFORE : 1))\n      # number lines & filter context\n      nl --body-numbering=a \"$file\" | sed -n \"$FROM,+$LEN p\"\n    else\n      if [[ -n \"$line\" ]]; then\n        echo \"$file:$line\"\n      else\n        echo \"$file\"\n      fi\n    fi\n  done\n}\n\nfunction lintrng {\n  xmllint --debug --noout --nonet \\\n    --relaxng ",
+          position: (91, 21),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "docbook5",
+           position: (126, 23),
+          },
+         },
+         Raw {
+          content: "/xml/rng/docbook/docbook.rng \\\n    \"$1\" \\\n    2>&1 | context 1>&2\n    # ^ redirect assumes xmllint doesn’t print to stdout\n}\n\nlintrng manual-combined.xml\nlintrng man-pages-combined.xml\n\nmkdir $out\ncp manual-combined.xml $out/\ncp man-pages-combined.xml $out/\n",
+          position: (126, 32),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "olinkDB",
+        position: (140, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "runCommand",
+       position: (140, 13),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "manual-olinkdb",
+          position: (140, 25),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         Inherit(
+          None,
+          [
+           Raw {
+            content: "sources",
+            position: (141, 15),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "nativeBuildInputs",
+             position: (142, 7),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "buildPackages",
+              position: (142, 29),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "libxml2",
+                position: (142, 43),
+               },
+               Raw {
+                content: "bin",
+                position: (142, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "buildPackages",
+              position: (142, 55),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "libxslt",
+                position: (142, 69),
+               },
+               Raw {
+                content: "bin",
+                position: (142, 77),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "xsltproc \\\n  ",
+          position: (145, 1),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "manualXsltprocOptions",
+           position: (146, 11),
+          },
+         },
+         Raw {
+          content: " \\\n  --stringparam collect.xref.targets only \\\n  --stringparam targets.filename \"$out/manual.db\" \\\n  --nonet \\\n  ",
+          position: (146, 33),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "docbook_xsl_ns",
+           position: (150, 11),
+          },
+         },
+         Raw {
+          content: "/xml/xsl/docbook/xhtml/chunktoc.xsl \\\n  ",
+          position: (150, 26),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "manual-combined",
+           position: (151, 11),
+          },
+         },
+         Raw {
+          content: "/manual-combined.xml\n\ncat > \"$out/olinkdb.xml\" <<EOF\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!DOCTYPE targetset SYSTEM\n  \"file://",
+          position: (151, 27),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "docbook_xsl_ns",
+           position: (156, 19),
+          },
+         },
+         Raw {
+          content: "/xml/xsl/docbook/common/targetdatabase.dtd\" [\n  <!ENTITY manualtargets SYSTEM \"file://$out/manual.db\">\n]>\n<targetset>\n  <targetsetinfo>\n      Allows for cross-referencing olinks between the manpages\n      and manual.\n  </targetsetinfo>\n\n  <document targetdoc=\"manual\">&manualtargets;</document>\n</targetset>\nEOF\n",
+          position: (156, 34),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     Inherit(
+      None,
+      [
+       Raw {
+        content: "generatedSources",
+        position: (171, 11),
+       },
+      ],
+     ),
+     Inherit(
+      Some(
+       Variable {
+        identifier: "optionsDoc",
+        position: (173, 12),
+       },
+      ),
+      [
+       Raw {
+        content: "optionsJSON",
+        position: (173, 24),
+       },
+       Raw {
+        content: "optionsNix",
+        position: (173, 36),
+       },
+       Raw {
+        content: "optionsDocBook",
+        position: (173, 47),
+       },
+      ],
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "manualHTML",
+         position: (176, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "runCommand",
+        position: (176, 16),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "nixos-manual-html",
+           position: (176, 28),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          Inherit(
+           None,
+           [
+            Raw {
+             content: "sources",
+             position: (177, 15),
+            },
+           ],
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "nativeBuildInputs",
+              position: (178, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (178, 29),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxml2",
+                 position: (178, 43),
+                },
+                Raw {
+                 content: "bin",
+                 position: (178, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (178, 55),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxslt",
+                 position: (178, 69),
+                },
+                Raw {
+                 content: "bin",
+                 position: (178, 77),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "meta",
+              position: (179, 7),
+             },
+             Raw {
+              content: "description",
+              position: (179, 12),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "The NixOS manual in HTML format",
+              position: (179, 27),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "allowedReferences",
+              position: (180, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "out",
+                position: (180, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "# Generate the HTML manual.\ndst=$out/share/doc/nixos\nmkdir -p $dst\nxsltproc \\\n  ",
+           position: (183, 1),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "manualXsltprocOptions",
+            position: (187, 11),
+           },
+          },
+          Raw {
+           content: " \\\n  --stringparam target.database.document \"",
+           position: (187, 33),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "olinkDB",
+            position: (188, 51),
+           },
+          },
+          Raw {
+           content: "/olinkdb.xml\" \\\n  --stringparam id.warnings \"1\" \\\n  --nonet --output $dst/ \\\n  ",
+           position: (188, 59),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "docbook_xsl_ns",
+            position: (191, 11),
+           },
+          },
+          Raw {
+           content: "/xml/xsl/docbook/xhtml/chunktoc.xsl \\\n  ",
+           position: (191, 26),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "manual-combined",
+            position: (192, 11),
+           },
+          },
+          Raw {
+           content: "/manual-combined.xml \\\n  |& tee xsltproc.out\ngrep \"^ID recommended on\" xsltproc.out &>/dev/null && echo \"error: some IDs are missing\" && false\nrm xsltproc.out\n\nmkdir -p $dst/images/callouts\ncp ",
+           position: (192, 27),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "docbook_xsl_ns",
+            position: (198, 12),
+           },
+          },
+          Raw {
+           content: "/xml/xsl/docbook/images/callouts/*.svg $dst/images/callouts/\n\ncp ",
+           position: (198, 27),
+          },
+          Expression {
+           expression: Path {
+            parts: [
+             Raw {
+              content: "../../../doc/style.css",
+              position: (200, 12),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " $dst/style.css\ncp ",
+           position: (200, 35),
+          },
+          Expression {
+           expression: Path {
+            parts: [
+             Raw {
+              content: "../../../doc/overrides.css",
+              position: (201, 12),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " $dst/overrides.css\ncp -r ",
+           position: (201, 39),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (202, 15),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "documentation-highlighter",
+               position: (202, 20),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: " $dst/highlightjs\n\nmkdir -p $out/nix-support\necho \"nix-build out $out\" >> $out/nix-support/hydra-build-products\necho \"doc manual $dst\" >> $out/nix-support/hydra-build-products\n",
+           position: (202, 46),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "manual",
+         position: (210, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "manualHTML",
+       position: (210, 12),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "manualHTMLIndex",
+         position: (213, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Expression {
+         expression: Variable {
+          identifier: "manualHTML",
+          position: (213, 24),
+         },
+        },
+        Raw {
+         content: "/share/doc/nixos/index.html",
+         position: (213, 35),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "manualEpub",
+         position: (215, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "runCommand",
+        position: (215, 16),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "nixos-manual-epub",
+           position: (215, 28),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          Inherit(
+           None,
+           [
+            Raw {
+             content: "sources",
+             position: (216, 15),
+            },
+           ],
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "nativeBuildInputs",
+              position: (217, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (217, 29),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxml2",
+                 position: (217, 43),
+                },
+                Raw {
+                 content: "bin",
+                 position: (217, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (217, 55),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxslt",
+                 position: (217, 69),
+                },
+                Raw {
+                 content: "bin",
+                 position: (217, 77),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (217, 81),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "zip",
+                 position: (217, 95),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "# Generate the epub manual.\ndst=$out/share/doc/nixos\n\nxsltproc \\\n  ",
+           position: (220, 1),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "manualXsltprocOptions",
+            position: (224, 11),
+           },
+          },
+          Raw {
+           content: " \\\n  --stringparam target.database.document \"",
+           position: (224, 33),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "olinkDB",
+            position: (225, 51),
+           },
+          },
+          Raw {
+           content: "/olinkdb.xml\" \\\n  --nonet --xinclude --output $dst/epub/ \\\n  ",
+           position: (225, 59),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "docbook_xsl_ns",
+            position: (227, 11),
+           },
+          },
+          Raw {
+           content: "/xml/xsl/docbook/epub/docbook.xsl \\\n  ",
+           position: (227, 26),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "manual-combined",
+            position: (228, 11),
+           },
+          },
+          Raw {
+           content: "/manual-combined.xml\n\nmkdir -p $dst/epub/OEBPS/images/callouts\ncp -r ",
+           position: (228, 27),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "docbook_xsl_ns",
+            position: (231, 15),
+           },
+          },
+          Raw {
+           content: "/xml/xsl/docbook/images/callouts/*.svg $dst/epub/OEBPS/images/callouts # */\necho \"application/epub+zip\" > mimetype\nmanual=\"$dst/nixos-manual.epub\"\nzip -0Xq \"$manual\" mimetype\ncd $dst/epub && zip -Xr9D \"$manual\" *\n\nrm -rf $dst/epub\n\nmkdir -p $out/nix-support\necho \"doc-epub manual $manual\" >> $out/nix-support/hydra-build-products\n",
+           position: (231, 30),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "manpages",
+         position: (245, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "runCommand",
+        position: (245, 14),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "nixos-manpages",
+           position: (245, 26),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          Inherit(
+           None,
+           [
+            Raw {
+             content: "sources",
+             position: (246, 15),
+            },
+           ],
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "nativeBuildInputs",
+              position: (247, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (247, 29),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxml2",
+                 position: (247, 43),
+                },
+                Raw {
+                 content: "bin",
+                 position: (247, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "buildPackages",
+               position: (247, 55),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "libxslt",
+                 position: (247, 69),
+                },
+                Raw {
+                 content: "bin",
+                 position: (247, 77),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "allowedReferences",
+              position: (248, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "out",
+                position: (248, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "# Generate manpages.\nmkdir -p $out/share/man\nxsltproc --nonet \\\n  --maxdepth 6000 \\\n  --param man.output.in.separate.dir 1 \\\n  --param man.output.base.dir \"",
+           position: (251, 1),
+          },
+          Raw {
+           content: "'",
+           position: (256, 38),
+          },
+          Raw {
+           content: "$out/share/man/'\" \\\n  --param man.endnotes.are.numbered 0 \\\n  --param man.break.after.slash 1 \\\n  --stringparam target.database.document \"",
+           position: (256, 39),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "olinkDB",
+            position: (259, 51),
+           },
+          },
+          Raw {
+           content: "/olinkdb.xml\" \\\n  ",
+           position: (259, 59),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "docbook_xsl_ns",
+            position: (260, 11),
+           },
+          },
+          Raw {
+           content: "/xml/xsl/docbook/manpages/docbook.xsl \\\n  ",
+           position: (260, 26),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "manual-combined",
+            position: (261, 11),
+           },
+          },
+          Raw {
+           content: "/man-pages-combined.xml\n",
+           position: (261, 27),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: true,
+   },
+  },
+ },
+}

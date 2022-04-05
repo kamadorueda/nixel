@@ -1,0 +1,540 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (4, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "flatpak",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (9, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "doc",
+            position: (10, 5),
+           },
+          ],
+         },
+         Path {
+          parts: [
+           Raw {
+            content: "./flatpak.xml",
+            position: (10, 11),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "maintainers",
+            position: (11, 5),
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (11, 19),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "flatpak",
+             position: (11, 24),
+            },
+            Raw {
+             content: "meta",
+             position: (11, 32),
+            },
+            Raw {
+             content: "maintainers",
+             position: (11, 37),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (15, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (16, 5),
+           },
+           Raw {
+            content: "flatpak",
+            position: (16, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (17, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (17, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "flatpak",
+                 position: (17, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (23, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (23, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (23, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (23, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (25, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (26, 9),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: EqualTo,
+                 operands: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (26, 22),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "xdg",
+                      position: (26, 29),
+                     },
+                     Raw {
+                      content: "portal",
+                      position: (26, 33),
+                     },
+                     Raw {
+                      content: "enable",
+                      position: (26, 40),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  Variable {
+                   identifier: "true",
+                   position: (26, 50),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (27, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "To use Flatpak you must enable XDG Desktop Portals with xdg.portal.enable.",
+                   position: (27, 20),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (31, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (31, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (31, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "flatpak",
+                 position: (31, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (33, 5),
+             },
+             Raw {
+              content: "dbus",
+              position: (33, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (33, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (33, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "flatpak",
+                 position: (33, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (35, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (35, 13),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (35, 26),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "flatpak",
+                 position: (35, 31),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (37, 5),
+             },
+             Raw {
+              content: "profiles",
+              position: (37, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "$HOME/.local/share/flatpak/exports",
+                position: (38, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/var/lib/flatpak/exports",
+                position: (39, 8),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (46, 5),
+             },
+             Raw {
+              content: "users",
+              position: (46, 11),
+             },
+             Raw {
+              content: "flatpak",
+              position: (46, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (47, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Flatpak system helper",
+                 position: (47, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (48, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "flatpak",
+                 position: (48, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "isSystemUser",
+                 position: (49, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (49, 22),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (52, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (52, 11),
+             },
+             Raw {
+              content: "flatpak",
+              position: (52, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

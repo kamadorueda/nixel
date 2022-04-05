@@ -1,0 +1,266 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "perlPackages",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "perl",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "makeWrapper",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "stdenv",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "stdenv",
+    position: (3, 1),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "mkDerivation",
+      position: (3, 8),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "name",
+         position: (4, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "nix-generate-from-cpan-3",
+         position: (4, 11),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildInputs",
+         position: (6, 3),
+        },
+       ],
+      },
+      With {
+       expression: Variable {
+        identifier: "perlPackages",
+        position: (6, 22),
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "makeWrapper",
+          position: (7, 5),
+         },
+         Variable {
+          identifier: "perl",
+          position: (7, 17),
+         },
+         Variable {
+          identifier: "GetoptLongDescriptive",
+          position: (7, 22),
+         },
+         Variable {
+          identifier: "CPANPLUS",
+          position: (7, 44),
+         },
+         Variable {
+          identifier: "Readonly",
+          position: (7, 53),
+         },
+         Variable {
+          identifier: "LogLog4perl",
+          position: (7, 62),
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "phases",
+         position: (10, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        String {
+         parts: [
+          Raw {
+           content: "installPhase",
+           position: (10, 15),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "installPhase",
+         position: (12, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "mkdir -p $out/bin\ncp ",
+         position: (14, 1),
+        },
+        Expression {
+         expression: Path {
+          parts: [
+           Raw {
+            content: "./nix-generate-from-cpan.pl",
+            position: (15, 12),
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " $out/bin/nix-generate-from-cpan\npatchShebangs $out/bin/nix-generate-from-cpan\nwrapProgram $out/bin/nix-generate-from-cpan --set PERL5LIB $PERL5LIB\n",
+         position: (15, 40),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (20, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "maintainers",
+            position: (21, 5),
+           },
+          ],
+         },
+         With {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (21, 24),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "maintainers",
+              position: (21, 28),
+             },
+            ],
+           },
+           default: None,
+          },
+          target: List {
+           elements: [
+            Variable {
+             identifier: "eelco",
+             position: (21, 43),
+            },
+           ],
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "description",
+            position: (22, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Utility to generate a Nix expression for a Perl package from CPAN",
+            position: (22, 20),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "platforms",
+            position: (23, 5),
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (23, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "platforms",
+             position: (23, 21),
+            },
+            Raw {
+             content: "unix",
+             position: (23, 31),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  ],
+ },
+}

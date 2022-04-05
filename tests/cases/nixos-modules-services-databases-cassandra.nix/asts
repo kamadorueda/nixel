@@ -1,0 +1,6297 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (4, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "concatStringsSep",
+      position: (5, 5),
+     },
+     Raw {
+      content: "flip",
+      position: (6, 5),
+     },
+     Raw {
+      content: "literalDocBook",
+      position: (7, 5),
+     },
+     Raw {
+      content: "literalExpression",
+      position: (8, 5),
+     },
+     Raw {
+      content: "optionalAttrs",
+      position: (9, 5),
+     },
+     Raw {
+      content: "optionals",
+      position: (10, 5),
+     },
+     Raw {
+      content: "recursiveUpdate",
+      position: (11, 5),
+     },
+     Raw {
+      content: "mkEnableOption",
+      position: (12, 5),
+     },
+     Raw {
+      content: "mkIf",
+      position: (13, 5),
+     },
+     Raw {
+      content: "mkOption",
+      position: (14, 5),
+     },
+     Raw {
+      content: "types",
+      position: (15, 5),
+     },
+     Raw {
+      content: "versionAtLeast",
+      position: (16, 5),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (19, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (19, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (19, 16),
+       },
+       Raw {
+        content: "cassandra",
+        position: (19, 25),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "defaultUser",
+       position: (21, 3),
+      },
+     ],
+    },
+    String {
+     parts: [
+      Raw {
+       content: "cassandra",
+       position: (21, 18),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cassandraConfig",
+       position: (23, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "flip",
+      position: (23, 21),
+     },
+     arguments: [
+      Variable {
+       identifier: "recursiveUpdate",
+       position: (23, 26),
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (23, 42),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "extraConfig",
+          position: (23, 46),
+         },
+        ],
+       },
+       default: None,
+      },
+      BinaryOperation {
+       operator: Update,
+       operands: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "commitlog_sync",
+              position: (25, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "batch",
+              position: (25, 25),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "commitlog_sync_batch_window_in_ms",
+              position: (26, 7),
+             },
+            ],
+           },
+           Int {
+            value: 2,
+            position: (26, 43),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "start_native_transport",
+              position: (27, 7),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (27, 32),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "allowClients",
+               position: (27, 36),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "cluster_name",
+              position: (28, 7),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (28, 22),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "clusterName",
+               position: (28, 26),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "partitioner",
+              position: (29, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "org.apache.cassandra.dht.Murmur3Partitioner",
+              position: (29, 22),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "endpoint_snitch",
+              position: (30, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "SimpleSnitch",
+              position: (30, 26),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "data_file_directories",
+              position: (31, 7),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (31, 36),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "homeDir",
+                    position: (31, 40),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/data",
+                position: (31, 48),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "commitlog_directory",
+              position: (32, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (32, 32),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "homeDir",
+                  position: (32, 36),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/commitlog",
+              position: (32, 44),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "saved_caches_directory",
+              position: (33, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (33, 35),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "homeDir",
+                  position: (33, 39),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/saved_caches",
+              position: (33, 47),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+        BinaryOperation {
+         operator: Update,
+         operands: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "optionalAttrs",
+            position: (34, 10),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (34, 25),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "seedAddresses",
+                  position: (34, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+              List {
+               elements: [],
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "seed_provider",
+                  position: (35, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "class_name",
+                       position: (37, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "org.apache.cassandra.locator.SimpleSeedProvider",
+                       position: (37, 25),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "parameters",
+                       position: (38, 11),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      Map {
+                       bindings: [
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "seeds",
+                            position: (38, 27),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "concatStringsSep",
+                           position: (38, 35),
+                          },
+                          arguments: [
+                           String {
+                            parts: [
+                             Raw {
+                              content: ",",
+                              position: (38, 53),
+                             },
+                            ],
+                           },
+                           PropertyAccess {
+                            expression: Variable {
+                             identifier: "cfg",
+                             position: (38, 56),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "seedAddresses",
+                               position: (38, 60),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          ],
+                         },
+                        ),
+                       ],
+                       recursive: false,
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "optionalAttrs",
+            position: (41, 10),
+           },
+           arguments: [
+            FunctionApplication {
+             function: Variable {
+              identifier: "versionAtLeast",
+              position: (41, 25),
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (41, 40),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (41, 44),
+                 },
+                 Raw {
+                  content: "version",
+                  position: (41, 52),
+                 },
+                ],
+               },
+               default: None,
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "3",
+                 position: (41, 61),
+                },
+               ],
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "hints_directory",
+                  position: (42, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (42, 28),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "homeDir",
+                      position: (42, 32),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/hints",
+                  position: (42, 40),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cassandraConfigWithAddresses",
+       position: (46, 3),
+      },
+     ],
+    },
+    BinaryOperation {
+     operator: Update,
+     operands: [
+      Variable {
+       identifier: "cassandraConfig",
+       position: (46, 34),
+      },
+      BinaryOperation {
+       operator: Update,
+       operands: [
+        IfThenElse {
+         predicate: BinaryOperation {
+          operator: EqualTo,
+          operands: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (47, 8),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "listenAddress",
+               position: (47, 12),
+              },
+             ],
+            },
+            default: None,
+           },
+           Variable {
+            identifier: "null",
+            position: (47, 29),
+           },
+          ],
+         },
+         then: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "listen_interface",
+               position: (48, 12),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (48, 31),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "listenInterface",
+                position: (48, 35),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+         else_: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "listen_address",
+               position: (49, 12),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (49, 29),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "listenAddress",
+                position: (49, 33),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        },
+        IfThenElse {
+         predicate: BinaryOperation {
+          operator: EqualTo,
+          operands: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (51, 8),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "rpcAddress",
+               position: (51, 12),
+              },
+             ],
+            },
+            default: None,
+           },
+           Variable {
+            identifier: "null",
+            position: (51, 26),
+           },
+          ],
+         },
+         then: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "rpc_interface",
+               position: (52, 12),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (52, 28),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "rpcInterface",
+                position: (52, 32),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+         else_: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "rpc_address",
+               position: (53, 12),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (53, 26),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "rpcAddress",
+                position: (53, 30),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cassandraEtc",
+       position: (56, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (56, 18),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "stdenv",
+         position: (56, 23),
+        },
+        Raw {
+         content: "mkDerivation",
+         position: (56, 30),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "name",
+            position: (57, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "cassandra-etc",
+            position: (57, 13),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "cassandraYaml",
+            position: (59, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "builtins",
+            position: (59, 21),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "toJSON",
+              position: (59, 30),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Variable {
+            identifier: "cassandraConfigWithAddresses",
+            position: (59, 37),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "cassandraEnvPkg",
+            position: (60, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (60, 26),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "package",
+                position: (60, 30),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: "/conf/cassandra-env.sh",
+            position: (60, 38),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "cassandraLogbackConfig",
+            position: (61, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (61, 30),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "writeText",
+              position: (61, 35),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "logback.xml",
+              position: (61, 46),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (61, 59),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "logbackConfig",
+               position: (61, 63),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "passAsFile",
+            position: (63, 5),
+           },
+          ],
+         },
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "extraEnvSh",
+              position: (63, 21),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        Inherit(
+         Some(
+          Variable {
+           identifier: "cfg",
+           position: (64, 14),
+          },
+         ),
+         [
+          Raw {
+           content: "extraEnvSh",
+           position: (64, 19),
+          },
+         ],
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "buildCommand",
+            position: (66, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "mkdir -p \"$out\"\n\necho \"$cassandraYaml\" > \"$out/cassandra.yaml\"\nln -s \"$cassandraLogbackConfig\" \"$out/logback.xml\"\n\n( cat \"$cassandraEnvPkg\"\n  echo \"# lines from services.cassandra.extraEnvSh: \"\n  cat \"$extraEnvShPath\"\n) > \"$out/cassandra-env.sh\"\n\n# Delete default JMX Port, otherwise we can't set it using env variable\nsed -i '/JMX_PORT=\"7199\"/d' \"$out/cassandra-env.sh\"\n\n# Delete default password file\nsed -i '/-Dcom.sun.management.jmxremote.password.file=\\/etc\\/cassandra\\/jmxremote.password/d' \"$out/cassandra-env.sh\"\n",
+            position: (67, 1),
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "defaultJmxRolesFile",
+       position: (85, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "builtins",
+       position: (86, 5),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "foldl'",
+         position: (86, 14),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Function {
+       argument: Some(
+        "left",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: Function {
+        argument: Some(
+         "right",
+        ),
+        arguments: FunctionArguments {
+         arguments: [],
+         ellipsis: false,
+        },
+        definition: BinaryOperation {
+         operator: Addition,
+         operands: [
+          Variable {
+           identifier: "left",
+           position: (87, 21),
+          },
+          Variable {
+           identifier: "right",
+           position: (87, 28),
+          },
+         ],
+        },
+       },
+      },
+      String {
+       parts: [],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "map",
+        position: (88, 8),
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "role",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: String {
+          parts: [
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "role",
+              position: (88, 22),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "username",
+                position: (88, 27),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: " ",
+            position: (88, 36),
+           },
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "role",
+              position: (88, 39),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "password",
+                position: (88, 44),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+          ],
+         },
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (88, 56),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "jmxRoles",
+            position: (88, 60),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "fullJvmOptions",
+       position: (90, 3),
+      },
+     ],
+    },
+    BinaryOperation {
+     operator: Concatenation,
+     operands: [
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (91, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "jvmOpts",
+          position: (91, 9),
+         },
+        ],
+       },
+       default: None,
+      },
+      BinaryOperation {
+       operator: Concatenation,
+       operands: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "optionals",
+          position: (92, 8),
+         },
+         arguments: [
+          BinaryOperation {
+           operator: NotEqualTo,
+           operands: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (92, 19),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "jmxRoles",
+                position: (92, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+            List {
+             elements: [],
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "-Dcom.sun.management.jmxremote.authenticate=true",
+               position: (93, 8),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "-Dcom.sun.management.jmxremote.password.file=",
+               position: (94, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (94, 55),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "jmxRolesFile",
+                   position: (94, 59),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "optionals",
+          position: (95, 10),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (95, 20),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "remoteJmx",
+              position: (95, 24),
+             },
+            ],
+           },
+           default: None,
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "-Djava.rmi.server.hostname=",
+               position: (96, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (96, 37),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "rpcAddress",
+                   position: (96, 41),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (101, 3),
+       },
+       Raw {
+        content: "services",
+        position: (101, 11),
+       },
+       Raw {
+        content: "cassandra",
+        position: (101, 20),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (103, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkEnableOption",
+          position: (103, 14),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "Apache Cassandra – Scalable and highly available database.\n",
+             position: (104, 1),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "clusterName",
+           position: (107, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (107, 19),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (108, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (108, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (108, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (109, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Test Cluster",
+                position: (109, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (110, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The name of the cluster.\nThis setting prevents nodes in one logical cluster from joining\nanother. All nodes in a cluster must have the same value.\n",
+                position: (111, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "user",
+           position: (117, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (117, 12),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (118, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (118, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (118, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (119, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "defaultUser",
+              position: (119, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (120, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Run Apache Cassandra under this user.",
+                position: (120, 22),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "group",
+           position: (123, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (123, 13),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (124, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (124, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (124, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (125, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "defaultUser",
+              position: (125, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (126, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Run Apache Cassandra under this group.",
+                position: (126, 22),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "homeDir",
+           position: (129, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (129, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (130, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (130, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "path",
+                 position: (130, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (131, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/var/lib/cassandra",
+                position: (131, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (132, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Home directory for Apache Cassandra.\n",
+                position: (133, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "package",
+           position: (137, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (137, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (138, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (138, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (138, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (139, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (139, 17),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "cassandra",
+                 position: (139, 22),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "defaultText",
+                position: (140, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalExpression",
+               position: (140, 21),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "pkgs.cassandra",
+                  position: (140, 40),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (141, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalExpression",
+               position: (141, 17),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "pkgs.cassandra_3_11",
+                  position: (141, 36),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (142, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The Apache Cassandra package to use.\n",
+                position: (143, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jvmOpts",
+           position: (147, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (147, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (148, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (148, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (148, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (148, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (148, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (149, 7),
+               },
+              ],
+             },
+             List {
+              elements: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (150, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Populate the JVM_OPT environment variable.\n",
+                position: (151, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "listenAddress",
+           position: (155, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (155, 21),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (156, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (156, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (156, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (156, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (156, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (157, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "127.0.0.1",
+                position: (157, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (158, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (158, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (159, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Address or interface to bind to and tell other Cassandra nodes\nto connect to. You _must_ change this if you want multiple\nnodes to be able to communicate!\n\nSet listenAddress OR listenInterface, not both.\n\nLeaving it blank leaves it up to\nInetAddress.getLocalHost(). This will always do the Right\nThing _if_ the node is properly configured (hostname, name\nresolution, etc), and the Right Thing is to use the address\nassociated with the hostname (it might not be).\n\nSetting listen_address to 0.0.0.0 is always wrong.\n",
+                position: (160, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "listenInterface",
+           position: (176, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (176, 23),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (177, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (177, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (177, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (177, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (177, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (178, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (178, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (179, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "eth1",
+                position: (179, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (180, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Set listenAddress OR listenInterface, not both. Interfaces\nmust correspond to a single address, IP aliasing is not\nsupported.\n",
+                position: (181, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "rpcAddress",
+           position: (187, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (187, 18),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (188, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (188, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (188, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (188, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (188, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (189, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "127.0.0.1",
+                position: (189, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (190, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (190, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (191, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The address or interface to bind the native transport server to.\n\nSet rpcAddress OR rpcInterface, not both.\n\nLeaving rpcAddress blank has the same effect as on\nlistenAddress (i.e. it will be based on the configured hostname\nof the node).\n\nNote that unlike listenAddress, you can specify 0.0.0.0, but you\nmust also set extraConfig.broadcast_rpc_address to a value other\nthan 0.0.0.0.\n\nFor security reasons, you should not expose this port to the\ninternet. Firewall it if needed.\n",
+                position: (192, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "rpcInterface",
+           position: (209, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (209, 20),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (210, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (210, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (210, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (210, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (210, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (211, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (211, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (212, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "eth1",
+                position: (212, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (213, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Set rpcAddress OR rpcInterface, not both. Interfaces must\ncorrespond to a single address, IP aliasing is not supported.\n",
+                position: (214, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "logbackConfig",
+           position: (219, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (219, 21),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (220, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (220, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "lines",
+                 position: (220, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (221, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "<configuration scan=\"false\">\n  <appender name=\"STDOUT\" class=\"ch.qos.logback.core.ConsoleAppender\">\n    <encoder>\n      <pattern>%-5level %date{HH:mm:ss,SSS} %msg%n</pattern>\n    </encoder>\n  </appender>\n\n  <root level=\"INFO\">\n    <appender-ref ref=\"STDOUT\" />\n  </root>\n\n  <logger name=\"com.thinkaurelius.thrift\" level=\"ERROR\"/>\n</configuration>\n",
+                position: (222, 1),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (236, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "XML logback configuration for cassandra\n",
+                position: (237, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "seedAddresses",
+           position: (241, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (241, 21),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (242, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (242, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (242, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (242, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (242, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (243, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "127.0.0.1",
+                  position: (243, 20),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (244, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "The addresses of hosts designated as contact points in the cluster. A\njoining node contacts one of the nodes in the seeds list to learn the\ntopology of the ring.\nSet to 127.0.0.1 for a single node cluster.\n",
+                position: (245, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "allowClients",
+           position: (252, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (252, 20),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (253, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (253, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "bool",
+                 position: (253, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (254, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (254, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (255, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Enables or disables the native transport server (CQL binary protocol).\nThis server uses the same address as the <literal>rpcAddress</literal>,\nbut the port it uses is not <literal>rpc_port</literal> but\n<literal>native_transport_port</literal>. See the official Cassandra\ndocs for more information on these variables and set them using\n<literal>extraConfig</literal>.\n",
+                position: (256, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "extraConfig",
+           position: (265, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (265, 19),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (266, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (266, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "attrs",
+                 position: (266, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (267, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (268, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "commitlog_sync_batch_window_in_ms",
+                   position: (270, 11),
+                  },
+                 ],
+                },
+                Int {
+                 value: 3,
+                 position: (270, 47),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (272, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Extra options to be merged into cassandra.yaml as nix attribute set.\n",
+                position: (273, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "extraEnvSh",
+           position: (277, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (277, 18),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (278, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (278, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "lines",
+                 position: (278, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (279, 7),
+               },
+              ],
+             },
+             String {
+              parts: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (280, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalExpression",
+               position: (280, 17),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "\"CLASSPATH=$CLASSPATH:",
+                  position: (280, 37),
+                 },
+                 Raw {
+                  content: "$",
+                  position: (280, 59),
+                 },
+                 Raw {
+                  content: "{extraJar}\"",
+                  position: (280, 62),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (281, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Extra shell lines to be appended onto cassandra-env.sh.\n",
+                position: (282, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "fullRepairInterval",
+           position: (286, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (286, 26),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (287, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (287, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (287, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (287, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (287, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (288, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "3w",
+                position: (288, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (289, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (289, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (290, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Set the interval how often full repairs are run, i.e.\n<literal>nodetool repair --full</literal> is executed. See\nhttps://cassandra.apache.org/doc/latest/operating/repair.html\nfor more information.\n\nSet to <literal>null</literal> to disable full repairs.\n",
+                position: (291, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "fullRepairOptions",
+           position: (300, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (300, 25),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (301, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (301, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (301, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (301, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (301, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (302, 7),
+               },
+              ],
+             },
+             List {
+              elements: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (303, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "--partitioner-range",
+                  position: (303, 20),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (304, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Options passed through to the full repair command.\n",
+                position: (305, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "incrementalRepairInterval",
+           position: (309, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (309, 33),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (310, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (310, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (310, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (310, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (310, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (311, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "3d",
+                position: (311, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (312, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (312, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (313, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Set the interval how often incremental repairs are run, i.e.\n<literal>nodetool repair</literal> is executed. See\nhttps://cassandra.apache.org/doc/latest/operating/repair.html\nfor more information.\n\nSet to <literal>null</literal> to disable incremental repairs.\n",
+                position: (314, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "incrementalRepairOptions",
+           position: (323, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (323, 32),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (324, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (324, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (324, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (324, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (324, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (325, 7),
+               },
+              ],
+             },
+             List {
+              elements: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (326, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "--partitioner-range",
+                  position: (326, 20),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (327, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Options passed through to the incremental repair command.\n",
+                position: (328, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "maxHeapSize",
+           position: (332, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (332, 19),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (333, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (333, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (333, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (333, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (333, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (334, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (334, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (335, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "4G",
+                position: (335, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (336, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Must be left blank or set together with heapNewSize.\nIf left blank a sensible value for the available amount of RAM and CPU\ncores is calculated.\n\nOverride to set the amount of memory to allocate to the JVM at\nstart-up. For production use you may wish to adjust this for your\nenvironment. MAX_HEAP_SIZE is the total amount of memory dedicated\nto the Java heap. HEAP_NEWSIZE refers to the size of the young\ngeneration.\n\nThe main trade-off for the young generation is that the larger it\nis, the longer GC pause times will be. The shorter it is, the more\nexpensive GC will be (usually).\n",
+                position: (337, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "heapNewSize",
+           position: (353, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (353, 19),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (354, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (354, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (354, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (354, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (354, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (355, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (355, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (356, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "800M",
+                position: (356, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (357, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Must be left blank or set together with heapNewSize.\nIf left blank a sensible value for the available amount of RAM and CPU\ncores is calculated.\n\nOverride to set the amount of memory to allocate to the JVM at\nstart-up. For production use you may wish to adjust this for your\nenvironment. HEAP_NEWSIZE refers to the size of the young\ngeneration.\n\nThe main trade-off for the young generation is that the larger it\nis, the longer GC pause times will be. The shorter it is, the more\nexpensive GC will be (usually).\n\nThe example HEAP_NEWSIZE assumes a modern 8-core+ machine for decent pause\ntimes. If in doubt, and if you do not particularly want to tweak, go with\n100 MB per physical CPU core.\n",
+                position: (358, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "mallocArenaMax",
+           position: (377, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (377, 22),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (378, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (378, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (378, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (378, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "int",
+                   position: (378, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (379, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (379, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (380, 7),
+               },
+              ],
+             },
+             Int {
+              value: 4,
+              position: (380, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (381, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Set this to control the amount of arenas per-thread in glibc.\n",
+                position: (382, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "remoteJmx",
+           position: (386, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (386, 17),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (387, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (387, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "bool",
+                 position: (387, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (388, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "false",
+              position: (388, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (389, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Cassandra ships with JMX accessible *only* from localhost.\nTo enable remote JMX connections set to true.\n\nBe sure to also enable authentication and/or TLS.\nSee: https://wiki.apache.org/cassandra/JmxSecurity\n",
+                position: (390, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jmxPort",
+           position: (398, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (398, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (399, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (399, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "int",
+                 position: (399, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (400, 7),
+               },
+              ],
+             },
+             Int {
+              value: 7199,
+              position: (400, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (401, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specifies the default port over which Cassandra will be available for\nJMX connections.\nFor security reasons, you should not expose this port to the internet.\nFirewall it if needed.\n",
+                position: (402, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jmxRoles",
+           position: (409, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (409, 16),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (410, 7),
+               },
+              ],
+             },
+             List {
+              elements: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (411, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Roles that are allowed to access the JMX (e.g. nodetool)\nBEWARE: The passwords will be stored world readable in the nix-store.\n        It's recommended to use your own protected file using\n        <literal>jmxRolesFile</literal>\n\nDoesn't work in versions older than 3.11 because they don't like that\nit's world readable.\n",
+                position: (412, 1),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (420, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (420, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (420, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (420, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "submodule",
+                    position: (420, 34),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "options",
+                       position: (421, 9),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "username",
+                          position: (422, 11),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "mkOption",
+                         position: (422, 22),
+                        },
+                        arguments: [
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "type",
+                               position: (423, 13),
+                              },
+                             ],
+                            },
+                            PropertyAccess {
+                             expression: Variable {
+                              identifier: "types",
+                              position: (423, 20),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "str",
+                                position: (423, 26),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           ),
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "description",
+                               position: (424, 13),
+                              },
+                             ],
+                            },
+                            String {
+                             parts: [
+                              Raw {
+                               content: "Username for JMX",
+                               position: (424, 28),
+                              },
+                             ],
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "password",
+                          position: (426, 11),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "mkOption",
+                         position: (426, 22),
+                        },
+                        arguments: [
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "type",
+                               position: (427, 13),
+                              },
+                             ],
+                            },
+                            PropertyAccess {
+                             expression: Variable {
+                              identifier: "types",
+                              position: (427, 20),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "str",
+                                position: (427, 26),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           ),
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "description",
+                               position: (428, 13),
+                              },
+                             ],
+                            },
+                            String {
+                             parts: [
+                              Raw {
+                               content: "Password for JMX",
+                               position: (428, 28),
+                              },
+                             ],
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jmxRolesFile",
+           position: (434, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (434, 20),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (435, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (435, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (435, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (435, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "path",
+                   position: (435, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (436, 7),
+               },
+              ],
+             },
+             IfThenElse {
+              predicate: FunctionApplication {
+               function: Variable {
+                identifier: "versionAtLeast",
+                position: (437, 12),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (437, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (437, 31),
+                   },
+                   Raw {
+                    content: "version",
+                    position: (437, 39),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "3.11",
+                   position: (437, 48),
+                  },
+                 ],
+                },
+               ],
+              },
+              then: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (438, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "writeText",
+                   position: (438, 19),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "jmx-roles-file",
+                   position: (438, 30),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "defaultJmxRolesFile",
+                 position: (438, 46),
+                },
+               ],
+              },
+              else_: Variable {
+               identifier: "null",
+               position: (439, 14),
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "defaultText",
+                position: (440, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalDocBook",
+               position: (440, 21),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "generated configuration file if version is at least 3.11, otherwise <literal>null</literal>",
+                  position: (440, 38),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (441, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/var/lib/cassandra/jmx.password",
+                position: (441, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (442, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specify your own jmx roles file.\n\nMake sure the permissions forbid \"others\" from reading the file if\nyou're using Cassandra below version 3.11.\n",
+                position: (443, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (451, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (451, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (451, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (451, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "assertions",
+             position: (452, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (454, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (454, 22),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "listenAddress",
+                       position: (454, 26),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (454, 43),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (454, 53),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "listenInterface",
+                       position: (454, 57),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (454, 76),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (455, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "You have to set either listenAddress or listenInterface",
+                  position: (455, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (458, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (458, 22),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "rpcAddress",
+                       position: (458, 26),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (458, 40),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (458, 50),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "rpcInterface",
+                       position: (458, 54),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (458, 70),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (459, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "You have to set either rpcAddress or rpcInterface",
+                  position: (459, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (462, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: EqualTo,
+                operands: [
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (462, 22),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "maxHeapSize",
+                       position: (462, 26),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (462, 41),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (462, 51),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "heapNewSize",
+                       position: (462, 55),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (462, 70),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (463, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "If you set either of maxHeapSize or heapNewSize you have to set both",
+                  position: (463, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (466, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (466, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "remoteJmx",
+                     position: (466, 25),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (466, 38),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "jmxRolesFile",
+                       position: (466, 42),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (466, 58),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (467, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "If you want JMX available remotely you need to set a password using\n<literal>jmxRoles</literal> or <literal>jmxRolesFile</literal> if\nusing Cassandra older than v3.11.\n",
+                  position: (468, 1),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (474, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (474, 13),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (474, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "user",
+                  position: (474, 23),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "defaultUser",
+               position: (474, 31),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "users",
+                  position: (475, 7),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "defaultUser",
+                   position: (475, 15),
+                  },
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "group",
+                     position: (476, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (476, 17),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (476, 21),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "home",
+                     position: (477, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (477, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "homeDir",
+                      position: (477, 20),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "createHome",
+                     position: (478, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "true",
+                   position: (478, 22),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "uid",
+                     position: (479, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (479, 15),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ids",
+                      position: (479, 22),
+                     },
+                     Raw {
+                      content: "uids",
+                      position: (479, 26),
+                     },
+                     Raw {
+                      content: "cassandra",
+                      position: (479, 31),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (480, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Cassandra service user",
+                     position: (480, 24),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "groups",
+                  position: (482, 7),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "defaultUser",
+                   position: (482, 16),
+                  },
+                 },
+                 Raw {
+                  content: "gid",
+                  position: (482, 29),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (482, 35),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ids",
+                   position: (482, 42),
+                  },
+                  Raw {
+                   content: "gids",
+                   position: (482, 46),
+                  },
+                  Raw {
+                   content: "cassandra",
+                   position: (482, 51),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (485, 5),
+            },
+            Raw {
+             content: "services",
+             position: (485, 13),
+            },
+            Raw {
+             content: "cassandra",
+             position: (485, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (486, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Apache Cassandra service",
+                position: (486, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "after",
+                position: (487, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "network.target",
+                  position: (487, 18),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "environment",
+                position: (488, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "CASSANDRA_CONF",
+                   position: (489, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: Variable {
+                    identifier: "cassandraEtc",
+                    position: (489, 29),
+                   },
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "JVM_OPTS",
+                   position: (490, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "builtins",
+                   position: (490, 20),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "concatStringsSep",
+                     position: (490, 29),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " ",
+                     position: (490, 47),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "fullJvmOptions",
+                   position: (490, 50),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "MAX_HEAP_SIZE",
+                   position: (491, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (491, 25),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (491, 34),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "maxHeapSize",
+                      position: (491, 38),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "HEAP_NEWSIZE",
+                   position: (492, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (492, 24),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (492, 33),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "heapNewSize",
+                      position: (492, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "MALLOC_ARENA_MAX",
+                   position: (493, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (493, 28),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (493, 37),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mallocArenaMax",
+                      position: (493, 41),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "LOCAL_JMX",
+                   position: (494, 9),
+                  },
+                 ],
+                },
+                IfThenElse {
+                 predicate: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (494, 24),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "remoteJmx",
+                     position: (494, 28),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 then: String {
+                  parts: [
+                   Raw {
+                    content: "no",
+                    position: (494, 44),
+                   },
+                  ],
+                 },
+                 else_: String {
+                  parts: [
+                   Raw {
+                    content: "yes",
+                    position: (494, 54),
+                   },
+                  ],
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "JMX_PORT",
+                   position: (495, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "toString",
+                  position: (495, 20),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (495, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "jmxPort",
+                      position: (495, 33),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (497, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "multi-user.target",
+                  position: (497, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (498, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "User",
+                   position: (499, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (499, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (499, 20),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Group",
+                   position: (500, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (500, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (500, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (501, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (501, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (501, 28),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/cassandra -f",
+                   position: (501, 36),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "SuccessExitStatus",
+                   position: (502, 9),
+                  },
+                 ],
+                },
+                Int {
+                 value: 143,
+                 position: (502, 29),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (506, 5),
+            },
+            Raw {
+             content: "services",
+             position: (506, 13),
+            },
+            Raw {
+             content: "cassandra-full-repair",
+             position: (506, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (507, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Perform a full repair on this Cassandra node",
+                position: (507, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "after",
+                position: (508, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "cassandra.service",
+                  position: (508, 18),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "requires",
+                position: (509, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "cassandra.service",
+                  position: (509, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (510, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "User",
+                   position: (511, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (511, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (511, 20),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Group",
+                   position: (512, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (512, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (512, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (513, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (514, 11),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " ",
+                     position: (514, 29),
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: Concatenation,
+                   operands: [
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (516, 18),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "package",
+                             position: (516, 22),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/bin/nodetool",
+                         position: (516, 30),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "repair",
+                         position: (517, 16),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "--full",
+                         position: (518, 16),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (519, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "fullRepairOptions",
+                        position: (519, 22),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (523, 5),
+            },
+            Raw {
+             content: "timers",
+             position: (523, 13),
+            },
+            Raw {
+             content: "cassandra-full-repair",
+             position: (523, 20),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (524, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (524, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "fullRepairInterval",
+                  position: (524, 17),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (524, 39),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (525, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Schedule full repairs on Cassandra",
+                  position: (525, 24),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (526, 9),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "timers.target",
+                    position: (526, 23),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "timerConfig",
+                  position: (527, 9),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "OnBootSec",
+                     position: (528, 11),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (528, 23),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "fullRepairInterval",
+                      position: (528, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "OnUnitActiveSec",
+                     position: (529, 11),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (529, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "fullRepairInterval",
+                      position: (529, 33),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "Persistent",
+                     position: (530, 11),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "true",
+                   position: (530, 24),
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (534, 5),
+            },
+            Raw {
+             content: "services",
+             position: (534, 13),
+            },
+            Raw {
+             content: "cassandra-incremental-repair",
+             position: (534, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (535, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Perform an incremental repair on this cassandra node.",
+                position: (535, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "after",
+                position: (536, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "cassandra.service",
+                  position: (536, 18),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "requires",
+                position: (537, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "cassandra.service",
+                  position: (537, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (538, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "User",
+                   position: (539, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (539, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (539, 20),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Group",
+                   position: (540, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (540, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (540, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (541, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (542, 11),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " ",
+                     position: (542, 29),
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: Concatenation,
+                   operands: [
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (544, 18),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "package",
+                             position: (544, 22),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/bin/nodetool",
+                         position: (544, 30),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "repair",
+                         position: (545, 16),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (546, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "incrementalRepairOptions",
+                        position: (546, 22),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (550, 5),
+            },
+            Raw {
+             content: "timers",
+             position: (550, 13),
+            },
+            Raw {
+             content: "cassandra-incremental-repair",
+             position: (550, 20),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (551, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (551, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "incrementalRepairInterval",
+                  position: (551, 17),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (551, 46),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (552, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Schedule incremental repairs on Cassandra",
+                  position: (552, 24),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (553, 9),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "timers.target",
+                    position: (553, 23),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "timerConfig",
+                  position: (554, 9),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "OnBootSec",
+                     position: (555, 11),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (555, 23),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "incrementalRepairInterval",
+                      position: (555, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "OnUnitActiveSec",
+                     position: (556, 11),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (556, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "incrementalRepairInterval",
+                      position: (556, 33),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "Persistent",
+                     position: (557, 11),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "true",
+                   position: (557, 24),
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "meta",
+        position: (562, 3),
+       },
+       Raw {
+        content: "maintainers",
+        position: (562, 8),
+       },
+      ],
+     },
+     With {
+      expression: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (562, 27),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "maintainers",
+          position: (562, 31),
+         },
+        ],
+       },
+       default: None,
+      },
+      target: List {
+       elements: [
+        Variable {
+         identifier: "roberth",
+         position: (562, 46),
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

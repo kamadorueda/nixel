@@ -1,0 +1,418 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (5, 16),
+        },
+        Raw {
+         content: "singularity",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "singularity",
+        position: (6, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (6, 17),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "singularity",
+          position: (6, 22),
+         },
+         Raw {
+          content: "overrideAttrs",
+          position: (6, 34),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Function {
+        argument: Some(
+         "attrs",
+        ),
+        arguments: FunctionArguments {
+         arguments: [],
+         ellipsis: false,
+        },
+        definition: Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "installPhase",
+              position: (7, 5),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Addition,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "attrs",
+               position: (7, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "installPhase",
+                 position: (7, 26),
+                },
+               ],
+              },
+              default: None,
+             },
+             String {
+              parts: [
+               Raw {
+                content: "mv $out/libexec/singularity/bin/starter-suid $out/libexec/singularity/bin/starter-suid.orig\nln -s /run/wrappers/bin/singularity-suid $out/libexec/singularity/bin/starter-suid\n",
+                position: (8, 1),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (13, 3),
+        },
+        Raw {
+         content: "programs",
+         position: (13, 11),
+        },
+        Raw {
+         content: "singularity",
+         position: (13, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (14, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (14, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Singularity",
+              position: (14, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (17, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (17, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (17, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (17, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (18, 7),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (18, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "singularity",
+              position: (18, 38),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (19, 7),
+             },
+             Raw {
+              content: "wrappers",
+              position: (19, 16),
+             },
+             Raw {
+              content: "singularity-suid",
+              position: (19, 25),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "setuid",
+                 position: (20, 9),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (20, 18),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "owner",
+                 position: (21, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "root",
+                 position: (21, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (22, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "root",
+                 position: (22, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (23, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Expression {
+                 expression: Variable {
+                  identifier: "singularity",
+                  position: (23, 21),
+                 },
+                },
+                Raw {
+                 content: "/libexec/singularity/bin/starter-suid.orig",
+                 position: (23, 33),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (25, 7),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (25, 15),
+             },
+             Raw {
+              content: "rules",
+              position: (25, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d /var/singularity/mnt/session 0770 root root -",
+                position: (26, 10),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/singularity/mnt/final 0770 root root -",
+                position: (27, 10),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/singularity/mnt/overlay 0770 root root -",
+                position: (28, 10),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/singularity/mnt/container 0770 root root -",
+                position: (29, 10),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d /var/singularity/mnt/source 0770 root root -",
+                position: (30, 10),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

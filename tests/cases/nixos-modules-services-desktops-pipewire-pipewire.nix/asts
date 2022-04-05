@@ -1,0 +1,4007 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (4, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "json",
+        position: (7, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (7, 10),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "formats",
+          position: (7, 15),
+         },
+         Raw {
+          content: "json",
+          position: (7, 23),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (8, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (8, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (8, 16),
+        },
+        Raw {
+         content: "pipewire",
+         position: (8, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "enable32BitAlsaPlugins",
+        position: (9, 3),
+       },
+      ],
+     },
+     BinaryOperation {
+      operator: LogicalAnd,
+      operands: [
+       BinaryOperation {
+        operator: LogicalAnd,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (9, 28),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "alsa",
+             position: (9, 32),
+            },
+            Raw {
+             content: "support32Bit",
+             position: (9, 37),
+            },
+           ],
+          },
+          default: None,
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (10, 31),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "stdenv",
+             position: (10, 36),
+            },
+            Raw {
+             content: "isx86_64",
+             position: (10, 43),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+       BinaryOperation {
+        operator: NotEqualTo,
+        operands: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (11, 31),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "pkgsi686Linux",
+             position: (11, 36),
+            },
+            Raw {
+             content: "pipewire",
+             position: (11, 50),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "null",
+          position: (11, 62),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "jack-libs",
+        position: (17, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (17, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (17, 20),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "jack-libs",
+          position: (17, 32),
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p \"$out/lib\"\nln -s \"",
+          position: (18, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (19, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (19, 18),
+             },
+             Raw {
+              content: "jack",
+              position: (19, 26),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/lib\" \"$out/lib/pipewire\"\n",
+          position: (19, 31),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "defaults",
+        position: (24, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "client",
+           position: (25, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (25, 14),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "importJSON",
+             position: (25, 18),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./daemon/client.conf.json",
+             position: (25, 29),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "client-rt",
+           position: (26, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (26, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "importJSON",
+             position: (26, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./daemon/client-rt.conf.json",
+             position: (26, 32),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jack",
+           position: (27, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (27, 12),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "importJSON",
+             position: (27, 16),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./daemon/jack.conf.json",
+             position: (27, 27),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "pipewire",
+           position: (28, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (28, 16),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "importJSON",
+             position: (28, 20),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./daemon/pipewire.conf.json",
+             position: (28, 31),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "pipewire-pulse",
+           position: (29, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (29, 22),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "importJSON",
+             position: (29, 26),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./daemon/pipewire-pulse.conf.json",
+             position: (29, 37),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configs",
+        position: (32, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "client",
+           position: (33, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "recursiveUpdate",
+          position: (33, 14),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "defaults",
+            position: (33, 30),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "client",
+              position: (33, 39),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (33, 46),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "config",
+              position: (33, 50),
+             },
+             Raw {
+              content: "client",
+              position: (33, 57),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "client-rt",
+           position: (34, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "recursiveUpdate",
+          position: (34, 17),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "defaults",
+            position: (34, 33),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "client-rt",
+              position: (34, 42),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (34, 52),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "config",
+              position: (34, 56),
+             },
+             Raw {
+              content: "client-rt",
+              position: (34, 63),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "jack",
+           position: (35, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "recursiveUpdate",
+          position: (35, 12),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "defaults",
+            position: (35, 28),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "jack",
+              position: (35, 37),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (35, 42),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "config",
+              position: (35, 46),
+             },
+             Raw {
+              content: "jack",
+              position: (35, 53),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "pipewire",
+           position: (36, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "recursiveUpdate",
+          position: (36, 16),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "defaults",
+            position: (36, 32),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "pipewire",
+              position: (36, 41),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (36, 50),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "config",
+              position: (36, 54),
+             },
+             Raw {
+              content: "pipewire",
+              position: (36, 61),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "pipewire-pulse",
+           position: (37, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "recursiveUpdate",
+          position: (37, 22),
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "defaults",
+            position: (37, 38),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "pipewire-pulse",
+              position: (37, 47),
+             },
+            ],
+           },
+           default: None,
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (37, 62),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "config",
+              position: (37, 66),
+             },
+             Raw {
+              content: "pipewire-pulse",
+              position: (37, 73),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (41, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "maintainers",
+            position: (42, 5),
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "teams",
+           position: (42, 19),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "freedesktop",
+             position: (42, 25),
+            },
+            Raw {
+             content: "members",
+             position: (42, 37),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "buildDocsInSandbox",
+            position: (44, 5),
+           },
+          ],
+         },
+         Variable {
+          identifier: "false",
+          position: (44, 26),
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (48, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (49, 5),
+           },
+           Raw {
+            content: "pipewire",
+            position: (49, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (50, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (50, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "pipewire service",
+                 position: (50, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (52, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (52, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (53, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (53, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (53, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (54, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (54, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "pipewire",
+                     position: (54, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (55, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (55, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.pipewire",
+                      position: (55, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (56, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The pipewire derivation to use.\n",
+                    position: (57, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "socketActivation",
+               position: (61, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (61, 26),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (62, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (62, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (63, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (63, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (63, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (64, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Automatically run pipewire when connections are made to the pipewire socket.\n",
+                    position: (65, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "config",
+               position: (69, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "client",
+                  position: (70, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (70, 18),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (71, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "json",
+                      position: (71, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (71, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (72, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (73, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Configuration for pipewire clients. For details see\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/blob/",
+                       position: (74, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (75, 71),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (75, 75),
+                          },
+                          Raw {
+                           content: "version",
+                           position: (75, 83),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/src/daemon/client.conf.in\n",
+                       position: (75, 91),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "client-rt",
+                  position: (79, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (79, 21),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (80, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "json",
+                      position: (80, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (80, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (81, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (82, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Configuration for realtime pipewire clients. For details see\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/blob/",
+                       position: (83, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (84, 71),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (84, 75),
+                          },
+                          Raw {
+                           content: "version",
+                           position: (84, 83),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/src/daemon/client-rt.conf.in\n",
+                       position: (84, 91),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "jack",
+                  position: (88, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (88, 16),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (89, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "json",
+                      position: (89, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (89, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (90, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (91, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Configuration for the pipewire daemon's jack module. For details see\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/blob/",
+                       position: (92, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (93, 71),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (93, 75),
+                          },
+                          Raw {
+                           content: "version",
+                           position: (93, 83),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/src/daemon/jack.conf.in\n",
+                       position: (93, 91),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "pipewire",
+                  position: (97, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (97, 20),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (98, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "json",
+                      position: (98, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (98, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (99, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (100, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Configuration for the pipewire daemon. For details see\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/blob/",
+                       position: (101, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (102, 71),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (102, 75),
+                          },
+                          Raw {
+                           content: "version",
+                           position: (102, 83),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/src/daemon/pipewire.conf.in\n",
+                       position: (102, 91),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "pipewire-pulse",
+                  position: (106, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (106, 26),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (107, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "json",
+                      position: (107, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (107, 23),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (108, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (109, 11),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Configuration for the pipewire-pulse daemon. For details see\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/blob/",
+                       position: (110, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (111, 71),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "package",
+                           position: (111, 75),
+                          },
+                          Raw {
+                           content: "version",
+                           position: (111, 83),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/src/daemon/pipewire-pulse.conf.in\n",
+                       position: (111, 91),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "alsa",
+               position: (116, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (117, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkEnableOption",
+                 position: (117, 18),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "ALSA support",
+                    position: (117, 34),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "support32Bit",
+                  position: (118, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkEnableOption",
+                 position: (118, 24),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "32-bit ALSA support on 64-bit systems",
+                    position: (118, 40),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "jack",
+               position: (121, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (122, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkEnableOption",
+                 position: (122, 18),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "JACK audio emulation",
+                    position: (122, 34),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "pulse",
+               position: (125, 7),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (126, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkEnableOption",
+                 position: (126, 18),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "PulseAudio server emulation",
+                    position: (126, 34),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemWide",
+               position: (129, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (129, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mkOption",
+                 position: (129, 24),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (130, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (130, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "types",
+                     position: (130, 20),
+                    },
+                    Raw {
+                     content: "bool",
+                     position: (130, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (131, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (131, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (132, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "If true, a system-wide PipeWire service and socket is enabled\nallowing all users in the \"pipewire\" group to use it simultaneously.\nIf false, then user units are used instead, restricting access to\nonly one user.\n\nEnabling system-wide PipeWire is however not recommended and disabled\nby default according to\nhttps://github.com/PipeWire/pipewire/blob/master/NEWS\n",
+                    position: (133, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (149, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (149, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (149, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (149, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (150, 5),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (152, 9),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Implication,
+                 operands: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (152, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "pulse",
+                      position: (152, 25),
+                     },
+                     Raw {
+                      content: "enable",
+                      position: (152, 31),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  UnaryOperation {
+                   operator: Not,
+                   operand: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (152, 42),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "hardware",
+                       position: (152, 49),
+                      },
+                      Raw {
+                       content: "pulseaudio",
+                       position: (152, 58),
+                      },
+                      Raw {
+                       content: "enable",
+                       position: (152, 69),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (153, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "PipeWire based PulseAudio server emulation replaces PulseAudio. This option requires `hardware.pulseaudio.enable` to be set to false",
+                   position: (153, 20),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "assertion",
+                   position: (156, 9),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: Implication,
+                 operands: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (156, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "jack",
+                      position: (156, 25),
+                     },
+                     Raw {
+                      content: "enable",
+                      position: (156, 30),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  UnaryOperation {
+                   operator: Not,
+                   operand: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (156, 41),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "services",
+                       position: (156, 48),
+                      },
+                      Raw {
+                       content: "jack",
+                       position: (156, 57),
+                      },
+                      Raw {
+                       content: "jackd",
+                       position: (156, 62),
+                      },
+                      Raw {
+                       content: "enable",
+                       position: (156, 68),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "message",
+                   position: (157, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "PipeWire based JACK emulation doesn't use the JACK service. This option requires `services.jack.jackd.enable` to be set to false",
+                   position: (157, 20),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (161, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (161, 17),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             List {
+              elements: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (161, 36),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "package",
+                   position: (161, 40),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (162, 37),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "optional",
+                  position: (162, 41),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (162, 50),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "jack",
+                   position: (162, 54),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (162, 59),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Variable {
+                identifier: "jack-libs",
+                position: (162, 66),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (164, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (164, 13),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             List {
+              elements: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (164, 26),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "package",
+                   position: (164, 30),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (165, 27),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "optional",
+                  position: (165, 31),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (165, 40),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "pulse",
+                   position: (165, 44),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (165, 50),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (165, 57),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "package",
+                   position: (165, 61),
+                  },
+                  Raw {
+                   content: "pulse",
+                   position: (165, 69),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (169, 5),
+             },
+             Raw {
+              content: "services",
+              position: (169, 13),
+             },
+             Raw {
+              content: "pipewire",
+              position: (169, 22),
+             },
+             Raw {
+              content: "bindsTo",
+              position: (169, 31),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "dbus.service",
+                position: (169, 44),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (170, 5),
+             },
+             Raw {
+              content: "user",
+              position: (170, 13),
+             },
+             Raw {
+              content: "services",
+              position: (170, 18),
+             },
+             Raw {
+              content: "pipewire",
+              position: (170, 27),
+             },
+             Raw {
+              content: "bindsTo",
+              position: (170, 36),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "dbus.service",
+                position: (170, 49),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (174, 5),
+             },
+             Raw {
+              content: "sockets",
+              position: (174, 13),
+             },
+             Raw {
+              content: "pipewire",
+              position: (174, 21),
+             },
+             Raw {
+              content: "enable",
+              position: (174, 30),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (174, 39),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "systemWide",
+               position: (174, 43),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (175, 5),
+             },
+             Raw {
+              content: "services",
+              position: (175, 13),
+             },
+             Raw {
+              content: "pipewire",
+              position: (175, 22),
+             },
+             Raw {
+              content: "enable",
+              position: (175, 31),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (175, 40),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "systemWide",
+               position: (175, 44),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (176, 5),
+             },
+             Raw {
+              content: "user",
+              position: (176, 13),
+             },
+             Raw {
+              content: "sockets",
+              position: (176, 18),
+             },
+             Raw {
+              content: "pipewire",
+              position: (176, 26),
+             },
+             Raw {
+              content: "enable",
+              position: (176, 35),
+             },
+            ],
+           },
+           UnaryOperation {
+            operator: Not,
+            operand: PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (176, 45),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "systemWide",
+                position: (176, 49),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (177, 5),
+             },
+             Raw {
+              content: "user",
+              position: (177, 13),
+             },
+             Raw {
+              content: "services",
+              position: (177, 18),
+             },
+             Raw {
+              content: "pipewire",
+              position: (177, 27),
+             },
+             Raw {
+              content: "enable",
+              position: (177, 36),
+             },
+            ],
+           },
+           UnaryOperation {
+            operator: Not,
+            operand: PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (177, 46),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "systemWide",
+                position: (177, 50),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (179, 5),
+             },
+             Raw {
+              content: "sockets",
+              position: (179, 13),
+             },
+             Raw {
+              content: "pipewire",
+              position: (179, 21),
+             },
+             Raw {
+              content: "wantedBy",
+              position: (179, 30),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (179, 41),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkIf",
+                position: (179, 45),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (179, 50),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "socketActivation",
+                 position: (179, 54),
+                },
+               ],
+              },
+              default: None,
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "sockets.target",
+                  position: (179, 74),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (180, 5),
+             },
+             Raw {
+              content: "user",
+              position: (180, 13),
+             },
+             Raw {
+              content: "sockets",
+              position: (180, 18),
+             },
+             Raw {
+              content: "pipewire",
+              position: (180, 26),
+             },
+             Raw {
+              content: "wantedBy",
+              position: (180, 35),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (180, 46),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkIf",
+                position: (180, 50),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (180, 55),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "socketActivation",
+                 position: (180, 59),
+                },
+               ],
+              },
+              default: None,
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "sockets.target",
+                  position: (180, 79),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (181, 5),
+             },
+             Raw {
+              content: "user",
+              position: (181, 13),
+             },
+             Raw {
+              content: "sockets",
+              position: (181, 18),
+             },
+             Raw {
+              content: "pipewire-pulse",
+              position: (181, 26),
+             },
+             Raw {
+              content: "wantedBy",
+              position: (181, 41),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (181, 52),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkIf",
+                position: (181, 56),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             BinaryOperation {
+              operator: LogicalAnd,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (181, 62),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "socketActivation",
+                   position: (181, 66),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (181, 86),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "pulse",
+                   position: (181, 90),
+                  },
+                  Raw {
+                   content: "enable",
+                   position: (181, 96),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "sockets.target",
+                  position: (181, 106),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (183, 5),
+             },
+             Raw {
+              content: "udev",
+              position: (183, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (183, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (183, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (183, 36),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (186, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (186, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "alsa/conf.d/49-pipewire-modules.conf",
+                 position: (186, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (186, 62),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (186, 67),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "alsa",
+                 position: (186, 71),
+                },
+                Raw {
+                 content: "enable",
+                 position: (186, 76),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "text",
+                   position: (187, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "pcm_type.pipewire {\n  libs.native = ",
+                   position: (188, 1),
+                  },
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (189, 27),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (189, 31),
+                      },
+                      Raw {
+                       content: "lib",
+                       position: (189, 39),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/lib/alsa-lib/libasound_module_pcm_pipewire.so ;\n  ",
+                   position: (189, 43),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "optionalString",
+                     position: (190, 13),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "enable32BitAlsaPlugins",
+                      position: (190, 28),
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "libs.32Bit = ",
+                        position: (191, 14),
+                       },
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "pkgs",
+                          position: (191, 29),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "pkgsi686Linux",
+                            position: (191, 34),
+                           },
+                           Raw {
+                            content: "pipewire",
+                            position: (191, 48),
+                           },
+                           Raw {
+                            content: "lib",
+                            position: (191, 57),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "/lib/alsa-lib/libasound_module_pcm_pipewire.so ;",
+                        position: (191, 61),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "\n}\nctl_type.pipewire {\n  libs.native = ",
+                   position: (191, 111),
+                  },
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (194, 27),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (194, 31),
+                      },
+                      Raw {
+                       content: "lib",
+                       position: (194, 39),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/lib/alsa-lib/libasound_module_ctl_pipewire.so ;\n  ",
+                   position: (194, 43),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "optionalString",
+                     position: (195, 13),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "enable32BitAlsaPlugins",
+                      position: (195, 28),
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "libs.32Bit = ",
+                        position: (196, 14),
+                       },
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "pkgs",
+                          position: (196, 29),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "pkgsi686Linux",
+                            position: (196, 34),
+                           },
+                           Raw {
+                            content: "pipewire",
+                            position: (196, 48),
+                           },
+                           Raw {
+                            content: "lib",
+                            position: (196, 57),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "/lib/alsa-lib/libasound_module_ctl_pipewire.so ;",
+                        position: (196, 61),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "\n}\n",
+                   position: (196, 111),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (200, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (200, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "alsa/conf.d/50-pipewire.conf",
+                 position: (200, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (200, 54),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (200, 59),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "alsa",
+                 position: (200, 63),
+                },
+                Raw {
+                 content: "enable",
+                 position: (200, 68),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "source",
+                   position: (201, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (201, 19),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (201, 23),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/share/alsa/alsa.conf.d/50-pipewire.conf",
+                   position: (201, 31),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (203, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (203, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "alsa/conf.d/99-pipewire-default.conf",
+                 position: (203, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (203, 62),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (203, 67),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "alsa",
+                 position: (203, 71),
+                },
+                Raw {
+                 content: "enable",
+                 position: (203, 76),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "source",
+                   position: (204, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (204, 19),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (204, 23),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/share/alsa/alsa.conf.d/99-pipewire-default.conf",
+                   position: (204, 31),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (207, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (207, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "pipewire/client.conf",
+                 position: (207, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (208, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "json",
+                 position: (208, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "generate",
+                   position: (208, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "client.conf",
+                   position: (208, 31),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "configs",
+                  position: (208, 44),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "client",
+                    position: (208, 52),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (210, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (210, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "pipewire/client-rt.conf",
+                 position: (210, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (211, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "json",
+                 position: (211, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "generate",
+                   position: (211, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "client-rt.conf",
+                   position: (211, 31),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "configs",
+                  position: (211, 47),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "client-rt",
+                    position: (211, 55),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (213, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (213, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "pipewire/jack.conf",
+                 position: (213, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (214, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "json",
+                 position: (214, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "generate",
+                   position: (214, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "jack.conf",
+                   position: (214, 31),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "configs",
+                  position: (214, 42),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "jack",
+                    position: (214, 50),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (216, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (216, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "pipewire/pipewire.conf",
+                 position: (216, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (217, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "json",
+                 position: (217, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "generate",
+                   position: (217, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pipewire.conf",
+                   position: (217, 31),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "configs",
+                  position: (217, 46),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "pipewire",
+                    position: (217, 54),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (219, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (219, 17),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "pipewire/pipewire-pulse.conf",
+                 position: (219, 22),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (220, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "json",
+                 position: (220, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "generate",
+                   position: (220, 21),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pipewire-pulse.conf",
+                   position: (220, 31),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "configs",
+                  position: (220, 52),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "pipewire-pulse",
+                    position: (220, 60),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (223, 5),
+             },
+             Raw {
+              content: "sessionVariables",
+              position: (223, 17),
+             },
+             Raw {
+              content: "LD_LIBRARY_PATH",
+              position: (223, 34),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (224, 7),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optional",
+                position: (224, 11),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (224, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "jack",
+                 position: (224, 24),
+                },
+                Raw {
+                 content: "enable",
+                 position: (224, 29),
+                },
+               ],
+              },
+              default: None,
+             },
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (224, 39),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (224, 43),
+                   },
+                   Raw {
+                    content: "jack",
+                    position: (224, 51),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/lib",
+                position: (224, 56),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (226, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (226, 13),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkIf",
+                position: (226, 17),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (226, 22),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "systemWide",
+                 position: (226, 26),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "users",
+                   position: (227, 7),
+                  },
+                  Raw {
+                   content: "pipewire",
+                   position: (227, 13),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "uid",
+                      position: (228, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (228, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "ids",
+                       position: (228, 22),
+                      },
+                      Raw {
+                       content: "uids",
+                       position: (228, 26),
+                      },
+                      Raw {
+                       content: "pipewire",
+                       position: (228, 31),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (229, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pipewire",
+                      position: (229, 18),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraGroups",
+                      position: (230, 9),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Concatenation,
+                    operands: [
+                     List {
+                      elements: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "audio",
+                          position: (231, 12),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "video",
+                          position: (232, 12),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (233, 14),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "optional",
+                          position: (233, 18),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "config",
+                         position: (233, 27),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "security",
+                           position: (233, 34),
+                          },
+                          Raw {
+                           content: "rtkit",
+                           position: (233, 43),
+                          },
+                          Raw {
+                           content: "enable",
+                           position: (233, 49),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "rtkit",
+                          position: (233, 57),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (234, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Pipewire system service user",
+                      position: (234, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "isSystemUser",
+                      position: (235, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (235, 24),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "groups",
+                   position: (237, 7),
+                  },
+                  Raw {
+                   content: "pipewire",
+                   position: (237, 14),
+                  },
+                  Raw {
+                   content: "gid",
+                   position: (237, 23),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (237, 29),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ids",
+                    position: (237, 36),
+                   },
+                   Raw {
+                    content: "gids",
+                    position: (237, 40),
+                   },
+                   Raw {
+                    content: "pipewire",
+                    position: (237, 45),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (241, 5),
+             },
+             Raw {
+              content: "services",
+              position: (241, 13),
+             },
+             Raw {
+              content: "pipewire",
+              position: (241, 22),
+             },
+             Raw {
+              content: "environment",
+              position: (241, 31),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "PIPEWIRE_LINK_PASSIVE",
+                 position: (241, 44),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "1",
+              position: (241, 70),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (242, 5),
+             },
+             Raw {
+              content: "user",
+              position: (242, 13),
+             },
+             Raw {
+              content: "services",
+              position: (242, 18),
+             },
+             Raw {
+              content: "pipewire",
+              position: (242, 27),
+             },
+             Raw {
+              content: "environment",
+              position: (242, 36),
+             },
+             Expression {
+              expression: String {
+               parts: [
+                Raw {
+                 content: "PIPEWIRE_LINK_PASSIVE",
+                 position: (242, 49),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "1",
+              position: (242, 75),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

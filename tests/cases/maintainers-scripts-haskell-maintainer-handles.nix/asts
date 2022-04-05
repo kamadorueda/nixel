@@ -1,0 +1,242 @@
+---
+LetIn {
+ bindings: [
+  KeyValue(
+   AttributePath {
+    attributes: [
+     Raw {
+      content: "pkgs",
+      position: (3, 3),
+     },
+    ],
+   },
+   FunctionApplication {
+    function: Variable {
+     identifier: "import",
+     position: (3, 10),
+    },
+    arguments: [
+     Path {
+      parts: [
+       Raw {
+        content: "../../..",
+        position: (3, 17),
+       },
+      ],
+     },
+     Map {
+      bindings: [],
+      recursive: false,
+     },
+    ],
+   },
+  ),
+  KeyValue(
+   AttributePath {
+    attributes: [
+     Raw {
+      content: "maintainers",
+      position: (4, 3),
+     },
+    ],
+   },
+   FunctionApplication {
+    function: Variable {
+     identifier: "import",
+     position: (4, 17),
+    },
+    arguments: [
+     Path {
+      parts: [
+       Raw {
+        content: "../../maintainer-list.nix",
+        position: (4, 24),
+       },
+      ],
+     },
+    ],
+   },
+  ),
+  Inherit(
+   Some(
+    Variable {
+     identifier: "pkgs",
+     position: (5, 12),
+    },
+   ),
+   [
+    Raw {
+     content: "lib",
+     position: (5, 18),
+    },
+   ],
+  ),
+  KeyValue(
+   AttributePath {
+    attributes: [
+     Raw {
+      content: "mkMailGithubPair",
+      position: (6, 3),
+     },
+    ],
+   },
+   Function {
+    argument: Some(
+     "_",
+    ),
+    arguments: FunctionArguments {
+     arguments: [],
+     ellipsis: false,
+    },
+    definition: Function {
+     argument: Some(
+      "maintainer",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: IfThenElse {
+      predicate: HasProperty {
+       expression: Variable {
+        identifier: "maintainer",
+        position: (6, 40),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "github",
+          position: (6, 53),
+         },
+        ],
+       },
+      },
+      then: Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Expression {
+            expression: String {
+             parts: [
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "maintainer",
+                 position: (6, 70),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "email",
+                   position: (6, 81),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+           },
+          ],
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "maintainer",
+           position: (6, 91),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "github",
+             position: (6, 102),
+            },
+           ],
+          },
+          default: None,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+      else_: Map {
+       bindings: [],
+       recursive: false,
+      },
+     },
+    },
+   },
+  ),
+ ],
+ target: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "lib",
+    position: (7, 4),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "zipAttrsWith",
+      position: (7, 8),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   Function {
+    argument: Some(
+     "_",
+    ),
+    arguments: FunctionArguments {
+     arguments: [],
+     ellipsis: false,
+    },
+    definition: PropertyAccess {
+     expression: Variable {
+      identifier: "builtins",
+      position: (7, 25),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "head",
+        position: (7, 34),
+       },
+      ],
+     },
+     default: None,
+    },
+   },
+   FunctionApplication {
+    function: PropertyAccess {
+     expression: Variable {
+      identifier: "lib",
+      position: (7, 41),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "mapAttrsToList",
+        position: (7, 45),
+       },
+      ],
+     },
+     default: None,
+    },
+    arguments: [
+     Variable {
+      identifier: "mkMailGithubPair",
+      position: (7, 60),
+     },
+     Variable {
+      identifier: "maintainers",
+      position: (7, 77),
+     },
+    ],
+   },
+  ],
+ },
+}

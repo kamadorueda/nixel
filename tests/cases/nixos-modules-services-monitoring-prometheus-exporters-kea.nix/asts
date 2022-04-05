@@ -1,0 +1,435 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (7, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (10, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (10, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (10, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (10, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (10, 36),
+        },
+        Raw {
+         content: "kea",
+         position: (10, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (12, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9547,
+       position: (12, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "extraOpts",
+         position: (13, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "controlSocketPaths",
+            position: (14, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (14, 26),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (15, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (15, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (15, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (15, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (15, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (16, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (16, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "[\n  \"/run/kea/kea-dhcp4.socket\"\n  \"/run/kea/kea-dhcp6.socket\"\n]\n",
+                   position: (17, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (22, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Paths to kea control sockets\n",
+                 position: (23, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (27, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "serviceConfig",
+            position: (28, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "User",
+               position: (29, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "kea",
+               position: (29, 15),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ExecStart",
+               position: (30, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (31, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (31, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "prometheus-kea-exporter",
+                   position: (31, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/kea-exporter \\\n  --address ",
+               position: (31, 40),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (32, 23),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listenAddress",
+                   position: (32, 27),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " \\\n  --port ",
+               position: (32, 41),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (33, 20),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (33, 29),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "port",
+                     position: (33, 33),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  ",
+               position: (33, 38),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (34, 13),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: " \\n",
+                    position: (34, 31),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (34, 37),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "controlSocketPaths",
+                     position: (34, 41),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (34, 60),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "SupplementaryGroups",
+               position: (36, 7),
+              },
+             ],
+            },
+            List {
+             elements: [
+              String {
+               parts: [
+                Raw {
+                 content: "kea",
+                 position: (36, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "RestrictAddressFamilies",
+               position: (37, 7),
+              },
+             ],
+            },
+            List {
+             elements: [
+              String {
+               parts: [
+                Raw {
+                 content: "AF_UNIX",
+                 position: (39, 10),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

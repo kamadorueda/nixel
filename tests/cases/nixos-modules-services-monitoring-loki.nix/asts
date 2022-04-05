@@ -1,0 +1,1592 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (4, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "escapeShellArgs",
+      position: (4, 17),
+     },
+     Raw {
+      content: "mkEnableOption",
+      position: (4, 33),
+     },
+     Raw {
+      content: "mkIf",
+      position: (4, 48),
+     },
+     Raw {
+      content: "mkOption",
+      position: (4, 53),
+     },
+     Raw {
+      content: "types",
+      position: (4, 62),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (6, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (6, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (6, 16),
+       },
+       Raw {
+        content: "loki",
+        position: (6, 25),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "prettyJSON",
+       position: (8, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "conf",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (9, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (9, 10),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "loki-config.json",
+          position: (9, 22),
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "echo ",
+          position: (10, 1),
+         },
+         Raw {
+          content: "'",
+          position: (10, 12),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (10, 15),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "toJSON",
+               position: (10, 24),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "conf",
+             position: (10, 31),
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "' | ",
+          position: (10, 36),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (10, 42),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "jq",
+              position: (10, 47),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin/jq 'del(._module)' > $out\n",
+          position: (10, 50),
+         },
+        ],
+       },
+      ],
+     },
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (14, 3),
+       },
+       Raw {
+        content: "services",
+        position: (14, 11),
+       },
+       Raw {
+        content: "loki",
+        position: (14, 20),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (15, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkEnableOption",
+          position: (15, 14),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "loki",
+             position: (15, 30),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "user",
+           position: (17, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (17, 12),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (18, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (18, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (18, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (19, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "loki",
+                position: (19, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (20, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "User under which the Loki service runs.\n",
+                position: (21, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "group",
+           position: (25, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (25, 13),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (26, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (26, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "str",
+                 position: (26, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (27, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "loki",
+                position: (27, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (28, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Group under which the Loki service runs.\n",
+                position: (29, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "dataDir",
+           position: (33, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (33, 15),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (34, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (34, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "path",
+                 position: (34, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (35, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/var/lib/loki",
+                position: (35, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (36, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specify the directory for Loki.\n",
+                position: (37, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "configuration",
+           position: (41, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (41, 21),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (42, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (42, 15),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "formats",
+                   position: (42, 20),
+                  },
+                  Raw {
+                   content: "json",
+                   position: (42, 28),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ],
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (42, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (43, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (44, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specify the configuration for Loki in Nix.\n",
+                position: (45, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "configFile",
+           position: (49, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (49, 18),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (50, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (50, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "nullOr",
+                  position: (50, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (50, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "path",
+                   position: (50, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (51, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "null",
+              position: (51, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (52, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specify a configuration file that Loki should use.\n",
+                position: (53, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "extraFlags",
+           position: (57, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (57, 18),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (58, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (58, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listOf",
+                  position: (58, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (58, 27),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "str",
+                   position: (58, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (59, 7),
+               },
+              ],
+             },
+             List {
+              elements: [],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "example",
+                position: (60, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "--server.http-listen-port=3101",
+                  position: (60, 20),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (61, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Specify a list of additional command line flags,\nwhich get escaped and are then passed to Loki.\n",
+                position: (62, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (68, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (68, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (68, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (68, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "assertions",
+             position: (69, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (70, 7),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: LogicalAnd,
+                operands: [
+                 BinaryOperation {
+                  operator: Implication,
+                  operands: [
+                   BinaryOperation {
+                    operator: EqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (71, 10),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "configuration",
+                         position: (71, 14),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Map {
+                      bindings: [],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (71, 37),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "configFile",
+                         position: (71, 41),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (71, 55),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: Implication,
+                  operands: [
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (72, 10),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "configFile",
+                         position: (72, 14),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (72, 28),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: EqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (72, 36),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "configuration",
+                         position: (72, 40),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Map {
+                      bindings: [],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (74, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Please specify either\n'services.loki.configuration' or\n'services.loki.configFile'.\n",
+                  position: (75, 1),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "environment",
+             position: (81, 5),
+            },
+            Raw {
+             content: "systemPackages",
+             position: (81, 17),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (81, 36),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "grafana-loki",
+                position: (81, 41),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (83, 5),
+            },
+            Raw {
+             content: "groups",
+             position: (83, 11),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (83, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (83, 24),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+           ],
+          },
+          Map {
+           bindings: [],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (84, 5),
+            },
+            Raw {
+             content: "users",
+             position: (84, 11),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (84, 19),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "user",
+                 position: (84, 23),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (85, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Loki Service User",
+                position: (85, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "group",
+                position: (86, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (86, 15),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (86, 19),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "home",
+                position: (87, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (87, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "dataDir",
+                 position: (87, 18),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "createHome",
+                position: (88, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (88, 20),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "isSystemUser",
+                position: (89, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (89, 22),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (92, 5),
+            },
+            Raw {
+             content: "services",
+             position: (92, 13),
+            },
+            Raw {
+             content: "loki",
+             position: (92, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (93, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Loki Service Daemon",
+                position: (93, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (94, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "multi-user.target",
+                  position: (94, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (96, 7),
+               },
+              ],
+             },
+             LetIn {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "conf",
+                   position: (97, 9),
+                  },
+                 ],
+                },
+                IfThenElse {
+                 predicate: BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (97, 19),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "configFile",
+                       position: (97, 23),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (97, 37),
+                   },
+                  ],
+                 },
+                 then: FunctionApplication {
+                  function: Variable {
+                   identifier: "prettyJSON",
+                   position: (98, 21),
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (98, 32),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "configuration",
+                       position: (98, 36),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                 else_: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (99, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "configFile",
+                     position: (99, 25),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ),
+              ],
+              target: Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (102, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (102, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "grafana-loki",
+                        position: (102, 29),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/loki --config.file=",
+                    position: (102, 42),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "conf",
+                     position: (102, 68),
+                    },
+                   },
+                   Raw {
+                    content: " ",
+                    position: (102, 73),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "escapeShellArgs",
+                      position: (102, 76),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (102, 92),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "extraFlags",
+                          position: (102, 96),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (103, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (103, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "user",
+                     position: (103, 20),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Restart",
+                    position: (104, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "always",
+                    position: (104, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "PrivateTmp",
+                    position: (105, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (105, 22),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ProtectHome",
+                    position: (106, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (106, 23),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ProtectSystem",
+                    position: (107, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "full",
+                    position: (107, 26),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "DevicePolicy",
+                    position: (108, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "closed",
+                    position: (108, 25),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "NoNewPrivileges",
+                    position: (109, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (109, 27),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "WorkingDirectory",
+                    position: (110, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (110, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "dataDir",
+                     position: (110, 32),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

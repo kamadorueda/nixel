@@ -1,0 +1,247 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "prometheus",
+         position: (6, 25),
+        },
+        Raw {
+         content: "exporters",
+         position: (6, 36),
+        },
+        Raw {
+         content: "domain",
+         position: (6, 46),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "port",
+         position: (9, 3),
+        },
+       ],
+      },
+      Int {
+       value: 9222,
+       position: (9, 10),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "serviceOpts",
+         position: (10, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "serviceConfig",
+            position: (11, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ExecStart",
+               position: (12, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (13, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (13, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "prometheus-domain-exporter",
+                   position: (13, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/domain_exporter \\\n  --bind ",
+               position: (13, 43),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (14, 20),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listenAddress",
+                   position: (14, 24),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: ":",
+               position: (14, 38),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (14, 41),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (14, 50),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "port",
+                     position: (14, 54),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " \\\n  ",
+               position: (14, 59),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "concatStringsSep",
+                 position: (15, 13),
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: " \\\n  ",
+                    position: (15, 31),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (15, 40),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "extraFlags",
+                     position: (15, 44),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (15, 55),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,927 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "dconf",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfgDir",
+        position: (7, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (7, 12),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "symlinkJoin",
+          position: (7, 17),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (8, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "dconf-system-config",
+             position: (8, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "paths",
+             position: (9, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "map",
+            position: (9, 13),
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "x",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: String {
+              parts: [
+               Expression {
+                expression: Variable {
+                 identifier: "x",
+                 position: (9, 24),
+                },
+               },
+               Raw {
+                content: "/etc/dconf",
+                position: (9, 26),
+               },
+              ],
+             },
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (9, 39),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "packages",
+                position: (9, 43),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "postBuild",
+             position: (10, 5),
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: Addition,
+           operands: [
+            BinaryOperation {
+             operator: Addition,
+             operands: [
+              String {
+               parts: [
+                Raw {
+                 content: "mkdir -p $out/profile\nmkdir -p $out/db\n",
+                 position: (11, 1),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "concatStringsSep",
+                position: (14, 7),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "\n",
+                   position: (14, 25),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mapAttrsToList",
+                  position: (15, 9),
+                 },
+                 arguments: [
+                  Function {
+                   argument: Some(
+                    "name",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: Function {
+                    argument: Some(
+                     "path",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: String {
+                     parts: [
+                      Raw {
+                       content: "ln -s ",
+                       position: (17, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "path",
+                        position: (17, 21),
+                       },
+                      },
+                      Raw {
+                       content: " $out/profile/",
+                       position: (17, 26),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "name",
+                        position: (17, 42),
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (17, 47),
+                      },
+                     ],
+                    },
+                   },
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (19, 11),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "profiles",
+                      position: (19, 15),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "",
+               position: (22, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (22, 9),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "dconf",
+                   position: (22, 14),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/bin/dconf update $out/db\n",
+               position: (22, 20),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (29, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (30, 5),
+           },
+           Raw {
+            content: "dconf",
+            position: (30, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (31, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (31, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "dconf",
+                 position: (31, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "profiles",
+               position: (33, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (33, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (34, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (34, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "attrsOf",
+                      position: (34, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (34, 30),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (34, 36),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (35, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (36, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Set of dconf profile files, installed at <filename>/etc/dconf/profiles/<replaceable>name</replaceable></filename>.",
+                    position: (36, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "internal",
+                    position: (37, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (37, 20),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "packages",
+               position: (40, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (40, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (41, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (41, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (41, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (41, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "A list of packages which provide dconf profiles and databases in <filename>/etc/dconf</filename>.",
+                    position: (43, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (50, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (50, 12),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: LogicalOr,
+         operands: [
+          BinaryOperation {
+           operator: NotEqualTo,
+           operands: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (50, 18),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "profiles",
+                position: (50, 22),
+               },
+              ],
+             },
+             default: None,
+            },
+            Map {
+             bindings: [],
+             recursive: false,
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (50, 40),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (50, 44),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (51, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (51, 17),
+             },
+             Raw {
+              content: "dconf",
+              position: (51, 21),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (51, 29),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: LogicalOr,
+              operands: [
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (51, 35),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "profiles",
+                     position: (51, 39),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (51, 57),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "packages",
+                     position: (51, 61),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 List {
+                  elements: [],
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "source",
+                   position: (52, 7),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "cfgDir",
+                 position: (52, 16),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (55, 5),
+             },
+             Raw {
+              content: "dbus",
+              position: (55, 14),
+             },
+             Raw {
+              content: "packages",
+              position: (55, 19),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (55, 32),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "dconf",
+                 position: (55, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (57, 5),
+             },
+             Raw {
+              content: "packages",
+              position: (57, 13),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (57, 26),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "dconf",
+                 position: (57, 31),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (60, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (60, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (60, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "dconf",
+                 position: (60, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (63, 5),
+             },
+             Raw {
+              content: "sessionVariables",
+              position: (63, 17),
+             },
+             Raw {
+              content: "GIO_EXTRA_MODULES",
+              position: (63, 34),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (63, 54),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (63, 59),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enable",
+                 position: (63, 63),
+                },
+               ],
+              },
+              default: None,
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (63, 75),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "dconf",
+                      position: (63, 80),
+                     },
+                     Raw {
+                      content: "lib",
+                      position: (63, 86),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/lib/gio/modules",
+                  position: (63, 90),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

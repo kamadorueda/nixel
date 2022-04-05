@@ -1,0 +1,263 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "debug",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (1, 51),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "parentWrapperDir",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "linuxHeaders",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "stdenv",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "stdenv",
+    position: (4, 1),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "mkDerivation",
+      position: (4, 8),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "name",
+         position: (5, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "security-wrapper",
+         position: (5, 11),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildInputs",
+         position: (6, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Variable {
+         identifier: "linuxHeaders",
+         position: (6, 19),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "dontUnpack",
+         position: (7, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "true",
+       position: (7, 16),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "hardeningEnable",
+         position: (8, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        String {
+         parts: [
+          Raw {
+           content: "pie",
+           position: (8, 24),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "CFLAGS",
+         position: (9, 3),
+        },
+       ],
+      },
+      BinaryOperation {
+       operator: Concatenation,
+       operands: [
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: "-DWRAPPER_DIR=\"",
+             position: (10, 7),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "parentWrapperDir",
+              position: (10, 24),
+             },
+            },
+            Raw {
+             content: "\"",
+             position: (10, 41),
+            },
+           ],
+          },
+         ],
+        },
+        IfThenElse {
+         predicate: Variable {
+          identifier: "debug",
+          position: (11, 12),
+         },
+         then: List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "-Werror",
+              position: (12, 6),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-Og",
+              position: (12, 16),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-g",
+              position: (12, 22),
+             },
+            ],
+           },
+          ],
+         },
+         else_: List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "-Wall",
+              position: (14, 6),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-O2",
+              position: (14, 14),
+             },
+            ],
+           },
+          ],
+         },
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "dontStrip",
+         position: (16, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "debug",
+       position: (16, 15),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "installPhase",
+         position: (17, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "mkdir -p $out/bin\n$CC $CFLAGS ",
+         position: (18, 1),
+        },
+        Expression {
+         expression: Path {
+          parts: [
+           Raw {
+            content: "./wrapper.c",
+            position: (19, 19),
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " -o $out/bin/security-wrapper\n",
+         position: (19, 31),
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  ],
+ },
+}

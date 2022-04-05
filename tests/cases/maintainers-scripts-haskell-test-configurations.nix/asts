@@ -1,0 +1,1342 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "skipBinaryGHCs",
+    default: Some(
+     Variable {
+      identifier: "true",
+      position: (57, 20),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "skipEvalErrors",
+    default: Some(
+     Variable {
+      identifier: "true",
+      position: (56, 20),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: Some(
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "allowBroken",
+           position: (55, 14),
+          },
+         ],
+        },
+        Variable {
+         identifier: "true",
+         position: (55, 28),
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "nixpkgsPath",
+    default: Some(
+     Path {
+      parts: [
+       Raw {
+        content: "../../..",
+        position: (54, 17),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "files",
+    default: Some(
+     List {
+      elements: [
+       String {
+        parts: [
+         Raw {
+          content: "configuration-common.nix",
+          position: (50, 6),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "configuration-nix.nix",
+          position: (51, 6),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "configuration-ghc-8.10.x.nix",
+          position: (52, 6),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pkgs",
+       position: (61, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "import",
+      position: (61, 10),
+     },
+     arguments: [
+      Variable {
+       identifier: "nixpkgsPath",
+       position: (61, 17),
+      },
+      Map {
+       bindings: [
+        Inherit(
+         None,
+         [
+          Raw {
+           content: "config",
+           position: (61, 39),
+          },
+         ],
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+   Inherit(
+    Some(
+     Variable {
+      identifier: "pkgs",
+      position: (62, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "lib",
+      position: (62, 18),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "files'",
+       position: (65, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "builtins",
+       position: (65, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "map",
+         position: (65, 21),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      PropertyAccess {
+       expression: Variable {
+        identifier: "builtins",
+        position: (65, 25),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "baseNameOf",
+          position: (65, 34),
+         },
+        ],
+       },
+       default: None,
+      },
+      IfThenElse {
+       predicate: UnaryOperation {
+        operator: Not,
+        operand: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (66, 9),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "isList",
+             position: (66, 18),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Variable {
+           identifier: "files",
+           position: (66, 25),
+          },
+         ],
+        },
+       },
+       then: List {
+        elements: [
+         Variable {
+          identifier: "files",
+          position: (66, 38),
+         },
+        ],
+       },
+       else_: Variable {
+        identifier: "files",
+        position: (66, 51),
+       },
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "setsForFile",
+       position: (69, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "fileName",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "configName",
+           position: (72, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (72, 20),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "head",
+             position: (72, 29),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (73, 9),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "match",
+               position: (73, 18),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "configuration-(.+).nix",
+               position: (73, 25),
+              },
+             ],
+            },
+            Variable {
+             identifier: "fileName",
+             position: (73, 49),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "configVersion",
+           position: (76, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (76, 23),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "concatStrings",
+             position: (76, 27),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (77, 9),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "match",
+               position: (77, 18),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "ghc-([0-9]+).([0-9]+).x",
+               position: (77, 25),
+              },
+             ],
+            },
+            Variable {
+             identifier: "configName",
+             position: (77, 50),
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "setsForVersion",
+           position: (80, 7),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (80, 25),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "map",
+             position: (80, 34),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "name",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (80, 45),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "haskell",
+               position: (80, 50),
+              },
+              Raw {
+               content: "packages",
+               position: (80, 58),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "name",
+                position: (80, 69),
+               },
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (81, 9),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "filter",
+               position: (81, 18),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "setName",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: BinaryOperation {
+              operator: LogicalAnd,
+              operands: [
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (82, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "hasPrefix",
+                    position: (82, 15),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "ghc",
+                    position: (82, 26),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "configVersion",
+                     position: (82, 31),
+                    },
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "setName",
+                  position: (82, 47),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 Variable {
+                  identifier: "skipBinaryGHCs",
+                  position: (83, 15),
+                 },
+                 UnaryOperation {
+                  operator: Not,
+                  operand: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (83, 35),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "hasInfix",
+                       position: (83, 39),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Binary",
+                       position: (83, 49),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "setName",
+                     position: (83, 57),
+                    },
+                   ],
+                  },
+                 },
+                ],
+               },
+              ],
+             },
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (85, 11),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "attrNames",
+                 position: (85, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (85, 30),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "haskell",
+                  position: (85, 35),
+                 },
+                 Raw {
+                  content: "packages",
+                  position: (85, 43),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "defaultSets",
+           position: (89, 7),
+          },
+         ],
+        },
+        List {
+         elements: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (89, 23),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "haskellPackages",
+              position: (89, 28),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ),
+      ],
+      target: PropertyAccess {
+       expression: Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Expression {
+             expression: String {
+              parts: [
+               Raw {
+                content: "common",
+                position: (93, 8),
+               },
+              ],
+             },
+            },
+           ],
+          },
+          Variable {
+           identifier: "defaultSets",
+           position: (93, 18),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Expression {
+             expression: String {
+              parts: [
+               Raw {
+                content: "nix",
+                position: (94, 8),
+               },
+              ],
+             },
+            },
+           ],
+          },
+          Variable {
+           identifier: "defaultSets",
+           position: (94, 15),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Expression {
+             expression: String {
+              parts: [
+               Raw {
+                content: "arm",
+                position: (95, 8),
+               },
+              ],
+             },
+            },
+           ],
+          },
+          Variable {
+           identifier: "defaultSets",
+           position: (95, 15),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Expression {
+             expression: String {
+              parts: [
+               Raw {
+                content: "darwin",
+                position: (96, 8),
+               },
+              ],
+             },
+            },
+           ],
+          },
+          Variable {
+           identifier: "defaultSets",
+           position: (96, 18),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Expression {
+          expression: Variable {
+           identifier: "configName",
+           position: (97, 9),
+          },
+         },
+        ],
+       },
+       default: Some(
+        Variable {
+         identifier: "setsForVersion",
+         position: (97, 24),
+        },
+       ),
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "availableHaskellPackages",
+       position: (100, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "builtins",
+       position: (100, 30),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "listToAttrs",
+         position: (100, 39),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "builtins",
+         position: (101, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "map",
+           position: (101, 14),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "attr",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (101, 25),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "nameValuePair",
+              position: (101, 29),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Variable {
+            identifier: "attr",
+            position: (101, 43),
+           },
+           Variable {
+            identifier: "null",
+            position: (101, 48),
+           },
+          ],
+         },
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (102, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "attrNames",
+             position: (102, 16),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (102, 26),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "haskellPackages",
+              position: (102, 31),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "overriddenAttrs",
+       position: (108, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "fileName",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "builtins",
+        position: (108, 31),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "attrNames",
+          position: (108, 40),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (109, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "fix",
+            position: (109, 9),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "self",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: FunctionApplication {
+           function: Variable {
+            identifier: "import",
+            position: (110, 7),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: Addition,
+             operands: [
+              Variable {
+               identifier: "nixpkgsPath",
+               position: (110, 15),
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/pkgs/development/haskell-modules/",
+                 position: (110, 30),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "fileName",
+                  position: (110, 66),
+                 },
+                },
+               ],
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "haskellLib",
+                  position: (111, 9),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (111, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "haskell",
+                   position: (111, 27),
+                  },
+                  Raw {
+                   content: "lib",
+                   position: (111, 35),
+                  },
+                  Raw {
+                   content: "compose",
+                   position: (111, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+              Inherit(
+               None,
+               [
+                Raw {
+                 content: "pkgs",
+                 position: (112, 17),
+                },
+               ],
+              ),
+             ],
+             recursive: false,
+            },
+            Variable {
+             identifier: "self",
+             position: (113, 9),
+            },
+            Variable {
+             identifier: "availableHaskellPackages",
+             position: (113, 14),
+            },
+           ],
+          },
+         },
+        ],
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "packages",
+       position: (120, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "builtins",
+       position: (120, 14),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "filter",
+         position: (120, 23),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Function {
+       argument: Some(
+        "v",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (121, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "warnIf",
+            position: (121, 9),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "v",
+           position: (121, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "meta",
+             position: (121, 19),
+            },
+            Raw {
+             content: "broken",
+             position: (121, 24),
+            },
+           ],
+          },
+          default: Some(
+           Variable {
+            identifier: "false",
+            position: (121, 34),
+           },
+          ),
+         },
+         String {
+          parts: [
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "v",
+              position: (121, 44),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "pname",
+                position: (121, 46),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: " is marked as broken",
+            position: (121, 52),
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: LogicalAnd,
+          operands: [
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             Variable {
+              identifier: "v",
+              position: (122, 7),
+             },
+             Variable {
+              identifier: "null",
+              position: (122, 12),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Implication,
+            operands: [
+             Variable {
+              identifier: "skipEvalErrors",
+              position: (123, 11),
+             },
+             PropertyAccess {
+              expression: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (123, 30),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "tryEval",
+                   position: (123, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "v",
+                  position: (123, 48),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "outPath",
+                    position: (123, 50),
+                   },
+                  ],
+                 },
+                 default: Some(
+                  Variable {
+                   identifier: "v",
+                   position: (123, 61),
+                  },
+                 ),
+                },
+               ],
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "success",
+                 position: (123, 65),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      },
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (126, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "concatMap",
+           position: (126, 9),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "fileName",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: LetIn {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "sets",
+               position: (128, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "setsForFile",
+              position: (128, 16),
+             },
+             arguments: [
+              Variable {
+               identifier: "fileName",
+               position: (128, 28),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "attrs",
+               position: (129, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "overriddenAttrs",
+              position: (129, 17),
+             },
+             arguments: [
+              Variable {
+               identifier: "fileName",
+               position: (129, 33),
+              },
+             ],
+            },
+           ),
+          ],
+          target: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (131, 9),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "concatMap",
+               position: (131, 13),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "set",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "builtins",
+                position: (131, 29),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "map",
+                  position: (131, 38),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               Function {
+                argument: Some(
+                 "attr",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: PropertyAccess {
+                 expression: Variable {
+                  identifier: "set",
+                  position: (131, 49),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "attr",
+                     position: (131, 55),
+                    },
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Variable {
+                identifier: "attrs",
+                position: (131, 62),
+               },
+              ],
+             },
+            },
+            Variable {
+             identifier: "sets",
+             position: (131, 69),
+            },
+           ],
+          },
+         },
+        },
+        Variable {
+         identifier: "files'",
+         position: (132, 7),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Variable {
+   identifier: "packages",
+   position: (136, 1),
+  },
+ },
+}

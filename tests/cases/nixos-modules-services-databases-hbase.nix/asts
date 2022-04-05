@@ -1,0 +1,1868 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "hbase",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "opt",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "options",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 17),
+        },
+        Raw {
+         content: "hbase",
+         position: (7, 26),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "buildProperty",
+        position: (9, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "configAttr",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "builtins",
+         position: (10, 6),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "concatStringsSep",
+           position: (10, 15),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: "\n",
+           position: (10, 33),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (11, 8),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mapAttrsToList",
+             position: (11, 12),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "name",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "value",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: String {
+             parts: [
+              Raw {
+               content: "<property>\n  <name>",
+               position: (13, 1),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "name",
+                position: (14, 21),
+               },
+              },
+              Raw {
+               content: "</name>\n  <value>",
+               position: (14, 26),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "builtins",
+                  position: (15, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "toString",
+                    position: (15, 31),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "value",
+                  position: (15, 40),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "</value>\n</property>\n",
+               position: (15, 46),
+              },
+             ],
+            },
+           },
+          },
+          Variable {
+           identifier: "configAttr",
+           position: (18, 9),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (20, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (20, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (20, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "hbase-site.xml",
+          position: (20, 32),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "<configuration>\n        ",
+          position: (21, 7),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "buildProperty",
+            position: (22, 11),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: Update,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "opt",
+                position: (22, 26),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "settings",
+                  position: (22, 30),
+                 },
+                 Raw {
+                  content: "default",
+                  position: (22, 39),
+                 },
+                ],
+               },
+               default: None,
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (22, 50),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "settings",
+                  position: (22, 54),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n      </configuration>\n    ",
+          position: (22, 64),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configDir",
+        position: (26, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (26, 15),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (26, 20),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "hbase-config-dir",
+          position: (26, 32),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "preferLocalBuild",
+             position: (26, 52),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (26, 71),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p $out\ncp ",
+          position: (27, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (28, 10),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (28, 14),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/conf/* $out/\nrm $out/hbase-site.xml\nln -s ",
+          position: (28, 22),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "configFile",
+           position: (30, 13),
+          },
+         },
+         Raw {
+          content: " $out/hbase-site.xml\n",
+          position: (30, 24),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (37, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (39, 5),
+           },
+           Raw {
+            content: "hbase",
+            position: (39, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (41, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (41, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (42, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (42, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (43, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (44, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to run HBase.\n",
+                    position: (45, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (49, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (49, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (50, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (50, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (50, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (51, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (51, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "hbase",
+                     position: (51, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (52, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (52, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.hbase",
+                      position: (52, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (53, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "HBase package to use.\n",
+                    position: (54, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "user",
+               position: (59, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (59, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (60, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (60, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (60, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (61, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "hbase",
+                    position: (61, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (62, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "User account under which HBase runs.\n",
+                    position: (63, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "group",
+               position: (67, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (67, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (68, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (68, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (68, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (69, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "hbase",
+                    position: (69, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (70, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Group account under which HBase runs.\n",
+                    position: (71, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "dataDir",
+               position: (75, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (75, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (76, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (76, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (76, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (77, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/var/lib/hbase",
+                    position: (77, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (78, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies location of HBase database files. This location should be\nwritable and readable for the user the HBase service runs as\n(hbase by default).\n",
+                    position: (79, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "logDir",
+               position: (85, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (85, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (86, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (86, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (86, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (87, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/var/log/hbase",
+                    position: (87, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (88, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the location of HBase log files.\n",
+                    position: (89, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "settings",
+               position: (93, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (93, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (94, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (94, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "types",
+                      position: (94, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (94, 32),
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "oneOf",
+                      position: (94, 41),
+                     },
+                     arguments: [
+                      List {
+                       elements: [
+                        Variable {
+                         identifier: "str",
+                         position: (94, 49),
+                        },
+                        Variable {
+                         identifier: "int",
+                         position: (94, 53),
+                        },
+                        Variable {
+                         identifier: "bool",
+                         position: (94, 57),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (95, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Expression {
+                       expression: String {
+                        parts: [
+                         Raw {
+                          content: "hbase.rootdir",
+                          position: (96, 12),
+                         },
+                        ],
+                       },
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "file://",
+                       position: (96, 30),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (96, 39),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "dataDir",
+                           position: (96, 43),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/hbase",
+                       position: (96, 51),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Expression {
+                       expression: String {
+                        parts: [
+                         Raw {
+                          content: "hbase.zookeeper.property.dataDir",
+                          position: (97, 12),
+                         },
+                        ],
+                       },
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (97, 51),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "dataDir",
+                           position: (97, 55),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "/zookeeper",
+                       position: (97, 63),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (99, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (99, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  \"hbase.rootdir\" = \"file://",
+                      position: (100, 1),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (101, 39),
+                     },
+                     Raw {
+                      content: "{config.",
+                      position: (101, 42),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "opt",
+                        position: (101, 52),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "dataDir",
+                          position: (101, 56),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "}/hbase\";\n  \"hbase.zookeeper.property.dataDir\" = \"",
+                      position: (101, 64),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (102, 51),
+                     },
+                     Raw {
+                      content: "{config.",
+                      position: (102, 54),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "opt",
+                        position: (102, 64),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "dataDir",
+                          position: (102, 68),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "}/zookeeper\";\n}\n",
+                      position: (102, 76),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (105, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "configurations in hbase-site.xml, see <link xlink:href=\"https://github.com/apache/hbase/blob/master/hbase-server/src/test/resources/hbase-site.xml\"/> for details.\n",
+                    position: (106, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (116, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (116, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (116, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (116, 24),
+           },
+           Raw {
+            content: "hbase",
+            position: (116, 33),
+           },
+           Raw {
+            content: "enable",
+            position: (116, 39),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (118, 5),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (118, 13),
+             },
+             Raw {
+              content: "rules",
+              position: (118, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d '",
+                position: (119, 8),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (119, 13),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dataDir",
+                    position: (119, 17),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "' - ",
+                position: (119, 25),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (119, 31),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (119, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: " ",
+                position: (119, 40),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (119, 43),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (119, 47),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: " - -",
+                position: (119, 53),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "d '",
+                position: (120, 8),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (120, 13),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "logDir",
+                    position: (120, 17),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "' - ",
+                position: (120, 24),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (120, 30),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (120, 34),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: " ",
+                position: (120, 39),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (120, 42),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (120, 46),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: " - -",
+                position: (120, 52),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (123, 5),
+             },
+             Raw {
+              content: "services",
+              position: (123, 13),
+             },
+             Raw {
+              content: "hbase",
+              position: (123, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (124, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "HBase Server",
+                 position: (124, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (125, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (125, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (127, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "JAVA_HOME",
+                    position: (129, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (129, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "jre8",
+                        position: (129, 29),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "HBASE_LOG_DIR",
+                    position: (130, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (130, 25),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "logDir",
+                     position: (130, 29),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (133, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (134, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (134, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "user",
+                     position: (134, 20),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (135, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (135, 17),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "group",
+                     position: (135, 21),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (136, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (136, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "package",
+                        position: (136, 28),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/hbase --config ",
+                    position: (136, 36),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "configDir",
+                     position: (136, 58),
+                    },
+                   },
+                   Raw {
+                    content: " master start",
+                    position: (136, 68),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (140, 5),
+             },
+             Raw {
+              content: "users",
+              position: (140, 11),
+             },
+             Raw {
+              content: "hbase",
+              position: (140, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (141, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "HBase Server user",
+                 position: (141, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (142, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "hbase",
+                 position: (142, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (143, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (143, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (143, 20),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (143, 24),
+                 },
+                 Raw {
+                  content: "hbase",
+                  position: (143, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (146, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (146, 11),
+             },
+             Raw {
+              content: "hbase",
+              position: (146, 18),
+             },
+             Raw {
+              content: "gid",
+              position: (146, 24),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "config",
+             position: (146, 30),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "ids",
+               position: (146, 37),
+              },
+              Raw {
+               content: "gids",
+               position: (146, 41),
+              },
+              Raw {
+               content: "hbase",
+               position: (146, 46),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

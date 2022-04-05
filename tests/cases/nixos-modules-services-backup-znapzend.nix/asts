@@ -1,0 +1,5037 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: With {
+   expression: Variable {
+    identifier: "types",
+    position: (4, 6),
+   },
+   target: LetIn {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "planDescription",
+         position: (8, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "The znapzend backup plan to use for the source.\n\nThe plan specifies how often to backup and for how long to keep the\nbackups. It consists of a series of retention periodes to interval\nassociations:\n\n<literal>\n  retA=>intA,retB=>intB,...\n</literal>\n\nBoth intervals and retention periods are expressed in standard units\nof time or multiples of them. You can use both the full name or a\nshortcut according to the following listing:\n\n<literal>\n  second|sec|s, minute|min, hour|h, day|d, week|w, month|mon|m, year|y\n</literal>\n\nSee <citerefentry><refentrytitle>znapzendzetup</refentrytitle><manvolnum>1</manvolnum></citerefentry> for more info.\n",
+         position: (9, 1),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "planExample",
+         position: (29, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "1h=>10min,1d=>1h,1w=>1d,1m=>1w,1y=>1m",
+         position: (29, 18),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "mbufferSizeType",
+         position: (32, 3),
+        },
+       ],
+      },
+      BinaryOperation {
+       operator: Update,
+       operands: [
+        Variable {
+         identifier: "str",
+         position: (32, 21),
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "check",
+              position: (33, 5),
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "x",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: BinaryOperation {
+             operator: LogicalAnd,
+             operands: [
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "str",
+                 position: (33, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "check",
+                   position: (33, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Variable {
+                 identifier: "x",
+                 position: (33, 26),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (33, 31),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "isList",
+                   position: (33, 40),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "builtins",
+                   position: (33, 48),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "match",
+                     position: (33, 57),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "^[0-9]+[bkMG]$",
+                     position: (33, 64),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "x",
+                   position: (33, 80),
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "description",
+              position: (34, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "string of the form number{b|k|M|G}",
+              position: (34, 20),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "enabledFeatures",
+         position: (37, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "concatLists",
+        position: (37, 21),
+       },
+       arguments: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mapAttrsToList",
+          position: (37, 34),
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "name",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "enabled",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: Variable {
+              identifier: "optional",
+              position: (37, 65),
+             },
+             arguments: [
+              Variable {
+               identifier: "enabled",
+               position: (37, 74),
+              },
+              Variable {
+               identifier: "name",
+               position: (37, 82),
+              },
+             ],
+            },
+           },
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (37, 88),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "features",
+              position: (37, 92),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "stringContainingStrings",
+         position: (41, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "list",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: LetIn {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "matching",
+             position: (42, 5),
+            },
+           ],
+          },
+          Function {
+           argument: Some(
+            "s",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: FunctionApplication {
+            function: Variable {
+             identifier: "map",
+             position: (42, 19),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "str",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (42, 29),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "match",
+                   position: (42, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: ".*",
+                   position: (42, 45),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "str",
+                    position: (42, 49),
+                   },
+                  },
+                  Raw {
+                   content: ".*",
+                   position: (42, 53),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "s",
+                 position: (42, 57),
+                },
+               ],
+              },
+             },
+             Variable {
+              identifier: "list",
+              position: (42, 60),
+             },
+            ],
+           },
+          },
+         ),
+        ],
+        target: BinaryOperation {
+         operator: Update,
+         operands: [
+          Variable {
+           identifier: "str",
+           position: (43, 6),
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "check",
+                position: (44, 5),
+               },
+              ],
+             },
+             Function {
+              argument: Some(
+               "x",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: BinaryOperation {
+               operator: LogicalAnd,
+               operands: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "str",
+                   position: (44, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "check",
+                     position: (44, 20),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "x",
+                   position: (44, 26),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "all",
+                  position: (44, 31),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "isList",
+                   position: (44, 35),
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "matching",
+                    position: (44, 43),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "x",
+                     position: (44, 52),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (45, 5),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "string containing all of the characters ",
+                position: (45, 20),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (45, 62),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: ", ",
+                     position: (45, 80),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "list",
+                   position: (45, 84),
+                  },
+                 ],
+                },
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "timestampType",
+         position: (48, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "stringContainingStrings",
+        position: (48, 19),
+       },
+       arguments: [
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: "%Y",
+             position: (48, 46),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "%m",
+             position: (48, 51),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "%d",
+             position: (48, 56),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "%H",
+             position: (48, 61),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "%M",
+             position: (48, 66),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "%S",
+             position: (48, 71),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "destType",
+         position: (50, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "srcConfig",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: Variable {
+         identifier: "submodule",
+         position: (50, 25),
+        },
+        arguments: [
+         Function {
+          argument: None,
+          arguments: FunctionArguments {
+           arguments: [
+            FunctionArgument {
+             identifier: "name",
+             default: None,
+            },
+           ],
+           ellipsis: true,
+          },
+          definition: Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "options",
+                position: (51, 5),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "label",
+                   position: (53, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (53, 15),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (54, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "str",
+                      position: (54, 16),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (55, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Label for this destination. Defaults to the attribute name.",
+                        position: (55, 24),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "plan",
+                   position: (58, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (58, 14),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (59, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "str",
+                      position: (59, 16),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (60, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "planDescription",
+                      position: (60, 23),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (61, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "planExample",
+                      position: (61, 19),
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "dataset",
+                   position: (64, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (64, 17),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (65, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "str",
+                      position: (65, 16),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (66, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Dataset name to send snapshots to.",
+                        position: (66, 24),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (67, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "tank/main",
+                        position: (67, 20),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "host",
+                   position: (70, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (70, 14),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (71, 9),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "nullOr",
+                       position: (71, 16),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "str",
+                        position: (71, 23),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (72, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Host to use for the destination dataset. Can be prefixed with\n<literal>user@</literal> to specify the ssh user.\n",
+                        position: (73, 1),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "default",
+                        position: (76, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (76, 19),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (77, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "john@example.com",
+                        position: (77, 20),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "presend",
+                   position: (80, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (80, 17),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (81, 9),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "nullOr",
+                       position: (81, 16),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "str",
+                        position: (81, 23),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (82, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Command to run before sending the snapshot to the destination.\nIntended to run a remote script via <command>ssh</command> on the\ndestination, e.g. to bring up a backup disk or server or to put a\nzpool online/offline. See also <option>postsend</option>.\n",
+                        position: (83, 1),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "default",
+                        position: (88, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (88, 19),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (89, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "ssh root@bserv zpool import -Nf tank",
+                        position: (89, 20),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "postsend",
+                   position: (92, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkOption",
+                  position: (92, 18),
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "type",
+                        position: (93, 9),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "nullOr",
+                       position: (93, 16),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "str",
+                        position: (93, 23),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "description",
+                        position: (94, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "Command to run after sending the snapshot to the destination.\nIntended to run a remote script via <command>ssh</command> on the\ndestination, e.g. to bring up a backup disk or server or to put a\nzpool online/offline. See also <option>presend</option>.\n",
+                        position: (95, 1),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "default",
+                        position: (100, 9),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (100, 19),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "example",
+                        position: (101, 9),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "ssh root@bserv zpool export tank",
+                        position: (101, 20),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "config",
+                position: (105, 5),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "label",
+                   position: (106, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkDefault",
+                  position: (106, 15),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "name",
+                   position: (106, 25),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "plan",
+                   position: (107, 7),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "mkDefault",
+                  position: (107, 14),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "srcConfig",
+                    position: (107, 24),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "plan",
+                      position: (107, 34),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "srcType",
+         position: (113, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "submodule",
+        position: (113, 13),
+       },
+       arguments: [
+        Function {
+         argument: None,
+         arguments: FunctionArguments {
+          arguments: [
+           FunctionArgument {
+            identifier: "config",
+            default: None,
+           },
+           FunctionArgument {
+            identifier: "name",
+            default: None,
+           },
+          ],
+          ellipsis: true,
+         },
+         definition: Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "options",
+               position: (114, 5),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (116, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (116, 16),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (117, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "bool",
+                     position: (117, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (118, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Whether to enable this source.",
+                       position: (118, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (119, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "true",
+                     position: (119, 19),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "recursive",
+                  position: (122, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (122, 19),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (123, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "bool",
+                     position: (123, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (124, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Whether to do recursive snapshots.",
+                       position: (124, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (125, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "false",
+                     position: (125, 19),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "mbuffer",
+                  position: (128, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "enable",
+                     position: (129, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (129, 18),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (130, 11),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "bool",
+                        position: (130, 18),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (131, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Whether to use <command>mbuffer</command>.",
+                          position: (131, 26),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (132, 11),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "false",
+                        position: (132, 21),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "port",
+                     position: (135, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (135, 16),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (136, 11),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "nullOr",
+                         position: (136, 18),
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "ints",
+                           position: (136, 25),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "u16",
+                             position: (136, 30),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (137, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "Port to use for <command>mbuffer</command>.\n\nIf this is null, it will run <command>mbuffer</command> through\nssh.\n\nIf this is not null, it will run <command>mbuffer</command>\ndirectly through TCP, which is not encrypted but faster. In that\ncase the given port needs to be open on the destination host.\n",
+                          position: (138, 1),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (147, 11),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "null",
+                        position: (147, 21),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "size",
+                     position: (150, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mkOption",
+                    position: (150, 16),
+                   },
+                   arguments: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "type",
+                          position: (151, 11),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "mbufferSizeType",
+                        position: (151, 18),
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "description",
+                          position: (152, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "The size for <command>mbuffer</command>.\nSupports the units b, k, M, G.\n",
+                          position: (153, 1),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "default",
+                          position: (156, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "1G",
+                          position: (156, 22),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "example",
+                          position: (157, 11),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "128M",
+                          position: (157, 22),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "presnap",
+                  position: (161, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (161, 17),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (162, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "nullOr",
+                      position: (162, 16),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "str",
+                       position: (162, 23),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (163, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Command to run before snapshots are taken on the source dataset,\ne.g. for database locking/flushing. See also\n<option>postsnap</option>.\n",
+                       position: (164, 1),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (168, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (168, 19),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (169, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "literalExpression",
+                      position: (169, 19),
+                     },
+                     arguments: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "",
+                         position: (170, 1),
+                        },
+                        Raw {
+                         content: "''",
+                         position: (170, 11),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (170, 14),
+                        },
+                        Raw {
+                         content: "{pkgs.mariadb}/bin/mysql -e \"set autocommit=0;flush tables with read lock;\\\\! ",
+                         position: (170, 17),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (170, 95),
+                        },
+                        Raw {
+                         content: "{pkgs.coreutils}/bin/sleep 600\" &  ",
+                         position: (170, 98),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (170, 133),
+                        },
+                        Raw {
+                         content: "{pkgs.coreutils}/bin/echo $! > /tmp/mariadblock.pid ; sleep 10",
+                         position: (170, 136),
+                        },
+                        Raw {
+                         content: "''",
+                         position: (170, 198),
+                        },
+                        Raw {
+                         content: "\n",
+                         position: (170, 201),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "postsnap",
+                  position: (174, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (174, 18),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (175, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "nullOr",
+                      position: (175, 16),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "str",
+                       position: (175, 23),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (176, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Command to run after snapshots are taken on the source dataset,\ne.g. for database unlocking. See also <option>presnap</option>.\n",
+                       position: (177, 1),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (180, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (180, 19),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (181, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "literalExpression",
+                      position: (181, 19),
+                     },
+                     arguments: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "\"",
+                         position: (182, 1),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (182, 12),
+                        },
+                        Raw {
+                         content: "{pkgs.coreutils}/bin/kill `",
+                         position: (182, 15),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (182, 42),
+                        },
+                        Raw {
+                         content: "{pkgs.coreutils}/bin/cat /tmp/mariadblock.pid`;",
+                         position: (182, 45),
+                        },
+                        Raw {
+                         content: "$",
+                         position: (182, 92),
+                        },
+                        Raw {
+                         content: "{pkgs.coreutils}/bin/rm /tmp/mariadblock.pid\"\n",
+                         position: (182, 95),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "timestampFormat",
+                  position: (186, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (186, 25),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (187, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "timestampType",
+                     position: (187, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (188, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "The timestamp format to use for constructing snapshot names.\nThe syntax is <literal>strftime</literal>-like. The string must\nconsist of the mandatory <literal>%Y %m %d %H %M %S</literal>.\nOptionally  <literal>- _ . :</literal>  characters as well as any\nalphanumeric character are allowed. If suffixed by a\n<literal>Z</literal>, times will be in UTC.\n",
+                       position: (189, 1),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (196, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "%Y-%m-%d-%H%M%S",
+                       position: (196, 20),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (197, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "znapzend-%m.%d.%Y-%H%M%SZ",
+                       position: (197, 20),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sendDelay",
+                  position: (200, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (200, 19),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (201, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "int",
+                     position: (201, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (202, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Specify delay (in seconds) before sending snaps to the destination.\nMay be useful if you want to control sending time.\n",
+                       position: (203, 1),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (206, 9),
+                      },
+                     ],
+                    },
+                    Int {
+                     value: 0,
+                     position: (206, 19),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (207, 9),
+                      },
+                     ],
+                    },
+                    Int {
+                     value: 60,
+                     position: (207, 19),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "plan",
+                  position: (210, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (210, 14),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (211, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "str",
+                     position: (211, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (212, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "planDescription",
+                     position: (212, 23),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (213, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "planExample",
+                     position: (213, 19),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dataset",
+                  position: (216, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (216, 17),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (217, 9),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "str",
+                     position: (217, 16),
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (218, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "The dataset to use for this source.",
+                       position: (218, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (219, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "tank/home",
+                       position: (219, 20),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "destinations",
+                  position: (222, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkOption",
+                 position: (222, 22),
+                },
+                arguments: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "type",
+                       position: (223, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "attrsOf",
+                      position: (223, 16),
+                     },
+                     arguments: [
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "destType",
+                        position: (223, 25),
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "config",
+                         position: (223, 34),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "description",
+                       position: (224, 9),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "Additional destinations.",
+                       position: (224, 24),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "default",
+                       position: (225, 9),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [],
+                     recursive: false,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "example",
+                       position: (226, 9),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "literalExpression",
+                      position: (226, 19),
+                     },
+                     arguments: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "{\n  local = {\n    dataset = \"btank/backup\";\n    presend = \"zpool import -N btank\";\n    postsend = \"zpool export btank\";\n  };\n  remote = {\n    host = \"john@example.com\";\n    dataset = \"tank/john\";\n  };\n};\n",
+                         position: (227, 1),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "config",
+               position: (242, 5),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dataset",
+                  position: (243, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkDefault",
+                 position: (243, 17),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "name",
+                  position: (243, 27),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "cfg",
+         position: (250, 3),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (250, 9),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "services",
+          position: (250, 16),
+         },
+         Raw {
+          content: "znapzend",
+          position: (250, 25),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "onOff",
+         position: (252, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "b",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: IfThenElse {
+        predicate: Variable {
+         identifier: "b",
+         position: (252, 17),
+        },
+        then: String {
+         parts: [
+          Raw {
+           content: "on",
+           position: (252, 25),
+          },
+         ],
+        },
+        else_: String {
+         parts: [
+          Raw {
+           content: "off",
+           position: (252, 35),
+          },
+         ],
+        },
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "nullOff",
+         position: (253, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "b",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: IfThenElse {
+        predicate: BinaryOperation {
+         operator: EqualTo,
+         operands: [
+          Variable {
+           identifier: "b",
+           position: (253, 19),
+          },
+          Variable {
+           identifier: "null",
+           position: (253, 24),
+          },
+         ],
+        },
+        then: String {
+         parts: [
+          Raw {
+           content: "off",
+           position: (253, 35),
+          },
+         ],
+        },
+        else_: FunctionApplication {
+         function: Variable {
+          identifier: "toString",
+          position: (253, 45),
+         },
+         arguments: [
+          Variable {
+           identifier: "b",
+           position: (253, 54),
+          },
+         ],
+        },
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "stripSlashes",
+         position: (254, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "replaceStrings",
+        position: (254, 18),
+       },
+       arguments: [
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: "/",
+             position: (254, 36),
+            },
+           ],
+          },
+         ],
+        },
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: ".",
+             position: (254, 44),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "attrsToFile",
+         position: (256, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "config",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: Variable {
+         identifier: "concatStringsSep",
+         position: (256, 25),
+        },
+        arguments: [
+         String {
+          parts: [
+           Raw {
+            content: "\n",
+            position: (256, 43),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "builtins",
+            position: (256, 48),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "attrValues",
+              position: (256, 57),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "mapAttrs",
+             position: (257, 5),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "n",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: Function {
+               argument: Some(
+                "v",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: String {
+                parts: [
+                 Expression {
+                  expression: Variable {
+                   identifier: "n",
+                   position: (257, 24),
+                  },
+                 },
+                 Raw {
+                  content: "=",
+                  position: (257, 26),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "v",
+                   position: (257, 29),
+                  },
+                 },
+                ],
+               },
+              },
+             },
+             Variable {
+              identifier: "config",
+              position: (257, 34),
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "mkDestAttrs",
+         position: (259, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "dst",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: With {
+        expression: Variable {
+         identifier: "dst",
+         position: (259, 27),
+        },
+        target: FunctionApplication {
+         function: Variable {
+          identifier: "mapAttrs'",
+          position: (260, 5),
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "n",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "v",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: Variable {
+              identifier: "nameValuePair",
+              position: (260, 22),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "dst_",
+                 position: (260, 37),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "label",
+                  position: (260, 43),
+                 },
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "n",
+                  position: (260, 51),
+                 },
+                },
+               ],
+              },
+              Variable {
+               identifier: "v",
+               position: (260, 55),
+              },
+             ],
+            },
+           },
+          },
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Expression {
+                  expression: String {
+                   parts: [],
+                  },
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Addition,
+                operands: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optionalString",
+                   position: (261, 12),
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     Variable {
+                      identifier: "host",
+                      position: (261, 28),
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (261, 36),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "host",
+                       position: (261, 45),
+                      },
+                     },
+                     Raw {
+                      content: ":",
+                      position: (261, 50),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "dataset",
+                  position: (261, 55),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "_plan",
+                  position: (262, 7),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "plan",
+                position: (262, 15),
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            BinaryOperation {
+             operator: Update,
+             operands: [
+              FunctionApplication {
+               function: Variable {
+                identifier: "optionalAttrs",
+                position: (263, 10),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: NotEqualTo,
+                 operands: [
+                  Variable {
+                   identifier: "presend",
+                   position: (263, 25),
+                  },
+                  Variable {
+                   identifier: "null",
+                   position: (263, 36),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "_precmd",
+                      position: (264, 7),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "presend",
+                    position: (264, 17),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optionalAttrs",
+                position: (265, 10),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: NotEqualTo,
+                 operands: [
+                  Variable {
+                   identifier: "postsend",
+                   position: (265, 25),
+                  },
+                  Variable {
+                   identifier: "null",
+                   position: (265, 37),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "_pstcmd",
+                      position: (266, 7),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "postsend",
+                    position: (266, 17),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "mkSrcAttrs",
+         position: (269, 3),
+        },
+       ],
+      },
+      Function {
+       argument: Some(
+        "srcCfg",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: With {
+        expression: Variable {
+         identifier: "srcCfg",
+         position: (269, 29),
+        },
+        target: BinaryOperation {
+         operator: Update,
+         operands: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enabled",
+                position: (270, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "onOff",
+               position: (270, 15),
+              },
+              arguments: [
+               Variable {
+                identifier: "enable",
+                position: (270, 21),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "mbuffer",
+                position: (272, 5),
+               },
+              ],
+             },
+             With {
+              expression: Variable {
+               identifier: "mbuffer",
+               position: (272, 20),
+              },
+              target: IfThenElse {
+               predicate: Variable {
+                identifier: "enable",
+                position: (272, 32),
+               },
+               then: BinaryOperation {
+                operator: Addition,
+                operands: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "mbuffer",
+                    position: (272, 45),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optionalString",
+                   position: (273, 11),
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     Variable {
+                      identifier: "port",
+                      position: (273, 27),
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (273, 35),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: ":",
+                      position: (273, 42),
+                     },
+                     Expression {
+                      expression: FunctionApplication {
+                       function: Variable {
+                        identifier: "toString",
+                        position: (273, 45),
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "port",
+                         position: (273, 54),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "off",
+                  position: (273, 67),
+                 },
+                ],
+               },
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "mbuffer_size",
+                position: (274, 5),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "mbuffer",
+               position: (274, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "size",
+                 position: (274, 28),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "post_znap_cmd",
+                position: (275, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "nullOff",
+               position: (275, 21),
+              },
+              arguments: [
+               Variable {
+                identifier: "postsnap",
+                position: (275, 29),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "pre_znap_cmd",
+                position: (276, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "nullOff",
+               position: (276, 20),
+              },
+              arguments: [
+               Variable {
+                identifier: "presnap",
+                position: (276, 28),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "recursive",
+                position: (277, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "onOff",
+               position: (277, 17),
+              },
+              arguments: [
+               Variable {
+                identifier: "recursive",
+                position: (277, 23),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "src",
+                position: (278, 5),
+               },
+              ],
+             },
+             Variable {
+              identifier: "dataset",
+              position: (278, 11),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "src_plan",
+                position: (279, 5),
+               },
+              ],
+             },
+             Variable {
+              identifier: "plan",
+              position: (279, 16),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "tsformat",
+                position: (280, 5),
+               },
+              ],
+             },
+             Variable {
+              identifier: "timestampFormat",
+              position: (280, 16),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "zend_delay",
+                position: (281, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "toString",
+               position: (281, 18),
+              },
+              arguments: [
+               Variable {
+                identifier: "sendDelay",
+                position: (281, 27),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "foldr",
+            position: (282, 8),
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "a",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: Function {
+              argument: Some(
+               "b",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: BinaryOperation {
+               operator: Update,
+               operands: [
+                Variable {
+                 identifier: "a",
+                 position: (282, 21),
+                },
+                Variable {
+                 identifier: "b",
+                 position: (282, 26),
+                },
+               ],
+              },
+             },
+            },
+            Map {
+             bindings: [],
+             recursive: false,
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "map",
+              position: (283, 5),
+             },
+             arguments: [
+              Variable {
+               identifier: "mkDestAttrs",
+               position: (283, 9),
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (283, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "attrValues",
+                   position: (283, 31),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                Variable {
+                 identifier: "destinations",
+                 position: (283, 42),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "files",
+         position: (286, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mapAttrs'",
+        position: (286, 11),
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "n",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: Function {
+          argument: Some(
+           "srcCfg",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: LetIn {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "fileText",
+                position: (287, 5),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "attrsToFile",
+               position: (287, 16),
+              },
+              arguments: [
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkSrcAttrs",
+                 position: (287, 29),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "srcCfg",
+                  position: (287, 40),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           target: Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "name",
+                 position: (289, 5),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "srcCfg",
+                position: (289, 12),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "dataset",
+                  position: (289, 19),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "value",
+                 position: (290, 5),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (290, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "writeText",
+                   position: (290, 18),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "stripSlashes",
+                  position: (290, 29),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "srcCfg",
+                    position: (290, 42),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "dataset",
+                      position: (290, 49),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "fileText",
+                 position: (290, 58),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          },
+         },
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (291, 6),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "zetup",
+            position: (291, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+     ),
+    ],
+    target: Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "options",
+          position: (295, 3),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (296, 5),
+            },
+            Raw {
+             content: "znapzend",
+             position: (296, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "enable",
+                position: (297, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (297, 16),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "ZnapZend ZFS backup daemon",
+                  position: (297, 32),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "logLevel",
+                position: (299, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (299, 18),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (300, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "debug",
+                     position: (300, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (301, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "warning",
+                     position: (301, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (302, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "enum",
+                    position: (302, 16),
+                   },
+                   arguments: [
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "debug",
+                         position: (302, 23),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "info",
+                         position: (302, 31),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "warning",
+                         position: (302, 38),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "err",
+                         position: (302, 48),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "alert",
+                         position: (302, 54),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (303, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "The log level when logging to file. Any of debug, info, warning, err,\nalert. Default in daemonized form is debug.\n",
+                     position: (304, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "logTo",
+                position: (309, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (309, 15),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (310, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "str",
+                   position: (310, 16),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (311, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "syslog::daemon",
+                     position: (311, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (312, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/var/log/znapzend.log",
+                     position: (312, 20),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (313, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Where to log to (syslog::&lt;facility&gt; or &lt;filepath&gt;).\n",
+                     position: (314, 1),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "noDestroy",
+                position: (318, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (318, 19),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (319, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "bool",
+                   position: (319, 16),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (320, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (320, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (321, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Does all changes to the filesystem except destroy.",
+                     position: (321, 24),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "autoCreation",
+                position: (324, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (324, 22),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (325, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "bool",
+                   position: (325, 16),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (326, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (326, 19),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (327, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Automatically create the destination dataset if it does not exist.",
+                     position: (327, 24),
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "zetup",
+                position: (330, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (330, 15),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (331, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (331, 16),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "srcType",
+                     position: (331, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (332, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Znapzend configuration.",
+                     position: (332, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (333, 9),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [],
+                   recursive: false,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "example",
+                     position: (334, 9),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "literalExpression",
+                    position: (334, 19),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "{\n  \"tank/home\" = {\n    # Make snapshots of tank/home every hour, keep those for 1 day,\n    # keep every days snapshot for 1 month, etc.\n    plan = \"1d=>1h,1m=>1d,1y=>1m\";\n    recursive = true;\n    # Send all those snapshots to john@example.com:rtank/john as well\n    destinations.remote = {\n      host = \"john@example.com\";\n      dataset = \"rtank/john\";\n    };\n  };\n};\n",
+                       position: (335, 1),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "pure",
+                position: (351, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkOption",
+               position: (351, 14),
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "type",
+                     position: (352, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "bool",
+                   position: (352, 16),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (353, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Do not persist any stateful znapzend setups. If this option is\nenabled, your previously set znapzend setups will be cleared and only\nthe ones defined with this module will be applied.\n",
+                     position: (354, 1),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "default",
+                     position: (358, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "false",
+                   position: (358, 19),
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (361, 7),
+               },
+               Raw {
+                content: "oracleMode",
+                position: (361, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (361, 29),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "Destroy snapshots one by one instead of using one long argument list.\nIf source and destination are out of sync for a long time, you may have\nso many snapshots to destroy that the argument gets is too long and the\ncommand fails.\n",
+                  position: (362, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (367, 7),
+               },
+               Raw {
+                content: "recvu",
+                position: (367, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (367, 24),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "recvu feature which uses <literal>-u</literal> on the receiving end to keep the destination\nfilesystem unmounted.\n",
+                  position: (368, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (371, 7),
+               },
+               Raw {
+                content: "compressed",
+                position: (371, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (371, 29),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "compressed feature which adds the options <literal>-Lce</literal> to\nthe <command>zfs send</command> command. When this is enabled, make\nsure that both the sending and receiving pool have the same relevant\nfeatures enabled. Using <literal>-c</literal> will skip unneccessary\ndecompress-compress stages, <literal>-L</literal> is for large block\nsupport and -e is for embedded data support. see\n<citerefentry><refentrytitle>znapzend</refentrytitle><manvolnum>1</manvolnum></citerefentry>\nand <citerefentry><refentrytitle>zfs</refentrytitle><manvolnum>8</manvolnum></citerefentry>\nfor more info.\n",
+                  position: (372, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (382, 7),
+               },
+               Raw {
+                content: "sendRaw",
+                position: (382, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (382, 26),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "sendRaw feature which adds the options <literal>-w</literal> to the\n<command>zfs send</command> command. For encrypted source datasets this\ninstructs zfs not to decrypt before sending which results in a remote\nbackup that can't be read without the encryption key/passphrase, useful\nwhen the remote isn't fully trusted or not physically secure. This\noption must be used consistently, raw incrementals cannot be based on\nnon-raw snapshots and vice versa.\n",
+                  position: (383, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (391, 7),
+               },
+               Raw {
+                content: "skipIntermediates",
+                position: (391, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (391, 36),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "Enable the skipIntermediates feature to send a single increment\nbetween latest common snapshot and the newly made one. It may skip\nseveral source snaps if the destination was offline for some time, and\nit should skip snapshots not managed by znapzend. Normally for online\ndestinations, the new snapshot is sent as soon as it is created on the\nsource, so there are no automatic increments to skip.\n",
+                  position: (392, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (399, 7),
+               },
+               Raw {
+                content: "lowmemRecurse",
+                position: (399, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (399, 32),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "use lowmemRecurse on systems where you have too many datasets, so a\nrecursive listing of attributes to find backup plans exhausts the\nmemory available to <command>znapzend</command>: instead, go the slower\nway to first list all impacted dataset names, and then query their\nconfigs one by one.\n",
+                  position: (400, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "features",
+                position: (406, 7),
+               },
+               Raw {
+                content: "zfsGetType",
+                position: (406, 16),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mkEnableOption",
+               position: (406, 29),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "use zfsGetType if your <command>zfs get</command> supports a\n<literal>-t</literal> argument for filtering by dataset type at all AND\nlists properties for snapshots by default when recursing, so that there\nis too much data to process while searching for backup plans.\nIf these two conditions apply to your system, the time needed for a\n<literal>--recursive</literal> search for backup plans can literally\ndiffer by hundreds of times (depending on the amount of snapshots in\nthat dataset tree... and a decent backup plan will ensure you have a lot\nof those), so you would benefit from requesting this feature.\n",
+                  position: (407, 1),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "config",
+          position: (420, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkIf",
+         position: (420, 12),
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (420, 17),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "enable",
+             position: (420, 21),
+            },
+           ],
+          },
+          default: None,
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "environment",
+               position: (421, 5),
+              },
+              Raw {
+               content: "systemPackages",
+               position: (421, 17),
+              },
+             ],
+            },
+            List {
+             elements: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (421, 36),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "znapzend",
+                  position: (421, 41),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "systemd",
+               position: (423, 5),
+              },
+              Raw {
+               content: "services",
+               position: (423, 13),
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "znapzend",
+                  position: (424, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (425, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "ZnapZend - ZFS Backup System",
+                     position: (425, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wantedBy",
+                     position: (426, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "zfs.target",
+                       position: (426, 26),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "after",
+                     position: (427, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "zfs.target",
+                       position: (427, 26),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (429, 9),
+                    },
+                   ],
+                  },
+                  With {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (429, 21),
+                   },
+                   target: List {
+                    elements: [
+                     Variable {
+                      identifier: "zfs",
+                      position: (429, 29),
+                     },
+                     Variable {
+                      identifier: "mbuffer",
+                      position: (429, 33),
+                     },
+                     Variable {
+                      identifier: "openssh",
+                      position: (429, 41),
+                     },
+                    ],
+                   },
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "preStart",
+                     position: (431, 9),
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: Addition,
+                   operands: [
+                    BinaryOperation {
+                     operator: Addition,
+                     operands: [
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "optionalString",
+                        position: (431, 20),
+                       },
+                       arguments: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (431, 35),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "pure",
+                            position: (431, 39),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        String {
+                         parts: [
+                          Raw {
+                           content: "echo Resetting znapzend zetups\n",
+                           position: (432, 1),
+                          },
+                          Expression {
+                           expression: PropertyAccess {
+                            expression: Variable {
+                             identifier: "pkgs",
+                             position: (433, 13),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "znapzend",
+                               position: (433, 18),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          },
+                          Raw {
+                           content: "/bin/znapzendzetup list \\\n  | grep -oP '(?<=\\*\\*\\* backup plan: ).*(?= \\*\\*\\*)' \\\n  | xargs -I{} ",
+                           position: (433, 27),
+                          },
+                          Expression {
+                           expression: PropertyAccess {
+                            expression: Variable {
+                             identifier: "pkgs",
+                             position: (435, 28),
+                            },
+                            attribute_path: AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "znapzend",
+                               position: (435, 33),
+                              },
+                             ],
+                            },
+                            default: None,
+                           },
+                          },
+                          Raw {
+                           content: "/bin/znapzendzetup delete \"{}\"\n",
+                           position: (435, 42),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "concatStringsSep",
+                        position: (436, 14),
+                       },
+                       arguments: [
+                        String {
+                         parts: [
+                          Raw {
+                           content: "\n",
+                           position: (436, 32),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "mapAttrsToList",
+                          position: (436, 37),
+                         },
+                         arguments: [
+                          Function {
+                           argument: Some(
+                            "dataset",
+                           ),
+                           arguments: FunctionArguments {
+                            arguments: [],
+                            ellipsis: false,
+                           },
+                           definition: Function {
+                            argument: Some(
+                             "config",
+                            ),
+                            arguments: FunctionArguments {
+                             arguments: [],
+                             ellipsis: false,
+                            },
+                            definition: String {
+                             parts: [
+                              Raw {
+                               content: "echo Importing znapzend zetup ",
+                               position: (437, 1),
+                              },
+                              Expression {
+                               expression: Variable {
+                                identifier: "config",
+                                position: (437, 43),
+                               },
+                              },
+                              Raw {
+                               content: " for dataset ",
+                               position: (437, 50),
+                              },
+                              Expression {
+                               expression: Variable {
+                                identifier: "dataset",
+                                position: (437, 65),
+                               },
+                              },
+                              Raw {
+                               content: "\n",
+                               position: (437, 73),
+                              },
+                              Expression {
+                               expression: PropertyAccess {
+                                expression: Variable {
+                                 identifier: "pkgs",
+                                 position: (438, 13),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "znapzend",
+                                   position: (438, 18),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                              },
+                              Raw {
+                               content: "/bin/znapzendzetup import --write ",
+                               position: (438, 27),
+                              },
+                              Expression {
+                               expression: Variable {
+                                identifier: "dataset",
+                                position: (438, 63),
+                               },
+                              },
+                              Raw {
+                               content: " ",
+                               position: (438, 71),
+                              },
+                              Expression {
+                               expression: Variable {
+                                identifier: "config",
+                                position: (438, 74),
+                               },
+                              },
+                              Raw {
+                               content: " &\n",
+                               position: (438, 81),
+                              },
+                             ],
+                            },
+                           },
+                          },
+                          Variable {
+                           identifier: "files",
+                           position: (439, 13),
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "wait\n",
+                       position: (440, 1),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "serviceConfig",
+                     position: (443, 9),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "TimeoutStartSec",
+                        position: (449, 11),
+                       },
+                      ],
+                     },
+                     Int {
+                      value: 180,
+                      position: (449, 29),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "User",
+                        position: (451, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "root",
+                        position: (451, 19),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "ExecStart",
+                        position: (452, 11),
+                       },
+                      ],
+                     },
+                     LetIn {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "args",
+                           position: (453, 13),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "concatStringsSep",
+                          position: (453, 20),
+                         },
+                         arguments: [
+                          String {
+                           parts: [
+                            Raw {
+                             content: " ",
+                             position: (453, 38),
+                            },
+                           ],
+                          },
+                          List {
+                           elements: [
+                            String {
+                             parts: [
+                              Raw {
+                               content: "--logto=",
+                               position: (454, 16),
+                              },
+                              Expression {
+                               expression: PropertyAccess {
+                                expression: Variable {
+                                 identifier: "cfg",
+                                 position: (454, 26),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "logTo",
+                                   position: (454, 30),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                              },
+                             ],
+                            },
+                            String {
+                             parts: [
+                              Raw {
+                               content: "--loglevel=",
+                               position: (455, 16),
+                              },
+                              Expression {
+                               expression: PropertyAccess {
+                                expression: Variable {
+                                 identifier: "cfg",
+                                 position: (455, 29),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "logLevel",
+                                   position: (455, 33),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                              },
+                             ],
+                            },
+                            FunctionApplication {
+                             function: Variable {
+                              identifier: "optionalString",
+                              position: (456, 16),
+                             },
+                             arguments: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "cfg",
+                                position: (456, 31),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "noDestroy",
+                                  position: (456, 35),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "--nodestroy",
+                                 position: (456, 46),
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                            FunctionApplication {
+                             function: Variable {
+                              identifier: "optionalString",
+                              position: (457, 16),
+                             },
+                             arguments: [
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "cfg",
+                                position: (457, 31),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "autoCreation",
+                                  position: (457, 35),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "--autoCreation",
+                                 position: (457, 49),
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                            FunctionApplication {
+                             function: Variable {
+                              identifier: "optionalString",
+                              position: (458, 16),
+                             },
+                             arguments: [
+                              BinaryOperation {
+                               operator: NotEqualTo,
+                               operands: [
+                                Variable {
+                                 identifier: "enabledFeatures",
+                                 position: (458, 32),
+                                },
+                                List {
+                                 elements: [],
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "--features=",
+                                 position: (459, 18),
+                                },
+                                Expression {
+                                 expression: FunctionApplication {
+                                  function: Variable {
+                                   identifier: "concatStringsSep",
+                                   position: (459, 31),
+                                  },
+                                  arguments: [
+                                   String {
+                                    parts: [
+                                     Raw {
+                                      content: ",",
+                                      position: (459, 49),
+                                     },
+                                    ],
+                                   },
+                                   Variable {
+                                    identifier: "enabledFeatures",
+                                    position: (459, 52),
+                                   },
+                                  ],
+                                 },
+                                },
+                               ],
+                              },
+                             ],
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                       ),
+                      ],
+                      target: String {
+                       parts: [
+                        Expression {
+                         expression: PropertyAccess {
+                          expression: Variable {
+                           identifier: "pkgs",
+                           position: (460, 22),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "znapzend",
+                             position: (460, 27),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        },
+                        Raw {
+                         content: "/bin/znapzend ",
+                         position: (460, 36),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "args",
+                          position: (460, 52),
+                         },
+                        },
+                       ],
+                      },
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "ExecReload",
+                        position: (461, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Expression {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "pkgs",
+                          position: (461, 27),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "coreutils",
+                            position: (461, 32),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       },
+                       Raw {
+                        content: "/bin/kill -HUP $MAINPID",
+                        position: (461, 42),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "Restart",
+                        position: (462, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "on-failure",
+                        position: (462, 22),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "meta",
+          position: (468, 3),
+         },
+         Raw {
+          content: "maintainers",
+          position: (468, 8),
+         },
+        ],
+       },
+       With {
+        expression: Variable {
+         identifier: "maintainers",
+         position: (468, 27),
+        },
+        target: List {
+         elements: [
+          Variable {
+           identifier: "infinisil",
+           position: (468, 42),
+          },
+          Variable {
+           identifier: "SlothOfAnarchy",
+           position: (468, 52),
+          },
+         ],
+        },
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   },
+  },
+ },
+}

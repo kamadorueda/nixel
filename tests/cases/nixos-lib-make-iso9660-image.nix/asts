@@ -1,0 +1,575 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "volumeID",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "zstd",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "compressImage",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (38, 19),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "isohybridMbrImage",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "efiBootImage",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "bootImage",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "usbBootable",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (26, 17),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "efiBootable",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (23, 17),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "bootable",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (20, 14),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "storeContents",
+    default: Some(
+     List {
+      elements: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "contents",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "isoName",
+    default: Some(
+     String {
+      parts: [
+       Raw {
+        content: "cd.iso",
+        position: (4, 14),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "libossp_uuid",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "syslinux",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "xorriso",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "closureInfo",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "stdenv",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: Assert {
+  expression: BinaryOperation {
+   operator: Implication,
+   operands: [
+    Variable {
+     identifier: "bootable",
+     position: (44, 8),
+    },
+    BinaryOperation {
+     operator: NotEqualTo,
+     operands: [
+      Variable {
+       identifier: "bootImage",
+       position: (44, 20),
+      },
+      String {
+       parts: [],
+      },
+     ],
+    },
+   ],
+  },
+  target: Assert {
+   expression: BinaryOperation {
+    operator: Implication,
+    operands: [
+     Variable {
+      identifier: "efiBootable",
+      position: (45, 8),
+     },
+     BinaryOperation {
+      operator: NotEqualTo,
+      operands: [
+       Variable {
+        identifier: "efiBootImage",
+        position: (45, 23),
+       },
+       String {
+        parts: [],
+       },
+      ],
+     },
+    ],
+   },
+   target: Assert {
+    expression: BinaryOperation {
+     operator: Implication,
+     operands: [
+      Variable {
+       identifier: "usbBootable",
+       position: (46, 8),
+      },
+      BinaryOperation {
+       operator: NotEqualTo,
+       operands: [
+        Variable {
+         identifier: "isohybridMbrImage",
+         position: (46, 23),
+        },
+        String {
+         parts: [],
+        },
+       ],
+      },
+     ],
+    },
+    target: FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "stdenv",
+       position: (48, 1),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "mkDerivation",
+         position: (48, 8),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "name",
+            position: (49, 3),
+           },
+          ],
+         },
+         Variable {
+          identifier: "isoName",
+          position: (49, 10),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "builder",
+            position: (50, 3),
+           },
+          ],
+         },
+         Path {
+          parts: [
+           Raw {
+            content: "./make-iso9660-image.sh",
+            position: (50, 13),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nativeBuildInputs",
+            position: (51, 3),
+           },
+          ],
+         },
+         List {
+          elements: [
+           Variable {
+            identifier: "xorriso",
+            position: (51, 25),
+           },
+           Variable {
+            identifier: "syslinux",
+            position: (51, 33),
+           },
+           Variable {
+            identifier: "zstd",
+            position: (51, 42),
+           },
+           Variable {
+            identifier: "libossp_uuid",
+            position: (51, 47),
+           },
+          ],
+         },
+        ),
+        Inherit(
+         None,
+         [
+          Raw {
+           content: "isoName",
+           position: (53, 11),
+          },
+          Raw {
+           content: "bootable",
+           position: (53, 19),
+          },
+          Raw {
+           content: "bootImage",
+           position: (53, 28),
+          },
+          Raw {
+           content: "compressImage",
+           position: (53, 38),
+          },
+          Raw {
+           content: "volumeID",
+           position: (53, 52),
+          },
+          Raw {
+           content: "efiBootImage",
+           position: (53, 61),
+          },
+          Raw {
+           content: "efiBootable",
+           position: (53, 74),
+          },
+          Raw {
+           content: "isohybridMbrImage",
+           position: (53, 86),
+          },
+          Raw {
+           content: "usbBootable",
+           position: (53, 104),
+          },
+         ],
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "sources",
+            position: (56, 3),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (56, 13),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "x",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "x",
+              position: (56, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "source",
+                position: (56, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Variable {
+            identifier: "contents",
+            position: (56, 31),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "targets",
+            position: (57, 3),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (57, 13),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "x",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "x",
+              position: (57, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "target",
+                position: (57, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Variable {
+            identifier: "contents",
+            position: (57, 31),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "objects",
+            position: (60, 3),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (60, 13),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "x",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "x",
+              position: (60, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "object",
+                position: (60, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Variable {
+            identifier: "storeContents",
+            position: (60, 31),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "symlinks",
+            position: (61, 3),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "map",
+           position: (61, 14),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "x",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: PropertyAccess {
+             expression: Variable {
+              identifier: "x",
+              position: (61, 22),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "symlink",
+                position: (61, 24),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Variable {
+            identifier: "storeContents",
+            position: (61, 33),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "closureInfo",
+            position: (64, 3),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "closureInfo",
+           position: (64, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "rootPaths",
+                 position: (64, 31),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "map",
+                position: (64, 43),
+               },
+               arguments: [
+                Function {
+                 argument: Some(
+                  "x",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: PropertyAccess {
+                  expression: Variable {
+                   identifier: "x",
+                   position: (64, 51),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "object",
+                     position: (64, 53),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Variable {
+                 identifier: "storeContents",
+                 position: (64, 61),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   },
+  },
+ },
+}

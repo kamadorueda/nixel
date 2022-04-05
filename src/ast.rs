@@ -31,6 +31,10 @@ pub enum AST {
         function:  Box<AST>,
         arguments: LinkedList<AST>,
     },
+    HasProperty {
+        expression:     Box<AST>,
+        attribute_path: AttributePath,
+    },
     IfThenElse {
         predicate: Box<AST>,
         then:      Box<AST>,
@@ -124,7 +128,6 @@ pub enum BinaryOperator {
     EqualTo,
     GreaterThan,
     GreaterThanOrEqualTo,
-    HasAttribute,
     Implication,
     LessThan,
     LessThanOrEqualTo,

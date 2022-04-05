@@ -1,0 +1,567 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "security",
+         position: (7, 16),
+        },
+        Raw {
+         content: "pam",
+         position: (7, 25),
+        },
+        Raw {
+         content: "usb",
+         position: (7, 29),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "anyUsbAuth",
+        position: (9, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "any",
+       position: (9, 16),
+      },
+      arguments: [
+       FunctionApplication {
+        function: Variable {
+         identifier: "attrByPath",
+         position: (9, 21),
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "usbAuth",
+              position: (9, 34),
+             },
+            ],
+           },
+          ],
+         },
+         Variable {
+          identifier: "false",
+          position: (9, 44),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "attrValues",
+         position: (9, 52),
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "config",
+           position: (9, 63),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "security",
+             position: (9, 70),
+            },
+            Raw {
+             content: "pam",
+             position: (9, 79),
+            },
+            Raw {
+             content: "services",
+             position: (9, 83),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (14, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (16, 5),
+           },
+           Raw {
+            content: "pam",
+            position: (16, 14),
+           },
+           Raw {
+            content: "usb",
+            position: (16, 18),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (17, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (17, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (18, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (18, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (18, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (19, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (19, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (20, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Enable USB login for all login systems that support it.  For\nmore information, visit <link\nxlink:href=\"https://github.com/aluzzardi/pam_usb/wiki/Getting-Started#setting-up-devices-and-users\" />.\n",
+                    position: (21, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (31, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (31, 12),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: LogicalOr,
+         operands: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (31, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (31, 22),
+             },
+            ],
+           },
+           default: None,
+          },
+          Variable {
+           identifier: "anyUsbAuth",
+           position: (31, 32),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (34, 5),
+             },
+             Raw {
+              content: "wrappers",
+              position: (34, 14),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "pmount",
+                 position: (35, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "setuid",
+                    position: (36, 11),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (36, 20),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "owner",
+                    position: (37, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "root",
+                    position: (37, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (38, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "root",
+                    position: (38, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "source",
+                    position: (39, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (39, 23),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "pmount",
+                        position: (39, 28),
+                       },
+                       Raw {
+                        content: "out",
+                        position: (39, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/pmount",
+                    position: (39, 39),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "pumount",
+                 position: (41, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "setuid",
+                    position: (42, 11),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (42, 20),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "owner",
+                    position: (43, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "root",
+                    position: (43, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (44, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "root",
+                    position: (44, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "source",
+                    position: (45, 11),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (45, 23),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "pmount",
+                        position: (45, 28),
+                       },
+                       Raw {
+                        content: "out",
+                        position: (45, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/pumount",
+                    position: (45, 39),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (49, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (49, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (49, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "pmount",
+                 position: (49, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

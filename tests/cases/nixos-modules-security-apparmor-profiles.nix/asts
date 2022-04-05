@@ -1,0 +1,242 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "apparmor",
+       position: (2, 5),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (2, 16),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "security",
+        position: (2, 23),
+       },
+       Raw {
+        content: "apparmor",
+        position: (2, 32),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (4, 1),
+       },
+       Raw {
+        content: "security",
+        position: (4, 8),
+       },
+       Raw {
+        content: "apparmor",
+        position: (4, 17),
+       },
+       Raw {
+        content: "packages",
+        position: (4, 26),
+       },
+      ],
+     },
+     List {
+      elements: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (4, 39),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "apparmor-profiles",
+           position: (4, 44),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (5, 1),
+       },
+       Raw {
+        content: "security",
+        position: (5, 8),
+       },
+       Raw {
+        content: "apparmor",
+        position: (5, 17),
+       },
+       Raw {
+        content: "policies",
+        position: (5, 26),
+       },
+       Expression {
+        expression: String {
+         parts: [
+          Raw {
+           content: "bin.ping",
+           position: (5, 36),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "profile",
+        position: (5, 46),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (5, 56),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "mkIf",
+          position: (5, 60),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "apparmor",
+         position: (5, 65),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "policies",
+           position: (5, 74),
+          },
+          Expression {
+           expression: String {
+            parts: [
+             Raw {
+              content: "bin.ping",
+              position: (5, 84),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "enable",
+           position: (5, 94),
+          },
+         ],
+        },
+        default: None,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "include \"",
+          position: (6, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (6, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "iputils",
+              position: (6, 19),
+             },
+             Raw {
+              content: "apparmor",
+              position: (6, 27),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin.ping\"\ninclude \"",
+          position: (6, 36),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (7, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "inetutils",
+              position: (7, 19),
+             },
+             Raw {
+              content: "apparmor",
+              position: (7, 29),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/bin.ping\"\n# Note that including those two profiles in the same profile\n# would not work if the second one were to re-include <tunables/global>.\n",
+          position: (7, 38),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

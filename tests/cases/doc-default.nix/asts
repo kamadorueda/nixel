@@ -1,0 +1,328 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "nixpkgs",
+    default: Some(
+     Map {
+      bindings: [],
+      recursive: false,
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: Some(
+     FunctionApplication {
+      function: Variable {
+       identifier: "import",
+       position: (1, 11),
+      },
+      arguments: [
+       Path {
+        parts: [
+         Raw {
+          content: "./..",
+          position: (1, 18),
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "lib",
+       position: (3, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "pkgs",
+      position: (3, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "lib",
+        position: (3, 14),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "doc-support",
+       position: (4, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "import",
+      position: (4, 17),
+     },
+     arguments: [
+      Path {
+       parts: [
+        Raw {
+         content: "./doc-support",
+         position: (4, 24),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        Inherit(
+         None,
+         [
+          Raw {
+           content: "pkgs",
+           position: (4, 48),
+          },
+          Raw {
+           content: "nixpkgs",
+           position: (4, 53),
+          },
+         ],
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+  ],
+  target: FunctionApplication {
+   function: PropertyAccess {
+    expression: Variable {
+     identifier: "pkgs",
+     position: (5, 4),
+    },
+    attribute_path: AttributePath {
+     attributes: [
+      Raw {
+       content: "stdenv",
+       position: (5, 9),
+      },
+      Raw {
+       content: "mkDerivation",
+       position: (5, 16),
+      },
+     ],
+    },
+    default: None,
+   },
+   arguments: [
+    Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "name",
+          position: (6, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "nixpkgs-manual",
+          position: (6, 11),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "nativeBuildInputs",
+          position: (8, 3),
+         },
+        ],
+       },
+       With {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (8, 28),
+        },
+        target: List {
+         elements: [
+          Variable {
+           identifier: "pandoc",
+           position: (9, 5),
+          },
+          Variable {
+           identifier: "graphviz",
+           position: (10, 5),
+          },
+          Variable {
+           identifier: "libxml2",
+           position: (11, 5),
+          },
+          Variable {
+           identifier: "libxslt",
+           position: (12, 5),
+          },
+          Variable {
+           identifier: "zip",
+           position: (13, 5),
+          },
+          Variable {
+           identifier: "jing",
+           position: (14, 5),
+          },
+          Variable {
+           identifier: "xmlformat",
+           position: (15, 5),
+          },
+         ],
+        },
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "src",
+          position: (18, 3),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (18, 9),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "cleanSource",
+            position: (18, 13),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Path {
+          parts: [
+           Raw {
+            content: "./.",
+            position: (18, 25),
+           },
+          ],
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "postPatch",
+          position: (20, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "ln -s ",
+          position: (21, 1),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "doc-support",
+           position: (21, 13),
+          },
+         },
+         Raw {
+          content: " ./doc-support/result\n",
+          position: (21, 25),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "installPhase",
+          position: (24, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "dest=\"$out/share/doc/nixpkgs\"\nmkdir -p \"$(dirname \"$dest\")\"\nmv out/html \"$dest\"\nmv \"$dest/index.html\" \"$dest/manual.html\"\n\nmv out/epub/manual.epub \"$dest/nixpkgs-manual.epub\"\n\nmkdir -p $out/nix-support/\necho \"doc manual $dest manual.html\" >> $out/nix-support/hydra-build-products\necho \"doc manual $dest nixpkgs-manual.epub\" >> $out/nix-support/hydra-build-products\n",
+          position: (25, 1),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "PANDOC_LUA_FILTERS_DIR",
+          position: (38, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (38, 31),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "pandoc-lua-filters",
+              position: (38, 36),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/share/pandoc/filters",
+          position: (38, 55),
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   ],
+  },
+ },
+}

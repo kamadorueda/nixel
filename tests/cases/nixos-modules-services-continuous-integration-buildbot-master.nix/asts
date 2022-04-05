@@ -1,0 +1,4377 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "options",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (5, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (8, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (8, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (8, 16),
+        },
+        Raw {
+         content: "buildbot-master",
+         position: (8, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "opt",
+        position: (9, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "options",
+       position: (9, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (9, 17),
+        },
+        Raw {
+         content: "buildbot-master",
+         position: (9, 26),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "python",
+        position: (11, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "cfg",
+       position: (11, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "package",
+         position: (11, 16),
+        },
+        Raw {
+         content: "pythonModule",
+         position: (11, 24),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "escapeStr",
+        position: (13, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "s",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "escape",
+        position: (13, 18),
+       },
+       arguments: [
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: "'",
+             position: (13, 27),
+            },
+           ],
+          },
+         ],
+        },
+        Variable {
+         identifier: "s",
+         position: (13, 31),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "defaultMasterCfg",
+        position: (15, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (15, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (15, 27),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "master.cfg",
+          position: (15, 38),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "from buildbot.plugins import *\nfactory = util.BuildFactory()\nc = BuildmasterConfig = dict(\n workers       = [",
+          position: (16, 1),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (19, 25),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (19, 43),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (19, 46),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "workers",
+                position: (19, 50),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "],\n protocols     = { 'pb': {'port': ",
+          position: (19, 58),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (20, 41),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (20, 50),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "pbPort",
+                position: (20, 54),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " } },\n title         = ",
+          position: (20, 61),
+         },
+         Raw {
+          content: "'",
+          position: (21, 22),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "escapeStr",
+            position: (21, 25),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (21, 35),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "title",
+                position: (21, 39),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "',\n titleURL      = ",
+          position: (21, 45),
+         },
+         Raw {
+          content: "'",
+          position: (22, 22),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "escapeStr",
+            position: (22, 25),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (22, 35),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "titleUrl",
+                position: (22, 39),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "',\n buildbotURL   = ",
+          position: (22, 48),
+         },
+         Raw {
+          content: "'",
+          position: (23, 22),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "escapeStr",
+            position: (23, 25),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (23, 35),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "buildbotUrl",
+                position: (23, 39),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "',\n db            = dict(db_url=",
+          position: (23, 51),
+         },
+         Raw {
+          content: "'",
+          position: (24, 34),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "escapeStr",
+            position: (24, 37),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (24, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "dbUrl",
+                position: (24, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "'),\n www           = dict(port=",
+          position: (24, 57),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (25, 34),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (25, 43),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "port",
+                position: (25, 47),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "),\n change_source = [ ",
+          position: (25, 52),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (26, 26),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (26, 44),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (26, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "changeSource",
+                position: (26, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ],\n schedulers    = [ ",
+          position: (26, 64),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (27, 26),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (27, 44),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (27, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "schedulers",
+                position: (27, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ],\n builders      = [ ",
+          position: (27, 62),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (28, 26),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (28, 44),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (28, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "builders",
+                position: (28, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ],\n services      = [ ",
+          position: (28, 60),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (29, 26),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (29, 44),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (29, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "reporters",
+                position: (29, 51),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ],\n)\nfor step in [ ",
+          position: (29, 61),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (31, 21),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (31, 39),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (31, 42),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "factorySteps",
+                position: (31, 46),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ]:\n  factory.addStep(step)\n\n",
+          position: (31, 59),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (34, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "extraConfig",
+              position: (34, 11),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (34, 23),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "tacFile",
+        position: (37, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (37, 13),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (37, 18),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "buildbot-master.tac",
+          position: (37, 29),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "import os\n\nfrom twisted.application import service\nfrom buildbot.master import BuildMaster\n\nbasedir = ",
+          position: (38, 1),
+         },
+         Raw {
+          content: "'",
+          position: (43, 15),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (43, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "buildbotDir",
+              position: (43, 22),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "'\n\nconfigfile = ",
+          position: (43, 34),
+         },
+         Raw {
+          content: "'",
+          position: (45, 18),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (45, 21),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "masterCfg",
+              position: (45, 25),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "'\n\n# Default umask for server\numask = None\n\n# note: this line is matched against to check that this is a buildmaster\n# directory; do not edit it.\napplication = service.Application('buildmaster')\n\nm = BuildMaster(basedir, configfile, umask)\nm.setServiceParent(application)\n",
+          position: (45, 35),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (59, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (60, 5),
+           },
+           Raw {
+            content: "buildbot-master",
+            position: (60, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "factorySteps",
+               position: (62, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (62, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (63, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (63, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (63, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (63, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (63, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (64, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Factory Steps",
+                    position: (64, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (65, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (66, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "steps.Git(repourl='git://github.com/buildbot/pyflakes.git', mode='incremental')",
+                      position: (67, 12),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "steps.ShellCommand(command=['trial', 'pyflakes'])",
+                      position: (68, 12),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "changeSource",
+               position: (72, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (72, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (73, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (73, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (73, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (73, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (73, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (74, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of Change Sources.",
+                    position: (74, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (75, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (76, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "changes.GitPoller('git://github.com/buildbot/pyflakes.git', workdir='gitpoller-workdir', branch='master', pollinterval=300)",
+                      position: (77, 12),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (81, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (81, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (82, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (82, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (82, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (83, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (83, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (84, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable the Buildbot continuous integration server.",
+                    position: (84, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (87, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (87, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (88, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (88, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (88, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (89, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Extra configuration to append to master.cfg",
+                    position: (89, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (90, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "c['buildbotNetUsageData'] = None",
+                    position: (90, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "masterCfg",
+               position: (93, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (93, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (94, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (94, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (94, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (95, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Optionally pass master.cfg path. Other options in this configuration will be ignored.",
+                    position: (95, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (96, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "defaultMasterCfg",
+                  position: (96, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (97, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalDocBook",
+                   position: (97, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "generated configuration file",
+                      position: (97, 40),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (98, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/etc/nixos/buildbot/master.cfg",
+                    position: (98, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "schedulers",
+               position: (101, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (101, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (102, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (102, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (102, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (102, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (102, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (103, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of Schedulers.",
+                    position: (103, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (104, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "schedulers.SingleBranchScheduler(name='all', change_filter=util.ChangeFilter(branch='master'), treeStableTimer=None, builderNames=['runtests'])",
+                      position: (105, 12),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "schedulers.ForceScheduler(name='force',builderNames=['runtests'])",
+                      position: (106, 12),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "builders",
+               position: (110, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (110, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (111, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (111, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (111, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (111, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (111, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (112, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of Builders.",
+                    position: (112, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (113, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "util.BuilderConfig(name='runtests',workernames=['example-worker'],factory=factory)",
+                      position: (114, 12),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "workers",
+               position: (118, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (118, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (119, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (119, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (119, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (119, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (119, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (120, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of Workers.",
+                    position: (120, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (121, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "worker.Worker('example-worker', 'pass')",
+                      position: (121, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "reporters",
+               position: (124, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (124, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (125, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (126, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (126, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (126, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (126, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (126, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (127, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of reporter objects used to present build status to various users.",
+                    position: (127, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "user",
+               position: (130, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (130, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (131, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "buildbot",
+                    position: (131, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (132, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (132, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (132, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (133, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "User the buildbot server should execute under.",
+                    position: (133, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "group",
+               position: (136, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (136, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (137, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "buildbot",
+                    position: (137, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (138, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (138, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (138, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (139, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Primary group of buildbot user.",
+                    position: (139, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraGroups",
+               position: (142, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (142, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (143, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (143, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (143, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (143, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (143, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (144, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (145, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "List of extra groups that the buildbot user should be a part of.",
+                    position: (145, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "home",
+               position: (148, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (148, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (149, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/home/buildbot",
+                    position: (149, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (150, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (150, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (150, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (151, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Buildbot home directory.",
+                    position: (151, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "buildbotDir",
+               position: (154, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (154, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (155, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (155, 22),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "home",
+                        position: (155, 26),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/master",
+                    position: (155, 31),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (156, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (156, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\"",
+                      position: (156, 43),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (156, 44),
+                     },
+                     Raw {
+                      content: "{config.",
+                      position: (156, 47),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "opt",
+                        position: (156, 57),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "home",
+                          position: (156, 61),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "}/master\"",
+                      position: (156, 66),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (157, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (157, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (157, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (158, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the Buildbot directory.",
+                    position: (158, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "pbPort",
+               position: (161, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (161, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (162, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 9989,
+                  position: (162, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (163, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (163, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "either",
+                      position: (163, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (163, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (163, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (163, 39),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "int",
+                       position: (163, 45),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (164, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "'tcp:9990:interface=127.0.0.1'",
+                    position: (164, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (165, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The buildmaster will listen on a TCP port of your choosing\nfor connections from workers.\nIt can also use this port for connections from remote Change Sources,\nstatus clients, and debug tools.\nThis port should be visible to the outside world, and you’ll need to tell\nyour worker admins about your choice.\nIf put in (single) quotes, this can also be used as a connection string,\nas defined in the <link xlink:href=\"https://twistedmatrix.com/documents/current/core/howto/endpoints.html\">ConnectionStrings guide</link>.\n",
+                    position: (166, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "listenAddress",
+               position: (177, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (177, 23),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (178, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "0.0.0.0",
+                    position: (178, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (179, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (179, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (179, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (180, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the bind address on which the buildbot HTTP interface listens.",
+                    position: (180, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "buildbotUrl",
+               position: (183, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (183, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (184, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "http://localhost:8010/",
+                    position: (184, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (185, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (185, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (185, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (186, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the Buildbot URL.",
+                    position: (186, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "title",
+               position: (189, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (189, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (190, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Buildbot",
+                    position: (190, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (191, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (191, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (191, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (192, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the Buildbot Title.",
+                    position: (192, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "titleUrl",
+               position: (195, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (195, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (196, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Buildbot",
+                    position: (196, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (197, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (197, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (197, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (198, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the Buildbot TitleURL.",
+                    position: (198, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "dbUrl",
+               position: (201, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (201, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (202, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "sqlite:///state.sqlite",
+                    position: (202, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (203, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (203, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (203, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (204, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies the database connection string.",
+                    position: (204, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "port",
+               position: (207, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (207, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (208, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 8010,
+                  position: (208, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (209, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (209, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "int",
+                     position: (209, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (210, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Specifies port number on which the buildbot HTTP interface listens.",
+                    position: (210, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (213, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (213, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (214, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (214, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (214, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (215, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (215, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "python3Packages",
+                     position: (215, 24),
+                    },
+                    Raw {
+                     content: "buildbot-full",
+                     position: (215, 40),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (216, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (216, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.python3Packages.buildbot-full",
+                      position: (216, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (217, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Package to use for buildbot.",
+                    position: (217, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (218, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (218, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.python3Packages.buildbot",
+                      position: (218, 38),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "packages",
+               position: (221, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (221, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (222, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (222, 21),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "git",
+                       position: (222, 26),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (223, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (223, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "[ pkgs.git ]",
+                      position: (223, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (224, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (224, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (224, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (224, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (224, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (225, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Packages to add to PATH for the buildbot process.",
+                    position: (225, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "pythonPackages",
+               position: (228, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (228, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (229, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (229, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "functionTo",
+                      position: (229, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (229, 34),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "listOf",
+                        position: (229, 40),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (229, 47),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "package",
+                         position: (229, 53),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (230, 9),
+                   },
+                  ],
+                 },
+                 Function {
+                  argument: Some(
+                   "pythonPackages",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: With {
+                   expression: Variable {
+                    identifier: "pythonPackages",
+                    position: (230, 40),
+                   },
+                   target: List {
+                    elements: [],
+                   },
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (231, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (231, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pythonPackages: with pythonPackages; [ ]",
+                      position: (231, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (232, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Packages to add the to the PYTHONPATH of the buildbot process.",
+                    position: (232, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (233, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (233, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pythonPackages: with pythonPackages; [ requests ]",
+                      position: (233, 38),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (238, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (238, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (238, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (238, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (239, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (239, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optionalAttrs",
+             position: (239, 20),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (239, 35),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (239, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "buildbot",
+                  position: (239, 49),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "buildbot",
+                   position: (240, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (243, 5),
+             },
+             Raw {
+              content: "users",
+              position: (243, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optionalAttrs",
+             position: (243, 19),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (243, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (243, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "buildbot",
+                  position: (243, 47),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "buildbot",
+                   position: (244, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (245, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Buildbot User.",
+                      position: (245, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "isNormalUser",
+                      position: (246, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (246, 24),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "createHome",
+                      position: (247, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (247, 22),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "home",
+                      position: (248, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (248, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "home",
+                       position: (248, 20),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (249, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (249, 17),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "group",
+                       position: (249, 21),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraGroups",
+                      position: (250, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (250, 23),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "extraGroups",
+                       position: (250, 27),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "useDefaultShell",
+                      position: (251, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (251, 27),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (255, 5),
+             },
+             Raw {
+              content: "services",
+              position: (255, 13),
+             },
+             Raw {
+              content: "buildbot-master",
+              position: (255, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (256, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Buildbot Continuous Integration Server.",
+                 position: (256, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (257, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network-online.target",
+                   position: (257, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (258, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (258, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "path",
+                 position: (259, 7),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Concatenation,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (259, 14),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "packages",
+                    position: (259, 18),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (259, 30),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "pythonPackages",
+                     position: (259, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "python",
+                    position: (259, 49),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "pkgs",
+                      position: (259, 56),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (260, 7),
+                },
+                Raw {
+                 content: "PYTHONPATH",
+                 position: (260, 19),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "python",
+                    position: (260, 35),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "withPackages",
+                      position: (260, 42),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Function {
+                    argument: Some(
+                     "self",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: BinaryOperation {
+                     operator: Concatenation,
+                     operands: [
+                      FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (260, 62),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "pythonPackages",
+                           position: (260, 66),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "self",
+                         position: (260, 81),
+                        },
+                       ],
+                      },
+                      List {
+                       elements: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (260, 91),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "package",
+                            position: (260, 95),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "/",
+                 position: (260, 106),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "python",
+                   position: (260, 109),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "sitePackages",
+                     position: (260, 116),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "preStart",
+                 position: (262, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "mkdir -vp \"",
+                 position: (263, 1),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (263, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "buildbotDir",
+                     position: (263, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "\"\n# Link the tac file so buildbot command line tools recognize the directory\nln -sf \"",
+                 position: (263, 38),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "tacFile",
+                  position: (265, 19),
+                 },
+                },
+                Raw {
+                 content: "\" \"",
+                 position: (265, 27),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (265, 32),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "buildbotDir",
+                     position: (265, 36),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/buildbot.tac\"\n",
+                 position: (265, 48),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (266, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (266, 15),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/buildbot create-master --db \"",
+                 position: (266, 23),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (266, 59),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "dbUrl",
+                     position: (266, 63),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "\" \"",
+                 position: (266, 69),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (266, 74),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "buildbotDir",
+                     position: (266, 78),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "\"\nrm -f buildbot.tac.new master.cfg.sample\n",
+                 position: (266, 90),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (270, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Type",
+                    position: (271, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "simple",
+                    position: (271, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (272, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (272, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "user",
+                     position: (272, 20),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (273, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (273, 17),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "group",
+                     position: (273, 21),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "WorkingDirectory",
+                    position: (274, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (274, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "home",
+                     position: (274, 32),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (276, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "python",
+                      position: (276, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "pkgs",
+                        position: (276, 31),
+                       },
+                       Raw {
+                        content: "twisted",
+                        position: (276, 36),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/twistd -o --nodaemon --pidfile= --logfile - --python ",
+                    position: (276, 44),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "tacFile",
+                     position: (276, 104),
+                    },
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (281, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRenamedOptionModule",
+          position: (282, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (282, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "buildbot-master",
+               position: (282, 42),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "bpPort",
+               position: (282, 60),
+              },
+             ],
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (282, 73),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "buildbot-master",
+               position: (282, 84),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "pbPort",
+               position: (282, 102),
+              },
+             ],
+            },
+           ],
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRemovedOptionModule",
+          position: (283, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (283, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "buildbot-master",
+               position: (283, 42),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "status",
+               position: (283, 60),
+              },
+             ],
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "Since Buildbot 0.9.0, status targets are deprecated and ignored.\nReview your configuration and migrate to reporters (available at services.buildbot-master.reporters).\n",
+             position: (284, 1),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (289, 3),
+        },
+        Raw {
+         content: "maintainers",
+         position: (289, 8),
+        },
+       ],
+      },
+      With {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (289, 27),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "maintainers",
+           position: (289, 31),
+          },
+         ],
+        },
+        default: None,
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "mic92",
+          position: (289, 46),
+         },
+         Variable {
+          identifier: "lopsided98",
+          position: (289, 52),
+         },
+        ],
+       },
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

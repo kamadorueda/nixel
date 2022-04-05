@@ -1,0 +1,2034 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "amazonImage",
+         position: (6, 16),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "amiBootMode",
+        position: (7, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (7, 20),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "ec2",
+          position: (7, 27),
+         },
+         Raw {
+          content: "efi",
+          position: (7, 31),
+         },
+        ],
+       },
+       default: None,
+      },
+      then: String {
+       parts: [
+        Raw {
+         content: "uefi",
+         position: (7, 41),
+        },
+       ],
+      },
+      else_: String {
+       parts: [
+        Raw {
+         content: "legacy-bios",
+         position: (7, 53),
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (11, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Path {
+         parts: [
+          Raw {
+           content: "../../../modules/virtualisation/amazon-image.nix",
+           position: (11, 15),
+          },
+         ],
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (16, 3),
+        },
+        Raw {
+         content: "boot",
+         position: (16, 10),
+        },
+        Raw {
+         content: "kernelParams",
+         position: (16, 15),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "timeout",
+            position: (17, 9),
+           },
+          ],
+         },
+         IfThenElse {
+          predicate: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (18, 10),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "lib",
+               position: (18, 15),
+              },
+              Raw {
+               content: "versionAtLeast",
+               position: (18, 19),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (18, 34),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "boot",
+                position: (18, 41),
+               },
+               Raw {
+                content: "kernelPackages",
+                position: (18, 46),
+               },
+               Raw {
+                content: "kernel",
+                position: (18, 61),
+               },
+               Raw {
+                content: "version",
+                position: (18, 68),
+               },
+              ],
+             },
+             default: None,
+            },
+            String {
+             parts: [
+              Raw {
+               content: "4.15",
+               position: (18, 77),
+              },
+             ],
+            },
+           ],
+          },
+          then: String {
+           parts: [
+            Raw {
+             content: "4294967295",
+             position: (19, 13),
+            },
+           ],
+          },
+          else_: String {
+           parts: [
+            Raw {
+             content: "255",
+             position: (20, 14),
+            },
+           ],
+          },
+         },
+        ),
+       ],
+       target: List {
+        elements: [
+         String {
+          parts: [
+           Raw {
+            content: "nvme_core.io_timeout=",
+            position: (21, 11),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "timeout",
+             position: (21, 34),
+            },
+           },
+          ],
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (23, 3),
+        },
+        Raw {
+         content: "amazonImage",
+         position: (23, 11),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "name",
+            position: (24, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (24, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (25, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (25, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (25, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (26, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The name of the generated derivation",
+                 position: (26, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (27, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "nixos-amazon-image-",
+                 position: (27, 18),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (27, 39),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "system",
+                     position: (27, 46),
+                    },
+                    Raw {
+                     content: "nixos",
+                     position: (27, 53),
+                    },
+                    Raw {
+                     content: "label",
+                     position: (27, 59),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "-",
+                 position: (27, 65),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (27, 68),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "stdenv",
+                     position: (27, 73),
+                    },
+                    Raw {
+                     content: "hostPlatform",
+                     position: (27, 80),
+                    },
+                    Raw {
+                     content: "system",
+                     position: (27, 93),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "contents",
+            position: (30, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (30, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (31, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (31, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "[ { source = pkgs.memtest86 + \"/memtest.bin\";\n    target = \"boot/memtest.bin\";\n  }\n]\n",
+                   position: (32, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (37, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (38, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This option lists files to be copied to fixed locations in the\ngenerated image. Glob patterns work.\n",
+                 position: (39, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "sizeMB",
+            position: (44, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (44, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (45, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (45, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "either",
+                 position: (45, 26),
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "enum",
+                   position: (45, 34),
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "auto",
+                        position: (45, 42),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "int",
+                  position: (45, 51),
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (46, 7),
+                },
+               ],
+              },
+              IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (46, 20),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ec2",
+                   position: (46, 27),
+                  },
+                  Raw {
+                   content: "hvm",
+                   position: (46, 31),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: Int {
+                value: 2048,
+                position: (46, 40),
+               },
+               else_: Int {
+                value: 8192,
+                position: (46, 50),
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (47, 7),
+                },
+               ],
+              },
+              Int {
+               value: 8192,
+               position: (47, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (48, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The size in MB of the image",
+                 position: (48, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "format",
+            position: (51, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (51, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (52, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (52, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "enum",
+                   position: (52, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "raw",
+                     position: (52, 28),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "qcow2",
+                     position: (52, 34),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "vpc",
+                     position: (52, 42),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (53, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "vpc",
+                 position: (53, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (54, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The image format to output",
+                 position: (54, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (58, 3),
+        },
+        Raw {
+         content: "system",
+         position: (58, 10),
+        },
+        Raw {
+         content: "build",
+         position: (58, 17),
+        },
+        Raw {
+         content: "amazonImage",
+         position: (58, 23),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "configFile",
+            position: (59, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (59, 18),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "writeText",
+              position: (59, 23),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "configuration.nix",
+              position: (59, 34),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "{ modulesPath, ... }: {\n  imports = [ \"",
+              position: (61, 1),
+             },
+             Raw {
+              content: "$",
+              position: (62, 24),
+             },
+             Raw {
+              content: "{modulesPath}/virtualisation/amazon-image.nix\" ];\n  ",
+              position: (62, 27),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "optionalString",
+                position: (63, 13),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (63, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ec2",
+                    position: (63, 35),
+                   },
+                   Raw {
+                    content: "hvm",
+                    position: (63, 39),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "ec2.hvm = true;\n",
+                   position: (64, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\n  ",
+              position: (65, 14),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "optionalString",
+                position: (66, 13),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (66, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ec2",
+                    position: (66, 35),
+                   },
+                   Raw {
+                    content: "efi",
+                    position: (66, 39),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "ec2.efi = true;\n",
+                   position: (67, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\n  ",
+              position: (68, 14),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "optionalString",
+                position: (69, 13),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (69, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ec2",
+                    position: (69, 35),
+                   },
+                   Raw {
+                    content: "zfs",
+                    position: (69, 39),
+                   },
+                   Raw {
+                    content: "enable",
+                    position: (69, 43),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "ec2.zfs.enable = true;\nnetworking.hostId = \"",
+                   position: (70, 1),
+                  },
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (71, 36),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "networking",
+                       position: (71, 43),
+                      },
+                      Raw {
+                       content: "hostId",
+                       position: (71, 54),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "\";\n",
+                   position: (71, 61),
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\n}\n",
+              position: (72, 14),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "zfsBuilder",
+            position: (76, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "import",
+           position: (76, 18),
+          },
+          arguments: [
+           Path {
+            parts: [
+             Raw {
+              content: "../../../lib/make-zfs-image.nix",
+              position: (76, 25),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "lib",
+                position: (77, 15),
+               },
+               Raw {
+                content: "config",
+                position: (77, 19),
+               },
+               Raw {
+                content: "configFile",
+                position: (77, 26),
+               },
+              ],
+             ),
+             Inherit(
+              Some(
+               Variable {
+                identifier: "cfg",
+                position: (78, 16),
+               },
+              ),
+              [
+               Raw {
+                content: "contents",
+                position: (78, 21),
+               },
+               Raw {
+                content: "format",
+                position: (78, 30),
+               },
+               Raw {
+                content: "name",
+                position: (78, 37),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "pkgs",
+                 position: (79, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "import",
+                position: (79, 14),
+               },
+               arguments: [
+                Path {
+                 parts: [
+                  Raw {
+                   content: "../../../..",
+                   position: (79, 21),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  Inherit(
+                   Some(
+                    Variable {
+                     identifier: "pkgs",
+                     position: (79, 44),
+                    },
+                   ),
+                   [
+                    Raw {
+                     content: "system",
+                     position: (79, 50),
+                    },
+                   ],
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "includeChannel",
+                 position: (81, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (81, 24),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "bootSize",
+                 position: (83, 7),
+                },
+               ],
+              },
+              Int {
+               value: 1000,
+               position: (83, 18),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "rootSize",
+                 position: (85, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (85, 18),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sizeMB",
+                  position: (85, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "rootPoolProperties",
+                 position: (86, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ashift",
+                    position: (87, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 12,
+                  position: (87, 18),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "autoexpand",
+                    position: (88, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "on",
+                    position: (88, 23),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "datasets",
+                 position: (91, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (91, 18),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ec2",
+                  position: (91, 25),
+                 },
+                 Raw {
+                  content: "zfs",
+                  position: (91, 29),
+                 },
+                 Raw {
+                  content: "datasets",
+                  position: (91, 33),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "postVM",
+                 position: (93, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: " extension=",
+                 position: (94, 1),
+                },
+                Raw {
+                 content: "$",
+                 position: (94, 19),
+                },
+                Raw {
+                 content: "{rootDiskImage##*.}\n friendlyName=$out/",
+                 position: (94, 22),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (95, 29),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "name",
+                     position: (95, 33),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "\n rootDisk=\"$friendlyName.root.$extension\"\n bootDisk=\"$friendlyName.boot.$extension\"\n mv \"$rootDiskImage\" \"$rootDisk\"\n mv \"$bootDiskImage\" \"$bootDisk\"\n\n mkdir -p $out/nix-support\n echo \"file ",
+                 position: (95, 38),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (102, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "format",
+                     position: (102, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: " $bootDisk\" >> $out/nix-support/hydra-build-products\n echo \"file ",
+                 position: (102, 33),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (103, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "format",
+                     position: (103, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: " $rootDisk\" >> $out/nix-support/hydra-build-products\n\n",
+                 position: (103, 33),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (105, 10),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "jq",
+                     position: (105, 15),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/jq -n \\\n  --arg system_label ",
+                 position: (105, 18),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (106, 31),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArg",
+                      position: (106, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (106, 50),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "system",
+                       position: (106, 57),
+                      },
+                      Raw {
+                       content: "nixos",
+                       position: (106, 64),
+                      },
+                      Raw {
+                       content: "label",
+                       position: (106, 70),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: " \\\n  --arg system ",
+                 position: (106, 76),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (107, 25),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArg",
+                      position: (107, 29),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (107, 44),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "stdenv",
+                       position: (107, 49),
+                      },
+                      Raw {
+                       content: "hostPlatform",
+                       position: (107, 56),
+                      },
+                      Raw {
+                       content: "system",
+                       position: (107, 69),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: " \\\n  --arg root_logical_bytes \"$(",
+                 position: (107, 76),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (108, 40),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "qemu",
+                     position: (108, 45),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/qemu-img info --output json \"$rootDisk\" | ",
+                 position: (108, 50),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (108, 99),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "jq",
+                     position: (108, 104),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/jq '.\"virtual-size\"')\" \\\n  --arg boot_logical_bytes \"$(",
+                 position: (108, 107),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (109, 40),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "qemu",
+                     position: (109, 45),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/qemu-img info --output json \"$bootDisk\" | ",
+                 position: (109, 50),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (109, 99),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "jq",
+                     position: (109, 104),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/jq '.\"virtual-size\"')\" \\\n  --arg boot_mode \"",
+                 position: (109, 107),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "amiBootMode",
+                  position: (110, 29),
+                 },
+                },
+                Raw {
+                 content: "\" \\\n  --arg root \"$rootDisk\" \\\n  --arg boot \"$bootDisk\" \\\n '{}\n   | .label = $system_label\n   | .boot_mode = $boot_mode\n   | .system = $system\n   | .disks.boot.logical_bytes = $boot_logical_bytes\n   | .disks.boot.file = $boot\n   | .disks.root.logical_bytes = $root_logical_bytes\n   | .disks.root.file = $root\n   ' > $out/nix-support/image-info.json\n",
+                 position: (110, 41),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "extBuilder",
+            position: (125, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "import",
+           position: (125, 18),
+          },
+          arguments: [
+           Path {
+            parts: [
+             Raw {
+              content: "../../../lib/make-disk-image.nix",
+              position: (125, 25),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "lib",
+                position: (126, 15),
+               },
+               Raw {
+                content: "config",
+                position: (126, 19),
+               },
+               Raw {
+                content: "configFile",
+                position: (126, 26),
+               },
+              ],
+             ),
+             Inherit(
+              Some(
+               Variable {
+                identifier: "cfg",
+                position: (128, 16),
+               },
+              ),
+              [
+               Raw {
+                content: "contents",
+                position: (128, 21),
+               },
+               Raw {
+                content: "format",
+                position: (128, 30),
+               },
+               Raw {
+                content: "name",
+                position: (128, 37),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "pkgs",
+                 position: (129, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "import",
+                position: (129, 14),
+               },
+               arguments: [
+                Path {
+                 parts: [
+                  Raw {
+                   content: "../../../..",
+                   position: (129, 21),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  Inherit(
+                   Some(
+                    Variable {
+                     identifier: "pkgs",
+                     position: (129, 44),
+                    },
+                   ),
+                   [
+                    Raw {
+                     content: "system",
+                     position: (129, 50),
+                    },
+                   ],
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "fsType",
+                 position: (131, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "ext4",
+                 position: (131, 17),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "partitionTableType",
+                 position: (132, 7),
+                },
+               ],
+              },
+              IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (132, 31),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ec2",
+                   position: (132, 38),
+                  },
+                  Raw {
+                   content: "efi",
+                   position: (132, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "efi",
+                  position: (132, 52),
+                 },
+                ],
+               },
+               else_: IfThenElse {
+                predicate: PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (133, 36),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ec2",
+                    position: (133, 43),
+                   },
+                   Raw {
+                    content: "hvm",
+                    position: (133, 47),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                then: String {
+                 parts: [
+                  Raw {
+                   content: "legacy+gpt",
+                   position: (133, 57),
+                  },
+                 ],
+                },
+                else_: String {
+                 parts: [
+                  Raw {
+                   content: "none",
+                   position: (134, 34),
+                  },
+                 ],
+                },
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "diskSize",
+                 position: (136, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (136, 18),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sizeMB",
+                  position: (136, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "postVM",
+                 position: (138, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: " extension=",
+                 position: (139, 1),
+                },
+                Raw {
+                 content: "$",
+                 position: (139, 19),
+                },
+                Raw {
+                 content: "{diskImage##*.}\n friendlyName=$out/",
+                 position: (139, 22),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (140, 29),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "name",
+                     position: (140, 33),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: ".$extension\n mv \"$diskImage\" \"$friendlyName\"\n diskImage=$friendlyName\n\n mkdir -p $out/nix-support\n echo \"file ",
+                 position: (140, 38),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (145, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "format",
+                     position: (145, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: " $diskImage\" >> $out/nix-support/hydra-build-products\n\n",
+                 position: (145, 33),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (147, 10),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "jq",
+                     position: (147, 15),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/jq -n \\\n  --arg system_label ",
+                 position: (147, 18),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (148, 31),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArg",
+                      position: (148, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (148, 50),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "system",
+                       position: (148, 57),
+                      },
+                      Raw {
+                       content: "nixos",
+                       position: (148, 64),
+                      },
+                      Raw {
+                       content: "label",
+                       position: (148, 70),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: " \\\n  --arg system ",
+                 position: (148, 76),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (149, 25),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArg",
+                      position: (149, 29),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (149, 44),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "stdenv",
+                       position: (149, 49),
+                      },
+                      Raw {
+                       content: "hostPlatform",
+                       position: (149, 56),
+                      },
+                      Raw {
+                       content: "system",
+                       position: (149, 69),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: " \\\n  --arg logical_bytes \"$(",
+                 position: (149, 76),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (150, 35),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "qemu",
+                     position: (150, 40),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/qemu-img info --output json \"$diskImage\" | ",
+                 position: (150, 45),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (150, 95),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "jq",
+                     position: (150, 100),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/jq '.\"virtual-size\"')\" \\\n  --arg boot_mode \"",
+                 position: (150, 103),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "amiBootMode",
+                  position: (151, 29),
+                 },
+                },
+                Raw {
+                 content: "\" \\\n  --arg file \"$diskImage\" \\\n   '{}\n   | .label = $system_label\n   | .boot_mode = $boot_mode\n   | .system = $system\n   | .logical_bytes = $logical_bytes\n   | .file = $file\n   | .disks.root.logical_bytes = $logical_bytes\n   | .disks.root.file = $file\n   ' > $out/nix-support/image-info.json\n",
+                 position: (151, 41),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       target: IfThenElse {
+        predicate: PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (164, 9),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "ec2",
+            position: (164, 16),
+           },
+           Raw {
+            content: "zfs",
+            position: (164, 20),
+           },
+           Raw {
+            content: "enable",
+            position: (164, 24),
+           },
+          ],
+         },
+         default: None,
+        },
+        then: Variable {
+         identifier: "zfsBuilder",
+         position: (164, 36),
+        },
+        else_: Variable {
+         identifier: "extBuilder",
+         position: (164, 52),
+        },
+       },
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

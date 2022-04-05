@@ -1,0 +1,2423 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (5, 16),
+        },
+        Raw {
+         content: "undervolt",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "mkPLimit",
+        position: (7, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "limit",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: Some(
+        "window",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: IfThenElse {
+        predicate: BinaryOperation {
+         operator: LogicalAnd,
+         operands: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "isNull",
+            position: (8, 9),
+           },
+           arguments: [
+            Variable {
+             identifier: "limit",
+             position: (8, 16),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "isNull",
+            position: (8, 25),
+           },
+           arguments: [
+            Variable {
+             identifier: "window",
+             position: (8, 32),
+            },
+           ],
+          },
+         ],
+        },
+        then: Variable {
+         identifier: "null",
+         position: (8, 45),
+        },
+        else_: Assert {
+         expression: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "asserts",
+            position: (9, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "assertMsg",
+              position: (9, 25),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           BinaryOperation {
+            operator: LogicalAnd,
+            operands: [
+             UnaryOperation {
+              operator: Not,
+              operand: FunctionApplication {
+               function: Variable {
+                identifier: "isNull",
+                position: (9, 37),
+               },
+               arguments: [
+                Variable {
+                 identifier: "limit",
+                 position: (9, 44),
+                },
+               ],
+              },
+             },
+             UnaryOperation {
+              operator: Not,
+              operand: FunctionApplication {
+               function: Variable {
+                identifier: "isNull",
+                position: (9, 54),
+               },
+               arguments: [
+                Variable {
+                 identifier: "window",
+                 position: (9, 61),
+                },
+               ],
+              },
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "Both power limit and window must be set",
+              position: (9, 70),
+             },
+            ],
+           },
+          ],
+         },
+         target: String {
+          parts: [
+           Expression {
+            expression: FunctionApplication {
+             function: Variable {
+              identifier: "toString",
+              position: (10, 10),
+             },
+             arguments: [
+              Variable {
+               identifier: "limit",
+               position: (10, 19),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: " ",
+            position: (10, 25),
+           },
+           Expression {
+            expression: FunctionApplication {
+             function: Variable {
+              identifier: "toString",
+              position: (10, 28),
+             },
+             arguments: [
+              Variable {
+               identifier: "window",
+               position: (10, 37),
+              },
+             ],
+            },
+           },
+          ],
+         },
+        },
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cliArgs",
+        position: (11, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (11, 13),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "cli",
+          position: (11, 17),
+         },
+         Raw {
+          content: "toGNUCommandLine",
+          position: (11, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+       Map {
+        bindings: [
+         Inherit(
+          Some(
+           Variable {
+            identifier: "cfg",
+            position: (12, 14),
+           },
+          ),
+          [
+           Raw {
+            content: "verbose",
+            position: (13, 7),
+           },
+           Raw {
+            content: "temp",
+            position: (14, 7),
+           },
+          ],
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "core",
+             position: (21, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (21, 12),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "coreOffset",
+              position: (21, 16),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "cache",
+             position: (22, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (22, 13),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "coreOffset",
+              position: (22, 17),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "gpu",
+             position: (23, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (23, 11),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "gpuOffset",
+              position: (23, 15),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "uncore",
+             position: (24, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (24, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "uncoreOffset",
+              position: (24, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "analogio",
+             position: (25, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (25, 16),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "analogioOffset",
+              position: (25, 20),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "temp-bat",
+             position: (27, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (27, 16),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "tempBat",
+              position: (27, 20),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "temp-ac",
+             position: (28, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (28, 15),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "tempAc",
+              position: (28, 19),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "power-limit-long",
+             position: (30, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkPLimit",
+            position: (30, 24),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (30, 33),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "p1",
+                position: (30, 37),
+               },
+               Raw {
+                content: "limit",
+                position: (30, 40),
+               },
+              ],
+             },
+             default: None,
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (30, 46),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "p1",
+                position: (30, 50),
+               },
+               Raw {
+                content: "window",
+                position: (30, 53),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "power-limit-short",
+             position: (31, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkPLimit",
+            position: (31, 25),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (31, 34),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "p2",
+                position: (31, 38),
+               },
+               Raw {
+                content: "limit",
+                position: (31, 41),
+               },
+              ],
+             },
+             default: None,
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (31, 47),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "p2",
+                position: (31, 51),
+               },
+               Raw {
+                content: "window",
+                position: (31, 54),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (35, 3),
+        },
+        Raw {
+         content: "services",
+         position: (35, 11),
+        },
+        Raw {
+         content: "undervolt",
+         position: (35, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (36, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (36, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Undervolting service for Intel CPUs.\n\nWarning: This service is not endorsed by Intel and may permanently damage your hardware. Use at your own risk!\n",
+              position: (37, 1),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "verbose",
+            position: (42, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (42, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (43, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (43, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (43, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (44, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (44, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (45, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable verbose logging.\n",
+                 position: (46, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "package",
+            position: (50, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (50, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (51, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (51, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (51, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (52, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (52, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "undervolt",
+                  position: (52, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (53, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (53, 21),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.undervolt",
+                   position: (53, 40),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (54, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "undervolt derivation to use.\n",
+                 position: (55, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "coreOffset",
+            position: (59, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (59, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (60, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (60, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (60, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (60, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (60, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (61, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (61, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (62, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The amount of voltage in mV to offset the CPU cores by.\n",
+                 position: (63, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "gpuOffset",
+            position: (67, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (67, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (68, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (68, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (68, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (68, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (68, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (69, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (69, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (70, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The amount of voltage in mV to offset the GPU by.\n",
+                 position: (71, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "uncoreOffset",
+            position: (75, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (75, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (76, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (76, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (76, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (76, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (76, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (77, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (77, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (78, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The amount of voltage in mV to offset uncore by.\n",
+                 position: (79, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "analogioOffset",
+            position: (83, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (83, 22),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (84, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (84, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (84, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (84, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (84, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (85, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (85, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (86, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The amount of voltage in mV to offset analogio by.\n",
+                 position: (87, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "temp",
+            position: (91, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (91, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (92, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (92, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (92, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (92, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (92, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (93, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (93, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (94, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The temperature target in Celsius degrees.\n",
+                 position: (95, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "tempAc",
+            position: (99, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (99, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (100, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (100, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (100, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (100, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (100, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (101, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (101, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (102, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The temperature target on AC power in Celsius degrees.\n",
+                 position: (103, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "tempBat",
+            position: (107, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (107, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (108, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (108, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (108, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (108, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (108, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (109, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (109, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (110, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The temperature target on battery power in Celsius degrees.\n",
+                 position: (111, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "p1",
+            position: (115, 5),
+           },
+           Raw {
+            content: "limit",
+            position: (115, 8),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (115, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (116, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (116, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "nullOr",
+                 position: (116, 26),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "int",
+                  position: (116, 33),
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (117, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (117, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (118, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The P1 Power Limit in Watts.\nBoth limit and window must be set.\n",
+                 position: (119, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "p1",
+            position: (123, 5),
+           },
+           Raw {
+            content: "window",
+            position: (123, 8),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (123, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (124, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (124, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "nullOr",
+                 position: (124, 26),
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "oneOf",
+                   position: (124, 34),
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     Variable {
+                      identifier: "float",
+                      position: (124, 42),
+                     },
+                     Variable {
+                      identifier: "int",
+                      position: (124, 48),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (125, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (125, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (126, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The P1 Time Window in seconds.\nBoth limit and window must be set.\n",
+                 position: (127, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "p2",
+            position: (132, 5),
+           },
+           Raw {
+            content: "limit",
+            position: (132, 8),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (132, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (133, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (133, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "nullOr",
+                 position: (133, 26),
+                },
+                arguments: [
+                 Variable {
+                  identifier: "int",
+                  position: (133, 33),
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (134, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (134, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (135, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The P2 Power Limit in Watts.\nBoth limit and window must be set.\n",
+                 position: (136, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "p2",
+            position: (140, 5),
+           },
+           Raw {
+            content: "window",
+            position: (140, 8),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (140, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (141, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (141, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "nullOr",
+                 position: (141, 26),
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "oneOf",
+                   position: (141, 34),
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     Variable {
+                      identifier: "float",
+                      position: (141, 42),
+                     },
+                     Variable {
+                      identifier: "int",
+                      position: (141, 48),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (142, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (142, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (143, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The P2 Time Window in seconds.\nBoth limit and window must be set.\n",
+                 position: (144, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "useTimer",
+            position: (149, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (149, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (150, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (150, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (150, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (151, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (151, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (152, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to set a timer that applies the undervolt settings every 30s.\nThis will cause spam in the journal but might be required for some\nhardware under specific conditions.\nEnable this if your undervolt settings don't hold.\n",
+                 position: (153, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (161, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (161, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (161, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (161, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (162, 5),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (162, 10),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "msr",
+                position: (162, 29),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (164, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (164, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (164, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (164, 40),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (166, 5),
+             },
+             Raw {
+              content: "services",
+              position: (166, 13),
+             },
+             Raw {
+              content: "undervolt",
+              position: (166, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (167, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Intel Undervolting Service",
+                 position: (167, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (170, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (170, 21),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "post-resume.target",
+                   position: (170, 41),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (171, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "post-resume.target",
+                   position: (171, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (173, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Type",
+                    position: (174, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "oneshot",
+                    position: (174, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Restart",
+                    position: (175, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "no",
+                    position: (175, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (176, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (176, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "package",
+                        position: (176, 28),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/undervolt ",
+                    position: (176, 36),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "toString",
+                      position: (176, 53),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "cliArgs",
+                       position: (176, 62),
+                      },
+                     ],
+                    },
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (180, 5),
+             },
+             Raw {
+              content: "timers",
+              position: (180, 13),
+             },
+             Raw {
+              content: "undervolt",
+              position: (180, 20),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (180, 32),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (180, 37),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "useTimer",
+                 position: (180, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (181, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Undervolt timer to ensure voltage settings are always applied",
+                   position: (181, 22),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "partOf",
+                   position: (182, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "undervolt.service",
+                     position: (182, 19),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "wantedBy",
+                   position: (183, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "multi-user.target",
+                     position: (183, 21),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "timerConfig",
+                   position: (184, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "OnBootSec",
+                      position: (185, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "2min",
+                      position: (185, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "OnUnitActiveSec",
+                      position: (186, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "30",
+                      position: (186, 28),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

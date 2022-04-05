@@ -1,0 +1,1975 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (2, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (4, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (4, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (4, 16),
+        },
+        Raw {
+         content: "printers",
+         position: (4, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ppdOptionsString",
+        position: (5, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "options",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "optionalString",
+        position: (5, 31),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: NotEqualTo,
+         operands: [
+          Variable {
+           identifier: "options",
+           position: (5, 47),
+          },
+          Map {
+           bindings: [],
+           recursive: false,
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "concatStringsSep",
+          position: (6, 6),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: " ",
+             position: (6, 24),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mapAttrsToList",
+            position: (7, 8),
+           },
+           arguments: [
+            Function {
+             argument: Some(
+              "name",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: Function {
+              argument: Some(
+               "value",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: String {
+               parts: [
+                Raw {
+                 content: "-o '",
+                 position: (7, 38),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "name",
+                  position: (7, 44),
+                 },
+                },
+                Raw {
+                 content: "'='",
+                 position: (7, 49),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "value",
+                  position: (7, 54),
+                 },
+                },
+                Raw {
+                 content: "'",
+                 position: (7, 60),
+                },
+               ],
+              },
+             },
+            },
+            Variable {
+             identifier: "options",
+             position: (7, 64),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ensurePrinter",
+        position: (9, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "p",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: String {
+       parts: [
+        Raw {
+         content: "",
+         position: (10, 1),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (10, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "cups",
+             position: (10, 12),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "/bin/lpadmin -p ",
+         position: (10, 17),
+        },
+        Raw {
+         content: "'",
+         position: (10, 33),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "p",
+           position: (10, 36),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (10, 38),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "' -E \\\n  ",
+         position: (10, 43),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "optionalString",
+           position: (11, 9),
+          },
+          arguments: [
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "p",
+               position: (11, 25),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "location",
+                 position: (11, 27),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "null",
+              position: (11, 39),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-L '",
+              position: (11, 46),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "p",
+                position: (11, 52),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "location",
+                  position: (11, 54),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "'",
+              position: (11, 63),
+             },
+            ],
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " \\\n  ",
+         position: (11, 66),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "optionalString",
+           position: (12, 9),
+          },
+          arguments: [
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "p",
+               position: (12, 25),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (12, 27),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "null",
+              position: (12, 42),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-D '",
+              position: (12, 49),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "p",
+                position: (12, 55),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (12, 57),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "'",
+              position: (12, 69),
+             },
+            ],
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " \\\n  -v ",
+         position: (12, 72),
+        },
+        Raw {
+         content: "'",
+         position: (13, 10),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "p",
+           position: (13, 13),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "deviceUri",
+             position: (13, 15),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "' \\\n  -m ",
+         position: (13, 25),
+        },
+        Raw {
+         content: "'",
+         position: (14, 10),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "p",
+           position: (14, 13),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "model",
+             position: (14, 15),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "' \\\n  ",
+         position: (14, 21),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "ppdOptionsString",
+           position: (15, 9),
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "p",
+             position: (15, 26),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "ppdOptions",
+               position: (15, 28),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        },
+        Raw {
+         content: "\n",
+         position: (15, 39),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ensureDefaultPrinter",
+        position: (17, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: String {
+       parts: [
+        Raw {
+         content: "",
+         position: (18, 1),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (18, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "cups",
+             position: (18, 12),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "/bin/lpadmin -d ",
+         position: (18, 17),
+        },
+        Raw {
+         content: "'",
+         position: (18, 33),
+        },
+        Expression {
+         expression: Variable {
+          identifier: "name",
+          position: (18, 36),
+         },
+        },
+        Raw {
+         content: "'\n",
+         position: (18, 41),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "noInvalidChars",
+        position: (22, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "str",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "all",
+        position: (22, 25),
+       },
+       arguments: [
+        Function {
+         argument: Some(
+          "c",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: BinaryOperation {
+          operator: LogicalAnd,
+          operands: [
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             Variable {
+              identifier: "c",
+              position: (22, 33),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "#",
+                position: (22, 39),
+               },
+              ],
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             Variable {
+              identifier: "c",
+              position: (22, 45),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "/",
+                position: (22, 51),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "stringToCharacters",
+          position: (22, 56),
+         },
+         arguments: [
+          Variable {
+           identifier: "str",
+           position: (22, 75),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "printerName",
+        position: (23, 3),
+       },
+      ],
+     },
+     BinaryOperation {
+      operator: Update,
+      operands: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "types",
+          position: (23, 18),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "addCheck",
+            position: (23, 24),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "types",
+            position: (23, 34),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "strMatching",
+              position: (23, 40),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "[[:graph:]]+",
+              position: (23, 53),
+             },
+            ],
+           },
+          ],
+         },
+         Variable {
+          identifier: "noInvalidChars",
+          position: (23, 68),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "description",
+             position: (24, 10),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "printable string without spaces, # and /",
+             position: (24, 25),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (28, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "hardware",
+            position: (29, 5),
+           },
+           Raw {
+            content: "printers",
+            position: (29, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ensureDefaultPrinter",
+               position: (30, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (30, 30),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (31, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (31, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (31, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "printerName",
+                    position: (31, 29),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (32, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (32, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (33, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Ensures the named printer is the default CUPS printer / printer queue.\n",
+                    position: (34, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ensurePrinters",
+               position: (37, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (37, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (38, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Will regularly ensure that the given CUPS printers are configured as declared here.\nIf a printer's options are manually changed afterwards, they will be overwritten eventually.\nThis option will never delete any printer, even if removed from this list.\nYou can check existing printers with <command>lpstat -s</command>\nand remove printers with <command>lpadmin -x &lt;printer-name&gt;</command>.\nPrinters not listed here can still be manually configured.\n",
+                    position: (39, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (46, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (47, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (47, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (47, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (47, 30),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "submodule",
+                        position: (47, 36),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "options",
+                           position: (48, 11),
+                          },
+                         ],
+                        },
+                        Map {
+                         bindings: [
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "name",
+                              position: (49, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (49, 20),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (50, 15),
+                                  },
+                                 ],
+                                },
+                                Variable {
+                                 identifier: "printerName",
+                                 position: (50, 22),
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (51, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "BrotherHL_Workroom",
+                                   position: (51, 26),
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (52, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Name of the printer / printer queue.\nMay contain any printable characters except \"/\", \"#\", and space.\n",
+                                   position: (53, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "location",
+                              position: (57, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (57, 24),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (58, 15),
+                                  },
+                                 ],
+                                },
+                                FunctionApplication {
+                                 function: PropertyAccess {
+                                  expression: Variable {
+                                   identifier: "types",
+                                   position: (58, 22),
+                                  },
+                                  attribute_path: AttributePath {
+                                   attributes: [
+                                    Raw {
+                                     content: "nullOr",
+                                     position: (58, 28),
+                                    },
+                                   ],
+                                  },
+                                  default: None,
+                                 },
+                                 arguments: [
+                                  PropertyAccess {
+                                   expression: Variable {
+                                    identifier: "types",
+                                    position: (58, 35),
+                                   },
+                                   attribute_path: AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "str",
+                                      position: (58, 41),
+                                     },
+                                    ],
+                                   },
+                                   default: None,
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "default",
+                                   position: (59, 15),
+                                  },
+                                 ],
+                                },
+                                Variable {
+                                 identifier: "null",
+                                 position: (59, 25),
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (60, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Workroom",
+                                   position: (60, 26),
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (61, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Optional human-readable location.\n",
+                                   position: (62, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "description",
+                              position: (65, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (65, 27),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (66, 15),
+                                  },
+                                 ],
+                                },
+                                FunctionApplication {
+                                 function: PropertyAccess {
+                                  expression: Variable {
+                                   identifier: "types",
+                                   position: (66, 22),
+                                  },
+                                  attribute_path: AttributePath {
+                                   attributes: [
+                                    Raw {
+                                     content: "nullOr",
+                                     position: (66, 28),
+                                    },
+                                   ],
+                                  },
+                                  default: None,
+                                 },
+                                 arguments: [
+                                  PropertyAccess {
+                                   expression: Variable {
+                                    identifier: "types",
+                                    position: (66, 35),
+                                   },
+                                   attribute_path: AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "str",
+                                      position: (66, 41),
+                                     },
+                                    ],
+                                   },
+                                   default: None,
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "default",
+                                   position: (67, 15),
+                                  },
+                                 ],
+                                },
+                                Variable {
+                                 identifier: "null",
+                                 position: (67, 25),
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (68, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Brother HL-5140",
+                                   position: (68, 26),
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (69, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Optional human-readable description.\n",
+                                   position: (70, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "deviceUri",
+                              position: (73, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (73, 25),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (74, 15),
+                                  },
+                                 ],
+                                },
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "types",
+                                  position: (74, 22),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "str",
+                                    position: (74, 28),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (75, 15),
+                                  },
+                                 ],
+                                },
+                                FunctionApplication {
+                                 function: Variable {
+                                  identifier: "literalExpression",
+                                  position: (75, 25),
+                                 },
+                                 arguments: [
+                                  String {
+                                   parts: [
+                                    Raw {
+                                     content: "\"ipp://printserver.local/printers/BrotherHL_Workroom\"\n\"usb://HP/DESKJET%20940C?serial=CN16E6C364BH\"\n",
+                                     position: (76, 1),
+                                    },
+                                   ],
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (79, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "How to reach the printer.\n<command>lpinfo -v</command> shows a list of supported device URIs and schemes.\n",
+                                   position: (80, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "model",
+                              position: (84, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (84, 21),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (85, 15),
+                                  },
+                                 ],
+                                },
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "types",
+                                  position: (85, 22),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "str",
+                                    position: (85, 28),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (86, 15),
+                                  },
+                                 ],
+                                },
+                                FunctionApplication {
+                                 function: Variable {
+                                  identifier: "literalExpression",
+                                  position: (86, 25),
+                                 },
+                                 arguments: [
+                                  String {
+                                   parts: [
+                                    Raw {
+                                     content: "\"gutenprint.",
+                                     position: (87, 1),
+                                    },
+                                    Raw {
+                                     content: "$",
+                                     position: (87, 29),
+                                    },
+                                    Raw {
+                                     content: "{lib.versions.majorMinor (lib.getVersion pkgs.gutenprint)}://brother-hl-5140/expert\"\n",
+                                     position: (87, 32),
+                                    },
+                                   ],
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (89, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Location of the ppd driver file for the printer.\n<command>lpinfo -m</command> shows a list of supported models.\n",
+                                   position: (90, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "ppdOptions",
+                              position: (94, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (94, 26),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (95, 15),
+                                  },
+                                 ],
+                                },
+                                FunctionApplication {
+                                 function: PropertyAccess {
+                                  expression: Variable {
+                                   identifier: "types",
+                                   position: (95, 22),
+                                  },
+                                  attribute_path: AttributePath {
+                                   attributes: [
+                                    Raw {
+                                     content: "attrsOf",
+                                     position: (95, 28),
+                                    },
+                                   ],
+                                  },
+                                  default: None,
+                                 },
+                                 arguments: [
+                                  PropertyAccess {
+                                   expression: Variable {
+                                    identifier: "types",
+                                    position: (95, 36),
+                                   },
+                                   attribute_path: AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "str",
+                                      position: (95, 42),
+                                     },
+                                    ],
+                                   },
+                                   default: None,
+                                  },
+                                 ],
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "example",
+                                   position: (96, 15),
+                                  },
+                                 ],
+                                },
+                                Map {
+                                 bindings: [
+                                  KeyValue(
+                                   AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "PageSize",
+                                      position: (97, 17),
+                                     },
+                                    ],
+                                   },
+                                   String {
+                                    parts: [
+                                     Raw {
+                                      content: "A4",
+                                      position: (97, 29),
+                                     },
+                                    ],
+                                   },
+                                  ),
+                                  KeyValue(
+                                   AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "Duplex",
+                                      position: (98, 17),
+                                     },
+                                    ],
+                                   },
+                                   String {
+                                    parts: [
+                                     Raw {
+                                      content: "DuplexNoTumble",
+                                      position: (98, 27),
+                                     },
+                                    ],
+                                   },
+                                  ),
+                                 ],
+                                 recursive: false,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "default",
+                                   position: (100, 15),
+                                  },
+                                 ],
+                                },
+                                Map {
+                                 bindings: [],
+                                 recursive: false,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (101, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Sets PPD options for the printer.\n<command>lpoptions [-p printername] -l</command> shows suported PPD options for the given printer.\n",
+                                   position: (102, 1),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                         ],
+                         recursive: false,
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (112, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (112, 12),
+       },
+       arguments: [
+        BinaryOperation {
+         operator: LogicalAnd,
+         operands: [
+          BinaryOperation {
+           operator: NotEqualTo,
+           operands: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (112, 18),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "ensurePrinters",
+                position: (112, 22),
+               },
+              ],
+             },
+             default: None,
+            },
+            List {
+             elements: [],
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (112, 46),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (112, 53),
+             },
+             Raw {
+              content: "printing",
+              position: (112, 62),
+             },
+             Raw {
+              content: "enable",
+              position: (112, 71),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (113, 5),
+             },
+             Raw {
+              content: "services",
+              position: (113, 13),
+             },
+             Raw {
+              content: "ensure-printers",
+              position: (113, 22),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "cupsUnit",
+                 position: (114, 7),
+                },
+               ],
+              },
+              IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (114, 21),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "services",
+                   position: (114, 28),
+                  },
+                  Raw {
+                   content: "printing",
+                   position: (114, 37),
+                  },
+                  Raw {
+                   content: "startWhenNeeded",
+                   position: (114, 46),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "cups.socket",
+                  position: (114, 68),
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "cups.service",
+                  position: (114, 87),
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            target: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "description",
+                  position: (116, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "Ensure NixOS-configured CUPS printers",
+                  position: (116, 22),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "wantedBy",
+                  position: (117, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "multi-user.target",
+                    position: (117, 21),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "requires",
+                  position: (118, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Variable {
+                  identifier: "cupsUnit",
+                  position: (118, 20),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "after",
+                  position: (119, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Variable {
+                  identifier: "cupsUnit",
+                  position: (119, 17),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "serviceConfig",
+                  position: (121, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "Type",
+                     position: (122, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "oneshot",
+                     position: (122, 17),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "RemainAfterExit",
+                     position: (123, 9),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "true",
+                   position: (123, 27),
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "script",
+                  position: (126, 7),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Addition,
+                operands: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "concatMapStringsSep",
+                   position: (126, 16),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\n",
+                      position: (126, 37),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "ensurePrinter",
+                    position: (126, 41),
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (126, 55),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "ensurePrinters",
+                       position: (126, 59),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optionalString",
+                   position: (127, 11),
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (127, 27),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "ensureDefaultPrinter",
+                         position: (127, 31),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Variable {
+                      identifier: "null",
+                      position: (127, 55),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "ensureDefaultPrinter",
+                     position: (127, 62),
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (127, 83),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "ensureDefaultPrinter",
+                         position: (127, 87),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

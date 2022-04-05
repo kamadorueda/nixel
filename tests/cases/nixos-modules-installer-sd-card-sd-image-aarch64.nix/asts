@@ -1,0 +1,464 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: Map {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "imports",
+       position: (6, 3),
+      },
+     ],
+    },
+    List {
+     elements: [
+      Path {
+       parts: [
+        Raw {
+         content: "../../profiles/base.nix",
+         position: (7, 5),
+        },
+       ],
+      },
+      Path {
+       parts: [
+        Raw {
+         content: "./sd-image.nix",
+         position: (8, 5),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "boot",
+       position: (11, 3),
+      },
+      Raw {
+       content: "loader",
+       position: (11, 8),
+      },
+      Raw {
+       content: "grub",
+       position: (11, 15),
+      },
+      Raw {
+       content: "enable",
+       position: (11, 20),
+      },
+     ],
+    },
+    Variable {
+     identifier: "false",
+     position: (11, 29),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "boot",
+       position: (12, 3),
+      },
+      Raw {
+       content: "loader",
+       position: (12, 8),
+      },
+      Raw {
+       content: "generic-extlinux-compatible",
+       position: (12, 15),
+      },
+      Raw {
+       content: "enable",
+       position: (12, 43),
+      },
+     ],
+    },
+    Variable {
+     identifier: "true",
+     position: (12, 52),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "boot",
+       position: (14, 3),
+      },
+      Raw {
+       content: "consoleLogLevel",
+       position: (14, 8),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "lib",
+       position: (14, 26),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "mkDefault",
+         position: (14, 30),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Int {
+       value: 7,
+       position: (14, 40),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "boot",
+       position: (19, 3),
+      },
+      Raw {
+       content: "kernelParams",
+       position: (19, 8),
+      },
+     ],
+    },
+    List {
+     elements: [
+      String {
+       parts: [
+        Raw {
+         content: "console=ttyS0,115200n8",
+         position: (19, 25),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "console=ttyAMA0,115200n8",
+         position: (19, 50),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "console=tty0",
+         position: (19, 77),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "sdImage",
+       position: (21, 3),
+      },
+     ],
+    },
+    Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "populateFirmwareCommands",
+          position: (22, 5),
+         },
+        ],
+       },
+       LetIn {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "configTxt",
+             position: (23, 7),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (23, 19),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "writeText",
+               position: (23, 24),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "config.txt",
+               position: (23, 35),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "[pi3]\nkernel=u-boot-rpi3.bin\n\n[pi02]\nkernel=u-boot-rpi3.bin\n\n[pi4]\nkernel=u-boot-rpi4.bin\nenable_gic=1\narmstub=armstub8-gic.bin\n\n# Otherwise the resolution will be weird in most cases, compared to\n# what the pi3 firmware does by default.\ndisable_overscan=1\n\n# Supported in newer board revisions\narm_boost=1\n\n[all]\n# Boot in 64-bit mode.\narm_64bit=1\n\n# U-Boot needs this to work, regardless of whether UART is actually used or not.\n# Look in arch/arm/mach-bcm283x/Kconfig in the U-Boot tree to see if this is still\n# a requirement in the future.\nenable_uart=1\n\n# Prevent the firmware from smashing the framebuffer setup done by the mainline kernel\n# when attempting to show low-voltage or overtemperature warnings.\navoid_warnings=1\n",
+               position: (24, 1),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        target: String {
+         parts: [
+          Raw {
+           content: "(cd ",
+           position: (56, 1),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (56, 15),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "raspberrypifw",
+               position: (56, 20),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $NIX_BUILD_TOP/firmware/)\n\n# Add the config\ncp ",
+           position: (56, 34),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "configTxt",
+            position: (59, 14),
+           },
+          },
+          Raw {
+           content: " firmware/config.txt\n\n# Add pi3 specific files\ncp ",
+           position: (59, 24),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (62, 14),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "ubootRaspberryPi3_64bit",
+               position: (62, 19),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/u-boot.bin firmware/u-boot-rpi3.bin\n\n# Add pi4 specific files\ncp ",
+           position: (62, 43),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (65, 14),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "ubootRaspberryPi4_64bit",
+               position: (65, 19),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/u-boot.bin firmware/u-boot-rpi4.bin\ncp ",
+           position: (65, 43),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (66, 14),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "raspberrypi-armstubs",
+               position: (66, 19),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/armstub8-gic.bin firmware/armstub8-gic.bin\ncp ",
+           position: (66, 40),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (67, 14),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "raspberrypifw",
+               position: (67, 19),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb firmware/\n",
+           position: (67, 33),
+          },
+         ],
+        },
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "populateRootCommands",
+          position: (69, 5),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p ./files/boot\n",
+          position: (70, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (71, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (71, 16),
+             },
+             Raw {
+              content: "loader",
+              position: (71, 21),
+             },
+             Raw {
+              content: "generic-extlinux-compatible",
+              position: (71, 28),
+             },
+             Raw {
+              content: "populateCmd",
+              position: (71, 56),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " -c ",
+          position: (71, 68),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (71, 74),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (71, 81),
+             },
+             Raw {
+              content: "build",
+              position: (71, 88),
+             },
+             Raw {
+              content: "toplevel",
+              position: (71, 94),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " -d ./files/boot\n",
+          position: (71, 103),
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   ),
+  ],
+  recursive: false,
+ },
+}

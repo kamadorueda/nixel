@@ -1,0 +1,408 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "fakeroot",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "perl",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "libfaketime",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "e2fsprogs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "uuid",
+    default: Some(
+     String {
+      parts: [
+       Raw {
+        content: "44444444-4444-4444-8888-888888888888",
+        position: (16, 11),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "volumeLabel",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "populateImageCommands",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "zstd",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "compressImage",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (11, 19),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "storePaths",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "sdClosureInfo",
+       position: (24, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (24, 19),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "buildPackages",
+         position: (24, 24),
+        },
+        Raw {
+         content: "closureInfo",
+         position: (24, 38),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "rootPaths",
+            position: (24, 52),
+           },
+          ],
+         },
+         Variable {
+          identifier: "storePaths",
+          position: (24, 64),
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+  ],
+  target: FunctionApplication {
+   function: PropertyAccess {
+    expression: Variable {
+     identifier: "pkgs",
+     position: (26, 1),
+    },
+    attribute_path: AttributePath {
+     attributes: [
+      Raw {
+       content: "stdenv",
+       position: (26, 6),
+      },
+      Raw {
+       content: "mkDerivation",
+       position: (26, 13),
+      },
+     ],
+    },
+    default: None,
+   },
+   arguments: [
+    Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "name",
+          position: (27, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "ext4-fs.img",
+          position: (27, 11),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "lib",
+             position: (27, 24),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "optionalString",
+               position: (27, 28),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "compressImage",
+             position: (27, 43),
+            },
+            String {
+             parts: [
+              Raw {
+               content: ".zst",
+               position: (27, 58),
+              },
+             ],
+            },
+           ],
+          },
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "nativeBuildInputs",
+          position: (29, 3),
+         },
+        ],
+       },
+       BinaryOperation {
+        operator: Concatenation,
+        operands: [
+         List {
+          elements: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "e2fsprogs",
+             position: (29, 25),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "bin",
+               position: (29, 35),
+              },
+             ],
+            },
+            default: None,
+           },
+           Variable {
+            identifier: "libfaketime",
+            position: (29, 39),
+           },
+           Variable {
+            identifier: "perl",
+            position: (29, 51),
+           },
+           Variable {
+            identifier: "fakeroot",
+            position: (29, 56),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (30, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "optional",
+              position: (30, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           Variable {
+            identifier: "compressImage",
+            position: (30, 19),
+           },
+           Variable {
+            identifier: "zstd",
+            position: (30, 33),
+           },
+          ],
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "buildCommand",
+          position: (32, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "",
+          position: (34, 1),
+         },
+         Expression {
+          expression: IfThenElse {
+           predicate: Variable {
+            identifier: "compressImage",
+            position: (34, 12),
+           },
+           then: String {
+            parts: [
+             Raw {
+              content: "img=temp.img",
+              position: (34, 32),
+             },
+            ],
+           },
+           else_: String {
+            parts: [
+             Raw {
+              content: "img=$out",
+              position: (34, 52),
+             },
+            ],
+           },
+          },
+         },
+         Raw {
+          content: "\n(\nmkdir -p ./files\n",
+          position: (34, 62),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "populateImageCommands",
+           position: (37, 9),
+          },
+         },
+         Raw {
+          content: "\n)\n\necho \"Preparing store paths for image...\"\n\n# Create nix/store before copying path\nmkdir -p ./rootImage/nix/store\n\nxargs -I % cp -a --reflink=auto % -t ./rootImage/nix/store/ < ",
+          position: (37, 31),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "sdClosureInfo",
+           position: (45, 71),
+          },
+         },
+         Raw {
+          content: "/store-paths\n(\n  GLOBIGNORE=\".:..\"\n  shopt -u dotglob\n\n  for f in ./files/*; do\n      cp -a --reflink=auto -t ./rootImage/ \"$f\"\n  done\n)\n\n# Also include a manifest of the closures in a format suitable for nix-store --load-db\ncp ",
+          position: (45, 85),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "sdClosureInfo",
+           position: (56, 12),
+          },
+         },
+         Raw {
+          content: "/registration ./rootImage/nix-path-registration\n\n# Make a crude approximation of the size of the target image.\n# If the script starts failing, increase the fudge factors here.\nnumInodes=$(find ./rootImage | wc -l)\nnumDataBlocks=$(du -s -c -B 4096 --apparent-size ./rootImage | tail -1 | awk '{ print int($1 * 1.10) }')\nbytes=$((2 * 4096 * $numInodes + 4096 * $numDataBlocks))\necho \"Creating an EXT4 image of $bytes bytes (numInodes=$numInodes, numDataBlocks=$numDataBlocks)\"\n\ntruncate -s $bytes $img\n\nfaketime -f \"1970-01-01 00:00:01\" fakeroot mkfs.ext4 -L ",
+          position: (56, 26),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "volumeLabel",
+           position: (67, 65),
+          },
+         },
+         Raw {
+          content: " -U ",
+          position: (67, 77),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "uuid",
+           position: (67, 83),
+          },
+         },
+         Raw {
+          content: " -d ./rootImage $img\n\nexport EXT2FS_NO_MTAB_OK=yes\n# I have ended up with corrupted images sometimes, I suspect that happens when the build machine's disk gets full during the build.\nif ! fsck.ext4 -n -f $img; then\n  echo \"--- Fsck failed for EXT4 image of $bytes bytes (numInodes=$numInodes, numDataBlocks=$numDataBlocks) ---\"\n  cat errorlog\n  return 1\nfi\n\n# We may want to shrink the file system and resize the image to\n# get rid of the unnecessary slack here--but see\n# https://github.com/NixOS/nixpkgs/issues/125121 for caveats.\n\nif [ ",
+          position: (67, 88),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (81, 14),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "toString",
+               position: (81, 23),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "compressImage",
+             position: (81, 32),
+            },
+           ],
+          },
+         },
+         Raw {
+          content: " ]; then\n  echo \"Compressing image\"\n  zstd -v --no-progress ./$img -o $out\nfi\n",
+          position: (81, 46),
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   ],
+  },
+ },
+}

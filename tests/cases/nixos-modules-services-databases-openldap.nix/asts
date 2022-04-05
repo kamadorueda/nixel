@@ -1,0 +1,5967 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (5, 16),
+        },
+        Raw {
+         content: "openldap",
+         position: (5, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "legacyOptions",
+        position: (6, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       String {
+        parts: [
+         Raw {
+          content: "rootpwFile",
+          position: (6, 22),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "suffix",
+          position: (6, 35),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "dataDir",
+          position: (6, 44),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "rootdn",
+          position: (6, 54),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "rootpw",
+          position: (6, 63),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "openldap",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "cfg",
+       position: (7, 14),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "package",
+         position: (7, 18),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configDir",
+        position: (8, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: BinaryOperation {
+       operator: NotEqualTo,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (8, 18),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "configDir",
+            position: (8, 22),
+           },
+          ],
+         },
+         default: None,
+        },
+        Variable {
+         identifier: "null",
+         position: (8, 35),
+        },
+       ],
+      },
+      then: PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (8, 45),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "configDir",
+          position: (8, 49),
+         },
+        ],
+       },
+       default: None,
+      },
+      else_: String {
+       parts: [
+        Raw {
+         content: "/etc/openldap/slapd.d",
+         position: (8, 65),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ldapValueType",
+        position: (10, 3),
+       },
+      ],
+     },
+     LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "singleLdapValueType",
+           position: (12, 5),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (12, 27),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mkOptionType",
+             position: (12, 31),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "name",
+                position: (13, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "LDAP",
+                position: (13, 15),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (14, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "LDAP value",
+                position: (14, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "check",
+                position: (15, 7),
+               },
+              ],
+             },
+             Function {
+              argument: Some(
+               "x",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: BinaryOperation {
+               operator: LogicalOr,
+               operands: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (15, 18),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "isString",
+                     position: (15, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "x",
+                   position: (15, 31),
+                  },
+                 ],
+                },
+                BinaryOperation {
+                 operator: LogicalAnd,
+                 operands: [
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (15, 37),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "isAttrs",
+                       position: (15, 41),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "x",
+                     position: (15, 49),
+                    },
+                   ],
+                  },
+                  BinaryOperation {
+                   operator: LogicalOr,
+                   operands: [
+                    HasProperty {
+                     expression: Variable {
+                      identifier: "x",
+                      position: (15, 55),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "path",
+                        position: (15, 59),
+                       },
+                      ],
+                     },
+                    },
+                    HasProperty {
+                     expression: Variable {
+                      identifier: "x",
+                      position: (15, 67),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "base64",
+                        position: (15, 71),
+                       },
+                      ],
+                     },
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "merge",
+                position: (16, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (16, 15),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mergeEqualOption",
+                 position: (16, 19),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+           ],
+           recursive: true,
+          },
+         ],
+        },
+       ),
+      ],
+      target: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "types",
+         position: (19, 6),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "either",
+           position: (19, 12),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Variable {
+         identifier: "singleLdapValueType",
+         position: (19, 19),
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "types",
+           position: (19, 40),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "listOf",
+             position: (19, 46),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Variable {
+           identifier: "singleLdapValueType",
+           position: (19, 53),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ldapAttrsType",
+        position: (21, 3),
+       },
+      ],
+     },
+     LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "options",
+           position: (23, 7),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "attrs",
+              position: (24, 9),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (24, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (25, 11),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (25, 18),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "attrsOf",
+                     position: (25, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "ldapValueType",
+                   position: (25, 32),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (26, 11),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (27, 11),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Attributes of the parent entry.",
+                   position: (27, 26),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "children",
+              position: (29, 9),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (29, 20),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (32, 11),
+                  },
+                 ],
+                },
+                LetIn {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "hiddenOptions",
+                      position: (33, 13),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "lib",
+                      position: (33, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "mapAttrs",
+                        position: (33, 33),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Function {
+                      argument: Some(
+                       "name",
+                      ),
+                      arguments: FunctionArguments {
+                       arguments: [],
+                       ellipsis: false,
+                      },
+                      definition: Function {
+                       argument: Some(
+                        "attr",
+                       ),
+                       arguments: FunctionArguments {
+                        arguments: [],
+                        ellipsis: false,
+                       },
+                       definition: BinaryOperation {
+                        operator: Update,
+                        operands: [
+                         Variable {
+                          identifier: "attr",
+                          position: (33, 55),
+                         },
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "visible",
+                               position: (33, 65),
+                              },
+                             ],
+                            },
+                            Variable {
+                             identifier: "false",
+                             position: (33, 75),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                      },
+                     },
+                     Variable {
+                      identifier: "options",
+                      position: (33, 85),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 target: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (34, 14),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "attrsOf",
+                      position: (34, 20),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (34, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "submodule",
+                        position: (34, 35),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "options",
+                           position: (34, 47),
+                          },
+                         ],
+                        },
+                        Variable {
+                         identifier: "hiddenOptions",
+                         position: (34, 57),
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (35, 11),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (36, 11),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Child entries of the current entry, with recursively the same structure.",
+                   position: (36, 26),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (37, 11),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (37, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "literalExpression",
+                     position: (37, 25),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "{\n    \"cn=schema\" = {\n    # The attribute used in the DN must be defined\n    attrs = { cn = \"schema\"; };\n    children = {\n        # This entry's DN is expanded to \"cn=foo,cn=schema\"\n        \"cn=foo\" = { ... };\n    };\n    # These includes are inserted after \"cn=schema\", but before \"cn=foo,cn=schema\"\n    includes = [ ... ];\n    };\n}\n",
+                     position: (38, 1),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "includes",
+              position: (52, 9),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (52, 20),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (53, 11),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (53, 18),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "listOf",
+                     position: (53, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (53, 31),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "path",
+                      position: (53, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (54, 11),
+                  },
+                 ],
+                },
+                List {
+                 elements: [],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (55, 11),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "LDIF files to include after the parent's attributes but before its children.\n",
+                   position: (56, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      target: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "types",
+         position: (60, 8),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "submodule",
+           position: (60, 14),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          Inherit(
+           None,
+           [
+            Raw {
+             content: "options",
+             position: (60, 34),
+            },
+           ],
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "valueToLdif",
+        position: (62, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "attr",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: Some(
+        "values",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: LetIn {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "listValues",
+             position: (63, 5),
+            },
+           ],
+          },
+          IfThenElse {
+           predicate: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (63, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "isList",
+                position: (63, 25),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "values",
+              position: (63, 32),
+             },
+            ],
+           },
+           then: Variable {
+            identifier: "values",
+            position: (63, 44),
+           },
+           else_: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (63, 56),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "singleton",
+                position: (63, 60),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "values",
+              position: (63, 70),
+             },
+            ],
+           },
+          },
+         ),
+        ],
+        target: FunctionApplication {
+         function: Variable {
+          identifier: "map",
+          position: (64, 6),
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "value",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: IfThenElse {
+            predicate: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (65, 8),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "isAttrs",
+                 position: (65, 12),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              Variable {
+               identifier: "value",
+               position: (65, 20),
+              },
+             ],
+            },
+            then: IfThenElse {
+             predicate: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (66, 10),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "hasAttr",
+                  position: (66, 14),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "path",
+                  position: (66, 23),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "value",
+                position: (66, 29),
+               },
+              ],
+             },
+             then: String {
+              parts: [
+               Expression {
+                expression: Variable {
+                 identifier: "attr",
+                 position: (67, 15),
+                },
+               },
+               Raw {
+                content: ":< file://",
+                position: (67, 20),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "value",
+                  position: (67, 32),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "path",
+                    position: (67, 38),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+              ],
+             },
+             else_: String {
+              parts: [
+               Expression {
+                expression: Variable {
+                 identifier: "attr",
+                 position: (68, 15),
+                },
+               },
+               Raw {
+                content: ":: ",
+                position: (68, 20),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "value",
+                  position: (68, 25),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "base64",
+                    position: (68, 31),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+              ],
+             },
+            },
+            else_: String {
+             parts: [
+              Expression {
+               expression: Variable {
+                identifier: "attr",
+                position: (69, 13),
+               },
+              },
+              Raw {
+               content: ": ",
+               position: (69, 18),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (69, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "replaceStrings",
+                    position: (69, 26),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\n",
+                      position: (69, 44),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\n ",
+                      position: (69, 53),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "value",
+                  position: (69, 60),
+                 },
+                ],
+               },
+              },
+             ],
+            },
+           },
+          },
+          Variable {
+           identifier: "listValues",
+           position: (70, 5),
+          },
+         ],
+        },
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "attrsToLdif",
+        position: (72, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "dn",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: None,
+       arguments: FunctionArguments {
+        arguments: [
+         FunctionArgument {
+          identifier: "includes",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "children",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "attrs",
+          default: None,
+         },
+        ],
+        ellipsis: true,
+       },
+       definition: BinaryOperation {
+        operator: Concatenation,
+        operands: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "dn: ",
+              position: (73, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "dn",
+               position: (73, 11),
+              },
+             },
+             Raw {
+              content: "\n",
+              position: (73, 14),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (74, 7),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "concatStringsSep",
+                   position: (74, 11),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "\n",
+                   position: (74, 29),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (74, 34),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "flatten",
+                     position: (74, 38),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (74, 47),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "mapAttrsToList",
+                       position: (74, 51),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "valueToLdif",
+                     position: (74, 66),
+                    },
+                    Variable {
+                     identifier: "attrs",
+                     position: (74, 78),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\n",
+              position: (74, 86),
+             },
+            ],
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: Concatenation,
+          operands: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "map",
+             position: (75, 11),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "path",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: String {
+               parts: [
+                Raw {
+                 content: "include: file://",
+                 position: (75, 23),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "path",
+                  position: (75, 41),
+                 },
+                },
+                Raw {
+                 content: "\n",
+                 position: (75, 46),
+                },
+               ],
+              },
+             },
+             Variable {
+              identifier: "includes",
+              position: (75, 51),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (76, 5),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "flatten",
+                position: (76, 9),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (76, 18),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "mapAttrsToList",
+                  position: (76, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               Function {
+                argument: Some(
+                 "name",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: Function {
+                 argument: Some(
+                  "value",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: FunctionApplication {
+                  function: Variable {
+                   identifier: "attrsToLdif",
+                   position: (76, 51),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "name",
+                       position: (76, 66),
+                      },
+                     },
+                     Raw {
+                      content: ",",
+                      position: (76, 71),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "dn",
+                       position: (76, 74),
+                      },
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "value",
+                    position: (76, 79),
+                   },
+                  ],
+                 },
+                },
+               },
+               Variable {
+                identifier: "children",
+                position: (76, 86),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (79, 3),
+        },
+       ],
+      },
+      LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "deprecationNote",
+            position: (80, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "This option is removed due to the deprecation of `slapd.conf` upstream. Please migrate to `services.openldap.settings`, see the release notes for advice with this process.",
+            position: (80, 24),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "mkDatabaseOption",
+            position: (81, 5),
+           },
+          ],
+         },
+         Function {
+          argument: Some(
+           "old",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "new",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (82, 7),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkChangedOptionModule",
+                position: (82, 11),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "services",
+                  position: (82, 36),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "openldap",
+                  position: (82, 47),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "old",
+                position: (82, 57),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "services",
+                  position: (82, 66),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "openldap",
+                  position: (82, 77),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "settings",
+                  position: (82, 88),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "children",
+                  position: (82, 99),
+                 },
+                ],
+               },
+              ],
+             },
+             Function {
+              argument: Some(
+               "config",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: LetIn {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "database",
+                    position: (84, 11),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (84, 22),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "getAttrFromPath",
+                      position: (84, 26),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "services",
+                        position: (84, 45),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "openldap",
+                        position: (84, 56),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "database",
+                        position: (84, 67),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "config",
+                    position: (84, 79),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "value",
+                    position: (85, 11),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (85, 19),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "getAttrFromPath",
+                      position: (85, 23),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "services",
+                        position: (85, 42),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "openldap",
+                        position: (85, 53),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "old",
+                      position: (85, 63),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "config",
+                    position: (85, 69),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               target: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (86, 12),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "setAttrByPath",
+                    position: (86, 16),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 BinaryOperation {
+                  operator: Concatenation,
+                  operands: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "olcDatabase={1}",
+                        position: (86, 34),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "database",
+                         position: (86, 51),
+                        },
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "attrs",
+                        position: (86, 63),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "new",
+                    position: (86, 75),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "value",
+                  position: (86, 80),
+                 },
+                ],
+               },
+              },
+             },
+            ],
+           },
+          },
+         },
+        ),
+       ],
+       target: List {
+        elements: [
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (88, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkRemovedOptionModule",
+              position: (88, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (88, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (88, 46),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "extraConfig",
+                position: (88, 57),
+               },
+              ],
+             },
+            ],
+           },
+           Variable {
+            identifier: "deprecationNote",
+            position: (88, 72),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (89, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkRemovedOptionModule",
+              position: (89, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (89, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (89, 46),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "extraDatabaseConfig",
+                position: (89, 57),
+               },
+              ],
+             },
+            ],
+           },
+           Variable {
+            identifier: "deprecationNote",
+            position: (89, 80),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (91, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkChangedOptionModule",
+              position: (91, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (91, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (91, 46),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "logLevel",
+                position: (91, 57),
+               },
+              ],
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (91, 72),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (91, 83),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "settings",
+                position: (91, 94),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "attrs",
+                position: (91, 105),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "olcLogLevel",
+                position: (91, 113),
+               },
+              ],
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "config",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (92, 16),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "splitString",
+                 position: (92, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: " ",
+                 position: (92, 33),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (92, 37),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "getAttrFromPath",
+                   position: (92, 41),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "services",
+                     position: (92, 60),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "openldap",
+                     position: (92, 71),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "logLevel",
+                     position: (92, 82),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "config",
+                 position: (92, 94),
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (93, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkChangedOptionModule",
+              position: (93, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (93, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (93, 46),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "defaultSchemas",
+                position: (93, 57),
+               },
+              ],
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (93, 78),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (93, 89),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "settings",
+                position: (93, 100),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "children",
+                position: (93, 111),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "cn=schema",
+                position: (93, 122),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "includes",
+                position: (93, 134),
+               },
+              ],
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "config",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (94, 16),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "optionals",
+                 position: (94, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (94, 31),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "getAttrFromPath",
+                   position: (94, 35),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "services",
+                     position: (94, 54),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "openldap",
+                     position: (94, 65),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "defaultSchemas",
+                     position: (94, 76),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "config",
+                 position: (94, 94),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "map",
+                position: (95, 9),
+               },
+               arguments: [
+                Function {
+                 argument: Some(
+                  "schema",
+                 ),
+                 arguments: FunctionArguments {
+                  arguments: [],
+                  ellipsis: false,
+                 },
+                 definition: String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "openldap",
+                     position: (95, 25),
+                    },
+                   },
+                   Raw {
+                    content: "/etc/schema/",
+                    position: (95, 34),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "schema",
+                     position: (95, 48),
+                    },
+                   },
+                   Raw {
+                    content: ".ldif",
+                    position: (95, 55),
+                   },
+                  ],
+                 },
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "core",
+                     position: (95, 66),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "cosine",
+                     position: (95, 73),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "inetorgperson",
+                     position: (95, 82),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "nis",
+                     position: (95, 98),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (97, 6),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkChangedOptionModule",
+              position: (97, 10),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (97, 35),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (97, 46),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "database",
+                position: (97, 57),
+               },
+              ],
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "services",
+                position: (97, 72),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "openldap",
+                position: (97, 83),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "settings",
+                position: (97, 94),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "children",
+                position: (97, 105),
+               },
+              ],
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "config",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: LetIn {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "database",
+                  position: (99, 9),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (99, 20),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "getAttrFromPath",
+                    position: (99, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "services",
+                      position: (99, 43),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "openldap",
+                      position: (99, 54),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "database",
+                      position: (99, 65),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "config",
+                  position: (99, 77),
+                 },
+                ],
+               },
+              ),
+             ],
+             target: Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "olcDatabase={1}",
+                      position: (101, 10),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "database",
+                       position: (101, 27),
+                      },
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "attrs",
+                   position: (101, 38),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "objectClass",
+                      position: (103, 11),
+                     },
+                    ],
+                   },
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "olcdatabaseconfig",
+                        position: (103, 28),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "olc",
+                        position: (103, 48),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "database",
+                         position: (103, 53),
+                        },
+                       },
+                       Raw {
+                        content: "config",
+                        position: (103, 62),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "olcDatabase",
+                      position: (104, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{1}",
+                      position: (104, 26),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "database",
+                       position: (104, 31),
+                      },
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "olcDbDirectory",
+                      position: (105, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "lib",
+                      position: (105, 28),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "mkDefault",
+                        position: (105, 32),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "/var/db/openldap",
+                        position: (105, 43),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "cn=schema",
+                      position: (107, 10),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "includes",
+                   position: (107, 21),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (107, 32),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "mkDefault",
+                     position: (107, 36),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "map",
+                    position: (108, 11),
+                   },
+                   arguments: [
+                    Function {
+                     argument: Some(
+                      "schema",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: String {
+                      parts: [
+                       Expression {
+                        expression: Variable {
+                         identifier: "openldap",
+                         position: (108, 27),
+                        },
+                       },
+                       Raw {
+                        content: "/etc/schema/",
+                        position: (108, 36),
+                       },
+                       Expression {
+                        expression: Variable {
+                         identifier: "schema",
+                         position: (108, 50),
+                        },
+                       },
+                       Raw {
+                        content: ".ldif",
+                        position: (108, 57),
+                       },
+                      ],
+                     },
+                    },
+                    List {
+                     elements: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "core",
+                         position: (108, 68),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "cosine",
+                         position: (108, 75),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "inetorgperson",
+                         position: (108, 84),
+                        },
+                       ],
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "nis",
+                         position: (108, 100),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            },
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkDatabaseOption",
+           position: (111, 6),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "rootpwFile",
+              position: (111, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "olcRootPW",
+                position: (111, 39),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "path",
+                position: (111, 51),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkDatabaseOption",
+           position: (112, 6),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "suffix",
+              position: (112, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "olcSuffix",
+                position: (112, 35),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkDatabaseOption",
+           position: (113, 6),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "dataDir",
+              position: (113, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "olcDbDirectory",
+                position: (113, 36),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkDatabaseOption",
+           position: (114, 6),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "rootdn",
+              position: (114, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "olcRootDN",
+                position: (114, 35),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkDatabaseOption",
+           position: (115, 6),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "rootpw",
+              position: (115, 24),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "olcRootPW",
+                position: (115, 35),
+               },
+              ],
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (117, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (118, 5),
+           },
+           Raw {
+            content: "openldap",
+            position: (118, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (119, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (119, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (120, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (120, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (120, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (121, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (121, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (122, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "\n          Whether to enable the ldap server.\n        ",
+                    position: (122, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (127, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (127, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (128, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (128, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (128, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (129, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (129, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "openldap",
+                     position: (129, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (130, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (130, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.openldap",
+                      position: (130, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (131, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "OpenLDAP package to use.\n\nThis can be used to, for example, set an OpenLDAP package\nwith custom overrides to enable modules or other\nfunctionality.\n",
+                    position: (132, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "user",
+               position: (140, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (140, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (141, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (141, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (141, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (142, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "openldap",
+                    position: (142, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (143, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "User account under which slapd runs.",
+                    position: (143, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "group",
+               position: (146, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (146, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (147, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (147, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (147, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (148, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "openldap",
+                    position: (148, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (149, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Group account under which slapd runs.",
+                    position: (149, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "urlList",
+               position: (152, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (152, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (153, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (153, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (153, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (153, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (153, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (154, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "ldap:///",
+                      position: (154, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (155, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "URL list slapd should listen on.",
+                    position: (155, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (156, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "ldaps:///",
+                      position: (156, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "settings",
+               position: (159, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (159, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (160, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "ldapAttrsType",
+                  position: (160, 16),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (161, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Configuration for OpenLDAP, in OLC format",
+                    position: (161, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (162, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (162, 19),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "literalExpression",
+                      position: (162, 23),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  attrs.olcLogLevel = [ \"stats\" ];\n  children = {\n    \"cn=schema\".includes = [\n       \"",
+                      position: (163, 1),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (167, 19),
+                     },
+                     Raw {
+                      content: "{pkgs.openldap}/etc/schema/core.ldif\"\n       \"",
+                      position: (167, 22),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (168, 19),
+                     },
+                     Raw {
+                      content: "{pkgs.openldap}/etc/schema/cosine.ldif\"\n       \"",
+                      position: (168, 22),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (169, 19),
+                     },
+                     Raw {
+                      content: "{pkgs.openldap}/etc/schema/inetorgperson.ldif\"\n    ];\n    \"olcDatabase={-1}frontend\" = {\n      attrs = {\n        objectClass = \"olcDatabaseConfig\";\n        olcDatabase = \"{-1}frontend\";\n        olcAccess = [ \"{0}to * by dn.exact=uidNumber=0+gidNumber=0,cn=peercred,cn=external,cn=auth manage stop by * none stop\" ];\n      };\n    };\n    \"olcDatabase={0}config\" = {\n      attrs = {\n        objectClass = \"olcDatabaseConfig\";\n        olcDatabase = \"{0}config\";\n        olcAccess = [ \"{0}to * by * none break\" ];\n      };\n    };\n    \"olcDatabase={1}mdb\" = {\n      attrs = {\n        objectClass = [ \"olcDatabaseConfig\" \"olcMdbConfig\" ];\n        olcDatabase = \"{1}mdb\";\n        olcDbDirectory = \"/var/db/ldap\";\n        olcDbIndex = [\n          \"objectClass eq\"\n          \"cn pres,eq\"\n          \"uid pres,eq\"\n          \"sn pres,eq,subany\"\n        ];\n        olcSuffix = \"dc=example,dc=com\";\n        olcAccess = [ \"{0}to * by * read break\" ];\n      };\n    };\n  };\n};\n",
+                      position: (169, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "configDir",
+               position: (206, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (206, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (207, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (207, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (207, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (207, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (207, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (208, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (208, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (209, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Use this config directory instead of generating one from the\n<literal>settings</literal> option. Overrides all NixOS settings. If\nyou use this option,ensure `olcPidFile` is set to `/run/slapd/slapd.conf`.\n",
+                    position: (210, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (214, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/var/db/slapd.d",
+                    position: (214, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "declarativeContents",
+               position: (217, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (217, 29),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (218, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (218, 21),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (218, 28),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "lines",
+                     position: (218, 36),
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (219, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (220, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Declarative contents for the LDAP database, in LDIF format by suffix.\n\nAll data will be erased when starting the LDAP server. Modifications\nto the database are not prevented, they are just dropped on the next\nreboot of the server. Performance-wise the database and indexes are\nrebuilt on each server startup, so this will slow down server startup,\nespecially with large databases.\n",
+                    position: (221, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (229, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (229, 19),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "literalExpression",
+                      position: (229, 23),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  \"dc=example,dc=org\" = ",
+                      position: (230, 1),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (231, 35),
+                     },
+                     Raw {
+                      content: "\n    dn= dn: dc=example,dc=org\n    objectClass: domain\n    dc: example\n\n    dn: ou=users,dc=example,dc=org\n    objectClass = organizationalUnit\n    ou: users\n\n    # ...\n  ",
+                      position: (231, 38),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (241, 13),
+                     },
+                     Raw {
+                      content: ";\n}\n",
+                      position: (241, 16),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (248, 3),
+        },
+        Raw {
+         content: "maintainers",
+         position: (248, 8),
+        },
+       ],
+      },
+      With {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (248, 27),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "maintainers",
+           position: (248, 31),
+          },
+         ],
+        },
+        default: None,
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "mic92",
+          position: (248, 46),
+         },
+         Variable {
+          identifier: "kwohlfahrt",
+          position: (248, 52),
+         },
+        ],
+       },
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (250, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (250, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (250, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (250, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (251, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "map",
+             position: (251, 18),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "opt",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "assertion",
+                    position: (252, 7),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: Implication,
+                  operands: [
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "getAttr",
+                       position: (252, 21),
+                      },
+                      arguments: [
+                       Variable {
+                        identifier: "opt",
+                        position: (252, 29),
+                       },
+                       Variable {
+                        identifier: "cfg",
+                        position: (252, 33),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "_mkMergedOptionModule",
+                        position: (252, 42),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: NotEqualTo,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (252, 70),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "database",
+                         position: (252, 74),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "_mkMergedOptionModule",
+                        position: (252, 87),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "message",
+                    position: (253, 7),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Legacy OpenLDAP option `services.openldap.",
+                    position: (253, 18),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "opt",
+                     position: (253, 62),
+                    },
+                   },
+                   Raw {
+                    content: "` requires `services.openldap.database` (use value \"mdb\" if unsure)",
+                    position: (253, 66),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             },
+             Variable {
+              identifier: "legacyOptions",
+              position: (254, 8),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (255, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (255, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "openldap",
+              position: (255, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (258, 5),
+             },
+             Raw {
+              content: "openldap",
+              position: (258, 14),
+             },
+             Raw {
+              content: "settings",
+              position: (258, 23),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "attrs",
+                 position: (259, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "objectClass",
+                    position: (260, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "olcGlobal",
+                    position: (260, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "cn",
+                    position: (261, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "config",
+                    position: (261, 15),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "olcPidFile",
+                    position: (262, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "/run/slapd/slapd.pid",
+                    position: (262, 23),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "children",
+                 position: (264, 7),
+                },
+                Expression {
+                 expression: String {
+                  parts: [
+                   Raw {
+                    content: "cn=schema",
+                    position: (264, 17),
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "attrs",
+                 position: (264, 28),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "cn",
+                    position: (265, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "schema",
+                    position: (265, 15),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "objectClass",
+                    position: (266, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "olcSchemaConfig",
+                    position: (266, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (270, 5),
+             },
+             Raw {
+              content: "services",
+              position: (270, 13),
+             },
+             Raw {
+              content: "openldap",
+              position: (270, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (271, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "LDAP server",
+                 position: (271, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (272, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (272, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (273, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (273, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "preStart",
+                 position: (274, 7),
+                },
+               ],
+              },
+              LetIn {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "settingsFile",
+                    position: (275, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (275, 24),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "writeText",
+                      position: (275, 29),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "config.ldif",
+                      position: (275, 40),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "lib",
+                      position: (275, 54),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "concatStringsSep",
+                        position: (275, 58),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "\n",
+                        position: (275, 76),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "attrsToLdif",
+                       position: (275, 81),
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "cn=config",
+                          position: (275, 94),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (275, 105),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "settings",
+                           position: (275, 109),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dbSettings",
+                    position: (277, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (277, 22),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "filterAttrs",
+                      position: (277, 26),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Function {
+                    argument: Some(
+                     "name",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: Function {
+                     argument: Some(
+                      "value",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (277, 52),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "hasPrefix",
+                          position: (277, 56),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "olcDatabase=",
+                          position: (277, 67),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "name",
+                        position: (277, 81),
+                       },
+                      ],
+                     },
+                    },
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (277, 87),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "settings",
+                       position: (277, 91),
+                      },
+                      Raw {
+                       content: "children",
+                       position: (277, 100),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dataDirs",
+                    position: (278, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (278, 20),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mapAttrs'",
+                      position: (278, 24),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Function {
+                    argument: Some(
+                     "name",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: Function {
+                     argument: Some(
+                      "value",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (278, 48),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "nameValuePair",
+                          position: (278, 52),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "value",
+                         position: (278, 66),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "attrs",
+                           position: (278, 72),
+                          },
+                          Raw {
+                           content: "olcSuffix",
+                           position: (278, 78),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "value",
+                         position: (278, 88),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "attrs",
+                           position: (278, 94),
+                          },
+                          Raw {
+                           content: "olcDbDirectory",
+                           position: (278, 100),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                    },
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "lib",
+                      position: (279, 12),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "filterAttrs",
+                        position: (279, 16),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Function {
+                      argument: Some(
+                       "_",
+                      ),
+                      arguments: FunctionArguments {
+                       arguments: [],
+                       ellipsis: false,
+                      },
+                      definition: Function {
+                       argument: Some(
+                        "value",
+                       ),
+                       arguments: FunctionArguments {
+                        arguments: [],
+                        ellipsis: false,
+                       },
+                       definition: HasProperty {
+                        expression: PropertyAccess {
+                         expression: Variable {
+                          identifier: "value",
+                          position: (279, 39),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "attrs",
+                            position: (279, 45),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "olcDbDirectory",
+                           position: (279, 53),
+                          },
+                         ],
+                        },
+                       },
+                      },
+                     },
+                     Variable {
+                      identifier: "dbSettings",
+                      position: (279, 69),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dataFiles",
+                    position: (280, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (280, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mapAttrs",
+                      position: (280, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Function {
+                    argument: Some(
+                     "dn",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: Function {
+                     argument: Some(
+                      "contents",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (280, 49),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "writeText",
+                          position: (280, 54),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Expression {
+                          expression: Variable {
+                           identifier: "dn",
+                           position: (280, 67),
+                          },
+                         },
+                         Raw {
+                          content: ".ldif",
+                          position: (280, 70),
+                         },
+                        ],
+                       },
+                       Variable {
+                        identifier: "contents",
+                        position: (280, 77),
+                       },
+                      ],
+                     },
+                    },
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (280, 87),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "declarativeContents",
+                       position: (280, 91),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "mkLoadScript",
+                    position: (281, 9),
+                   },
+                  ],
+                 },
+                 Function {
+                  argument: Some(
+                   "dn",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: LetIn {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "dataDir",
+                        position: (282, 11),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (282, 21),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "escapeShellArg",
+                          position: (282, 25),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "getAttr",
+                         position: (282, 41),
+                        },
+                        arguments: [
+                         Variable {
+                          identifier: "dn",
+                          position: (282, 49),
+                         },
+                         Variable {
+                          identifier: "dataDirs",
+                          position: (282, 52),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   target: String {
+                    parts: [
+                     Raw {
+                      content: "rm -rf ",
+                      position: (284, 1),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "dataDir",
+                       position: (284, 20),
+                      },
+                     },
+                     Raw {
+                      content: "/*\n",
+                      position: (284, 28),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "openldap",
+                       position: (285, 13),
+                      },
+                     },
+                     Raw {
+                      content: "/bin/slapadd -F ",
+                      position: (285, 22),
+                     },
+                     Expression {
+                      expression: FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "lib",
+                         position: (285, 40),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "escapeShellArg",
+                           position: (285, 44),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "configDir",
+                         position: (285, 59),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: " -b ",
+                      position: (285, 69),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "dn",
+                       position: (285, 75),
+                      },
+                     },
+                     Raw {
+                      content: " -l ",
+                      position: (285, 78),
+                     },
+                     Expression {
+                      expression: FunctionApplication {
+                       function: Variable {
+                        identifier: "getAttr",
+                        position: (285, 84),
+                       },
+                       arguments: [
+                        Variable {
+                         identifier: "dn",
+                         position: (285, 92),
+                        },
+                        Variable {
+                         identifier: "dataFiles",
+                         position: (285, 95),
+                        },
+                       ],
+                      },
+                     },
+                     Raw {
+                      content: "\nchown -R \"",
+                      position: (285, 105),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (286, 23),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "user",
+                          position: (286, 27),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: ":",
+                      position: (286, 32),
+                     },
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (286, 35),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "group",
+                          position: (286, 39),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "\" ",
+                      position: (286, 45),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "dataDir",
+                       position: (286, 49),
+                      },
+                     },
+                     Raw {
+                      content: "\n",
+                      position: (286, 57),
+                     },
+                    ],
+                   },
+                  },
+                 },
+                ),
+               ],
+               target: String {
+                parts: [
+                 Raw {
+                  content: "mkdir -p /run/slapd\nchown -R \"",
+                  position: (289, 1),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (290, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "user",
+                      position: (290, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: ":",
+                  position: (290, 30),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (290, 33),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (290, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\" /run/slapd\n\nmkdir -p ",
+                  position: (290, 43),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (292, 20),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArg",
+                       position: (292, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "configDir",
+                     position: (292, 39),
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: " ",
+                  position: (292, 49),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (292, 52),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArgs",
+                       position: (292, 56),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "lib",
+                       position: (292, 73),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "attrValues",
+                         position: (292, 77),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "dataDirs",
+                       position: (292, 88),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\nchown \"",
+                  position: (292, 98),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (293, 18),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "user",
+                      position: (293, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: ":",
+                  position: (293, 27),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (293, 30),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (293, 34),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\" ",
+                  position: (293, 40),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (293, 44),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArg",
+                       position: (293, 48),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "configDir",
+                     position: (293, 63),
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: " ",
+                  position: (293, 73),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (293, 76),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArgs",
+                       position: (293, 80),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: PropertyAccess {
+                      expression: Variable {
+                       identifier: "lib",
+                       position: (293, 97),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "attrValues",
+                         position: (293, 101),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "dataDirs",
+                       position: (293, 112),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\n\n",
+                  position: (293, 122),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (295, 11),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "optionalString",
+                       position: (295, 15),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    BinaryOperation {
+                     operator: EqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (295, 31),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "configDir",
+                          position: (295, 35),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      Variable {
+                       identifier: "null",
+                       position: (295, 48),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "rm -Rf ",
+                       position: (296, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "configDir",
+                        position: (296, 20),
+                       },
+                      },
+                      Raw {
+                       content: "/*\n",
+                       position: (296, 30),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "openldap",
+                        position: (297, 13),
+                       },
+                      },
+                      Raw {
+                       content: "/bin/slapadd -F ",
+                       position: (297, 22),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "configDir",
+                        position: (297, 40),
+                       },
+                      },
+                      Raw {
+                       content: " -bcn=config -l ",
+                       position: (297, 50),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "settingsFile",
+                        position: (297, 68),
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (297, 81),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\nchown -R \"",
+                  position: (298, 13),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (299, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "user",
+                      position: (299, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: ":",
+                  position: (299, 30),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (299, 33),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (299, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\" ",
+                  position: (299, 43),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (299, 47),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArg",
+                       position: (299, 51),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "configDir",
+                     position: (299, 66),
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\n\n",
+                  position: (299, 76),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (301, 11),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "concatStrings",
+                       position: (301, 15),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "map",
+                      position: (301, 30),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "mkLoadScript",
+                       position: (301, 34),
+                      },
+                      FunctionApplication {
+                       function: PropertyAccess {
+                        expression: Variable {
+                         identifier: "lib",
+                         position: (301, 48),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "attrNames",
+                           position: (301, 52),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                       arguments: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (301, 62),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "declarativeContents",
+                            position: (301, 66),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\n",
+                  position: (301, 88),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "openldap",
+                   position: (302, 11),
+                  },
+                 },
+                 Raw {
+                  content: "/bin/slaptest -u -F ",
+                  position: (302, 20),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
+                    expression: Variable {
+                     identifier: "lib",
+                     position: (302, 42),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "escapeShellArg",
+                       position: (302, 46),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "configDir",
+                     position: (302, 61),
+                    },
+                   ],
+                  },
+                 },
+                 Raw {
+                  content: "\n",
+                  position: (302, 71),
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (304, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (305, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (305, 21),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArgs",
+                      position: (305, 25),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Expression {
+                        expression: Variable {
+                         identifier: "openldap",
+                         position: (306, 14),
+                        },
+                       },
+                       Raw {
+                        content: "/libexec/slapd",
+                        position: (306, 23),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "-u",
+                        position: (306, 40),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (306, 44),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "user",
+                         position: (306, 48),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "-g",
+                        position: (306, 54),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (306, 58),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "group",
+                         position: (306, 62),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "-F",
+                        position: (306, 69),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "configDir",
+                      position: (306, 73),
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "-h",
+                        position: (307, 12),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: PropertyAccess {
+                       expression: Variable {
+                        identifier: "lib",
+                        position: (307, 17),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "concatStringsSep",
+                          position: (307, 21),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: " ",
+                          position: (307, 39),
+                         },
+                        ],
+                       },
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (307, 42),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "urlList",
+                           position: (307, 46),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Type",
+                    position: (309, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "forking",
+                    position: (309, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "PIDFile",
+                    position: (310, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (310, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "settings",
+                     position: (310, 23),
+                    },
+                    Raw {
+                     content: "attrs",
+                     position: (310, 32),
+                    },
+                    Raw {
+                     content: "olcPidFile",
+                     position: (310, 38),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (314, 5),
+             },
+             Raw {
+              content: "users",
+              position: (314, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (314, 19),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalAttrs",
+                position: (314, 23),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (314, 38),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (314, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "openldap",
+                  position: (314, 51),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "openldap",
+                   position: (315, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (316, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (316, 17),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "group",
+                       position: (316, 21),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "isSystemUser",
+                      position: (317, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (317, 24),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (321, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (321, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (321, 20),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalAttrs",
+                position: (321, 24),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (321, 39),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (321, 43),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "openldap",
+                  position: (321, 53),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "openldap",
+                   position: (322, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

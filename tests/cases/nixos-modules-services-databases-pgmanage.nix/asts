@@ -1,0 +1,2357 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "pgmanage",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "confFile",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeTextFile",
+          position: (8, 19),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (9, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "pgmanage.conf",
+             position: (9, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "text",
+             position: (10, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "connection_file = ",
+             position: (11, 1),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "pgmanageConnectionsFile",
+              position: (11, 27),
+             },
+            },
+            Raw {
+             content: "\n\nallow_custom_connections = ",
+             position: (11, 51),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "builtins",
+                position: (13, 36),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "toJSON",
+                  position: (13, 45),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (13, 52),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "allowCustomConnections",
+                   position: (13, 56),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\npgmanage_port = ",
+             position: (13, 79),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "toString",
+               position: (15, 25),
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (15, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "port",
+                   position: (15, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\nsuper_only = ",
+             position: (15, 43),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "builtins",
+                position: (17, 22),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "toJSON",
+                  position: (17, 31),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (17, 38),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "superOnly",
+                   position: (17, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\n",
+             position: (17, 52),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "optionalString",
+               position: (19, 9),
+              },
+              arguments: [
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (19, 25),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "loginGroup",
+                     position: (19, 29),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (19, 43),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "login_group = ",
+                  position: (19, 50),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (19, 66),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "loginGroup",
+                      position: (19, 70),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                ],
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\nlogin_timeout = ",
+             position: (19, 83),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "toString",
+               position: (21, 25),
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (21, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "loginTimeout",
+                   position: (21, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\nweb_root = ",
+             position: (21, 51),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (23, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "package",
+                 position: (23, 24),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "/etc/pgmanage/web_root\n\nsql_root = ",
+             position: (23, 32),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (25, 20),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "sqlRoot",
+                 position: (25, 24),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "\n\n",
+             position: (25, 32),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "optionalString",
+               position: (27, 9),
+              },
+              arguments: [
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (27, 25),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "tls",
+                     position: (27, 29),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (27, 36),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "tls_cert = ",
+                  position: (28, 1),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (28, 20),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "tls",
+                      position: (28, 24),
+                     },
+                     Raw {
+                      content: "cert",
+                      position: (28, 28),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\ntls_key = ",
+                  position: (28, 33),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (29, 19),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "tls",
+                      position: (29, 23),
+                     },
+                     Raw {
+                      content: "key",
+                      position: (29, 27),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "\n",
+                  position: (29, 31),
+                 },
+                ],
+               },
+              ],
+             },
+            },
+            Raw {
+             content: "\n\nlog_level = ",
+             position: (30, 10),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (32, 21),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "logLevel",
+                 position: (32, 25),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "\n",
+             position: (32, 34),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pgmanageConnectionsFile",
+        position: (36, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (36, 29),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeTextFile",
+          position: (36, 34),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (37, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "pgmanage-connections.conf",
+             position: (37, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "text",
+             position: (38, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (38, 12),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "\n",
+               position: (38, 30),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mapAttrsToList",
+              position: (39, 8),
+             },
+             arguments: [
+              Function {
+               argument: Some(
+                "name",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: Function {
+                argument: Some(
+                 "conn",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: String {
+                 parts: [
+                  Expression {
+                   expression: Variable {
+                    identifier: "name",
+                    position: (39, 41),
+                   },
+                  },
+                  Raw {
+                   content: ": ",
+                   position: (39, 46),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "conn",
+                    position: (39, 50),
+                   },
+                  },
+                 ],
+                },
+               },
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (39, 58),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "connections",
+                  position: (39, 62),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pgmanage",
+        position: (42, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "pgmanage",
+        position: (42, 15),
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (46, 3),
+        },
+        Raw {
+         content: "services",
+         position: (46, 11),
+        },
+        Raw {
+         content: "pgmanage",
+         position: (46, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (47, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (47, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "PostgreSQL Administration for the web",
+              position: (47, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "package",
+            position: (49, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (49, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (50, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (50, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (50, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (51, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (51, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "pgmanage",
+                  position: (51, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (52, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (52, 21),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.pgmanage",
+                   position: (52, 40),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (53, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "The pgmanage package to use.\n",
+                 position: (54, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "connections",
+            position: (58, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (58, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (59, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (59, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "attrsOf",
+                   position: (59, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (59, 28),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (59, 34),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (60, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (61, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "nuc-server",
+                    position: (62, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "hostaddr=192.168.0.100 port=5432 dbname=postgres",
+                    position: (62, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "mini-server",
+                    position: (63, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "hostaddr=127.0.0.1 port=5432 dbname=postgres sslmode=require",
+                    position: (63, 24),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (65, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "pgmanage requires at least one PostgreSQL server be defined.\n</para><para>\nDetailed information about PostgreSQL connection strings is available at:\n<link xlink:href=\"http://www.postgresql.org/docs/current/static/libpq-connect.html\"/>\n</para><para>\nNote that you should not specify your user name or password. That\ninformation will be entered on the login screen. If you specify a\nusername or password, it will be removed by pgmanage before attempting to\nconnect to a database.\n",
+                 position: (66, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "allowCustomConnections",
+            position: (78, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (78, 30),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (79, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (79, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (79, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (80, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (80, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (81, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage whether or not to allow anyone to use a custom\nconnection from the login screen.\n",
+                 position: (82, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "port",
+            position: (87, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (87, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (88, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (88, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "int",
+                  position: (88, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (89, 7),
+                },
+               ],
+              },
+              Int {
+               value: 8080,
+               position: (89, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (90, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage what port to listen on for browser requests.\n",
+                 position: (91, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "localOnly",
+            position: (95, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (95, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (96, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (96, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (96, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (97, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (97, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (98, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage whether or not to set the listening socket to local\naddresses only.\n",
+                 position: (99, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "superOnly",
+            position: (104, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (104, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (105, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (105, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (105, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (106, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (106, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (107, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage whether or not to only allow super users to\nlogin. The recommended value is true and will restrict users who are not\nsuper users from logging in to any PostgreSQL instance through\npgmanage. Note that a connection will be made to PostgreSQL in order to\ntest if the user is a superuser.\n",
+                 position: (108, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "loginGroup",
+            position: (116, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (116, 18),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (117, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (117, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (117, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (117, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (117, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (118, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (118, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (119, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage to only allow users in a certain PostgreSQL group to\nlogin to pgmanage. Note that a connection will be made to PostgreSQL in\norder to test if the user is a member of the login group.\n",
+                 position: (120, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "loginTimeout",
+            position: (126, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (126, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (127, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (127, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "int",
+                  position: (127, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (128, 7),
+                },
+               ],
+              },
+              Int {
+               value: 3600,
+               position: (128, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (129, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Number of seconds of inactivity before user is automatically logged\nout.\n",
+                 position: (130, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "sqlRoot",
+            position: (135, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (135, 15),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (136, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (136, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (136, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (137, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/lib/pgmanage",
+                 position: (137, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (138, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This tells pgmanage where to put the SQL file history. All tabs are saved\nto this location so that if you get disconnected from pgmanage you\ndon't lose your work.\n",
+                 position: (139, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "tls",
+            position: (145, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (145, 11),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (146, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (146, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (146, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (146, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "submodule",
+                     position: (146, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "options",
+                        position: (147, 9),
+                       },
+                      ],
+                     },
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "cert",
+                           position: (148, 11),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "mkOption",
+                          position: (148, 18),
+                         },
+                         arguments: [
+                          Map {
+                           bindings: [
+                            KeyValue(
+                             AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "type",
+                                position: (149, 13),
+                               },
+                              ],
+                             },
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "types",
+                               position: (149, 20),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "str",
+                                 position: (149, 26),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            ),
+                            KeyValue(
+                             AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "description",
+                                position: (150, 13),
+                               },
+                              ],
+                             },
+                             String {
+                              parts: [
+                               Raw {
+                                content: "TLS certificate",
+                                position: (150, 28),
+                               },
+                              ],
+                             },
+                            ),
+                           ],
+                           recursive: false,
+                          },
+                         ],
+                        },
+                       ),
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "key",
+                           position: (152, 11),
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "mkOption",
+                          position: (152, 17),
+                         },
+                         arguments: [
+                          Map {
+                           bindings: [
+                            KeyValue(
+                             AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "type",
+                                position: (153, 13),
+                               },
+                              ],
+                             },
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "types",
+                               position: (153, 20),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "str",
+                                 position: (153, 26),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            ),
+                            KeyValue(
+                             AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "description",
+                                position: (154, 13),
+                               },
+                              ],
+                             },
+                             String {
+                              parts: [
+                               Raw {
+                                content: "TLS key",
+                                position: (154, 28),
+                               },
+                              ],
+                             },
+                            ),
+                           ],
+                           recursive: false,
+                          },
+                         ],
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (158, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (158, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (159, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "These options tell pgmanage where the TLS Certificate and Key files\nreside. If you use these options then you'll only be able to access\npgmanage through a secure TLS connection. These options are only\nnecessary if you wish to connect directly to pgmanage using a secure TLS\nconnection. As an alternative, you can set up pgmanage in a reverse proxy\nconfiguration. This allows your web server to terminate the secure\nconnection and pass on the request to pgmanage. You can find help to set\nup this configuration in:\n<link xlink:href=\"https://github.com/pgManage/pgManage/blob/master/INSTALL_NGINX.md\"/>\n",
+                 position: (160, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "logLevel",
+            position: (172, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (172, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (173, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (173, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "enum",
+                   position: (173, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "error",
+                     position: (173, 27),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "warn",
+                     position: (173, 35),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "notice",
+                     position: (173, 42),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "info",
+                     position: (173, 51),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (174, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "error",
+                 position: (174, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (175, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Verbosity of logs\n",
+                 position: (176, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (181, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (181, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (181, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (181, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (182, 5),
+             },
+             Raw {
+              content: "services",
+              position: (182, 13),
+             },
+             Raw {
+              content: "pgmanage",
+              position: (182, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (183, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "pgmanage - PostgreSQL Administration for the web",
+                 position: (183, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wants",
+                 position: (184, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "postgresql.service",
+                   position: (184, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (185, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "postgresql.service",
+                   position: (185, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (186, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (186, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (187, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (188, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "pgmanage",
+                  position: (188, 24),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (189, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "pgmanage",
+                  position: (189, 24),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (190, 9),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: Addition,
+                  operands: [
+                   String {
+                    parts: [
+                     Expression {
+                      expression: PropertyAccess {
+                       expression: Variable {
+                        identifier: "pkgs",
+                        position: (190, 27),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "pgmanage",
+                          position: (190, 32),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     },
+                     Raw {
+                      content: "/sbin/pgmanage -c ",
+                      position: (190, 41),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "confFile",
+                       position: (190, 61),
+                      },
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "optionalString",
+                     position: (191, 24),
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (191, 39),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "localOnly",
+                         position: (191, 43),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: " --local-only=true",
+                        position: (191, 54),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (194, 5),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "users",
+                 position: (195, 7),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "pgmanage",
+                  position: (195, 15),
+                 },
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "name",
+                    position: (196, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "pgmanage",
+                  position: (196, 17),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (197, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "pgmanage",
+                  position: (197, 17),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "home",
+                    position: (198, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (198, 17),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "sqlRoot",
+                     position: (198, 21),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "createHome",
+                    position: (199, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (199, 22),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "isSystemUser",
+                    position: (200, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (200, 24),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "groups",
+                 position: (202, 7),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "pgmanage",
+                  position: (202, 16),
+                 },
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "name",
+                    position: (203, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "pgmanage",
+                  position: (203, 16),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

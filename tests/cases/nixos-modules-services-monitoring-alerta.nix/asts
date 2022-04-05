@@ -1,0 +1,1702 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "alerta",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "alertaConf",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeTextFile",
+          position: (8, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (9, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "alertad.conf",
+             position: (9, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "text",
+             position: (10, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "DATABASE_URL = ",
+             position: (11, 1),
+            },
+            Raw {
+             content: "'",
+             position: (11, 22),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (11, 25),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "databaseUrl",
+                 position: (11, 29),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "'\nDATABASE_NAME = ",
+             position: (11, 41),
+            },
+            Raw {
+             content: "'",
+             position: (12, 23),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (12, 26),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "databaseName",
+                 position: (12, 30),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "'\nLOG_FILE = ",
+             position: (12, 43),
+            },
+            Raw {
+             content: "'",
+             position: (13, 18),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (13, 21),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "logDir",
+                 position: (13, 25),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "/alertad.log'\nLOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'\nCORS_ORIGINS = [ ",
+             position: (13, 32),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "concatMapStringsSep",
+               position: (15, 26),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: ", ",
+                  position: (15, 47),
+                 },
+                ],
+               },
+               Function {
+                argument: Some(
+                 "s",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: BinaryOperation {
+                 operator: Addition,
+                 operands: [
+                  BinaryOperation {
+                   operator: Addition,
+                   operands: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "\"",
+                       position: (15, 56),
+                      },
+                     ],
+                    },
+                    Variable {
+                     identifier: "s",
+                     position: (15, 62),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "\"",
+                     position: (15, 67),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (15, 72),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "corsOrigins",
+                   position: (15, 76),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            },
+            Raw {
+             content: " ];\nAUTH_REQUIRED = ",
+             position: (15, 88),
+            },
+            Expression {
+             expression: IfThenElse {
+              predicate: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (16, 28),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "authenticationRequired",
+                  position: (16, 32),
+                 },
+                ],
+               },
+               default: None,
+              },
+              then: String {
+               parts: [
+                Raw {
+                 content: "True",
+                 position: (16, 61),
+                },
+               ],
+              },
+              else_: String {
+               parts: [
+                Raw {
+                 content: "False",
+                 position: (16, 73),
+                },
+               ],
+              },
+             },
+            },
+            Raw {
+             content: "\nSIGNUP_ENABLED = ",
+             position: (16, 80),
+            },
+            Expression {
+             expression: IfThenElse {
+              predicate: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (17, 29),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "signupEnabled",
+                  position: (17, 33),
+                 },
+                ],
+               },
+               default: None,
+              },
+              then: String {
+               parts: [
+                Raw {
+                 content: "True",
+                 position: (17, 53),
+                },
+               ],
+              },
+              else_: String {
+               parts: [
+                Raw {
+                 content: "False",
+                 position: (17, 65),
+                },
+               ],
+              },
+             },
+            },
+            Raw {
+             content: "\n",
+             position: (17, 72),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (18, 9),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "extraConfig",
+                 position: (18, 13),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "\n",
+             position: (18, 25),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (23, 3),
+        },
+        Raw {
+         content: "services",
+         position: (23, 11),
+        },
+        Raw {
+         content: "alerta",
+         position: (23, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (24, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (24, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "alerta",
+              position: (24, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "port",
+            position: (26, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (26, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (27, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (27, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "int",
+                  position: (27, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (28, 7),
+                },
+               ],
+              },
+              Int {
+               value: 5000,
+               position: (28, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (29, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Port of Alerta",
+                 position: (29, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "bind",
+            position: (32, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (32, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (33, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (33, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (33, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (34, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0.0.0.0",
+                 position: (34, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (35, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Address to bind to. The default is to bind to all addresses",
+                 position: (35, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "logDir",
+            position: (38, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (38, 14),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (39, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (39, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "path",
+                  position: (39, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (40, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Location where the logfiles are stored",
+                 position: (40, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (41, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/log/alerta",
+                 position: (41, 18),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "databaseUrl",
+            position: (44, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (44, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (45, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (45, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (45, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (46, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "URL of the MongoDB or PostgreSQL database to connect to",
+                 position: (46, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (47, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "mongodb://localhost",
+                 position: (47, 18),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "databaseName",
+            position: (50, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (50, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (51, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (51, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (51, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (52, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Name of the database instance to connect to",
+                 position: (52, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (53, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "monitoring",
+                 position: (53, 18),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "corsOrigins",
+            position: (56, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (56, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (57, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (57, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (57, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (57, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (57, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (58, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "List of URLs that can access the API for Cross-Origin Resource Sharing (CORS)",
+                 position: (58, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (59, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "http://localhost",
+                   position: (59, 20),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "http://localhost:5000",
+                   position: (59, 39),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "authenticationRequired",
+            position: (62, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (62, 30),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (63, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (63, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (63, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (64, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether users must authenticate when using the web UI or command-line tool",
+                 position: (64, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (65, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (65, 17),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "signupEnabled",
+            position: (68, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (68, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (69, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (69, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (69, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (70, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to prevent sign-up of new users via the web UI",
+                 position: (70, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (71, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (71, 17),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "extraConfig",
+            position: (74, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (74, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (75, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "These lines go into alertad.conf verbatim.",
+                 position: (75, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (76, 7),
+                },
+               ],
+              },
+              String {
+               parts: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (77, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (77, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "lines",
+                  position: (77, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (81, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (81, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (81, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (81, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (82, 5),
+             },
+             Raw {
+              content: "tmpfiles",
+              position: (82, 13),
+             },
+             Raw {
+              content: "rules",
+              position: (82, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d '",
+                position: (83, 8),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (83, 13),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "logDir",
+                    position: (83, 17),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "' - alerta alerta - -",
+                position: (83, 24),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (86, 5),
+             },
+             Raw {
+              content: "services",
+              position: (86, 13),
+             },
+             Raw {
+              content: "alerta",
+              position: (86, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (87, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Alerta Monitoring System",
+                 position: (87, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (88, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (88, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (89, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "networking.target",
+                   position: (89, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (90, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ALERTA_SVR_CONF_FILE",
+                    position: (91, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "alertaConf",
+                  position: (91, 32),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (93, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (94, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (94, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "alerta-server",
+                        position: (94, 29),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/alertad run --port ",
+                    position: (94, 43),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "toString",
+                      position: (94, 69),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (94, 78),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "port",
+                          position: (94, 82),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   },
+                   Raw {
+                    content: " --host ",
+                    position: (94, 87),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (94, 97),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "bind",
+                        position: (94, 101),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (95, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "alerta",
+                    position: (95, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Group",
+                    position: (96, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "alerta",
+                    position: (96, 18),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (100, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (100, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (100, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "alerta",
+                 position: (100, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (102, 5),
+             },
+             Raw {
+              content: "users",
+              position: (102, 11),
+             },
+             Raw {
+              content: "alerta",
+              position: (102, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (103, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (103, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (103, 20),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (103, 24),
+                 },
+                 Raw {
+                  content: "alerta",
+                  position: (103, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (104, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Alerta user",
+                 position: (104, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (107, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (107, 11),
+             },
+             Raw {
+              content: "alerta",
+              position: (107, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "gid",
+                 position: (108, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (108, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (108, 20),
+                 },
+                 Raw {
+                  content: "gids",
+                  position: (108, 24),
+                 },
+                 Raw {
+                  content: "alerta",
+                  position: (108, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

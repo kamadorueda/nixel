@@ -1,0 +1,279 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "perlPackages",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "perl",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "makeWrapper",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "stdenv",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "stdenv",
+    position: (3, 1),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "mkDerivation",
+      position: (3, 8),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "name",
+         position: (4, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "nixpkgs-lint-1",
+         position: (4, 11),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "nativeBuildInputs",
+         position: (6, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Variable {
+         identifier: "makeWrapper",
+         position: (6, 25),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildInputs",
+         position: (7, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        Variable {
+         identifier: "perl",
+         position: (7, 19),
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "perlPackages",
+          position: (7, 24),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "XMLSimple",
+            position: (7, 37),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "dontUnpack",
+         position: (9, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "true",
+       position: (9, 16),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildPhase",
+         position: (10, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "true",
+         position: (10, 17),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "installPhase",
+         position: (12, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "mkdir -p $out/bin\ncp ",
+         position: (14, 1),
+        },
+        Expression {
+         expression: Path {
+          parts: [
+           Raw {
+            content: "./nixpkgs-lint.pl",
+            position: (15, 12),
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " $out/bin/nixpkgs-lint\nwrapProgram $out/bin/nixpkgs-lint --set PERL5LIB $PERL5LIB\n",
+         position: (15, 30),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (19, 3),
+        },
+       ],
+      },
+      With {
+       expression: Variable {
+        identifier: "lib",
+        position: (19, 15),
+       },
+       target: Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "maintainers",
+             position: (20, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "maintainers",
+              position: (20, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "eelco",
+                position: (20, 33),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "description",
+             position: (21, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "A utility for Nixpkgs contributors to check Nixpkgs for common errors",
+             position: (21, 20),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "platforms",
+             position: (22, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "platforms",
+            position: (22, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "unix",
+              position: (22, 27),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  ],
+ },
+}

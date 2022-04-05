@@ -1,0 +1,655 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "hpssacli",
+        position: (6, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (6, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "stdenv",
+          position: (6, 19),
+         },
+         Raw {
+          content: "mkDerivation",
+          position: (6, 26),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "pname",
+             position: (7, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "hpssacli",
+             position: (7, 14),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "version",
+             position: (8, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "2.40-13.0",
+             position: (8, 16),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "src",
+             position: (10, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (10, 11),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "fetchurl",
+               position: (10, 16),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "url",
+                  position: (11, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "https://downloads.linux.hpe.com/SDR/downloads/MCP/Ubuntu/pool/non-free/",
+                  position: (11, 14),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "pname",
+                   position: (11, 87),
+                  },
+                 },
+                 Raw {
+                  content: "-",
+                  position: (11, 93),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "version",
+                   position: (11, 96),
+                  },
+                 },
+                 Raw {
+                  content: "_amd64.deb",
+                  position: (11, 104),
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sha256",
+                  position: (12, 7),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "11w7fwk93lmfw0yya4jpjwdmgjimqxx6412sqa166g1pz4jil4sw",
+                  position: (12, 17),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "nativeBuildInputs",
+             position: (15, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "pkgs",
+              position: (15, 27),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "dpkg",
+                position: (15, 32),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "unpackPhase",
+             position: (17, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "dpkg -x $src ./",
+             position: (17, 20),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "installPhase",
+             position: (19, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "mkdir -p $out/bin $out/share/doc $out/share/man\nmv opt/hp/hpssacli/bld/{hpssascripting,hprmstr,hpssacli} $out/bin/\nmv opt/hp/hpssacli/bld/*.{license,txt}                   $out/share/doc/\nmv usr/man                                               $out/share/\n\nfor file in $out/bin/*; do\n  chmod +w $file\n  patchelf --set-interpreter \"$(cat $NIX_CC/nix-support/dynamic-linker)\" \\\n           --set-rpath ",
+             position: (20, 1),
+            },
+            Expression {
+             expression: FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (28, 32),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "makeLibraryPath",
+                  position: (28, 36),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               List {
+                elements: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (28, 54),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "stdenv",
+                     position: (28, 59),
+                    },
+                    Raw {
+                     content: "cc",
+                     position: (28, 66),
+                    },
+                    Raw {
+                     content: "cc",
+                     position: (28, 69),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ],
+             },
+            },
+            Raw {
+             content: " \\\n           $file\ndone\n",
+             position: (28, 74),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "dontStrip",
+             position: (33, 5),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (33, 17),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "meta",
+             position: (35, 5),
+            },
+           ],
+          },
+          With {
+           expression: Variable {
+            identifier: "lib",
+            position: (35, 17),
+           },
+           target: Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (36, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "HP Smart Array CLI",
+                 position: (36, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "homepage",
+                 position: (37, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "https://downloads.linux.hpe.com/SDR/downloads/MCP/Ubuntu/pool/non-free/",
+                 position: (37, 19),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "license",
+                 position: (38, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "licenses",
+                position: (38, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "unfreeRedistributable",
+                  position: (38, 26),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "platforms",
+                 position: (39, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "x86_64-linux",
+                   position: (39, 22),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "maintainers",
+                 position: (40, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "maintainers",
+                position: (40, 26),
+               },
+               target: List {
+                elements: [
+                 Variable {
+                  identifier: "volth",
+                  position: (40, 41),
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          },
+         ),
+        ],
+        recursive: true,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (46, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "hardware",
+            position: (47, 5),
+           },
+           Raw {
+            content: "raid",
+            position: (47, 14),
+           },
+           Raw {
+            content: "HPSmartArray",
+            position: (47, 19),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (48, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (48, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "HP Smart Array kernel modules and CLI utility",
+                 position: (48, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (54, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (54, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (54, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "hardware",
+            position: (54, 24),
+           },
+           Raw {
+            content: "raid",
+            position: (54, 33),
+           },
+           Raw {
+            content: "HPSmartArray",
+            position: (54, 38),
+           },
+           Raw {
+            content: "enable",
+            position: (54, 51),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (56, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (56, 10),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (56, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "sg",
+                position: (56, 36),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (57, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (57, 10),
+             },
+             Raw {
+              content: "availableKernelModules",
+              position: (57, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "hpsa",
+                position: (57, 45),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (59, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (59, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "hpssacli",
+              position: (59, 36),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

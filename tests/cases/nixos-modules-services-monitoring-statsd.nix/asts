@@ -1,0 +1,2095 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (7, 16),
+        },
+        Raw {
+         content: "statsd",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "isBuiltinBackend",
+        position: (9, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "builtins",
+         position: (10, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "elem",
+           position: (10, 14),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Variable {
+         identifier: "name",
+         position: (10, 19),
+        },
+        List {
+         elements: [
+          String {
+           parts: [
+            Raw {
+             content: "graphite",
+             position: (10, 27),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "console",
+             position: (10, 38),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "repeater",
+             position: (10, 48),
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "backendsToPackages",
+        position: (12, 3),
+       },
+      ],
+     },
+     LetIn {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "mkMap",
+           position: (13, 5),
+          },
+         ],
+        },
+        Function {
+         argument: Some(
+          "list",
+         ),
+         arguments: FunctionArguments {
+          arguments: [],
+          ellipsis: false,
+         },
+         definition: Function {
+          argument: Some(
+           "name",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: IfThenElse {
+           predicate: FunctionApplication {
+            function: Variable {
+             identifier: "isBuiltinBackend",
+             position: (14, 10),
+            },
+            arguments: [
+             Variable {
+              identifier: "name",
+              position: (14, 27),
+             },
+            ],
+           },
+           then: Variable {
+            identifier: "list",
+            position: (14, 37),
+           },
+           else_: BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             Variable {
+              identifier: "list",
+              position: (15, 12),
+             },
+             List {
+              elements: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (15, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nodePackages",
+                   position: (15, 27),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "name",
+                    position: (15, 42),
+                   },
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+           },
+          },
+         },
+        },
+       ),
+      ],
+      target: FunctionApplication {
+       function: Variable {
+        identifier: "foldl",
+        position: (16, 6),
+       },
+       arguments: [
+        Variable {
+         identifier: "mkMap",
+         position: (16, 12),
+        },
+        List {
+         elements: [],
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (18, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (18, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (18, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "statsd.conf",
+          position: (18, 32),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "{\n  address: \"",
+          position: (19, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (20, 19),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "listenAddress",
+              position: (20, 23),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\",\n  port: \"",
+          position: (20, 37),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (21, 16),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (21, 25),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "port",
+                position: (21, 29),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\",\n  mgmt_address: \"",
+          position: (21, 34),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (22, 24),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mgmt_address",
+              position: (22, 28),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\",\n  mgmt_port: \"",
+          position: (22, 41),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (23, 21),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (23, 30),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mgmt_port",
+                position: (23, 34),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\",\n  backends: [",
+          position: (23, 44),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatMapStringsSep",
+            position: (25, 9),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (25, 30),
+              },
+             ],
+            },
+            Function {
+             argument: Some(
+              "name",
+             ),
+             arguments: FunctionArguments {
+              arguments: [],
+              ellipsis: false,
+             },
+             definition: IfThenElse {
+              predicate: FunctionApplication {
+               function: Variable {
+                identifier: "isBuiltinBackend",
+                position: (26, 15),
+               },
+               arguments: [
+                Variable {
+                 identifier: "name",
+                 position: (26, 32),
+                },
+               ],
+              },
+              then: String {
+               parts: [
+                Raw {
+                 content: "\"./backends/",
+                 position: (27, 18),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "name",
+                  position: (27, 32),
+                 },
+                },
+                Raw {
+                 content: "\"",
+                 position: (27, 37),
+                },
+               ],
+              },
+              else_: String {
+               parts: [
+                Raw {
+                 content: "\"",
+                 position: (28, 18),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "name",
+                  position: (28, 21),
+                 },
+                },
+                Raw {
+                 content: "\"",
+                 position: (28, 26),
+                },
+               ],
+              },
+             },
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (29, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "backends",
+                position: (29, 15),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "],\n  ",
+          position: (29, 24),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (30, 9),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (30, 25),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "graphiteHost",
+                  position: (30, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (30, 43),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "graphiteHost: \"",
+               position: (30, 51),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (30, 68),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "graphiteHost",
+                   position: (30, 72),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "\",",
+               position: (30, 85),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n  ",
+          position: (30, 90),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (31, 9),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (31, 25),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "graphitePort",
+                  position: (31, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (31, 43),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "graphitePort: \"",
+               position: (31, 51),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toString",
+                 position: (31, 68),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (31, 77),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "graphitePort",
+                     position: (31, 81),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "\",",
+               position: (31, 94),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n  console: {\n    prettyprint: false\n  },\n  log: {\n    backend: \"stdout\"\n  },\n  automaticConfigReload: false",
+          position: (31, 99),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "optionalString",
+            position: (38, 37),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (38, 53),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "extraConfig",
+                  position: (38, 57),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (38, 72),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: ",",
+               position: (38, 79),
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n  ",
+          position: (38, 82),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (39, 9),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "extraConfig",
+              position: (39, 13),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "\n}\n",
+          position: (39, 25),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "deps",
+        position: (43, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (43, 10),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "buildEnv",
+          position: (43, 15),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (44, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "statsd-runtime-deps",
+             position: (44, 13),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "pathsToLink",
+             position: (45, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "/lib",
+               position: (45, 22),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "ignoreCollisions",
+             position: (46, 5),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (46, 24),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "paths",
+             position: (48, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "backendsToPackages",
+            position: (48, 13),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (48, 32),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "backends",
+                position: (48, 36),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (57, 3),
+        },
+        Raw {
+         content: "services",
+         position: (57, 11),
+        },
+        Raw {
+         content: "statsd",
+         position: (57, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (59, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (59, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "statsd",
+              position: (59, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "listenAddress",
+            position: (61, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (61, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (62, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Address that statsd listens on over UDP",
+                 position: (62, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (63, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "127.0.0.1",
+                 position: (63, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (64, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (64, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (64, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "port",
+            position: (67, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (67, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (68, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Port that stats listens for messages on over UDP",
+                 position: (68, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (69, 7),
+                },
+               ],
+              },
+              Int {
+               value: 8125,
+               position: (69, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (70, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (70, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "int",
+                  position: (70, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "mgmt_address",
+            position: (73, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (73, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (74, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Address to run management TCP interface on",
+                 position: (74, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (75, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "127.0.0.1",
+                 position: (75, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (76, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (76, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (76, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "mgmt_port",
+            position: (79, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (79, 17),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (80, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Port to run the management TCP interface on",
+                 position: (80, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (81, 7),
+                },
+               ],
+              },
+              Int {
+               value: 8126,
+               position: (81, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (82, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (82, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "int",
+                  position: (82, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "backends",
+            position: (85, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (85, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (86, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "List of backends statsd will use for data persistence",
+                 position: (86, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (87, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (88, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "graphite",
+                   position: (89, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "console",
+                   position: (90, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "repeater",
+                   position: (91, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "statsd-librato-backend",
+                   position: (92, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "stackdriver-statsd-backend",
+                   position: (93, 10),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "statsd-influxdb-backend",
+                   position: (94, 10),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (96, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (96, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "listOf",
+                   position: (96, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (96, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (96, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "graphiteHost",
+            position: (99, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (99, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (100, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Hostname or IP of Graphite server",
+                 position: (100, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (101, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (101, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (102, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (102, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (102, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (102, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (102, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "graphitePort",
+            position: (105, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (105, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (106, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Port of Graphite server (i.e. carbon-cache).",
+                 position: (106, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (107, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "null",
+               position: (107, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (108, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (108, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (108, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (108, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "int",
+                    position: (108, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "extraConfig",
+            position: (111, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (111, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (112, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Extra configuration options for statsd",
+                 position: (112, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (113, 7),
+                },
+               ],
+              },
+              String {
+               parts: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (114, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (114, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (114, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (114, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (114, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (121, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (121, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (121, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (121, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "assertions",
+              position: (123, 5),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "map",
+             position: (123, 18),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "backend",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "assertion",
+                    position: (124, 7),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: Implication,
+                  operands: [
+                   UnaryOperation {
+                    operator: Not,
+                    operand: FunctionApplication {
+                     function: Variable {
+                      identifier: "isBuiltinBackend",
+                      position: (124, 20),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "backend",
+                       position: (124, 37),
+                      },
+                     ],
+                    },
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "hasAttrByPath",
+                     position: (124, 48),
+                    },
+                    arguments: [
+                     List {
+                      elements: [
+                       Variable {
+                        identifier: "backend",
+                        position: (124, 64),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "pkgs",
+                       position: (124, 74),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "nodePackages",
+                         position: (124, 79),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "message",
+                    position: (125, 7),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Only builtin backends (graphite, console, repeater) or backends enumerated in `pkgs.nodePackages` are allowed!",
+                    position: (125, 18),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (126, 8),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "backends",
+                 position: (126, 12),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (128, 5),
+             },
+             Raw {
+              content: "users",
+              position: (128, 11),
+             },
+             Raw {
+              content: "statsd",
+              position: (128, 17),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "uid",
+                 position: (129, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (129, 13),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ids",
+                  position: (129, 20),
+                 },
+                 Raw {
+                  content: "uids",
+                  position: (129, 24),
+                 },
+                 Raw {
+                  content: "statsd",
+                  position: (129, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (130, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Statsd daemon user",
+                 position: (130, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (133, 5),
+             },
+             Raw {
+              content: "services",
+              position: (133, 13),
+             },
+             Raw {
+              content: "statsd",
+              position: (133, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (134, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Statsd Server",
+                 position: (134, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (135, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (135, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "environment",
+                 position: (136, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "NODE_PATH",
+                    position: (137, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "deps",
+                     position: (137, 24),
+                    },
+                   },
+                   Raw {
+                    content: "/lib/node_modules",
+                    position: (137, 29),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (139, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (140, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (140, 24),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "statsd",
+                        position: (140, 29),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/bin/statsd ",
+                    position: (140, 36),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "configFile",
+                     position: (140, 50),
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (141, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "statsd",
+                    position: (141, 17),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (145, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (145, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (145, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "statsd",
+                 position: (145, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

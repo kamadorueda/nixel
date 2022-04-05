@@ -1,0 +1,518 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "starship",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "settingsFormat",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 20),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "formats",
+          position: (8, 25),
+         },
+         Raw {
+          content: "toml",
+          position: (8, 33),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "settingsFile",
+        position: (10, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "settingsFormat",
+        position: (10, 18),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "generate",
+          position: (10, 33),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "starship.toml",
+          position: (10, 43),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (10, 58),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "settings",
+           position: (10, 62),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (13, 3),
+        },
+        Raw {
+         content: "programs",
+         position: (13, 11),
+        },
+        Raw {
+         content: "starship",
+         position: (13, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (14, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (14, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "the Starship shell prompt",
+              position: (14, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "settings",
+            position: (16, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (16, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             Inherit(
+              Some(
+               Variable {
+                identifier: "settingsFormat",
+                position: (17, 16),
+               },
+              ),
+              [
+               Raw {
+                content: "type",
+                position: (17, 32),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (18, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (19, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Configuration included in <literal>starship.toml</literal>.\n\nSee https://starship.rs/config/#prompt for documentation.\n",
+                 position: (20, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (27, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (27, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (27, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (27, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "programs",
+              position: (28, 5),
+             },
+             Raw {
+              content: "bash",
+              position: (28, 14),
+             },
+             Raw {
+              content: "promptInit",
+              position: (28, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "if [[ $TERM != \"dumb\" && (-z $INSIDE_EMACS || $INSIDE_EMACS == \"vterm\") ]]; then\n  export STARSHIP_CONFIG=",
+              position: (29, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "settingsFile",
+               position: (30, 34),
+              },
+             },
+             Raw {
+              content: "\n  eval \"$(",
+              position: (30, 47),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (31, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "starship",
+                  position: (31, 24),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/bin/starship init bash)\"\nfi\n",
+              position: (31, 33),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "programs",
+              position: (35, 5),
+             },
+             Raw {
+              content: "fish",
+              position: (35, 14),
+             },
+             Raw {
+              content: "promptInit",
+              position: (35, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "if test \"$TERM\" != \"dumb\" -a \\( -z \"$INSIDE_EMACS\" -o \"$INSIDE_EMACS\" = \"vterm\" \\)\n  set -x STARSHIP_CONFIG ",
+              position: (36, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "settingsFile",
+               position: (37, 34),
+              },
+             },
+             Raw {
+              content: "\n  eval (",
+              position: (37, 47),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (38, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "starship",
+                  position: (38, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/bin/starship init fish)\nend\n",
+              position: (38, 31),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "programs",
+              position: (42, 5),
+             },
+             Raw {
+              content: "zsh",
+              position: (42, 14),
+             },
+             Raw {
+              content: "promptInit",
+              position: (42, 18),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "if [[ $TERM != \"dumb\" && (-z $INSIDE_EMACS || $INSIDE_EMACS == \"vterm\") ]]; then\n  export STARSHIP_CONFIG=",
+              position: (43, 1),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "settingsFile",
+               position: (44, 34),
+              },
+             },
+             Raw {
+              content: "\n  eval \"$(",
+              position: (44, 47),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (45, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "starship",
+                  position: (45, 24),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/bin/starship init zsh)\"\nfi\n",
+              position: (45, 33),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (50, 3),
+        },
+        Raw {
+         content: "maintainers",
+         position: (50, 8),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (50, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "starship",
+          position: (50, 27),
+         },
+         Raw {
+          content: "meta",
+          position: (50, 36),
+         },
+         Raw {
+          content: "maintainers",
+          position: (50, 41),
+         },
+        ],
+       },
+       default: None,
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

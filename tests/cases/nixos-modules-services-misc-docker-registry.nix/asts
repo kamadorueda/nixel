@@ -1,0 +1,2194 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "dockerRegistry",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "blobCache",
+        position: (8, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (8, 18),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "enableRedisCache",
+          position: (8, 22),
+         },
+        ],
+       },
+       default: None,
+      },
+      then: String {
+       parts: [
+        Raw {
+         content: "redis",
+         position: (9, 11),
+        },
+       ],
+      },
+      else_: String {
+       parts: [
+        Raw {
+         content: "inmemory",
+         position: (10, 11),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "registryConfig",
+        position: (12, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "version",
+           position: (13, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "0.1",
+           position: (13, 17),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "log",
+           position: (14, 5),
+          },
+          Raw {
+           content: "fields",
+           position: (14, 9),
+          },
+          Raw {
+           content: "service",
+           position: (14, 16),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "registry",
+           position: (14, 27),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "storage",
+           position: (15, 5),
+          },
+         ],
+        },
+        BinaryOperation {
+         operator: Update,
+         operands: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "cache",
+                position: (16, 7),
+               },
+               Raw {
+                content: "blobdescriptor",
+                position: (16, 13),
+               },
+              ],
+             },
+             Variable {
+              identifier: "blobCache",
+              position: (16, 30),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "delete",
+                position: (17, 7),
+               },
+               Raw {
+                content: "enabled",
+                position: (17, 14),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (17, 24),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableDelete",
+                 position: (17, 28),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+          IfThenElse {
+           predicate: BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (18, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "storagePath",
+                 position: (18, 18),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "null",
+              position: (18, 33),
+             },
+            ],
+           },
+           then: Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "filesystem",
+                 position: (19, 18),
+                },
+                Raw {
+                 content: "rootdirectory",
+                 position: (19, 29),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (19, 45),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "storagePath",
+                  position: (19, 49),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+           else_: Map {
+            bindings: [],
+            recursive: false,
+           },
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "http",
+           position: (21, 5),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "addr",
+              position: (22, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (22, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "listenAddress",
+                  position: (22, 21),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: ":",
+              position: (22, 35),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "builtins",
+                 position: (22, 38),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "toString",
+                   position: (22, 47),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (22, 56),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "port",
+                    position: (22, 60),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "headers",
+              position: (23, 7),
+             },
+             Raw {
+              content: "X-Content-Type-Options",
+              position: (23, 15),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "nosniff",
+                position: (23, 42),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "health",
+           position: (25, 5),
+          },
+          Raw {
+           content: "storagedriver",
+           position: (25, 12),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "enabled",
+              position: (26, 7),
+             },
+            ],
+           },
+           Variable {
+            identifier: "true",
+            position: (26, 17),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "interval",
+              position: (27, 7),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "10s",
+              position: (27, 19),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "threshold",
+              position: (28, 7),
+             },
+            ],
+           },
+           Int {
+            value: 3,
+            position: (28, 19),
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "registryConfig",
+        position: (32, 3),
+       },
+       Raw {
+        content: "redis",
+        position: (32, 18),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (32, 26),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (32, 31),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enableRedisCache",
+           position: (32, 35),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "addr",
+             position: (33, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (33, 15),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "redisUrl",
+                 position: (33, 19),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "password",
+             position: (34, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (34, 19),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "redisPassword",
+                 position: (34, 23),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "db",
+             position: (35, 5),
+            },
+           ],
+          },
+          Int {
+           value: 0,
+           position: (35, 10),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "dialtimeout",
+             position: (36, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "10ms",
+             position: (36, 20),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "readtimeout",
+             position: (37, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "10ms",
+             position: (37, 20),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "writetimeout",
+             position: (38, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "10ms",
+             position: (38, 21),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "pool",
+             position: (39, 5),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "maxidle",
+                position: (40, 7),
+               },
+              ],
+             },
+             Int {
+              value: 16,
+              position: (40, 17),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "maxactive",
+                position: (41, 7),
+               },
+              ],
+             },
+             Int {
+              value: 64,
+              position: (41, 19),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "idletimeout",
+                position: (42, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "300s",
+                position: (42, 22),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (46, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (46, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (46, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "docker-registry-config.yml",
+          position: (46, 32),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "builtins",
+          position: (46, 61),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "toJSON",
+            position: (46, 70),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         FunctionApplication {
+          function: Variable {
+           identifier: "recursiveUpdate",
+           position: (46, 78),
+          },
+          arguments: [
+           Variable {
+            identifier: "registryConfig",
+            position: (46, 94),
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (46, 109),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "extraConfig",
+               position: (46, 113),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (49, 3),
+        },
+        Raw {
+         content: "services",
+         position: (49, 11),
+        },
+        Raw {
+         content: "dockerRegistry",
+         position: (49, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (50, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (50, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Docker Registry",
+              position: (50, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "listenAddress",
+            position: (52, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (52, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (53, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Docker registry host or ip to bind to.",
+                 position: (53, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (54, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "127.0.0.1",
+                 position: (54, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (55, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (55, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (55, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "port",
+            position: (58, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (58, 12),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (59, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Docker registry port to bind to.",
+                 position: (59, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (60, 7),
+                },
+               ],
+              },
+              Int {
+               value: 5000,
+               position: (60, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (61, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (61, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "port",
+                  position: (61, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "storagePath",
+            position: (64, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (64, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (65, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "types",
+                 position: (65, 14),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nullOr",
+                   position: (65, 20),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (65, 27),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "path",
+                    position: (65, 33),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (66, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "/var/lib/docker-registry",
+                 position: (66, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (67, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Docker registry storage path for the filesystem storage backend. Set to\nnull to configure another backend via extraConfig.\n",
+                 position: (68, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enableDelete",
+            position: (73, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (73, 20),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (74, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (74, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (74, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (75, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (75, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (76, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Enable delete for manifests and blobs.",
+                 position: (76, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enableRedisCache",
+            position: (79, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (79, 24),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "redis as blob cache",
+              position: (79, 40),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "redisUrl",
+            position: (81, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (81, 16),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (82, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (82, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (82, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (83, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "localhost:6379",
+                 position: (83, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (84, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Set redis host and port.",
+                 position: (84, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "redisPassword",
+            position: (87, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (87, 21),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (88, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (88, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (88, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (89, 7),
+                },
+               ],
+              },
+              String {
+               parts: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (90, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Set redis password.",
+                 position: (90, 22),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "extraConfig",
+            position: (93, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (93, 19),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (94, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Docker extra registry configuration via environment variables.\n",
+                 position: (95, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (97, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (98, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (98, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "attrs",
+                  position: (98, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enableGarbageCollect",
+            position: (101, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (101, 28),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "garbage collect",
+              position: (101, 44),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "garbageCollectDates",
+            position: (103, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (103, 27),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (104, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "daily",
+                 position: (104, 18),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (105, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (105, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "str",
+                  position: (105, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (106, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Specification (in the format described by\n<citerefentry><refentrytitle>systemd.time</refentrytitle>\n<manvolnum>7</manvolnum></citerefentry>) of the time at\nwhich the garbage collect will occur.\n",
+                 position: (107, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (115, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (115, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (115, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (115, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (116, 5),
+             },
+             Raw {
+              content: "services",
+              position: (116, 13),
+             },
+             Raw {
+              content: "docker-registry",
+              position: (116, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (117, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Docker Container Registry",
+                 position: (117, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (118, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (118, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (119, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (119, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "script",
+                 position: (120, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "",
+                 position: (121, 1),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (121, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "docker-distribution",
+                     position: (121, 16),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/registry serve ",
+                 position: (121, 36),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "configFile",
+                  position: (121, 58),
+                 },
+                },
+                Raw {
+                 content: "\n",
+                 position: (121, 69),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (124, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "User",
+                    position: (125, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "docker-registry",
+                    position: (125, 17),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "WorkingDirectory",
+                    position: (126, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (126, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "storagePath",
+                     position: (126, 32),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "AmbientCapabilities",
+                    position: (127, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "mkIf",
+                   position: (127, 31),
+                  },
+                  arguments: [
+                   BinaryOperation {
+                    operator: LessThan,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (127, 37),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "port",
+                         position: (127, 41),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     Int {
+                      value: 1024,
+                      position: (127, 48),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "cap_net_bind_service",
+                      position: (127, 55),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (131, 5),
+             },
+             Raw {
+              content: "services",
+              position: (131, 13),
+             },
+             Raw {
+              content: "docker-registry-garbage-collect",
+              position: (131, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (132, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Run Garbage Collection for docker registry",
+                 position: (132, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "restartIfChanged",
+                 position: (134, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (134, 26),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "unitConfig",
+                 position: (135, 7),
+                },
+                Raw {
+                 content: "X-StopOnRemoval",
+                 position: (135, 18),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (135, 36),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (137, 7),
+                },
+                Raw {
+                 content: "Type",
+                 position: (137, 21),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "oneshot",
+                 position: (137, 29),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "script",
+                 position: (139, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "",
+                 position: (140, 1),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (140, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "docker-distribution",
+                     position: (140, 16),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/registry garbage-collect ",
+                 position: (140, 36),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "configFile",
+                  position: (140, 68),
+                 },
+                },
+                Raw {
+                 content: "\n/run/current-system/systemd/bin/systemctl restart docker-registry.service\n",
+                 position: (140, 79),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "startAt",
+                 position: (144, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optional",
+                position: (144, 17),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (144, 26),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "enableGarbageCollect",
+                    position: (144, 30),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (144, 51),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "garbageCollectDates",
+                    position: (144, 55),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (147, 5),
+             },
+             Raw {
+              content: "users",
+              position: (147, 11),
+             },
+             Raw {
+              content: "docker-registry",
+              position: (147, 17),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Update,
+            operands: [
+             IfThenElse {
+              predicate: BinaryOperation {
+               operator: NotEqualTo,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (148, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "storagePath",
+                    position: (148, 15),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                Variable {
+                 identifier: "null",
+                 position: (148, 30),
+                },
+               ],
+              },
+              then: Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "createHome",
+                    position: (150, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (150, 22),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "home",
+                    position: (151, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (151, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "storagePath",
+                     position: (151, 20),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+              else_: Map {
+               bindings: [],
+               recursive: false,
+              },
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (154, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "docker-registry",
+                   position: (154, 18),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "isSystemUser",
+                   position: (155, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (155, 24),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (157, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (157, 11),
+             },
+             Raw {
+              content: "docker-registry",
+              position: (157, 18),
+             },
+            ],
+           },
+           Map {
+            bindings: [],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

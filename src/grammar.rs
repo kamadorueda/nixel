@@ -187,12 +187,12 @@ pub fn grammar() -> Grammar<AST> {
                 ],
             };
         "expr_op" => rules "expr_op" "?" "attrpath"
-            => |mut asts| AST::BinaryOperation {
-                operator: BinaryOperator::HasAttribute,
-                operands: vec![
-                    asts.swap_remove(0),
-                    asts.swap_remove(0),
-                ],
+            => |mut asts| AST::HasProperty {
+                expression: Box::new(asts.swap_remove(0)),
+                attribute_path: match asts.swap_remove(0) {
+                    AST::__AttributePath(attribute_path) => attribute_path,
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "+" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -651,19 +651,19 @@ pub fn grammar() -> Grammar<AST> {
         "attrpath" => rules "attr"
             => |mut asts| AST::__AttributePath(AttributePath {
                 attributes: LinkedList::from([
-                (match asts.swap_remove(0) {
-                    AST::__Attribute(attribute) => attribute,
-                    _ => unreachable!(),
-                })
+                    (match asts.swap_remove(0) {
+                        AST::__Attribute(attribute) => attribute,
+                        _ => unreachable!(),
+                    })
                 ]),
             });
         "attrpath" => rules "string_attr"
             => |mut asts| AST::__AttributePath(AttributePath {
                 attributes: LinkedList::from([
-                (match asts.swap_remove(0) {
-                    AST::__Attribute(attribute) => attribute,
-                    _ => unreachable!(),
-                })
+                    (match asts.swap_remove(0) {
+                        AST::__Attribute(attribute) => attribute,
+                        _ => unreachable!(),
+                    })
                 ]),
             });
         "attr" => rules "ID"

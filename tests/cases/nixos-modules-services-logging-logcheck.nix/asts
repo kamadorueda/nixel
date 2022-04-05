@@ -1,0 +1,3271 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (6, 16),
+        },
+        Raw {
+         content: "logcheck",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "defaultRules",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 18),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (8, 23),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "logcheck-default-rules",
+          position: (8, 35),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "preferLocalBuild",
+             position: (8, 61),
+            },
+           ],
+          },
+          Variable {
+           identifier: "true",
+           position: (8, 80),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "cp -prd ",
+          position: (9, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (9, 30),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "logcheck",
+              position: (9, 35),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: "/etc/logcheck $out\nchmod u+w $out\nrm -r $out/logcheck.*\n",
+          position: (9, 44),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "rulesDir",
+        position: (14, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (14, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "symlinkJoin",
+          position: (14, 19),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "name",
+             position: (15, 7),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "logcheck-rules-dir",
+             position: (15, 15),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "paths",
+             position: (16, 7),
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: Concatenation,
+           operands: [
+            List {
+             elements: [
+              Variable {
+               identifier: "defaultRules",
+               position: (16, 18),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (16, 36),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "extraRulesDirs",
+                position: (16, 40),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configFile",
+        position: (19, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (19, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (19, 21),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "logcheck.conf",
+          position: (19, 32),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (19, 47),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "config",
+           position: (19, 51),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "logFiles",
+        position: (21, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (21, 14),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "writeText",
+          position: (21, 19),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "logcheck.logfiles",
+          position: (21, 30),
+         },
+        ],
+       },
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (21, 49),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "files",
+           position: (21, 53),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "flags",
+        position: (23, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "-r ",
+        position: (23, 12),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "rulesDir",
+         position: (23, 17),
+        },
+       },
+       Raw {
+        content: " -c ",
+        position: (23, 26),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "configFile",
+         position: (23, 32),
+        },
+       },
+       Raw {
+        content: " -L ",
+        position: (23, 43),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "logFiles",
+         position: (23, 49),
+        },
+       },
+       Raw {
+        content: " -",
+        position: (23, 58),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "levelFlag",
+         position: (23, 62),
+        },
+       },
+       Raw {
+        content: " -m ",
+        position: (23, 72),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (23, 78),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mailTo",
+            position: (23, 82),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "levelFlag",
+        position: (25, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "getAttrFromPath",
+       position: (25, 15),
+      },
+      arguments: [
+       List {
+        elements: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (25, 32),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "level",
+             position: (25, 36),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "paranoid",
+             position: (26, 7),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "p",
+             position: (26, 22),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "server",
+             position: (27, 7),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "s",
+             position: (27, 22),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "workstation",
+             position: (28, 7),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "w",
+             position: (28, 22),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cronJob",
+        position: (31, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "@reboot   logcheck env PATH=/run/wrappers/bin:$PATH nice -n10 ",
+        position: (32, 1),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (32, 69),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "logcheck",
+            position: (32, 74),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/sbin/logcheck -R ",
+        position: (32, 83),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "flags",
+         position: (32, 103),
+        },
+       },
+       Raw {
+        content: "\n2 ",
+        position: (32, 109),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (33, 9),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "timeOfDay",
+            position: (33, 13),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: " * * * logcheck env PATH=/run/wrappers/bin:$PATH nice -n10 ",
+        position: (33, 23),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (33, 84),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "logcheck",
+            position: (33, 89),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "/sbin/logcheck ",
+        position: (33, 98),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "flags",
+         position: (33, 115),
+        },
+       },
+       Raw {
+        content: "\n",
+        position: (33, 121),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "writeIgnoreRule",
+        position: (36, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: None,
+       arguments: FunctionArguments {
+        arguments: [
+         FunctionArgument {
+          identifier: "regex",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "level",
+          default: None,
+         },
+        ],
+        ellipsis: true,
+       },
+       definition: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (37, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "writeTextFile",
+            position: (37, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Map {
+          bindings: [
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "name",
+              position: (38, 17),
+             },
+            ],
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "destination",
+               position: (39, 9),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "/ignore.d.",
+               position: (39, 24),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "level",
+                position: (39, 36),
+               },
+              },
+              Raw {
+               content: "/",
+               position: (39, 42),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "name",
+                position: (39, 45),
+               },
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "text",
+               position: (40, 9),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "^\\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ ",
+               position: (41, 1),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "regex",
+                position: (41, 54),
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (41, 60),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "writeIgnoreCronRule",
+        position: (45, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: None,
+       arguments: FunctionArguments {
+        arguments: [
+         FunctionArgument {
+          identifier: "cmdline",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "regex",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "user",
+          default: None,
+         },
+         FunctionArgument {
+          identifier: "level",
+          default: None,
+         },
+        ],
+        ellipsis: true,
+       },
+       definition: LetIn {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "escapeRegex",
+             position: (46, 9),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "escape",
+            position: (46, 23),
+           },
+           arguments: [
+            FunctionApplication {
+             function: Variable {
+              identifier: "stringToCharacters",
+              position: (46, 31),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "\\[]{}()^$?*+|.",
+                 position: (46, 51),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "cmdline_",
+             position: (47, 9),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (47, 20),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "unsafeDiscardStringContext",
+               position: (47, 29),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Variable {
+             identifier: "cmdline",
+             position: (47, 56),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "re",
+             position: (48, 9),
+            },
+           ],
+          },
+          IfThenElse {
+           predicate: BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             Variable {
+              identifier: "regex",
+              position: (48, 17),
+             },
+             String {
+              parts: [],
+             },
+            ],
+           },
+           then: Variable {
+            identifier: "regex",
+            position: (48, 34),
+           },
+           else_: IfThenElse {
+            predicate: BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              Variable {
+               identifier: "cmdline_",
+               position: (48, 48),
+              },
+              String {
+               parts: [],
+              },
+             ],
+            },
+            then: String {
+             parts: [
+              Raw {
+               content: ".*",
+               position: (48, 69),
+              },
+             ],
+            },
+            else_: FunctionApplication {
+             function: Variable {
+              identifier: "escapeRegex",
+              position: (48, 78),
+             },
+             arguments: [
+              Variable {
+               identifier: "cmdline_",
+               position: (48, 90),
+              },
+             ],
+            },
+           },
+          },
+         ),
+        ],
+        target: FunctionApplication {
+         function: Variable {
+          identifier: "writeIgnoreRule",
+          position: (49, 8),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "cron-",
+             position: (49, 25),
+            },
+            Expression {
+             expression: Variable {
+              identifier: "name",
+              position: (49, 32),
+             },
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            Inherit(
+             None,
+             [
+              Raw {
+               content: "level",
+               position: (50, 15),
+              },
+             ],
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "regex",
+                position: (51, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "(/usr/bin/)?cron\\[[0-9]+\\]: \\(",
+                position: (52, 1),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "user",
+                 position: (52, 41),
+                },
+               },
+               Raw {
+                content: "\\) CMD \\(",
+                position: (52, 46),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "re",
+                 position: (52, 57),
+                },
+               },
+               Raw {
+                content: "\\)$\n",
+                position: (52, 60),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "levelOption",
+        position: (56, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkOption",
+       position: (56, 17),
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "default",
+             position: (57, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "server",
+             position: (57, 16),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "type",
+             position: (58, 5),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "types",
+             position: (58, 12),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "enum",
+               position: (58, 18),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            List {
+             elements: [
+              String {
+               parts: [
+                Raw {
+                 content: "workstation",
+                 position: (58, 26),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "server",
+                 position: (58, 40),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "paranoid",
+                 position: (58, 49),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "description",
+             position: (59, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "Set the logcheck level.\n",
+             position: (60, 1),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ignoreOptions",
+        position: (64, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "options",
+           position: (65, 5),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "level",
+              position: (66, 7),
+             },
+            ],
+           },
+           Variable {
+            identifier: "levelOption",
+            position: (66, 15),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "regex",
+              position: (68, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (68, 15),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (69, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (70, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (70, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (70, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (71, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Regex specifying which log lines to ignore.\n",
+                   position: (72, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "ignoreCronOptions",
+        position: (78, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "options",
+           position: (79, 5),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "user",
+              position: (80, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (80, 14),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (81, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "root",
+                   position: (81, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (82, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (82, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (82, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (83, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "User that runs the cronjob.\n",
+                   position: (84, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "cmdline",
+              position: (88, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (88, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (89, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (90, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (90, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (90, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (91, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Command line for the cron job. Will be turned into a regex for the logcheck ignore rule.\n",
+                   position: (92, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "timeArgs",
+              position: (96, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (96, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (97, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "null",
+                 position: (97, 19),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (98, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (98, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "nullOr",
+                     position: (98, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (98, 30),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (98, 36),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (99, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "02 06 * * *",
+                   position: (99, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (100, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "\"min hr dom mon dow\" crontab time args, to auto-create a cronjob too.\nLeave at null to not do this and just add a logcheck ignore rule.\n",
+                   position: (101, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (110, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (111, 5),
+           },
+           Raw {
+            content: "logcheck",
+            position: (111, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (112, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (112, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (113, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (113, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (114, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (114, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (114, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (115, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Enable the logcheck cron job.\n",
+                    position: (116, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "user",
+               position: (120, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (120, 14),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (121, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "logcheck",
+                    position: (121, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (122, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (122, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (122, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (123, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Username for the logcheck user.\n",
+                    position: (124, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "timeOfDay",
+               position: (128, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (128, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (129, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "*",
+                    position: (129, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (130, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "6",
+                    position: (130, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (131, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (131, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (131, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (132, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Time of day to run logcheck. A logcheck will be scheduled at xx:02 each day.\nLeave default (*) to run every hour. Of course when nothing special was logged,\nlogcheck will be silent.\n",
+                    position: (133, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "mailTo",
+               position: (139, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (139, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (140, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "root",
+                    position: (140, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (141, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "you@domain.com",
+                    position: (141, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (142, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (142, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (142, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (143, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Email address to send reports to.\n",
+                    position: (144, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "level",
+               position: (148, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (148, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (149, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "server",
+                    position: (149, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (150, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (150, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (150, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (151, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Set the logcheck level. Either \"workstation\", \"server\", or \"paranoid\".\n",
+                    position: (152, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "config",
+               position: (156, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (156, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (157, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "FQDN=1",
+                    position: (157, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (158, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (158, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (158, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (159, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Config options that you would like in logcheck.conf.\n",
+                    position: (160, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "files",
+               position: (164, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (164, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (165, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/var/log/messages",
+                      position: (165, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (166, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (166, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (166, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (166, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (166, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (167, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/var/log/messages",
+                      position: (167, 22),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/var/log/mail",
+                      position: (167, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (168, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Which log files to check.\n",
+                    position: (169, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraRulesDirs",
+               position: (173, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (173, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (174, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (175, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/etc/logcheck",
+                      position: (175, 22),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (176, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (176, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (176, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (176, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (176, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (177, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Directories with extra rules.\n",
+                    position: (178, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ignore",
+               position: (182, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (182, 16),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (183, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (184, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "This option defines extra ignore rules.\n",
+                    position: (185, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (187, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (187, 21),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (187, 28),
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "submodule",
+                      position: (187, 37),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "ignoreOptions",
+                       position: (187, 47),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "ignoreCron",
+               position: (190, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (190, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (191, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (192, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "This option defines extra ignore rules for cronjobs.\n",
+                    position: (193, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (195, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (195, 21),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (195, 28),
+                   },
+                   arguments: [
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "submodule",
+                      position: (195, 37),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "ignoreCronOptions",
+                       position: (195, 47),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraGroups",
+               position: (198, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (198, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (199, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (200, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (200, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (200, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (200, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (200, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (201, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "postdrop",
+                      position: (201, 22),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "mongodb",
+                      position: (201, 33),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (202, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Extra groups for the logcheck user, for example to be able to use sendmail,\nor to access certain log files.\n",
+                    position: (203, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (211, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (211, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (211, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (211, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (212, 5),
+             },
+             Raw {
+              content: "logcheck",
+              position: (212, 14),
+             },
+             Raw {
+              content: "extraRulesDirs",
+              position: (212, 23),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             FunctionApplication {
+              function: Variable {
+               identifier: "mapAttrsToList",
+               position: (213, 9),
+              },
+              arguments: [
+               Variable {
+                identifier: "writeIgnoreRule",
+                position: (213, 24),
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (213, 40),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ignore",
+                   position: (213, 44),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "mapAttrsToList",
+               position: (214, 12),
+              },
+              arguments: [
+               Variable {
+                identifier: "writeIgnoreCronRule",
+                position: (214, 27),
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (214, 47),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ignoreCron",
+                   position: (214, 51),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (216, 5),
+             },
+             Raw {
+              content: "users",
+              position: (216, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optionalAttrs",
+             position: (216, 19),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (216, 34),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (216, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "logcheck",
+                  position: (216, 47),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "logcheck",
+                   position: (217, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (218, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "logcheck",
+                      position: (218, 18),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "isSystemUser",
+                      position: (219, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (219, 24),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "shell",
+                      position: (220, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/bin/sh",
+                      position: (220, 18),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (221, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Logcheck user account",
+                      position: (221, 24),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "extraGroups",
+                      position: (222, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (222, 23),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "extraGroups",
+                       position: (222, 27),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "users",
+              position: (225, 5),
+             },
+             Raw {
+              content: "groups",
+              position: (225, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "optionalAttrs",
+             position: (225, 20),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (225, 35),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (225, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "logcheck",
+                  position: (225, 48),
+                 },
+                ],
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "logcheck",
+                   position: (226, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (229, 5),
+             },
+             Raw {
+              content: "activationScripts",
+              position: (229, 12),
+             },
+             Raw {
+              content: "logcheck",
+              position: (229, 30),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "mkdir -m 700 -p /var/{lib,lock}/logcheck\nchown ",
+              position: (230, 1),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (231, 15),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "user",
+                  position: (231, 19),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: " /var/{lib,lock}/logcheck\n",
+              position: (231, 24),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (234, 5),
+             },
+             Raw {
+              content: "cron",
+              position: (234, 14),
+             },
+             Raw {
+              content: "systemCronJobs",
+              position: (234, 19),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "withTime",
+                 position: (235, 13),
+                },
+               ],
+              },
+              Function {
+               argument: Some(
+                "name",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: Function {
+                argument: None,
+                arguments: FunctionArguments {
+                 arguments: [
+                  FunctionArgument {
+                   identifier: "timeArgs",
+                   default: None,
+                  },
+                 ],
+                 ellipsis: true,
+                },
+                definition: BinaryOperation {
+                 operator: NotEqualTo,
+                 operands: [
+                  Variable {
+                   identifier: "timeArgs",
+                   position: (235, 47),
+                  },
+                  Variable {
+                   identifier: "null",
+                   position: (235, 59),
+                  },
+                 ],
+                },
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mkCron",
+                 position: (236, 13),
+                },
+               ],
+              },
+              Function {
+               argument: Some(
+                "name",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: Function {
+                argument: None,
+                arguments: FunctionArguments {
+                 arguments: [
+                  FunctionArgument {
+                   identifier: "timeArgs",
+                   default: None,
+                  },
+                  FunctionArgument {
+                   identifier: "cmdline",
+                   default: None,
+                  },
+                  FunctionArgument {
+                   identifier: "user",
+                   default: None,
+                  },
+                 ],
+                 ellipsis: true,
+                },
+                definition: String {
+                 parts: [
+                  Raw {
+                   content: "",
+                   position: (237, 1),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "timeArgs",
+                    position: (237, 17),
+                   },
+                  },
+                  Raw {
+                   content: " ",
+                   position: (237, 26),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "user",
+                    position: (237, 29),
+                   },
+                  },
+                  Raw {
+                   content: " ",
+                   position: (237, 34),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "cmdline",
+                    position: (237, 37),
+                   },
+                  },
+                  Raw {
+                   content: "\n",
+                   position: (237, 45),
+                  },
+                 ],
+                },
+               },
+              },
+             ),
+            ],
+            target: BinaryOperation {
+             operator: Concatenation,
+             operands: [
+              FunctionApplication {
+               function: Variable {
+                identifier: "mapAttrsToList",
+                position: (239, 12),
+               },
+               arguments: [
+                Variable {
+                 identifier: "mkCron",
+                 position: (239, 27),
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "filterAttrs",
+                  position: (239, 35),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "withTime",
+                   position: (239, 47),
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (239, 56),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ignoreCron",
+                      position: (239, 60),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ],
+              },
+              List {
+               elements: [
+                Variable {
+                 identifier: "cronJob",
+                 position: (240, 17),
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

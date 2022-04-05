@@ -1,0 +1,429 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: Map {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "options",
+       position: (4, 3),
+      },
+     ],
+    },
+    Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "gnu",
+          position: (5, 5),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (5, 11),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mkOption",
+            position: (5, 15),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "type",
+               position: (6, 7),
+              },
+             ],
+            },
+            PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (6, 14),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "types",
+                position: (6, 18),
+               },
+               Raw {
+                content: "bool",
+                position: (6, 24),
+               },
+              ],
+             },
+             default: None,
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "default",
+               position: (7, 7),
+              },
+             ],
+            },
+            Variable {
+             identifier: "false",
+             position: (7, 17),
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "description",
+               position: (8, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "When enabled, GNU software is chosen by default whenever a there is\na choice between GNU and non-GNU software (e.g., GNU lsh\nvs. OpenSSH).\n",
+               position: (9, 1),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "config",
+       position: (16, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "lib",
+       position: (16, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "mkIf",
+         position: (16, 16),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      PropertyAccess {
+       expression: Variable {
+        identifier: "config",
+        position: (16, 21),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "gnu",
+          position: (16, 28),
+         },
+        ],
+       },
+       default: None,
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (18, 5),
+           },
+           Raw {
+            content: "systemPackages",
+            position: (18, 17),
+           },
+          ],
+         },
+         With {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (18, 39),
+          },
+          target: BinaryOperation {
+           operator: Concatenation,
+           operands: [
+            List {
+             elements: [
+              Variable {
+               identifier: "parted",
+               position: (21, 9),
+              },
+              Variable {
+               identifier: "nano",
+               position: (24, 9),
+              },
+              Variable {
+               identifier: "zile",
+               position: (24, 14),
+              },
+              Variable {
+               identifier: "texinfo",
+               position: (25, 9),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "lib",
+               position: (27, 10),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "optional",
+                 position: (27, 14),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              UnaryOperation {
+               operator: Not,
+               operand: PropertyAccess {
+                expression: Variable {
+                 identifier: "stdenv",
+                 position: (27, 25),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "isAarch32",
+                   position: (27, 32),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Variable {
+               identifier: "grub2",
+               position: (27, 43),
+              },
+             ],
+            },
+           ],
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "boot",
+            position: (31, 5),
+           },
+           Raw {
+            content: "loader",
+            position: (31, 10),
+           },
+           Raw {
+            content: "grub",
+            position: (31, 17),
+           },
+           Raw {
+            content: "enable",
+            position: (31, 22),
+           },
+          ],
+         },
+         UnaryOperation {
+          operator: Not,
+          operand: PropertyAccess {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (31, 32),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "stdenv",
+              position: (31, 37),
+             },
+             Raw {
+              content: "isAarch32",
+              position: (31, 44),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "boot",
+            position: (32, 5),
+           },
+           Raw {
+            content: "loader",
+            position: (32, 10),
+           },
+           Raw {
+            content: "grub",
+            position: (32, 17),
+           },
+           Raw {
+            content: "version",
+            position: (32, 22),
+           },
+          ],
+         },
+         Int {
+          value: 2,
+          position: (32, 32),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (35, 5),
+           },
+           Raw {
+            content: "openssh",
+            position: (35, 14),
+           },
+           Raw {
+            content: "enable",
+            position: (35, 22),
+           },
+          ],
+         },
+         Variable {
+          identifier: "false",
+          position: (35, 31),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (36, 5),
+           },
+           Raw {
+            content: "lshd",
+            position: (36, 14),
+           },
+           Raw {
+            content: "enable",
+            position: (36, 19),
+           },
+          ],
+         },
+         Variable {
+          identifier: "true",
+          position: (36, 28),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "programs",
+            position: (37, 5),
+           },
+           Raw {
+            content: "ssh",
+            position: (37, 14),
+           },
+           Raw {
+            content: "startAgent",
+            position: (37, 18),
+           },
+          ],
+         },
+         Variable {
+          identifier: "false",
+          position: (37, 31),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (38, 5),
+           },
+           Raw {
+            content: "xserver",
+            position: (38, 14),
+           },
+           Raw {
+            content: "startGnuPGAgent",
+            position: (38, 22),
+           },
+          ],
+         },
+         Variable {
+          identifier: "true",
+          position: (38, 40),
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+  ],
+  recursive: false,
+ },
+}

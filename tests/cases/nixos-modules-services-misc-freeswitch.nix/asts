@@ -1,0 +1,1406 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (2, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (4, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (4, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (4, 16),
+        },
+        Raw {
+         content: "freeswitch",
+         position: (4, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "pkg",
+        position: (5, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "cfg",
+       position: (5, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "package",
+         position: (5, 13),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configDirectory",
+        position: (6, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (6, 21),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (6, 26),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "freeswitch-config-d",
+          position: (6, 38),
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p $out\ncp -rT ",
+          position: (7, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (8, 14),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "configTemplate",
+              position: (8, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " $out\nchmod -R +w $out\n",
+          position: (8, 33),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (10, 7),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "\n",
+               position: (10, 25),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mapAttrsToList",
+              position: (10, 30),
+             },
+             arguments: [
+              Function {
+               argument: Some(
+                "fileName",
+               ),
+               arguments: FunctionArguments {
+                arguments: [],
+                ellipsis: false,
+               },
+               definition: Function {
+                argument: Some(
+                 "filePath",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: String {
+                 parts: [
+                  Raw {
+                   content: "mkdir -p $out/$(dirname ",
+                   position: (11, 1),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "fileName",
+                    position: (11, 33),
+                   },
+                  },
+                  Raw {
+                   content: ")\ncp ",
+                   position: (11, 42),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "filePath",
+                    position: (12, 12),
+                   },
+                  },
+                  Raw {
+                   content: " $out/",
+                   position: (12, 21),
+                  },
+                  Expression {
+                   expression: Variable {
+                    identifier: "fileName",
+                    position: (12, 29),
+                   },
+                  },
+                  Raw {
+                   content: "\n",
+                   position: (12, 38),
+                  },
+                 ],
+                },
+               },
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (13, 9),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "configDir",
+                  position: (13, 13),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (13, 24),
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "configPath",
+        position: (15, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (15, 19),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "enableReload",
+          position: (15, 23),
+         },
+        ],
+       },
+       default: None,
+      },
+      then: String {
+       parts: [
+        Raw {
+         content: "/etc/freeswitch",
+         position: (16, 11),
+        },
+       ],
+      },
+      else_: Variable {
+       identifier: "configDirectory",
+       position: (17, 10),
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (19, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (20, 5),
+           },
+           Raw {
+            content: "freeswitch",
+            position: (20, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (21, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (21, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "FreeSWITCH",
+                 position: (21, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enableReload",
+               position: (22, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (22, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (23, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (23, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (24, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (24, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (24, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (25, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Issue the <literal>reloadxml</literal> command to FreeSWITCH when configuration directory changes (instead of restart).\nSee <link xlink:href=\"https://freeswitch.org/confluence/display/FREESWITCH/Reloading\">FreeSWITCH documentation</link> for more info.\nThe configuration directory is exposed at <filename>/etc/freeswitch</filename>.\nSee also <literal>systemd.services.*.restartIfChanged</literal>.\n",
+                    position: (26, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "configTemplate",
+               position: (32, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (32, 24),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (33, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (33, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "path",
+                     position: (33, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (34, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "config",
+                      position: (34, 22),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "services",
+                        position: (34, 29),
+                       },
+                       Raw {
+                        content: "freeswitch",
+                        position: (34, 38),
+                       },
+                       Raw {
+                        content: "package",
+                        position: (34, 49),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: "/share/freeswitch/conf/vanilla",
+                    position: (34, 57),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (35, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (35, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\"",
+                      position: (35, 43),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (35, 44),
+                     },
+                     Raw {
+                      content: "{config.services.freeswitch.package}/share/freeswitch/conf/vanilla\"",
+                      position: (35, 47),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (36, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (36, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "\"",
+                      position: (36, 39),
+                     },
+                     Raw {
+                      content: "$",
+                      position: (36, 40),
+                     },
+                     Raw {
+                      content: "{config.services.freeswitch.package}/share/freeswitch/conf/minimal\"",
+                      position: (36, 43),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (37, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Configuration template to use.\nSee available templates in <link xlink:href=\"https://github.com/signalwire/freeswitch/tree/master/conf\">FreeSWITCH repository</link>.\nYou can also set your own configuration directory.\n",
+                    position: (38, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "configDir",
+               position: (43, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (43, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (44, 9),
+                   },
+                  ],
+                 },
+                 With {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (44, 21),
+                  },
+                  target: FunctionApplication {
+                   function: Variable {
+                    identifier: "attrsOf",
+                    position: (44, 28),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "path",
+                     position: (44, 36),
+                    },
+                   ],
+                  },
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (45, 9),
+                   },
+                  ],
+                 },
+                 Map {
+                  bindings: [],
+                  recursive: false,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (46, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (46, 19),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "{\n  \"freeswitch.xml\" = ./freeswitch.xml;\n  \"dialplan/default.xml\" = pkgs.writeText \"dialplan-default.xml\" ",
+                      position: (47, 1),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (49, 76),
+                     },
+                     Raw {
+                      content: "\n    [xml lines]\n  ",
+                      position: (49, 79),
+                     },
+                     Raw {
+                      content: "''",
+                      position: (51, 13),
+                     },
+                     Raw {
+                      content: ";\n}\n",
+                      position: (51, 16),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (54, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Override file in FreeSWITCH config template directory.\nEach top-level attribute denotes a file path in the configuration directory, its value is the file path.\nSee <link xlink:href=\"https://freeswitch.org/confluence/display/FREESWITCH/Default+Configuration\">FreeSWITCH documentation</link> for more info.\nAlso check available templates in <link xlink:href=\"https://github.com/signalwire/freeswitch/tree/master/conf\">FreeSWITCH repository</link>.\n",
+                    position: (55, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "package",
+               position: (61, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (61, 17),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (62, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (62, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "package",
+                     position: (62, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (63, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (63, 19),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "freeswitch",
+                     position: (63, 24),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "defaultText",
+                    position: (64, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (64, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "pkgs.freeswitch",
+                      position: (64, 42),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (65, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "FreeSWITCH package.\n",
+                    position: (66, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (71, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (71, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (71, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (71, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (72, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (72, 17),
+             },
+             Raw {
+              content: "freeswitch",
+              position: (72, 21),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (72, 34),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (72, 39),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableReload",
+                 position: (72, 43),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "source",
+                   position: (73, 7),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "configDirectory",
+                 position: (73, 16),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (75, 5),
+             },
+             Raw {
+              content: "services",
+              position: (75, 13),
+             },
+             Raw {
+              content: "freeswitch-config-reload",
+              position: (75, 22),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (75, 49),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (75, 54),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableReload",
+                 position: (75, 58),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "before",
+                   position: (76, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "freeswitch.service",
+                     position: (76, 19),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "wantedBy",
+                   position: (77, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "multi-user.target",
+                     position: (77, 21),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "restartTriggers",
+                   position: (78, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Variable {
+                   identifier: "configDirectory",
+                   position: (78, 27),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "serviceConfig",
+                   position: (79, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ExecStart",
+                      position: (80, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/run/current-system/systemd/bin/systemctl try-reload-or-restart freeswitch.service",
+                      position: (80, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "RemainAfterExit",
+                      position: (81, 9),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (81, 27),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "Type",
+                      position: (82, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "oneshot",
+                      position: (82, 17),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (85, 5),
+             },
+             Raw {
+              content: "services",
+              position: (85, 13),
+             },
+             Raw {
+              content: "freeswitch",
+              position: (85, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (86, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Free and open-source application server for real-time communication",
+                 position: (86, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (87, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "network.target",
+                   position: (87, 18),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (88, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (88, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (89, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "DynamicUser",
+                    position: (90, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (90, 23),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "StateDirectory",
+                    position: (91, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "freeswitch",
+                    position: (91, 27),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (92, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "pkg",
+                     position: (92, 24),
+                    },
+                   },
+                   Raw {
+                    content: "/bin/freeswitch -nf \\\n          -mod ",
+                    position: (92, 28),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "pkg",
+                     position: (93, 18),
+                    },
+                   },
+                   Raw {
+                    content: "/lib/freeswitch/mod \\\n          -conf ",
+                    position: (93, 22),
+                   },
+                   Expression {
+                    expression: Variable {
+                     identifier: "configPath",
+                     position: (94, 19),
+                    },
+                   },
+                   Raw {
+                    content: " \\\n          -base /var/lib/freeswitch",
+                    position: (94, 30),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecReload",
+                    position: (96, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "pkg",
+                     position: (96, 25),
+                    },
+                   },
+                   Raw {
+                    content: "/bin/fs_cli -x reloadxml",
+                    position: (96, 29),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "Restart",
+                    position: (97, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "on-failure",
+                    position: (97, 20),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "RestartSec",
+                    position: (98, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "5s",
+                    position: (98, 23),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "CPUSchedulingPolicy",
+                    position: (99, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "fifo",
+                    position: (99, 32),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (102, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (102, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "pkg",
+              position: (102, 36),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

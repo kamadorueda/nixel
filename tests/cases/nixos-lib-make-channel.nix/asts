@@ -1,0 +1,196 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "versionSuffix",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "version",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "nixpkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: FunctionApplication {
+  function: PropertyAccess {
+   expression: Variable {
+    identifier: "pkgs",
+    position: (7, 1),
+   },
+   attribute_path: AttributePath {
+    attributes: [
+     Raw {
+      content: "releaseTools",
+      position: (7, 6),
+     },
+     Raw {
+      content: "makeSourceTarball",
+      position: (7, 19),
+     },
+    ],
+   },
+   default: None,
+  },
+  arguments: [
+   Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "name",
+         position: (8, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "nixos-channel",
+         position: (8, 11),
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "src",
+         position: (10, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "nixpkgs",
+       position: (10, 9),
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "officialRelease",
+         position: (12, 3),
+        },
+       ],
+      },
+      Variable {
+       identifier: "false",
+       position: (12, 21),
+      },
+     ),
+     Inherit(
+      None,
+      [
+       Raw {
+        content: "version",
+        position: (13, 11),
+       },
+       Raw {
+        content: "versionSuffix",
+        position: (13, 19),
+       },
+      ],
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "buildInputs",
+         position: (15, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (15, 19),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "nix",
+            position: (15, 24),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "distPhase",
+         position: (17, 3),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "rm -rf .git\necho -n $VERSION_SUFFIX > .version-suffix\necho -n ",
+         position: (18, 1),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "nixpkgs",
+           position: (20, 15),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "rev",
+             position: (20, 23),
+            },
+           ],
+          },
+          default: Some(
+           PropertyAccess {
+            expression: Variable {
+             identifier: "nixpkgs",
+             position: (20, 30),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "shortRev",
+               position: (20, 38),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+         },
+        },
+        Raw {
+         content: " > .git-revision\nreleaseName=nixos-$VERSION$VERSION_SUFFIX\nmkdir -p $out/tarballs\ncp -prd . ../$releaseName\nchmod -R u+w ../$releaseName\nln -s . ../$releaseName/nixpkgs # hack to make ‘<nixpkgs>’ work\nNIX_STATE_DIR=$TMPDIR nix-env -f ../$releaseName/default.nix -qaP --meta --xml \\* > /dev/null\ncd ..\nchmod -R u+w $releaseName\ntar cfJ $out/tarballs/$releaseName.tar.xz $releaseName\n",
+         position: (20, 47),
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  ],
+ },
+}

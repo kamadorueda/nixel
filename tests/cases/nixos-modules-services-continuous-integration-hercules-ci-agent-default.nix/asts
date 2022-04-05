@@ -1,0 +1,1322 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (11, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "mkIf",
+      position: (11, 17),
+     },
+     Raw {
+      content: "mkDefault",
+      position: (11, 22),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (13, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (13, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (13, 16),
+       },
+       Raw {
+        content: "hercules-ci-agent",
+        position: (13, 25),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "command",
+       position: (15, 3),
+      },
+     ],
+    },
+    String {
+     parts: [
+      Expression {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (15, 16),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "package",
+           position: (15, 20),
+          },
+         ],
+        },
+        default: None,
+       },
+      },
+      Raw {
+       content: "/bin/hercules-ci-agent --config ",
+       position: (15, 28),
+      },
+      Expression {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (15, 62),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "tomlFile",
+           position: (15, 66),
+          },
+         ],
+        },
+        default: None,
+       },
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "testCommand",
+       position: (16, 3),
+      },
+     ],
+    },
+    String {
+     parts: [
+      Expression {
+       expression: Variable {
+        identifier: "command",
+        position: (16, 20),
+       },
+      },
+      Raw {
+       content: " --test-configuration",
+       position: (16, 28),
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "imports",
+        position: (20, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       Path {
+        parts: [
+         Raw {
+          content: "./common.nix",
+          position: (21, 5),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (22, 6),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mkRenamedOptionModule",
+            position: (22, 10),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "services",
+              position: (22, 35),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "hercules-ci-agent",
+              position: (22, 46),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "user",
+              position: (22, 66),
+             },
+            ],
+           },
+          ],
+         },
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "systemd",
+              position: (22, 77),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "services",
+              position: (22, 87),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "hercules-ci-agent",
+              position: (22, 98),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "serviceConfig",
+              position: (22, 118),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "User",
+              position: (22, 134),
+             },
+            ],
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (25, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (25, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (25, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (25, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (26, 5),
+            },
+            Raw {
+             content: "services",
+             position: (26, 13),
+            },
+            Raw {
+             content: "hercules-ci-agent",
+             position: (26, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (27, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "multi-user.target",
+                  position: (27, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "after",
+                position: (28, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "network-online.target",
+                  position: (28, 18),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wants",
+                position: (29, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "network-online.target",
+                  position: (29, 18),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "path",
+                position: (30, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (30, 16),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nix",
+                   position: (30, 23),
+                  },
+                  Raw {
+                   content: "package",
+                   position: (30, 27),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "startLimitBurst",
+                position: (31, 7),
+               },
+              ],
+             },
+             BinaryOperation {
+              operator: Multiplication,
+              operands: [
+               Int {
+                value: 30,
+                position: (31, 25),
+               },
+               Int {
+                value: 1000000,
+                position: (31, 30),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (32, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "User",
+                   position: (33, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "hercules-ci-agent",
+                   position: (33, 17),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (34, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "command",
+                 position: (34, 21),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStartPre",
+                   position: (35, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "testCommand",
+                 position: (35, 24),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Restart",
+                   position: (36, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "on-failure",
+                   position: (36, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "RestartSec",
+                   position: (37, 9),
+                  },
+                 ],
+                },
+                Int {
+                 value: 120,
+                 position: (37, 22),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (43, 5),
+            },
+            Raw {
+             content: "paths",
+             position: (43, 13),
+            },
+            Raw {
+             content: "hercules-ci-agent-restart-files",
+             position: (43, 19),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (44, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "hercules-ci-agent.service",
+                  position: (44, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "pathConfig",
+                position: (45, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Unit",
+                   position: (46, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "hercules-ci-agent-restarter.service",
+                   position: (46, 17),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "PathChanged",
+                   position: (47, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (47, 25),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "settings",
+                      position: (47, 29),
+                     },
+                     Raw {
+                      content: "clusterJoinTokenPath",
+                      position: (47, 38),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (47, 59),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "settings",
+                      position: (47, 63),
+                     },
+                     Raw {
+                      content: "binaryCachesPath",
+                      position: (47, 72),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (50, 5),
+            },
+            Raw {
+             content: "services",
+             position: (50, 13),
+            },
+            Raw {
+             content: "hercules-ci-agent-restarter",
+             position: (50, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (51, 7),
+               },
+               Raw {
+                content: "Type",
+                position: (51, 21),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "oneshot",
+                position: (51, 29),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "script",
+                position: (52, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "# Wait a bit, with the effect of bundling up file changes into a single\n# run of this script and hopefully a single restart.\nsleep 10\nif systemctl is-active --quiet hercules-ci-agent.service; then\n  if ",
+                position: (53, 1),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "testCommand",
+                 position: (57, 16),
+                },
+               },
+               Raw {
+                content: "; then\n    systemctl restart hercules-ci-agent.service\n  else\n    echo 1>&2 \"WARNING: Not restarting agent because config is not valid at this time.\"\n  fi\nelse\n  echo 1>&2 \"Not restarting hercules-ci-agent despite config file update, because it is not already active.\"\nfi\n",
+                position: (57, 28),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "nix",
+             position: (70, 5),
+            },
+            Raw {
+             content: "settings",
+             position: (70, 9),
+            },
+            Raw {
+             content: "trusted-users",
+             position: (70, 18),
+            },
+           ],
+          },
+          List {
+           elements: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (70, 36),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "systemd",
+                position: (70, 43),
+               },
+               Raw {
+                content: "services",
+                position: (70, 51),
+               },
+               Raw {
+                content: "hercules-ci-agent",
+                position: (70, 60),
+               },
+               Raw {
+                content: "serviceConfig",
+                position: (70, 78),
+               },
+               Raw {
+                content: "User",
+                position: (70, 92),
+               },
+              ],
+             },
+             default: None,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (71, 5),
+            },
+            Raw {
+             content: "hercules-ci-agent",
+             position: (71, 14),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "settings",
+                position: (72, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "nixUserIsTrusted",
+                   position: (73, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (73, 28),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "labels",
+                   position: (74, 9),
+                  },
+                 ],
+                },
+                LetIn {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "mkIfNotNull",
+                      position: (76, 13),
+                     },
+                    ],
+                   },
+                   Function {
+                    argument: Some(
+                     "x",
+                    ),
+                    arguments: FunctionArguments {
+                     arguments: [],
+                     ellipsis: false,
+                    },
+                    definition: FunctionApplication {
+                     function: Variable {
+                      identifier: "mkIf",
+                      position: (76, 30),
+                     },
+                     arguments: [
+                      BinaryOperation {
+                       operator: NotEqualTo,
+                       operands: [
+                        Variable {
+                         identifier: "x",
+                         position: (76, 36),
+                        },
+                        Variable {
+                         identifier: "null",
+                         position: (76, 41),
+                        },
+                       ],
+                      },
+                      Variable {
+                       identifier: "x",
+                       position: (76, 47),
+                      },
+                     ],
+                    },
+                   },
+                  ),
+                 ],
+                 target: Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (79, 13),
+                      },
+                      Raw {
+                       content: "configurationRevision",
+                       position: (79, 19),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "mkIfNotNull",
+                      position: (79, 43),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "config",
+                        position: (79, 55),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "system",
+                          position: (79, 62),
+                         },
+                         Raw {
+                          content: "configurationRevision",
+                          position: (79, 69),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (80, 13),
+                      },
+                      Raw {
+                       content: "release",
+                       position: (80, 19),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "config",
+                      position: (80, 29),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "system",
+                        position: (80, 36),
+                       },
+                       Raw {
+                        content: "nixos",
+                        position: (80, 43),
+                       },
+                       Raw {
+                        content: "release",
+                        position: (80, 49),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (81, 13),
+                      },
+                      Raw {
+                       content: "label",
+                       position: (81, 19),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "mkIfNotNull",
+                      position: (81, 27),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "config",
+                        position: (81, 39),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "system",
+                          position: (81, 46),
+                         },
+                         Raw {
+                          content: "nixos",
+                          position: (81, 53),
+                         },
+                         Raw {
+                          content: "label",
+                          position: (81, 59),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (82, 13),
+                      },
+                      Raw {
+                       content: "codeName",
+                       position: (82, 19),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "config",
+                      position: (82, 30),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "system",
+                        position: (82, 37),
+                       },
+                       Raw {
+                        content: "nixos",
+                        position: (82, 44),
+                       },
+                       Raw {
+                        content: "codeName",
+                        position: (82, 50),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (83, 13),
+                      },
+                      Raw {
+                       content: "tags",
+                       position: (83, 19),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "config",
+                      position: (83, 26),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "system",
+                        position: (83, 33),
+                       },
+                       Raw {
+                        content: "nixos",
+                        position: (83, 40),
+                       },
+                       Raw {
+                        content: "tags",
+                        position: (83, 46),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "nixos",
+                       position: (84, 13),
+                      },
+                      Raw {
+                       content: "systemName",
+                       position: (84, 19),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "mkIfNotNull",
+                      position: (84, 32),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "config",
+                        position: (84, 44),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "system",
+                          position: (84, 51),
+                         },
+                         Raw {
+                          content: "name",
+                          position: (84, 58),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (89, 5),
+            },
+            Raw {
+             content: "users",
+             position: (89, 11),
+            },
+            Raw {
+             content: "hercules-ci-agent",
+             position: (89, 17),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "home",
+                position: (90, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (90, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "settings",
+                 position: (90, 18),
+                },
+                Raw {
+                 content: "baseDirectory",
+                 position: (90, 27),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "createHome",
+                position: (91, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (91, 20),
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "group",
+                position: (92, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "hercules-ci-agent",
+                position: (92, 16),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (93, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Hercules CI Agent system user",
+                position: (93, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "isSystemUser",
+                position: (94, 7),
+               },
+              ],
+             },
+             Variable {
+              identifier: "true",
+              position: (94, 22),
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (97, 5),
+            },
+            Raw {
+             content: "groups",
+             position: (97, 11),
+            },
+            Raw {
+             content: "hercules-ci-agent",
+             position: (97, 18),
+            },
+           ],
+          },
+          Map {
+           bindings: [],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "meta",
+        position: (100, 3),
+       },
+       Raw {
+        content: "maintainers",
+        position: (100, 8),
+       },
+      ],
+     },
+     List {
+      elements: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (100, 24),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "maintainers",
+           position: (100, 28),
+          },
+          Raw {
+           content: "roberth",
+           position: (100, 40),
+          },
+         ],
+        },
+        default: None,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

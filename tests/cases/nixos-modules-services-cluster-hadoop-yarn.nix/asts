@@ -1,0 +1,1566 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (2, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (4, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (4, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (4, 16),
+        },
+        Raw {
+         content: "hadoop",
+         position: (4, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "hadoopConf",
+        position: (5, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "import",
+          position: (5, 19),
+         },
+         arguments: [
+          Path {
+           parts: [
+            Raw {
+             content: "./conf.nix",
+             position: (5, 26),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            Inherit(
+             None,
+             [
+              Raw {
+               content: "cfg",
+               position: (5, 47),
+              },
+              Raw {
+               content: "pkgs",
+               position: (5, 51),
+              },
+              Raw {
+               content: "lib",
+               position: (5, 56),
+              },
+             ],
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/",
+        position: (5, 63),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "restartIfChanged",
+        position: (6, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkOption",
+       position: (6, 23),
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "type",
+             position: (7, 5),
+            },
+           ],
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "types",
+            position: (7, 12),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "bool",
+              position: (7, 18),
+             },
+            ],
+           },
+           default: None,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "description",
+             position: (8, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "Automatically restart the service on config change.\nThis can be set to false to defer restarts on clusters running critical applications.\nPlease consider the security implications of inadvertently running an older version,\nand the possibility of unexpected behavior caused by inconsistent versions across a cluster when disabling this option.\n",
+             position: (9, 1),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "default",
+             position: (14, 5),
+            },
+           ],
+          },
+          Variable {
+           identifier: "false",
+           position: (14, 15),
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (18, 3),
+        },
+        Raw {
+         content: "services",
+         position: (18, 11),
+        },
+        Raw {
+         content: "hadoop",
+         position: (18, 20),
+        },
+        Raw {
+         content: "yarn",
+         position: (18, 27),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "resourcemanager",
+            position: (19, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (20, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (20, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to run the Hadoop YARN ResourceManager",
+                 position: (20, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "restartIfChanged",
+              position: (21, 15),
+             },
+            ],
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "openFirewall",
+               position: (22, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (22, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (23, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (23, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (23, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (24, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (24, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (25, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Open firewall ports for resourcemanager\n",
+                    position: (26, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nodemanager",
+            position: (30, 5),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (31, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (31, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to run the Hadoop YARN NodeManager",
+                 position: (31, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "restartIfChanged",
+              position: (32, 15),
+             },
+            ],
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "addBinBash",
+               position: (33, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (33, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (34, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (34, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (34, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (35, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (35, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (36, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Add /bin/bash. This is needed by the linux container executor's launch script.\n",
+                    position: (37, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "openFirewall",
+               position: (40, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (40, 22),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (41, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (41, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (42, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (42, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (43, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Open firewall ports for nodemanager.\nBecause containers can listen on any ephemeral port, TCP ports 1024–65535 will be opened.\n",
+                    position: (44, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (51, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkMerge",
+        position: (51, 12),
+       },
+       arguments: [
+        List {
+         elements: [
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (52, 6),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: LogicalOr,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (53, 9),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "yarn",
+                  position: (53, 13),
+                 },
+                 Raw {
+                  content: "resourcemanager",
+                  position: (53, 18),
+                 },
+                 Raw {
+                  content: "enable",
+                  position: (53, 34),
+                 },
+                ],
+               },
+               default: None,
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (53, 44),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "yarn",
+                  position: (53, 48),
+                 },
+                 Raw {
+                  content: "nodemanager",
+                  position: (53, 53),
+                 },
+                 Raw {
+                  content: "enable",
+                  position: (53, 65),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "users",
+                  position: (56, 7),
+                 },
+                 Raw {
+                  content: "users",
+                  position: (56, 13),
+                 },
+                 Raw {
+                  content: "yarn",
+                  position: (56, 19),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (57, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Hadoop YARN user",
+                     position: (57, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "group",
+                     position: (58, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "hadoop",
+                     position: (58, 18),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "uid",
+                     position: (59, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (59, 15),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ids",
+                      position: (59, 22),
+                     },
+                     Raw {
+                      content: "uids",
+                      position: (59, 26),
+                     },
+                     Raw {
+                      content: "yarn",
+                      position: (59, 31),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (63, 6),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (63, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "yarn",
+                position: (63, 15),
+               },
+               Raw {
+                content: "resourcemanager",
+                position: (63, 20),
+               },
+               Raw {
+                content: "enable",
+                position: (63, 36),
+               },
+              ],
+             },
+             default: None,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "systemd",
+                  position: (64, 7),
+                 },
+                 Raw {
+                  content: "services",
+                  position: (64, 15),
+                 },
+                 Raw {
+                  content: "yarn-resourcemanager",
+                  position: (64, 24),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (65, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Hadoop YARN ResourceManager",
+                     position: (65, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wantedBy",
+                     position: (66, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "multi-user.target",
+                       position: (66, 23),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 Inherit(
+                  Some(
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (67, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "yarn",
+                       position: (67, 22),
+                      },
+                      Raw {
+                       content: "resourcemanager",
+                       position: (67, 27),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  [
+                   Raw {
+                    content: "restartIfChanged",
+                    position: (67, 44),
+                   },
+                  ],
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "serviceConfig",
+                     position: (69, 9),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "User",
+                        position: (70, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "yarn",
+                        position: (70, 19),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "SyslogIdentifier",
+                        position: (71, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "yarn-resourcemanager",
+                        position: (71, 31),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "ExecStart",
+                        position: (72, 11),
+                       },
+                      ],
+                     },
+                     BinaryOperation {
+                      operator: Addition,
+                      operands: [
+                       String {
+                        parts: [
+                         Expression {
+                          expression: PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (72, 26),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "package",
+                              position: (72, 30),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         },
+                         Raw {
+                          content: "/bin/yarn --config ",
+                          position: (72, 38),
+                         },
+                         Expression {
+                          expression: Variable {
+                           identifier: "hadoopConf",
+                           position: (72, 59),
+                          },
+                         },
+                         Raw {
+                          content: " ",
+                          position: (72, 70),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: " resourcemanager",
+                          position: (73, 24),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "Restart",
+                        position: (74, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "always",
+                        position: (74, 22),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "networking",
+                  position: (77, 7),
+                 },
+                 Raw {
+                  content: "firewall",
+                  position: (77, 18),
+                 },
+                 Raw {
+                  content: "allowedTCPPorts",
+                  position: (77, 27),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkIf",
+                 position: (77, 46),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (77, 51),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "yarn",
+                     position: (77, 55),
+                    },
+                    Raw {
+                     content: "resourcemanager",
+                     position: (77, 60),
+                    },
+                    Raw {
+                     content: "openFirewall",
+                     position: (77, 76),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 List {
+                  elements: [
+                   Int {
+                    value: 8088,
+                    position: (78, 9),
+                   },
+                   Int {
+                    value: 8030,
+                    position: (79, 9),
+                   },
+                   Int {
+                    value: 8031,
+                    position: (80, 9),
+                   },
+                   Int {
+                    value: 8032,
+                    position: (81, 9),
+                   },
+                   Int {
+                    value: 8033,
+                    position: (82, 9),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (86, 6),
+           },
+           arguments: [
+            PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (86, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "yarn",
+                position: (86, 15),
+               },
+               Raw {
+                content: "nodemanager",
+                position: (86, 20),
+               },
+               Raw {
+                content: "enable",
+                position: (86, 32),
+               },
+              ],
+             },
+             default: None,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "systemd",
+                  position: (89, 7),
+                 },
+                 Raw {
+                  content: "tmpfiles",
+                  position: (89, 15),
+                 },
+                 Raw {
+                  content: "rules",
+                  position: (89, 24),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "mkIf",
+                   position: (90, 10),
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (90, 15),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "yarn",
+                       position: (90, 19),
+                      },
+                      Raw {
+                       content: "nodemanager",
+                       position: (90, 24),
+                      },
+                      Raw {
+                       content: "addBinBash",
+                       position: (90, 36),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "L /bin/bash - - - - /run/current-system/sw/bin/bash",
+                      position: (90, 48),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "systemd",
+                  position: (93, 7),
+                 },
+                 Raw {
+                  content: "services",
+                  position: (93, 15),
+                 },
+                 Raw {
+                  content: "yarn-nodemanager",
+                  position: (93, 24),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "description",
+                     position: (94, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "Hadoop YARN NodeManager",
+                     position: (94, 24),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wantedBy",
+                     position: (95, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "multi-user.target",
+                       position: (95, 23),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 Inherit(
+                  Some(
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (96, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "yarn",
+                       position: (96, 22),
+                      },
+                      Raw {
+                       content: "nodemanager",
+                       position: (96, 27),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  [
+                   Raw {
+                    content: "restartIfChanged",
+                    position: (96, 40),
+                   },
+                  ],
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "preStart",
+                     position: (98, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "# create log dir\nmkdir -p /var/log/hadoop/yarn/nodemanager\nchown yarn:hadoop /var/log/hadoop/yarn/nodemanager\n\n# set up setuid container executor binary\nrm -rf /run/wrappers/yarn-nodemanager/ || true\nmkdir -p /run/wrappers/yarn-nodemanager/{bin,etc/hadoop}\ncp ",
+                     position: (99, 1),
+                    },
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (106, 16),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "package",
+                         position: (106, 20),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/lib/",
+                     position: (106, 28),
+                    },
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (106, 35),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "package",
+                         position: (106, 39),
+                        },
+                        Raw {
+                         content: "untarDir",
+                         position: (106, 47),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/bin/container-executor /run/wrappers/yarn-nodemanager/bin/\nchgrp hadoop /run/wrappers/yarn-nodemanager/bin/container-executor\nchmod 6050 /run/wrappers/yarn-nodemanager/bin/container-executor\ncp ",
+                     position: (106, 56),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "hadoopConf",
+                      position: (109, 16),
+                     },
+                    },
+                    Raw {
+                     content: "/container-executor.cfg /run/wrappers/yarn-nodemanager/etc/hadoop/\n",
+                     position: (109, 27),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "serviceConfig",
+                     position: (112, 9),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "User",
+                        position: (113, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "yarn",
+                        position: (113, 19),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "SyslogIdentifier",
+                        position: (114, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "yarn-nodemanager",
+                        position: (114, 31),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "PermissionsStartOnly",
+                        position: (115, 11),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "true",
+                      position: (115, 34),
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "ExecStart",
+                        position: (116, 11),
+                       },
+                      ],
+                     },
+                     BinaryOperation {
+                      operator: Addition,
+                      operands: [
+                       String {
+                        parts: [
+                         Expression {
+                          expression: PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (116, 26),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "package",
+                              position: (116, 30),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         },
+                         Raw {
+                          content: "/bin/yarn --config ",
+                          position: (116, 38),
+                         },
+                         Expression {
+                          expression: Variable {
+                           identifier: "hadoopConf",
+                           position: (116, 59),
+                          },
+                         },
+                         Raw {
+                          content: " ",
+                          position: (116, 70),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: " nodemanager",
+                          position: (117, 24),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "Restart",
+                        position: (118, 11),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "always",
+                        position: (118, 22),
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "networking",
+                  position: (122, 7),
+                 },
+                 Raw {
+                  content: "firewall",
+                  position: (122, 18),
+                 },
+                 Raw {
+                  content: "allowedTCPPortRanges",
+                  position: (122, 27),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "mkIf",
+                   position: (123, 10),
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (123, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "yarn",
+                       position: (123, 20),
+                      },
+                      Raw {
+                       content: "nodemanager",
+                       position: (123, 25),
+                      },
+                      Raw {
+                       content: "openFirewall",
+                       position: (123, 37),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Map {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "from",
+                         position: (123, 52),
+                        },
+                       ],
+                      },
+                      Int {
+                       value: 1024,
+                       position: (123, 59),
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "to",
+                         position: (123, 65),
+                        },
+                       ],
+                      },
+                      Int {
+                       value: 65535,
+                       position: (123, 70),
+                      },
+                     ),
+                    ],
+                    recursive: false,
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ],
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

@@ -1,0 +1,233 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "hardware",
+         position: (6, 16),
+        },
+        Raw {
+         content: "tuxedo-keyboard",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "tuxedo-keyboard",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 21),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "boot",
+         position: (7, 28),
+        },
+        Raw {
+         content: "kernelPackages",
+         position: (7, 33),
+        },
+        Raw {
+         content: "tuxedo-keyboard",
+         position: (7, 48),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (10, 5),
+        },
+        Raw {
+         content: "hardware",
+         position: (10, 13),
+        },
+        Raw {
+         content: "tuxedo-keyboard",
+         position: (10, 22),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (11, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (11, 16),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Enables the tuxedo-keyboard driver.\n\nTo configure the driver, pass the options to the <option>boot.kernelParams</option> configuration.\nThere are several parameters you can change. It's best to check at the source code description which options are supported.\nYou can find all the supported parameters at: <link xlink:href=\"https://github.com/tuxedocomputers/tuxedo-keyboard#kernelparam\" />\n\nIn order to use the <literal>custom</literal> lighting with the maximumg brightness and a color of <literal>0xff0a0a</literal> one would put pass <option>boot.kernelParams</option> like this:\n\n<programlisting>\nboot.kernelParams = [\n \"tuxedo_keyboard.mode=0\"\n \"tuxedo_keyboard.brightness=255\"\n \"tuxedo_keyboard.color_left=0xff0a0a\"\n];\n</programlisting>\n",
+              position: (12, 1),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (30, 5),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (30, 14),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (30, 19),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (30, 23),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (32, 7),
+             },
+             Raw {
+              content: "kernelModules",
+              position: (32, 12),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "tuxedo_keyboard",
+                position: (32, 30),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (33, 7),
+             },
+             Raw {
+              content: "extraModulePackages",
+              position: (33, 12),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "tuxedo-keyboard",
+              position: (33, 36),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

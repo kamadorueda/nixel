@@ -1,0 +1,1534 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "extraConfigurations",
+    default: Some(
+     List {
+      elements: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "specialArgs",
+    default: Some(
+     Map {
+      bindings: [],
+      recursive: false,
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: Some(
+     Variable {
+      identifier: "null",
+      position: (5, 12),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "minimal",
+    default: Some(
+     Variable {
+      identifier: "false",
+      position: (3, 13),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "system",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (14, 6),
+  },
+  target: Map {
+   bindings: [
+    Inherit(
+     None,
+     [
+      Raw {
+       content: "pkgs",
+       position: (18, 11),
+      },
+     ],
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "buildVirtualNetwork",
+        position: (24, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "nodes",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nodesOut",
+            position: (25, 16),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mapAttrs",
+           position: (25, 27),
+          },
+          arguments: [
+           Function {
+            argument: Some(
+             "n",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: Variable {
+              identifier: "buildVM",
+              position: (25, 40),
+             },
+             arguments: [
+              Variable {
+               identifier: "nodesOut",
+               position: (25, 48),
+              },
+             ],
+            },
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "assignIPAddresses",
+             position: (25, 59),
+            },
+            arguments: [
+             Variable {
+              identifier: "nodes",
+              position: (25, 77),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+       ],
+       target: Variable {
+        identifier: "nodesOut",
+        position: (25, 88),
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "buildVM",
+        position: (28, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "nodes",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: Some(
+        "configurations",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: Variable {
+         identifier: "import",
+         position: (31, 5),
+        },
+        arguments: [
+         Path {
+          parts: [
+           Raw {
+            content: "./eval-config.nix",
+            position: (31, 12),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           Inherit(
+            None,
+            [
+             Raw {
+              content: "system",
+              position: (32, 15),
+             },
+             Raw {
+              content: "specialArgs",
+              position: (32, 22),
+             },
+            ],
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "modules",
+               position: (33, 7),
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: Concatenation,
+             operands: [
+              Variable {
+               identifier: "configurations",
+               position: (33, 17),
+              },
+              Variable {
+               identifier: "extraConfigurations",
+               position: (33, 35),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "baseModules",
+               position: (34, 7),
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: Concatenation,
+             operands: [
+              FunctionApplication {
+               function: Variable {
+                identifier: "import",
+                position: (34, 23),
+               },
+               arguments: [
+                Path {
+                 parts: [
+                  Raw {
+                   content: "../modules/module-list.nix",
+                   position: (34, 30),
+                  },
+                 ],
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Concatenation,
+               operands: [
+                List {
+                 elements: [
+                  Path {
+                   parts: [
+                    Raw {
+                     content: "../modules/virtualisation/qemu-vm.nix",
+                     position: (35, 11),
+                    },
+                   ],
+                  },
+                  Path {
+                   parts: [
+                    Raw {
+                     content: "../modules/testing/test-instrumentation.nix",
+                     position: (36, 11),
+                    },
+                   ],
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "key",
+                        position: (37, 13),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "no-manual",
+                        position: (37, 20),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "documentation",
+                        position: (37, 32),
+                       },
+                       Raw {
+                        content: "nixos",
+                        position: (37, 46),
+                       },
+                       Raw {
+                        content: "enable",
+                        position: (37, 52),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "false",
+                      position: (37, 61),
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "key",
+                        position: (38, 13),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "no-revision",
+                        position: (38, 20),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "config",
+                        position: (43, 13),
+                       },
+                       Raw {
+                        content: "system",
+                        position: (43, 20),
+                       },
+                       Raw {
+                        content: "nixos",
+                        position: (43, 27),
+                       },
+                       Raw {
+                        content: "revision",
+                        position: (43, 33),
+                       },
+                      ],
+                     },
+                     FunctionApplication {
+                      function: Variable {
+                       identifier: "mkForce",
+                       position: (43, 44),
+                      },
+                      arguments: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "constant-nixos-revision",
+                          position: (43, 53),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                  Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "key",
+                        position: (45, 13),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "nodes",
+                        position: (45, 20),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "_module",
+                        position: (45, 28),
+                       },
+                       Raw {
+                        content: "args",
+                        position: (45, 36),
+                       },
+                       Raw {
+                        content: "nodes",
+                        position: (45, 41),
+                       },
+                      ],
+                     },
+                     Variable {
+                      identifier: "nodes",
+                      position: (45, 49),
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "optional",
+                  position: (46, 14),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "minimal",
+                   position: (46, 23),
+                  },
+                  Path {
+                   parts: [
+                    Raw {
+                     content: "../modules/testing/minimal-kernel.nix",
+                     position: (46, 31),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "assignIPAddresses",
+        position: (53, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "nodes",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: LetIn {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "machines",
+            position: (57, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "attrNames",
+           position: (57, 18),
+          },
+          arguments: [
+           Variable {
+            identifier: "nodes",
+            position: (57, 28),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "machinesNumbered",
+            position: (59, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "zipLists",
+           position: (59, 26),
+          },
+          arguments: [
+           Variable {
+            identifier: "machines",
+            position: (59, 35),
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "range",
+             position: (59, 45),
+            },
+            arguments: [
+             Int {
+              value: 1,
+              position: (59, 51),
+             },
+             Int {
+              value: 254,
+              position: (59, 53),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "nodes_",
+            position: (61, 7),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "forEach",
+           position: (61, 16),
+          },
+          arguments: [
+           Variable {
+            identifier: "machinesNumbered",
+            position: (61, 24),
+           },
+           Function {
+            argument: Some(
+             "m",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: FunctionApplication {
+             function: Variable {
+              identifier: "nameValuePair",
+              position: (61, 45),
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "m",
+                position: (61, 59),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "fst",
+                  position: (61, 61),
+                 },
+                ],
+               },
+               default: None,
+              },
+              List {
+               elements: [
+                Function {
+                 argument: None,
+                 arguments: FunctionArguments {
+                  arguments: [
+                   FunctionArgument {
+                    identifier: "nodes",
+                    default: None,
+                   },
+                   FunctionArgument {
+                    identifier: "config",
+                    default: None,
+                   },
+                  ],
+                  ellipsis: true,
+                 },
+                 definition: LetIn {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "interfacesNumbered",
+                       position: (64, 15),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "zipLists",
+                      position: (64, 36),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "config",
+                        position: (64, 45),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "virtualisation",
+                          position: (64, 52),
+                         },
+                         Raw {
+                          content: "vlans",
+                          position: (64, 67),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      FunctionApplication {
+                       function: Variable {
+                        identifier: "range",
+                        position: (64, 74),
+                       },
+                       arguments: [
+                        Int {
+                         value: 1,
+                         position: (64, 80),
+                        },
+                        Int {
+                         value: 255,
+                         position: (64, 82),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "interfaces",
+                       position: (65, 15),
+                      },
+                     ],
+                    },
+                    FunctionApplication {
+                     function: Variable {
+                      identifier: "forEach",
+                      position: (65, 28),
+                     },
+                     arguments: [
+                      Variable {
+                       identifier: "interfacesNumbered",
+                       position: (65, 36),
+                      },
+                      Function {
+                       argument: None,
+                       arguments: FunctionArguments {
+                        arguments: [
+                         FunctionArgument {
+                          identifier: "snd",
+                          default: None,
+                         },
+                         FunctionArgument {
+                          identifier: "fst",
+                          default: None,
+                         },
+                        ],
+                        ellipsis: false,
+                       },
+                       definition: FunctionApplication {
+                        function: Variable {
+                         identifier: "nameValuePair",
+                         position: (66, 17),
+                        },
+                        arguments: [
+                         String {
+                          parts: [
+                           Raw {
+                            content: "eth",
+                            position: (66, 32),
+                           },
+                           Expression {
+                            expression: FunctionApplication {
+                             function: Variable {
+                              identifier: "toString",
+                              position: (66, 37),
+                             },
+                             arguments: [
+                              Variable {
+                               identifier: "snd",
+                               position: (66, 46),
+                              },
+                             ],
+                            },
+                           },
+                          ],
+                         },
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            AttributePath {
+                             attributes: [
+                              Raw {
+                               content: "ipv4",
+                               position: (66, 54),
+                              },
+                              Raw {
+                               content: "addresses",
+                               position: (66, 59),
+                              },
+                             ],
+                            },
+                            List {
+                             elements: [
+                              Map {
+                               bindings: [
+                                KeyValue(
+                                 AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "address",
+                                    position: (67, 23),
+                                   },
+                                  ],
+                                 },
+                                 String {
+                                  parts: [
+                                   Raw {
+                                    content: "192.168.",
+                                    position: (67, 34),
+                                   },
+                                   Expression {
+                                    expression: FunctionApplication {
+                                     function: Variable {
+                                      identifier: "toString",
+                                      position: (67, 44),
+                                     },
+                                     arguments: [
+                                      Variable {
+                                       identifier: "fst",
+                                       position: (67, 53),
+                                      },
+                                     ],
+                                    },
+                                   },
+                                   Raw {
+                                    content: ".",
+                                    position: (67, 57),
+                                   },
+                                   Expression {
+                                    expression: FunctionApplication {
+                                     function: Variable {
+                                      identifier: "toString",
+                                      position: (67, 60),
+                                     },
+                                     arguments: [
+                                      PropertyAccess {
+                                       expression: Variable {
+                                        identifier: "m",
+                                        position: (67, 69),
+                                       },
+                                       attribute_path: AttributePath {
+                                        attributes: [
+                                         Raw {
+                                          content: "snd",
+                                          position: (67, 71),
+                                         },
+                                        ],
+                                       },
+                                       default: None,
+                                      },
+                                     ],
+                                    },
+                                   },
+                                  ],
+                                 },
+                                ),
+                                KeyValue(
+                                 AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "prefixLength",
+                                    position: (68, 23),
+                                   },
+                                  ],
+                                 },
+                                 Int {
+                                  value: 24,
+                                  position: (68, 38),
+                                 },
+                                ),
+                               ],
+                               recursive: false,
+                              },
+                             ],
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                         },
+                        ],
+                       },
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "networkConfig",
+                       position: (72, 15),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "networking",
+                          position: (73, 19),
+                         },
+                         Raw {
+                          content: "hostName",
+                          position: (73, 30),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "mkDefault",
+                         position: (73, 41),
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "m",
+                           position: (73, 51),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "fst",
+                             position: (73, 53),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "networking",
+                          position: (75, 19),
+                         },
+                         Raw {
+                          content: "interfaces",
+                          position: (75, 30),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "listToAttrs",
+                         position: (75, 43),
+                        },
+                        arguments: [
+                         Variable {
+                          identifier: "interfaces",
+                          position: (75, 55),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "networking",
+                          position: (77, 19),
+                         },
+                         Raw {
+                          content: "primaryIPAddress",
+                          position: (77, 30),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "optionalString",
+                         position: (78, 21),
+                        },
+                        arguments: [
+                         BinaryOperation {
+                          operator: NotEqualTo,
+                          operands: [
+                           Variable {
+                            identifier: "interfaces",
+                            position: (78, 37),
+                           },
+                           List {
+                            elements: [],
+                           },
+                          ],
+                         },
+                         PropertyAccess {
+                          expression: FunctionApplication {
+                           function: Variable {
+                            identifier: "head",
+                            position: (78, 56),
+                           },
+                           arguments: [
+                            PropertyAccess {
+                             expression: FunctionApplication {
+                              function: Variable {
+                               identifier: "head",
+                               position: (78, 62),
+                              },
+                              arguments: [
+                               Variable {
+                                identifier: "interfaces",
+                                position: (78, 67),
+                               },
+                              ],
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "value",
+                                position: (78, 79),
+                               },
+                               Raw {
+                                content: "ipv4",
+                                position: (78, 85),
+                               },
+                               Raw {
+                                content: "addresses",
+                                position: (78, 90),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           ],
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "address",
+                             position: (78, 101),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "networking",
+                          position: (85, 19),
+                         },
+                         Raw {
+                          content: "extraHosts",
+                          position: (85, 30),
+                         },
+                        ],
+                       },
+                       FunctionApplication {
+                        function: Variable {
+                         identifier: "flip",
+                         position: (85, 43),
+                        },
+                        arguments: [
+                         Variable {
+                          identifier: "concatMapStrings",
+                          position: (85, 48),
+                         },
+                         Variable {
+                          identifier: "machines",
+                          position: (85, 65),
+                         },
+                         Function {
+                          argument: Some(
+                           "m'",
+                          ),
+                          arguments: FunctionArguments {
+                           arguments: [],
+                           ellipsis: false,
+                          },
+                          definition: LetIn {
+                           bindings: [
+                            KeyValue(
+                             AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "config",
+                                position: (86, 30),
+                               },
+                              ],
+                             },
+                             PropertyAccess {
+                              expression: FunctionApplication {
+                               function: Variable {
+                                identifier: "getAttr",
+                                position: (86, 40),
+                               },
+                               arguments: [
+                                Variable {
+                                 identifier: "m'",
+                                 position: (86, 48),
+                                },
+                                Variable {
+                                 identifier: "nodes",
+                                 position: (86, 51),
+                                },
+                               ],
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "config",
+                                 position: (86, 58),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            ),
+                           ],
+                           target: FunctionApplication {
+                            function: Variable {
+                             identifier: "optionalString",
+                             position: (87, 23),
+                            },
+                            arguments: [
+                             BinaryOperation {
+                              operator: NotEqualTo,
+                              operands: [
+                               PropertyAccess {
+                                expression: Variable {
+                                 identifier: "config",
+                                 position: (87, 39),
+                                },
+                                attribute_path: AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "networking",
+                                   position: (87, 46),
+                                  },
+                                  Raw {
+                                   content: "primaryIPAddress",
+                                   position: (87, 57),
+                                  },
+                                 ],
+                                },
+                                default: None,
+                               },
+                               String {
+                                parts: [],
+                               },
+                              ],
+                             },
+                             BinaryOperation {
+                              operator: Addition,
+                              operands: [
+                               BinaryOperation {
+                                operator: Addition,
+                                operands: [
+                                 String {
+                                  parts: [
+                                   Expression {
+                                    expression: PropertyAccess {
+                                     expression: Variable {
+                                      identifier: "config",
+                                      position: (88, 29),
+                                     },
+                                     attribute_path: AttributePath {
+                                      attributes: [
+                                       Raw {
+                                        content: "networking",
+                                        position: (88, 36),
+                                       },
+                                       Raw {
+                                        content: "primaryIPAddress",
+                                        position: (88, 47),
+                                       },
+                                      ],
+                                     },
+                                     default: None,
+                                    },
+                                   },
+                                   Raw {
+                                    content: " ",
+                                    position: (88, 64),
+                                   },
+                                  ],
+                                 },
+                                 FunctionApplication {
+                                  function: Variable {
+                                   identifier: "optionalString",
+                                   position: (89, 26),
+                                  },
+                                  arguments: [
+                                   BinaryOperation {
+                                    operator: NotEqualTo,
+                                    operands: [
+                                     PropertyAccess {
+                                      expression: Variable {
+                                       identifier: "config",
+                                       position: (89, 42),
+                                      },
+                                      attribute_path: AttributePath {
+                                       attributes: [
+                                        Raw {
+                                         content: "networking",
+                                         position: (89, 49),
+                                        },
+                                        Raw {
+                                         content: "domain",
+                                         position: (89, 60),
+                                        },
+                                       ],
+                                      },
+                                      default: None,
+                                     },
+                                     Variable {
+                                      identifier: "null",
+                                      position: (89, 70),
+                                     },
+                                    ],
+                                   },
+                                   String {
+                                    parts: [
+                                     Expression {
+                                      expression: PropertyAccess {
+                                       expression: Variable {
+                                        identifier: "config",
+                                        position: (90, 31),
+                                       },
+                                       attribute_path: AttributePath {
+                                        attributes: [
+                                         Raw {
+                                          content: "networking",
+                                          position: (90, 38),
+                                         },
+                                         Raw {
+                                          content: "hostName",
+                                          position: (90, 49),
+                                         },
+                                        ],
+                                       },
+                                       default: None,
+                                      },
+                                     },
+                                     Raw {
+                                      content: ".",
+                                      position: (90, 58),
+                                     },
+                                     Expression {
+                                      expression: PropertyAccess {
+                                       expression: Variable {
+                                        identifier: "config",
+                                        position: (90, 61),
+                                       },
+                                       attribute_path: AttributePath {
+                                        attributes: [
+                                         Raw {
+                                          content: "networking",
+                                          position: (90, 68),
+                                         },
+                                         Raw {
+                                          content: "domain",
+                                          position: (90, 79),
+                                         },
+                                        ],
+                                       },
+                                       default: None,
+                                      },
+                                     },
+                                     Raw {
+                                      content: " ",
+                                      position: (90, 86),
+                                     },
+                                    ],
+                                   },
+                                  ],
+                                 },
+                                ],
+                               },
+                               String {
+                                parts: [
+                                 Expression {
+                                  expression: PropertyAccess {
+                                   expression: Variable {
+                                    identifier: "config",
+                                    position: (91, 29),
+                                   },
+                                   attribute_path: AttributePath {
+                                    attributes: [
+                                     Raw {
+                                      content: "networking",
+                                      position: (91, 36),
+                                     },
+                                     Raw {
+                                      content: "hostName",
+                                      position: (91, 47),
+                                     },
+                                    ],
+                                   },
+                                   default: None,
+                                  },
+                                 },
+                                 Raw {
+                                  content: "\n",
+                                  position: (91, 56),
+                                 },
+                                ],
+                               },
+                              ],
+                             },
+                            ],
+                           },
+                          },
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "virtualisation",
+                          position: (93, 19),
+                         },
+                         Raw {
+                          content: "qemu",
+                          position: (93, 34),
+                         },
+                         Raw {
+                          content: "options",
+                          position: (93, 39),
+                         },
+                        ],
+                       },
+                       LetIn {
+                        bindings: [
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "qemu-common",
+                             position: (94, 25),
+                            },
+                           ],
+                          },
+                          FunctionApplication {
+                           function: Variable {
+                            identifier: "import",
+                            position: (94, 39),
+                           },
+                           arguments: [
+                            Path {
+                             parts: [
+                              Raw {
+                               content: "../lib/qemu-common.nix",
+                               position: (94, 46),
+                              },
+                             ],
+                            },
+                            Map {
+                             bindings: [
+                              Inherit(
+                               None,
+                               [
+                                Raw {
+                                 content: "lib",
+                                 position: (94, 79),
+                                },
+                                Raw {
+                                 content: "pkgs",
+                                 position: (94, 83),
+                                },
+                               ],
+                              ),
+                             ],
+                             recursive: false,
+                            },
+                           ],
+                          },
+                         ),
+                        ],
+                        target: FunctionApplication {
+                         function: Variable {
+                          identifier: "flip",
+                          position: (95, 24),
+                         },
+                         arguments: [
+                          Variable {
+                           identifier: "concatMap",
+                           position: (95, 29),
+                          },
+                          Variable {
+                           identifier: "interfacesNumbered",
+                           position: (95, 39),
+                          },
+                          Function {
+                           argument: None,
+                           arguments: FunctionArguments {
+                            arguments: [
+                             FunctionArgument {
+                              identifier: "snd",
+                              default: None,
+                             },
+                             FunctionArgument {
+                              identifier: "fst",
+                              default: None,
+                             },
+                            ],
+                            ellipsis: false,
+                           },
+                           definition: FunctionApplication {
+                            function: PropertyAccess {
+                             expression: Variable {
+                              identifier: "qemu-common",
+                              position: (96, 38),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "qemuNICFlags",
+                                position: (96, 50),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                            arguments: [
+                             Variable {
+                              identifier: "snd",
+                              position: (96, 63),
+                             },
+                             Variable {
+                              identifier: "fst",
+                              position: (96, 67),
+                             },
+                             PropertyAccess {
+                              expression: Variable {
+                               identifier: "m",
+                               position: (96, 71),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "snd",
+                                 position: (96, 73),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            ],
+                           },
+                          },
+                         ],
+                        },
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                  ],
+                  target: Map {
+                   bindings: [
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "key",
+                        position: (100, 19),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "ip-address",
+                        position: (100, 26),
+                       },
+                      ],
+                     },
+                    ),
+                    KeyValue(
+                     AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "config",
+                        position: (101, 19),
+                       },
+                      ],
+                     },
+                     BinaryOperation {
+                      operator: Update,
+                      operands: [
+                       Variable {
+                        identifier: "networkConfig",
+                        position: (101, 28),
+                       },
+                       Map {
+                        bindings: [
+                         KeyValue(
+                          AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "system",
+                             position: (104, 21),
+                            },
+                            Raw {
+                             content: "build",
+                             position: (104, 28),
+                            },
+                            Raw {
+                             content: "networkConfig",
+                             position: (104, 34),
+                            },
+                           ],
+                          },
+                          Variable {
+                           identifier: "networkConfig",
+                           position: (104, 50),
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                       },
+                      ],
+                     },
+                    ),
+                   ],
+                   recursive: false,
+                  },
+                 },
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "getAttr",
+                  position: (108, 12),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "m",
+                    position: (108, 20),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "fst",
+                      position: (108, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  Variable {
+                   identifier: "nodes",
+                   position: (108, 26),
+                  },
+                 ],
+                },
+               ],
+              },
+             ],
+            },
+           },
+          ],
+         },
+        ),
+       ],
+       target: FunctionApplication {
+        function: Variable {
+         identifier: "listToAttrs",
+         position: (111, 8),
+        },
+        arguments: [
+         Variable {
+          identifier: "nodes_",
+          position: (111, 20),
+         },
+        ],
+       },
+      },
+     },
+    ),
+   ],
+   recursive: true,
+  },
+ },
+}

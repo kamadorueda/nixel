@@ -1,0 +1,605 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "netDevices",
+    default: Some(
+     List {
+      elements: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "brscan5",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "stdenv",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "addNetDev",
+       position: (34, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "nd",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: String {
+      parts: [
+       Raw {
+        content: "brsaneconfig5 -a \\\nname=\"",
+        position: (35, 1),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "nd",
+          position: (36, 13),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "name",
+            position: (36, 16),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "\" \\\nmodel=\"",
+        position: (36, 21),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "nd",
+          position: (37, 14),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "model",
+            position: (37, 17),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "\" \\\n",
+        position: (37, 23),
+       },
+       Expression {
+        expression: IfThenElse {
+         predicate: BinaryOperation {
+          operator: LogicalAnd,
+          operands: [
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (38, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "hasAttr",
+                position: (38, 15),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "nodename",
+                position: (38, 24),
+               },
+              ],
+             },
+             Variable {
+              identifier: "nd",
+              position: (38, 34),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "nd",
+               position: (38, 40),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "nodename",
+                 position: (38, 43),
+                },
+               ],
+              },
+              default: None,
+             },
+             Variable {
+              identifier: "null",
+              position: (38, 55),
+             },
+            ],
+           },
+          ],
+         },
+         then: String {
+          parts: [
+           Raw {
+            content: "nodename=\"",
+            position: (39, 9),
+           },
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "nd",
+              position: (39, 21),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "nodename",
+                position: (39, 24),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: "\"",
+            position: (39, 33),
+           },
+          ],
+         },
+         else_: String {
+          parts: [
+           Raw {
+            content: "ip=\"",
+            position: (40, 9),
+           },
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "nd",
+              position: (40, 15),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "ip",
+                position: (40, 18),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: "\"",
+            position: (40, 21),
+           },
+          ],
+         },
+        },
+       },
+      ],
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "addAllNetDev",
+       position: (41, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "xs",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (41, 22),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "concatStringsSep",
+          position: (41, 26),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "\n",
+          position: (41, 44),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "map",
+         position: (41, 49),
+        },
+        arguments: [
+         Variable {
+          identifier: "addNetDev",
+          position: (41, 53),
+         },
+         Variable {
+          identifier: "xs",
+          position: (41, 63),
+         },
+        ],
+       },
+      ],
+     },
+    },
+   ),
+  ],
+  target: FunctionApplication {
+   function: PropertyAccess {
+    expression: Variable {
+     identifier: "stdenv",
+     position: (44, 1),
+    },
+    attribute_path: AttributePath {
+     attributes: [
+      Raw {
+       content: "mkDerivation",
+       position: (44, 8),
+      },
+     ],
+    },
+    default: None,
+   },
+   arguments: [
+    Map {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "name",
+          position: (46, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "brscan5-etc-files",
+          position: (46, 11),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "version",
+          position: (47, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "1.2.6-0",
+          position: (47, 14),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "src",
+          position: (48, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Expression {
+          expression: Variable {
+           identifier: "brscan5",
+           position: (48, 12),
+          },
+         },
+         Raw {
+          content: "/opt/brother/scanner/brscan5",
+          position: (48, 20),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "nativeBuildInputs",
+          position: (50, 3),
+         },
+        ],
+       },
+       List {
+        elements: [
+         Variable {
+          identifier: "brscan5",
+          position: (50, 25),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "dontConfigure",
+          position: (52, 3),
+         },
+        ],
+       },
+       Variable {
+        identifier: "true",
+        position: (52, 19),
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "buildPhase",
+          position: (54, 3),
+         },
+        ],
+       },
+       String {
+        parts: [
+         Raw {
+          content: "TARGET_DIR=\"$out/etc/opt/brother/scanner/brscan5\"\nmkdir -p \"$TARGET_DIR\"\ncp -rp \"./models\" \"$TARGET_DIR\"\ncp -rp \"./brscan5.ini\" \"$TARGET_DIR\"\ncp -rp \"./brsanenetdevice.cfg\" \"$TARGET_DIR\"\n\nexport NIX_REDIRECTS=\"/etc/opt/brother/scanner/brscan5/=$TARGET_DIR/\"\n\nprintf ",
+          position: (55, 1),
+         },
+         Raw {
+          content: "'",
+          position: (63, 12),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "addAllNetDev",
+            position: (63, 15),
+           },
+           arguments: [
+            Variable {
+             identifier: "netDevices",
+             position: (63, 28),
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\\n'\n\n",
+          position: (63, 39),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "addAllNetDev",
+            position: (65, 7),
+           },
+           arguments: [
+            Variable {
+             identifier: "netDevices",
+             position: (65, 20),
+            },
+           ],
+          },
+         },
+         Raw {
+          content: "\n",
+          position: (65, 31),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "dontInstall",
+          position: (68, 3),
+         },
+        ],
+       },
+       Variable {
+        identifier: "true",
+        position: (68, 17),
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "meta",
+          position: (70, 3),
+         },
+        ],
+       },
+       With {
+        expression: Variable {
+         identifier: "lib",
+         position: (70, 15),
+        },
+        target: Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "description",
+              position: (71, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "Brother brscan5 sane backend driver etc files",
+              position: (71, 20),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "homepage",
+              position: (72, 5),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "https://www.brother.com",
+              position: (72, 17),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "platforms",
+              position: (73, 5),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "platforms",
+             position: (73, 17),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "linux",
+               position: (73, 27),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "license",
+              position: (74, 5),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "licenses",
+             position: (74, 15),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "unfree",
+               position: (74, 24),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "maintainers",
+              position: (75, 5),
+             },
+            ],
+           },
+           With {
+            expression: Variable {
+             identifier: "maintainers",
+             position: (75, 24),
+            },
+            target: List {
+             elements: [
+              Variable {
+               identifier: "mattchrist",
+               position: (75, 39),
+              },
+             ],
+            },
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       },
+      ),
+     ],
+     recursive: false,
+    },
+   ],
+  },
+ },
+}

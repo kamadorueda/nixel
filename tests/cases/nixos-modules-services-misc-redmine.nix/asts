@@ -1,0 +1,6496 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (4, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "mkBefore",
+      position: (4, 17),
+     },
+     Raw {
+      content: "mkDefault",
+      position: (4, 26),
+     },
+     Raw {
+      content: "mkEnableOption",
+      position: (4, 36),
+     },
+     Raw {
+      content: "mkIf",
+      position: (4, 51),
+     },
+     Raw {
+      content: "mkOption",
+      position: (4, 56),
+     },
+     Raw {
+      content: "mkRemovedOptionModule",
+      position: (4, 65),
+     },
+     Raw {
+      content: "types",
+      position: (4, 87),
+     },
+    ],
+   ),
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (5, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "concatStringsSep",
+      position: (5, 17),
+     },
+     Raw {
+      content: "literalExpression",
+      position: (5, 34),
+     },
+     Raw {
+      content: "mapAttrsToList",
+      position: (5, 52),
+     },
+    ],
+   ),
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (6, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "optional",
+      position: (6, 17),
+     },
+     Raw {
+      content: "optionalAttrs",
+      position: (6, 26),
+     },
+     Raw {
+      content: "optionalString",
+      position: (6, 40),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (8, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (8, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "services",
+        position: (8, 16),
+       },
+       Raw {
+        content: "redmine",
+        position: (8, 25),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "format",
+       position: (9, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (9, 12),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "formats",
+         position: (9, 17),
+        },
+        Raw {
+         content: "yaml",
+         position: (9, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Map {
+       bindings: [],
+       recursive: false,
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "bundle",
+       position: (10, 3),
+      },
+     ],
+    },
+    String {
+     parts: [
+      Expression {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (10, 15),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "package",
+           position: (10, 19),
+          },
+         ],
+        },
+        default: None,
+       },
+      },
+      Raw {
+       content: "/share/redmine/bin/bundle",
+       position: (10, 27),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "databaseYml",
+       position: (12, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (12, 17),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "writeText",
+         position: (12, 22),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "database.yml",
+         position: (12, 33),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "production:\n  adapter: ",
+         position: (13, 1),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (14, 18),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "database",
+             position: (14, 22),
+            },
+            Raw {
+             content: "type",
+             position: (14, 31),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "\n  database: ",
+         position: (14, 36),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (15, 19),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "database",
+             position: (15, 23),
+            },
+            Raw {
+             content: "name",
+             position: (15, 32),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "\n  host: ",
+         position: (15, 37),
+        },
+        Expression {
+         expression: IfThenElse {
+          predicate: BinaryOperation {
+           operator: LogicalAnd,
+           operands: [
+            BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (16, 19),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "database",
+                  position: (16, 23),
+                 },
+                 Raw {
+                  content: "type",
+                  position: (16, 32),
+                 },
+                ],
+               },
+               default: None,
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "postgresql",
+                 position: (16, 41),
+                },
+               ],
+              },
+             ],
+            },
+            BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (16, 56),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "database",
+                  position: (16, 60),
+                 },
+                 Raw {
+                  content: "socket",
+                  position: (16, 69),
+                 },
+                ],
+               },
+               default: None,
+              },
+              Variable {
+               identifier: "null",
+               position: (16, 79),
+              },
+             ],
+            },
+           ],
+          },
+          then: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (16, 90),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "database",
+              position: (16, 94),
+             },
+             Raw {
+              content: "socket",
+              position: (16, 103),
+             },
+            ],
+           },
+           default: None,
+          },
+          else_: PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (16, 115),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "database",
+              position: (16, 119),
+             },
+             Raw {
+              content: "host",
+              position: (16, 128),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+        },
+        Raw {
+         content: "\n  port: ",
+         position: (16, 133),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "toString",
+           position: (17, 15),
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (17, 24),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "database",
+               position: (17, 28),
+              },
+              Raw {
+               content: "port",
+               position: (17, 37),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        },
+        Raw {
+         content: "\n  username: ",
+         position: (17, 42),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (18, 19),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "database",
+             position: (18, 23),
+            },
+            Raw {
+             content: "user",
+             position: (18, 32),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "\n  password: #dbpass#\n  ",
+         position: (18, 37),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "optionalString",
+           position: (20, 9),
+          },
+          arguments: [
+           BinaryOperation {
+            operator: LogicalAnd,
+            operands: [
+             BinaryOperation {
+              operator: EqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (20, 25),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "database",
+                   position: (20, 29),
+                  },
+                  Raw {
+                   content: "type",
+                   position: (20, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "mysql2",
+                  position: (20, 47),
+                 },
+                ],
+               },
+              ],
+             },
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (20, 58),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "database",
+                   position: (20, 62),
+                  },
+                  Raw {
+                   content: "socket",
+                   position: (20, 71),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Variable {
+                identifier: "null",
+                position: (20, 81),
+               },
+              ],
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "socket: ",
+              position: (20, 88),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (20, 98),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "database",
+                  position: (20, 102),
+                 },
+                 Raw {
+                  content: "socket",
+                  position: (20, 111),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+            ],
+           },
+          ],
+         },
+        },
+        Raw {
+         content: "\n",
+         position: (20, 120),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "configurationYml",
+       position: (23, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "format",
+       position: (23, 22),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "generate",
+         position: (23, 29),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "configuration.yml",
+         position: (23, 39),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (23, 58),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "settings",
+          position: (23, 62),
+         },
+        ],
+       },
+       default: None,
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "additionalEnvironment",
+       position: (24, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (24, 27),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "writeText",
+         position: (24, 32),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "additional_environment.rb",
+         position: (24, 43),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (24, 70),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "extraEnv",
+          position: (24, 74),
+         },
+        ],
+       },
+       default: None,
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "unpackTheme",
+       position: (26, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "unpack",
+      position: (26, 17),
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "theme",
+         position: (26, 25),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "unpackPlugin",
+       position: (27, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: Variable {
+      identifier: "unpack",
+      position: (27, 18),
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "plugin",
+         position: (27, 26),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "unpack",
+       position: (28, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "id",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: Function {
+      argument: Some(
+       "name",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: Function {
+       argument: Some(
+        "source",
+       ),
+       arguments: FunctionArguments {
+        arguments: [],
+        ellipsis: false,
+       },
+       definition: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "pkgs",
+          position: (29, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "stdenv",
+            position: (29, 10),
+           },
+           Raw {
+            content: "mkDerivation",
+            position: (29, 17),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "name",
+               position: (30, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "redmine-",
+               position: (30, 15),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "id",
+                position: (30, 25),
+               },
+              },
+              Raw {
+               content: "-",
+               position: (30, 28),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "name",
+                position: (30, 31),
+               },
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "nativeBuildInputs",
+               position: (31, 7),
+              },
+             ],
+            },
+            List {
+             elements: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (31, 29),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "unzip",
+                  position: (31, 34),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "buildCommand",
+               position: (32, 7),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "mkdir -p $out\ncd $out\nunpackFile ",
+               position: (33, 1),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "source",
+                position: (35, 22),
+               },
+              },
+              Raw {
+               content: "\n",
+               position: (35, 29),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ],
+       },
+      },
+     },
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mysqlLocal",
+       position: (39, 3),
+      },
+     ],
+    },
+    BinaryOperation {
+     operator: LogicalAnd,
+     operands: [
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (39, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "database",
+          position: (39, 20),
+         },
+         Raw {
+          content: "createLocally",
+          position: (39, 29),
+         },
+        ],
+       },
+       default: None,
+      },
+      BinaryOperation {
+       operator: EqualTo,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (39, 46),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "database",
+            position: (39, 50),
+           },
+           Raw {
+            content: "type",
+            position: (39, 59),
+           },
+          ],
+         },
+         default: None,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "mysql2",
+           position: (39, 68),
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "pgsqlLocal",
+       position: (40, 3),
+      },
+     ],
+    },
+    BinaryOperation {
+     operator: LogicalAnd,
+     operands: [
+      PropertyAccess {
+       expression: Variable {
+        identifier: "cfg",
+        position: (40, 16),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "database",
+          position: (40, 20),
+         },
+         Raw {
+          content: "createLocally",
+          position: (40, 29),
+         },
+        ],
+       },
+       default: None,
+      },
+      BinaryOperation {
+       operator: EqualTo,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (40, 46),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "database",
+            position: (40, 50),
+           },
+           Raw {
+            content: "type",
+            position: (40, 59),
+           },
+          ],
+         },
+         default: None,
+        },
+        String {
+         parts: [
+          Raw {
+           content: "postgresql",
+           position: (40, 68),
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "imports",
+        position: (44, 3),
+       },
+      ],
+     },
+     List {
+      elements: [
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkRemovedOptionModule",
+         position: (45, 6),
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "services",
+              position: (45, 31),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "redmine",
+              position: (45, 42),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "extraConfig",
+              position: (45, 52),
+             },
+            ],
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Use services.redmine.settings instead.",
+            position: (45, 68),
+           },
+          ],
+         },
+        ],
+       },
+       FunctionApplication {
+        function: Variable {
+         identifier: "mkRemovedOptionModule",
+         position: (46, 6),
+        },
+        arguments: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "services",
+              position: (46, 31),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "redmine",
+              position: (46, 42),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "database",
+              position: (46, 52),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "password",
+              position: (46, 63),
+             },
+            ],
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Use services.redmine.database.passwordFile instead.",
+            position: (46, 76),
+           },
+          ],
+         },
+        ],
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (50, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "services",
+           position: (51, 5),
+          },
+          Raw {
+           content: "redmine",
+           position: (51, 14),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (52, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkEnableOption",
+             position: (52, 16),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "Redmine",
+                position: (52, 32),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (54, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (54, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (55, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (55, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (55, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (56, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (56, 19),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "redmine",
+                    position: (56, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "defaultText",
+                   position: (57, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (57, 23),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "pkgs.redmine",
+                     position: (57, 42),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (58, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Which Redmine package to use.",
+                   position: (58, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (59, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (59, 19),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "pkgs.redmine.override { ruby = pkgs.ruby_2_7; }",
+                     position: (59, 38),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "user",
+              position: (62, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (62, 14),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (63, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (63, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (63, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (64, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "redmine",
+                   position: (64, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (65, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "User under which Redmine is ran.",
+                   position: (65, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "group",
+              position: (68, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (68, 15),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (69, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (69, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (69, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (70, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "redmine",
+                   position: (70, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (71, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Group under which Redmine is ran.",
+                   position: (71, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "port",
+              position: (74, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (74, 14),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (75, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (75, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "port",
+                    position: (75, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (76, 9),
+                  },
+                 ],
+                },
+                Int {
+                 value: 3000,
+                 position: (76, 19),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (77, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Port on which Redmine is ran.",
+                   position: (77, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "stateDir",
+              position: (80, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (80, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (81, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (81, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (81, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (82, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "/var/lib/redmine",
+                   position: (82, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (83, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "The state directory, logs and plugins are stored here.",
+                   position: (83, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "settings",
+              position: (86, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (86, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (87, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "format",
+                  position: (87, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (87, 23),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (88, 9),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (89, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Redmine configuration (<filename>configuration.yml</filename>). Refer to\n<link xlink:href=\"https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration\"/>\nfor details.\n",
+                   position: (90, 1),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (94, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (94, 19),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "{\n  email_delivery = {\n    delivery_method = \"smtp\";\n    smtp_settings = {\n      address = \"mail.example.com\";\n      port = 25;\n    };\n  };\n}\n",
+                     position: (95, 1),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "extraEnv",
+              position: (107, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (107, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (108, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (108, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "lines",
+                    position: (108, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (109, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (110, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Extra configuration in additional_environment.rb.\n\nSee <link xlink:href=\"https://svn.redmine.org/redmine/trunk/config/additional_environment.rb.example\"/>\nfor details.\n",
+                   position: (111, 1),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (116, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "config.logger.level = Logger::DEBUG\n",
+                   position: (117, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "themes",
+              position: (121, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (121, 16),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (122, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (122, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "attrsOf",
+                     position: (122, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (122, 30),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "path",
+                      position: (122, 36),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (123, 9),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (124, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Set of themes.",
+                   position: (124, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (125, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (125, 19),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "{\n  dkuk-redmine_alex_skin = builtins.fetchurl {\n    url = \"https://bitbucket.org/dkuk/redmine_alex_skin/get/1842ef675ef3.zip\";\n    sha256 = \"0hrin9lzyi50k4w2bd2b30vrf1i4fi1c0gyas5801wn8i7kpm9yl\";\n  };\n}\n",
+                     position: (126, 1),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "plugins",
+              position: (135, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (135, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (136, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (136, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "attrsOf",
+                     position: (136, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (136, 30),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "path",
+                      position: (136, 36),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (137, 9),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [],
+                 recursive: false,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (138, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Set of plugins.",
+                   position: (138, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "example",
+                   position: (139, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (139, 19),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "{\n  redmine_env_auth = builtins.fetchurl {\n    url = \"https://github.com/Intera/redmine_env_auth/archive/0.6.zip\";\n    sha256 = \"0yyr1yjd8gvvh832wdc8m3xfnhhxzk2pk3gm2psg5w9jdvd6skak\";\n  };\n}\n",
+                     position: (140, 1),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "database",
+              position: (149, 7),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (150, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (150, 16),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (151, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (151, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "enum",
+                        position: (151, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     List {
+                      elements: [
+                       String {
+                        parts: [
+                         Raw {
+                          content: "mysql2",
+                          position: (151, 32),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "postgresql",
+                          position: (151, 41),
+                         },
+                        ],
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "example",
+                      position: (152, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "postgresql",
+                      position: (152, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (153, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "mysql2",
+                      position: (153, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (154, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Database engine to use.",
+                      position: (154, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "host",
+                 position: (157, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (157, 16),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (158, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (158, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (158, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (159, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "localhost",
+                      position: (159, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (160, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Database host address.",
+                      position: (160, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "port",
+                 position: (163, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (163, 16),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (164, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (164, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "int",
+                       position: (164, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (165, 11),
+                     },
+                    ],
+                   },
+                   IfThenElse {
+                    predicate: BinaryOperation {
+                     operator: EqualTo,
+                     operands: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (165, 24),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "database",
+                          position: (165, 28),
+                         },
+                         Raw {
+                          content: "type",
+                          position: (165, 37),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                      String {
+                       parts: [
+                        Raw {
+                         content: "postgresql",
+                         position: (165, 46),
+                        },
+                       ],
+                      },
+                     ],
+                    },
+                    then: Int {
+                     value: 5432,
+                     position: (165, 63),
+                    },
+                    else_: Int {
+                     value: 3306,
+                     position: (165, 73),
+                    },
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "defaultText",
+                      position: (166, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "literalExpression",
+                     position: (166, 25),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "3306",
+                        position: (166, 44),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (167, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Database host port.",
+                      position: (167, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "name",
+                 position: (170, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (170, 16),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (171, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (171, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (171, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (172, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "redmine",
+                      position: (172, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (173, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Database name.",
+                      position: (173, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "user",
+                 position: (176, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (176, 16),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (177, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (177, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (177, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (178, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "redmine",
+                      position: (178, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (179, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Database user.",
+                      position: (179, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "passwordFile",
+                 position: (182, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (182, 24),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (183, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (183, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nullOr",
+                        position: (183, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (183, 31),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "path",
+                         position: (183, 37),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (184, 11),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (184, 21),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "example",
+                      position: (185, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/run/keys/redmine-dbpassword",
+                      position: (185, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (186, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "A file containing the password corresponding to\n<option>database.user</option>.\n",
+                      position: (187, 1),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "socket",
+                 position: (192, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (192, 18),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (193, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (193, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "nullOr",
+                        position: (193, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "types",
+                       position: (193, 31),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "path",
+                         position: (193, 37),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (194, 11),
+                     },
+                    ],
+                   },
+                   IfThenElse {
+                    predicate: Variable {
+                     identifier: "mysqlLocal",
+                     position: (195, 16),
+                    },
+                    then: String {
+                     parts: [
+                      Raw {
+                       content: "/run/mysqld/mysqld.sock",
+                       position: (195, 33),
+                      },
+                     ],
+                    },
+                    else_: IfThenElse {
+                     predicate: Variable {
+                      identifier: "pgsqlLocal",
+                      position: (196, 21),
+                     },
+                     then: String {
+                      parts: [
+                       Raw {
+                        content: "/run/postgresql",
+                        position: (196, 38),
+                       },
+                      ],
+                     },
+                     else_: Variable {
+                      identifier: "null",
+                      position: (197, 18),
+                     },
+                    },
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "defaultText",
+                      position: (198, 11),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: Variable {
+                     identifier: "literalExpression",
+                     position: (198, 25),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "/run/mysqld/mysqld.sock",
+                        position: (198, 44),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "example",
+                      position: (199, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/run/mysqld/mysqld.sock",
+                      position: (199, 22),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (200, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Path to the unix socket file to use for authentication.",
+                      position: (200, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "createLocally",
+                 position: (203, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "mkOption",
+                position: (203, 25),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "type",
+                      position: (204, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (204, 18),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "bool",
+                       position: (204, 24),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "default",
+                      position: (205, 11),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (205, 21),
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "description",
+                      position: (206, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "Create the database and database user locally.",
+                      position: (206, 26),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (213, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (213, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (213, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (213, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "assertions",
+             position: (215, 5),
+            },
+           ],
+          },
+          List {
+           elements: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (216, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: LogicalOr,
+                operands: [
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (216, 21),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (216, 25),
+                      },
+                      Raw {
+                       content: "passwordFile",
+                       position: (216, 34),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (216, 50),
+                   },
+                  ],
+                 },
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (216, 58),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (216, 62),
+                      },
+                      Raw {
+                       content: "socket",
+                       position: (216, 71),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (216, 81),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (217, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "one of services.redmine.database.socket or services.redmine.database.passwordFile must be set",
+                  position: (217, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (219, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (219, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (219, 25),
+                    },
+                    Raw {
+                     content: "createLocally",
+                     position: (219, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (219, 51),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (219, 55),
+                      },
+                      Raw {
+                       content: "user",
+                       position: (219, 64),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (219, 72),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "user",
+                       position: (219, 76),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (220, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "services.redmine.database.user must be set to ",
+                  position: (220, 20),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (220, 68),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "user",
+                      position: (220, 72),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: " if services.redmine.database.createLocally is set true",
+                  position: (220, 77),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (222, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (222, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (222, 25),
+                    },
+                    Raw {
+                     content: "createLocally",
+                     position: (222, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (222, 51),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (222, 55),
+                      },
+                      Raw {
+                       content: "socket",
+                       position: (222, 64),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   Variable {
+                    identifier: "null",
+                    position: (222, 74),
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (223, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "services.redmine.database.socket must be set if services.redmine.database.createLocally is set to true",
+                  position: (223, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "assertion",
+                  position: (225, 9),
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Implication,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (225, 21),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (225, 25),
+                    },
+                    Raw {
+                     content: "createLocally",
+                     position: (225, 34),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 BinaryOperation {
+                  operator: EqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (225, 51),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "database",
+                       position: (225, 55),
+                      },
+                      Raw {
+                       content: "host",
+                       position: (225, 64),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "localhost",
+                      position: (225, 73),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "message",
+                  position: (226, 9),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "services.redmine.database.host must be set to localhost if services.redmine.database.createLocally is set to true",
+                  position: (226, 20),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (230, 5),
+            },
+            Raw {
+             content: "redmine",
+             position: (230, 14),
+            },
+            Raw {
+             content: "settings",
+             position: (230, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "production",
+                position: (231, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_subversion_command",
+                   position: (232, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (232, 37),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "subversion",
+                       position: (232, 42),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/svn",
+                   position: (232, 53),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_mercurial_command",
+                   position: (233, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (233, 36),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "mercurial",
+                       position: (233, 41),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/hg",
+                   position: (233, 51),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_git_command",
+                   position: (234, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (234, 30),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "git",
+                       position: (234, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/git",
+                   position: (234, 39),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_cvs_command",
+                   position: (235, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (235, 30),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "cvs",
+                       position: (235, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/cvs",
+                   position: (235, 39),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_bazaar_command",
+                   position: (236, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (236, 33),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "breezy",
+                       position: (236, 38),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/bzr",
+                   position: (236, 45),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "scm_darcs_command",
+                   position: (237, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (237, 32),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "darcs",
+                       position: (237, 37),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/bin/darcs",
+                   position: (237, 43),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (241, 5),
+            },
+            Raw {
+             content: "redmine",
+             position: (241, 14),
+            },
+            Raw {
+             content: "extraEnv",
+             position: (241, 22),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkBefore",
+            position: (241, 33),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "config.logger = Logger.new(\"",
+               position: (242, 1),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (242, 37),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (242, 41),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/log/production.log\", 14, 1048576)\nconfig.logger.level = Logger::INFO\n",
+               position: (242, 50),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (246, 5),
+            },
+            Raw {
+             content: "mysql",
+             position: (246, 14),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (246, 22),
+           },
+           arguments: [
+            Variable {
+             identifier: "mysqlLocal",
+             position: (246, 27),
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (247, 7),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (247, 16),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (248, 7),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkDefault",
+                 position: (248, 17),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (248, 27),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "mariadb",
+                     position: (248, 32),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ensureDatabases",
+                  position: (249, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (249, 27),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (249, 31),
+                    },
+                    Raw {
+                     content: "name",
+                     position: (249, 40),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ensureUsers",
+                  position: (250, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "name",
+                       position: (251, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (251, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "database",
+                        position: (251, 22),
+                       },
+                       Raw {
+                        content: "user",
+                        position: (251, 31),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "ensurePermissions",
+                       position: (252, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Expression {
+                          expression: String {
+                           parts: [
+                            Expression {
+                             expression: PropertyAccess {
+                              expression: Variable {
+                               identifier: "cfg",
+                               position: (252, 36),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "database",
+                                 position: (252, 40),
+                                },
+                                Raw {
+                                 content: "name",
+                                 position: (252, 49),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            },
+                            Raw {
+                             content: ".*",
+                             position: (252, 54),
+                            },
+                           ],
+                          },
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "ALL PRIVILEGES",
+                          position: (252, 61),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "services",
+             position: (257, 5),
+            },
+            Raw {
+             content: "postgresql",
+             position: (257, 14),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "mkIf",
+            position: (257, 27),
+           },
+           arguments: [
+            Variable {
+             identifier: "pgsqlLocal",
+             position: (257, 32),
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "enable",
+                  position: (258, 7),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "true",
+                position: (258, 16),
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ensureDatabases",
+                  position: (259, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (259, 27),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "database",
+                     position: (259, 31),
+                    },
+                    Raw {
+                     content: "name",
+                     position: (259, 40),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "ensureUsers",
+                  position: (260, 7),
+                 },
+                ],
+               },
+               List {
+                elements: [
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "name",
+                       position: (261, 11),
+                      },
+                     ],
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (261, 18),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "database",
+                        position: (261, 22),
+                       },
+                       Raw {
+                        content: "user",
+                        position: (261, 31),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "ensurePermissions",
+                       position: (262, 11),
+                      },
+                     ],
+                    },
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Expression {
+                          expression: String {
+                           parts: [
+                            Raw {
+                             content: "DATABASE ",
+                             position: (262, 34),
+                            },
+                            Expression {
+                             expression: PropertyAccess {
+                              expression: Variable {
+                               identifier: "cfg",
+                               position: (262, 45),
+                              },
+                              attribute_path: AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "database",
+                                 position: (262, 49),
+                                },
+                                Raw {
+                                 content: "name",
+                                 position: (262, 58),
+                                },
+                               ],
+                              },
+                              default: None,
+                             },
+                            },
+                           ],
+                          },
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "ALL PRIVILEGES",
+                          position: (262, 68),
+                         },
+                        ],
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (268, 5),
+            },
+            Raw {
+             content: "tmpfiles",
+             position: (268, 13),
+            },
+            Raw {
+             content: "rules",
+             position: (268, 22),
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (269, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (269, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (269, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "' 0750 ",
+               position: (269, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (269, 35),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (269, 39),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (269, 44),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (269, 47),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (269, 51),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (269, 57),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (270, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (270, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (270, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/cache' 0750 ",
+               position: (270, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (270, 41),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (270, 45),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (270, 50),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (270, 53),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (270, 57),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (270, 63),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (271, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (271, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (271, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/config' 0750 ",
+               position: (271, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (271, 42),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (271, 46),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (271, 51),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (271, 54),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (271, 58),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (271, 64),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (272, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (272, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (272, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/files' 0750 ",
+               position: (272, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (272, 41),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (272, 45),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (272, 50),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (272, 53),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (272, 57),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (272, 63),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (273, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (273, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (273, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/log' 0750 ",
+               position: (273, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (273, 39),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (273, 43),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (273, 48),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (273, 51),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (273, 55),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (273, 61),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (274, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (274, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (274, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/plugins' 0750 ",
+               position: (274, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (274, 43),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (274, 47),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (274, 52),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (274, 55),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (274, 59),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (274, 65),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (275, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (275, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (275, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/public' 0750 ",
+               position: (275, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (275, 42),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (275, 46),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (275, 51),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (275, 54),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (275, 58),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (275, 64),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (276, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (276, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (276, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/public/plugin_assets' 0750 ",
+               position: (276, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (276, 56),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (276, 60),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (276, 65),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (276, 68),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (276, 72),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (276, 78),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (277, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (277, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (277, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/public/themes' 0750 ",
+               position: (277, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (277, 49),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (277, 53),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (277, 58),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (277, 61),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (277, 65),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (277, 71),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d '",
+               position: (278, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (278, 13),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (278, 17),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/tmp' 0750 ",
+               position: (278, 26),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (278, 39),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "user",
+                   position: (278, 43),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " ",
+               position: (278, 48),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (278, 51),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "group",
+                   position: (278, 55),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: " - -",
+               position: (278, 61),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d /run/redmine - - - - -",
+               position: (280, 8),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "d /run/redmine/public - - - - -",
+               position: (281, 8),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/config - - - - ",
+               position: (282, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (282, 41),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (282, 45),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/config",
+               position: (282, 54),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/files - - - - ",
+               position: (283, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (283, 40),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (283, 44),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/files",
+               position: (283, 53),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/log - - - - ",
+               position: (284, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (284, 38),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (284, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/log",
+               position: (284, 51),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/plugins - - - - ",
+               position: (285, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (285, 42),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (285, 46),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/plugins",
+               position: (285, 55),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/public/plugin_assets - - - - ",
+               position: (286, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (286, 55),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (286, 59),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/public/plugin_assets",
+               position: (286, 68),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/public/themes - - - - ",
+               position: (287, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (287, 48),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (287, 52),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/public/themes",
+               position: (287, 61),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "L+ /run/redmine/tmp - - - - ",
+               position: (288, 8),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (288, 38),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stateDir",
+                   position: (288, 42),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+              Raw {
+               content: "/tmp",
+               position: (288, 51),
+              },
+             ],
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (291, 5),
+            },
+            Raw {
+             content: "services",
+             position: (291, 13),
+            },
+            Raw {
+             content: "redmine",
+             position: (291, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "after",
+                position: (292, 7),
+               },
+              ],
+             },
+             BinaryOperation {
+              operator: Concatenation,
+              operands: [
+               List {
+                elements: [
+                 String {
+                  parts: [
+                   Raw {
+                    content: "network.target",
+                    position: (292, 18),
+                   },
+                  ],
+                 },
+                ],
+               },
+               BinaryOperation {
+                operator: Concatenation,
+                operands: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optional",
+                   position: (292, 39),
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "mysqlLocal",
+                    position: (292, 48),
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "mysql.service",
+                      position: (292, 60),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "optional",
+                   position: (292, 78),
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "pgsqlLocal",
+                    position: (292, 87),
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "postgresql.service",
+                      position: (292, 99),
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (293, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "multi-user.target",
+                  position: (293, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "environment",
+                position: (294, 7),
+               },
+               Raw {
+                content: "RAILS_ENV",
+                position: (294, 19),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "production",
+                position: (294, 32),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "environment",
+                position: (295, 7),
+               },
+               Raw {
+                content: "RAILS_CACHE",
+                position: (295, 19),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (295, 36),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (295, 40),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/cache",
+                position: (295, 49),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "environment",
+                position: (296, 7),
+               },
+               Raw {
+                content: "REDMINE_LANG",
+                position: (296, 19),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "en",
+                position: (296, 35),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "environment",
+                position: (297, 7),
+               },
+               Raw {
+                content: "SCHEMA",
+                position: (297, 19),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (297, 31),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (297, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/cache/schema.db",
+                position: (297, 44),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "path",
+                position: (298, 7),
+               },
+              ],
+             },
+             With {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (298, 19),
+              },
+              target: List {
+               elements: [
+                Variable {
+                 identifier: "imagemagick",
+                 position: (299, 9),
+                },
+                Variable {
+                 identifier: "breezy",
+                 position: (300, 9),
+                },
+                Variable {
+                 identifier: "cvs",
+                 position: (301, 9),
+                },
+                Variable {
+                 identifier: "darcs",
+                 position: (302, 9),
+                },
+                Variable {
+                 identifier: "git",
+                 position: (303, 9),
+                },
+                Variable {
+                 identifier: "mercurial",
+                 position: (304, 9),
+                },
+                Variable {
+                 identifier: "subversion",
+                 position: (305, 9),
+                },
+               ],
+              },
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "preStart",
+                position: (307, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "rm -rf \"",
+                position: (308, 1),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (308, 19),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (308, 23),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/plugins/\"*\nrm -rf \"",
+                position: (308, 32),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (309, 19),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (309, 23),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/public/themes/\"*\n\n# start with a fresh config directory\n# the config directory is copied instead of linked as some mutable data is stored in there\nfind \"",
+                position: (309, 32),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (313, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (313, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config\" ! -name \"secret_token.rb\" -type f -exec rm -f {} +\ncp -r ",
+                position: (313, 30),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (314, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (314, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/share/redmine/config.dist/* \"",
+                position: (314, 29),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (314, 61),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (314, 65),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/\"\n\nchmod -R u+w \"",
+                position: (314, 74),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (316, 25),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (316, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config\"\n\n# link in the application configuration\nln -fs ",
+                position: (316, 38),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "configurationYml",
+                 position: (319, 18),
+                },
+               },
+               Raw {
+                content: " \"",
+                position: (319, 35),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (319, 39),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (319, 43),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/configuration.yml\"\n\n# link in the additional environment configuration\nln -fs ",
+                position: (319, 52),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "additionalEnvironment",
+                 position: (322, 18),
+                },
+               },
+               Raw {
+                content: " \"",
+                position: (322, 40),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (322, 44),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (322, 48),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/additional_environment.rb\"\n\n\n# link in all user specified themes\nfor theme in ",
+                position: (322, 57),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (326, 24),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " ",
+                     position: (326, 42),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mapAttrsToList",
+                    position: (326, 46),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "unpackTheme",
+                     position: (326, 61),
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (326, 73),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "themes",
+                        position: (326, 77),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "; do\n  ln -fs $theme/* \"",
+                position: (326, 85),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (327, 30),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (327, 34),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/public/themes\"\ndone\n\n# link in redmine provided themes\nln -sf ",
+                position: (327, 43),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (331, 18),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (331, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/share/redmine/public/themes.dist/* \"",
+                position: (331, 30),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (331, 69),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (331, 73),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/public/themes/\"\n\n\n# link in all user specified plugins\nfor plugin in ",
+                position: (331, 82),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStringsSep",
+                  position: (335, 25),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: " ",
+                     position: (335, 43),
+                    },
+                   ],
+                  },
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mapAttrsToList",
+                    position: (335, 47),
+                   },
+                   arguments: [
+                    Variable {
+                     identifier: "unpackPlugin",
+                     position: (335, 62),
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (335, 75),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "plugins",
+                        position: (335, 79),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "; do\n  ln -fs $plugin/* \"",
+                position: (335, 88),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (336, 31),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (336, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/plugins/",
+                position: (336, 44),
+               },
+               Raw {
+                content: "$",
+                position: (336, 53),
+               },
+               Raw {
+                content: "{plugin##*-redmine-plugin-}\"\ndone\n\n\n# handle database.passwordFile & permissions\nDBPASS=",
+                position: (336, 56),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "optionalString",
+                  position: (341, 18),
+                 },
+                 arguments: [
+                  BinaryOperation {
+                   operator: NotEqualTo,
+                   operands: [
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (341, 34),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "database",
+                        position: (341, 38),
+                       },
+                       Raw {
+                        content: "passwordFile",
+                        position: (341, 47),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    Variable {
+                     identifier: "null",
+                     position: (341, 63),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "$(head -n1 ",
+                     position: (341, 70),
+                    },
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (341, 83),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "database",
+                         position: (341, 87),
+                        },
+                        Raw {
+                         content: "passwordFile",
+                         position: (341, 96),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: ")",
+                     position: (341, 109),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "\ncp -f ",
+                position: (341, 112),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "databaseYml",
+                 position: (342, 17),
+                },
+               },
+               Raw {
+                content: " \"",
+                position: (342, 29),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (342, 33),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (342, 37),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/database.yml\"\nsed -e \"s,#dbpass#,$DBPASS,g\" -i \"",
+                position: (342, 46),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (343, 45),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (343, 49),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/database.yml\"\nchmod 440 \"",
+                position: (343, 58),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (344, 22),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (344, 26),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/database.yml\"\n\n\n# generate a secret token if required\nif ! test -e \"",
+                position: (344, 35),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (348, 25),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (348, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/initializers/secret_token.rb\"; then\n  ",
+                position: (348, 38),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "bundle",
+                 position: (349, 13),
+                },
+               },
+               Raw {
+                content: " exec rake generate_secret_token\n  chmod 440 \"",
+                position: (349, 20),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (350, 24),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "stateDir",
+                    position: (350, 28),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/config/initializers/secret_token.rb\"\nfi\n\n# execute redmine required commands prior to starting the application\n",
+                position: (350, 37),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "bundle",
+                 position: (354, 11),
+                },
+               },
+               Raw {
+                content: " exec rake db:migrate\n",
+                position: (354, 18),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "bundle",
+                 position: (355, 11),
+                },
+               },
+               Raw {
+                content: " exec rake redmine:plugins:migrate\n",
+                position: (355, 18),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "bundle",
+                 position: (356, 11),
+                },
+               },
+               Raw {
+                content: " exec rake redmine:load_default_data\n",
+                position: (356, 18),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (359, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Type",
+                   position: (360, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "simple",
+                   position: (360, 17),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "User",
+                   position: (361, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (361, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (361, 20),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Group",
+                   position: (362, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (362, 17),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "group",
+                    position: (362, 21),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "TimeoutSec",
+                   position: (363, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "300",
+                   position: (363, 23),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "WorkingDirectory",
+                   position: (364, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (364, 31),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "package",
+                       position: (364, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/share/redmine",
+                   position: (364, 43),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (365, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: Variable {
+                    identifier: "bundle",
+                    position: (365, 22),
+                   },
+                  },
+                  Raw {
+                   content: " exec rails server webrick -e production -p ",
+                   position: (365, 29),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "toString",
+                     position: (365, 75),
+                    },
+                    arguments: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (365, 84),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "port",
+                         position: (365, 88),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: " -P '",
+                   position: (365, 93),
+                  },
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (365, 100),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "stateDir",
+                       position: (365, 104),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/redmine.pid'",
+                   position: (365, 113),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (370, 5),
+            },
+            Raw {
+             content: "users",
+             position: (370, 11),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "optionalAttrs",
+            position: (370, 19),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (370, 34),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "user",
+                  position: (370, 38),
+                 },
+                ],
+               },
+               default: None,
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "redmine",
+                 position: (370, 47),
+                },
+               ],
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "redmine",
+                  position: (371, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "group",
+                     position: (372, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (372, 17),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "group",
+                      position: (372, 21),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "home",
+                     position: (373, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (373, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "stateDir",
+                      position: (373, 20),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "uid",
+                     position: (374, 9),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (374, 15),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ids",
+                      position: (374, 22),
+                     },
+                     Raw {
+                      content: "uids",
+                      position: (374, 26),
+                     },
+                     Raw {
+                      content: "redmine",
+                      position: (374, 31),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "users",
+             position: (378, 5),
+            },
+            Raw {
+             content: "groups",
+             position: (378, 11),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "optionalAttrs",
+            position: (378, 20),
+           },
+           arguments: [
+            BinaryOperation {
+             operator: EqualTo,
+             operands: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (378, 35),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "group",
+                  position: (378, 39),
+                 },
+                ],
+               },
+               default: None,
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "redmine",
+                 position: (378, 49),
+                },
+               ],
+              },
+             ],
+            },
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "redmine",
+                  position: (379, 7),
+                 },
+                 Raw {
+                  content: "gid",
+                  position: (379, 15),
+                 },
+                ],
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (379, 21),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ids",
+                   position: (379, 28),
+                  },
+                  Raw {
+                   content: "gids",
+                   position: (379, 32),
+                  },
+                  Raw {
+                   content: "redmine",
+                   position: (379, 37),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

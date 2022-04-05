@@ -1,0 +1,2224 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    Inherit(
+     Some(
+      Variable {
+       identifier: "pkgs",
+       position: (6, 12),
+      },
+     ),
+     [
+      Raw {
+       content: "glusterfs",
+       position: (6, 18),
+      },
+      Raw {
+       content: "rsync",
+       position: (6, 28),
+      },
+     ],
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "tlsCmd",
+        position: (8, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: BinaryOperation {
+       operator: NotEqualTo,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (8, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "tlsSettings",
+            position: (8, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        Variable {
+         identifier: "null",
+         position: (8, 35),
+        },
+       ],
+      },
+      then: String {
+       parts: [
+        Raw {
+         content: "mkdir -p /var/lib/glusterd\ntouch /var/lib/glusterd/secure-access\n",
+         position: (10, 1),
+        },
+       ],
+      },
+      else_: String {
+       parts: [
+        Raw {
+         content: "rm -f /var/lib/glusterd/secure-access\n",
+         position: (15, 1),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "restartTriggers",
+        position: (18, 3),
+       },
+      ],
+     },
+     IfThenElse {
+      predicate: BinaryOperation {
+       operator: NotEqualTo,
+       operands: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (18, 25),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "tlsSettings",
+            position: (18, 29),
+           },
+          ],
+         },
+         default: None,
+        },
+        Variable {
+         identifier: "null",
+         position: (18, 44),
+        },
+       ],
+      },
+      then: List {
+       elements: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (19, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (19, 12),
+           },
+           Raw {
+            content: "etc",
+            position: (19, 24),
+           },
+           Expression {
+            expression: String {
+             parts: [
+              Raw {
+               content: "ssl/glusterfs.pem",
+               position: (19, 29),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "source",
+            position: (19, 48),
+           },
+          ],
+         },
+         default: None,
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (20, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (20, 12),
+           },
+           Raw {
+            content: "etc",
+            position: (20, 24),
+           },
+           Expression {
+            expression: String {
+             parts: [
+              Raw {
+               content: "ssl/glusterfs.key",
+               position: (20, 29),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "source",
+            position: (20, 48),
+           },
+          ],
+         },
+         default: None,
+        },
+        PropertyAccess {
+         expression: Variable {
+          identifier: "config",
+          position: (21, 5),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "environment",
+            position: (21, 12),
+           },
+           Raw {
+            content: "etc",
+            position: (21, 24),
+           },
+           Expression {
+            expression: String {
+             parts: [
+              Raw {
+               content: "ssl/glusterfs.ca",
+               position: (21, 29),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "source",
+            position: (21, 47),
+           },
+          ],
+         },
+         default: None,
+        },
+       ],
+      },
+      else_: List {
+       elements: [],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (24, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (24, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "services",
+         position: (24, 16),
+        },
+        Raw {
+         content: "glusterfs",
+         position: (24, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (32, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "services",
+            position: (34, 5),
+           },
+           Raw {
+            content: "glusterfs",
+            position: (34, 14),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enable",
+               position: (36, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkEnableOption",
+              position: (36, 16),
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "GlusterFS Daemon",
+                 position: (36, 32),
+                },
+               ],
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "logLevel",
+               position: (38, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (38, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (39, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (39, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enum",
+                      position: (39, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "DEBUG",
+                        position: (39, 29),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "INFO",
+                        position: (39, 37),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "WARNING",
+                        position: (39, 44),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "ERROR",
+                        position: (39, 54),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "CRITICAL",
+                        position: (39, 62),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "TRACE",
+                        position: (39, 73),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "NONE",
+                        position: (39, 81),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (40, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Log level used by the GlusterFS daemon",
+                    position: (40, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (41, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "INFO",
+                    position: (41, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "useRpcbind",
+               position: (44, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (44, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (45, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (45, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (45, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (46, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Enable use of rpcbind. This is required for Gluster's NFS functionality.\n\nYou may want to turn it off to reduce the attack surface for DDoS reflection attacks.\n\nSee https://davelozier.com/glusterfs-and-rpcbind-portmap-ddos-reflection-attacks/\nand https://bugzilla.redhat.com/show_bug.cgi?id=1426842 for details.\n",
+                    position: (47, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (54, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (54, 19),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "enableGlustereventsd",
+               position: (57, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (57, 30),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (58, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (58, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "bool",
+                     position: (58, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (59, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Whether to enable the GlusterFS Events Daemon",
+                    position: (59, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (60, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "true",
+                  position: (60, 19),
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "killMode",
+               position: (63, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (63, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (64, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (64, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "enum",
+                      position: (64, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   List {
+                    elements: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "control-group",
+                        position: (64, 29),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "process",
+                        position: (64, 45),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "mixed",
+                        position: (64, 55),
+                       },
+                      ],
+                     },
+                     String {
+                      parts: [
+                       Raw {
+                        content: "none",
+                        position: (64, 63),
+                       },
+                      ],
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (65, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The systemd KillMode to use for glusterd.\n\nglusterd spawns other daemons like gsyncd.\nIf you want these to stop when glusterd is stopped (e.g. to ensure\nthat NixOS config changes are reflected even for these sub-daemons),\nset this to 'control-group'.\nIf however you want running volume processes (glusterfsd) and thus\ngluster mounts not be interrupted when glusterd is restarted\n(for example, when you want to restart them manually at a later time),\nset this to 'process'.\n",
+                    position: (66, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (77, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "control-group",
+                    position: (77, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "stopKillTimeout",
+               position: (80, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (80, 25),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (81, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (81, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "str",
+                     position: (81, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (82, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "The systemd TimeoutStopSec to use.\n\nAfter this time after having been asked to shut down, glusterd\n(and depending on the killMode setting also its child processes)\nare killed by systemd.\n\nThe default is set low because GlusterFS (as of 3.10) is known to\nnot tell its children (like gsyncd) to terminate at all.\n",
+                    position: (83, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (92, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "5s",
+                    position: (92, 20),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraFlags",
+               position: (95, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (95, 20),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (96, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (96, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (96, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (96, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (96, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (97, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Extra flags passed to the GlusterFS daemon",
+                    position: (97, 24),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (98, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "tlsSettings",
+               position: (101, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (101, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (102, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Make the server communicate via TLS.\nThis means it will only connect to other gluster\nservers having certificates signed by the same CA.\n\nEnabling this will create a file <filename>/var/lib/glusterd/secure-access</filename>.\nDisabling will delete this file again.\n\nSee also: https://gluster.readthedocs.io/en/latest/Administrator%20Guide/SSL/\n",
+                    position: (103, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (112, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (112, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (113, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (113, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "nullOr",
+                      position: (113, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "types",
+                      position: (113, 30),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "submodule",
+                        position: (113, 36),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     Map {
+                      bindings: [
+                       KeyValue(
+                        AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "options",
+                           position: (114, 11),
+                          },
+                         ],
+                        },
+                        Map {
+                         bindings: [
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "tlsKeyPath",
+                              position: (115, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (115, 26),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (116, 15),
+                                  },
+                                 ],
+                                },
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "types",
+                                  position: (116, 22),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "str",
+                                    position: (116, 28),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (117, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Path to the private key used for TLS.",
+                                   position: (117, 30),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "tlsPem",
+                              position: (120, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (120, 22),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (121, 15),
+                                  },
+                                 ],
+                                },
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "types",
+                                  position: (121, 22),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "path",
+                                    position: (121, 28),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (122, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Path to the certificate used for TLS.",
+                                   position: (122, 30),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                          KeyValue(
+                           AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "caCert",
+                              position: (125, 13),
+                             },
+                            ],
+                           },
+                           FunctionApplication {
+                            function: Variable {
+                             identifier: "mkOption",
+                             position: (125, 22),
+                            },
+                            arguments: [
+                             Map {
+                              bindings: [
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "type",
+                                   position: (126, 15),
+                                  },
+                                 ],
+                                },
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "types",
+                                  position: (126, 22),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "path",
+                                    position: (126, 28),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ),
+                               KeyValue(
+                                AttributePath {
+                                 attributes: [
+                                  Raw {
+                                   content: "description",
+                                   position: (127, 15),
+                                  },
+                                 ],
+                                },
+                                String {
+                                 parts: [
+                                  Raw {
+                                   content: "Path certificate authority used to sign the cluster certificates.",
+                                   position: (127, 30),
+                                  },
+                                 ],
+                                },
+                               ),
+                              ],
+                              recursive: false,
+                             },
+                            ],
+                           },
+                          ),
+                         ],
+                         recursive: false,
+                        },
+                       ),
+                      ],
+                      recursive: false,
+                     },
+                    ],
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (137, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (137, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (137, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (137, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (138, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (138, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (138, 36),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "glusterfs",
+                 position: (138, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "services",
+              position: (140, 5),
+             },
+             Raw {
+              content: "rpcbind",
+              position: (140, 14),
+             },
+             Raw {
+              content: "enable",
+              position: (140, 22),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (140, 31),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "useRpcbind",
+               position: (140, 35),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (142, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (142, 17),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (142, 23),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (142, 29),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "tlsSettings",
+                   position: (142, 33),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Variable {
+                identifier: "null",
+                position: (142, 48),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "ssl/glusterfs.pem",
+                      position: (143, 8),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "source",
+                   position: (143, 27),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (143, 36),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "tlsSettings",
+                    position: (143, 40),
+                   },
+                   Raw {
+                    content: "tlsPem",
+                    position: (143, 52),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "ssl/glusterfs.key",
+                      position: (144, 8),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "source",
+                   position: (144, 27),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (144, 36),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "tlsSettings",
+                    position: (144, 40),
+                   },
+                   Raw {
+                    content: "tlsKeyPath",
+                    position: (144, 52),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Expression {
+                   expression: String {
+                    parts: [
+                     Raw {
+                      content: "ssl/glusterfs.ca",
+                      position: (145, 8),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: "source",
+                   position: (145, 26),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (145, 35),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "tlsSettings",
+                    position: (145, 39),
+                   },
+                   Raw {
+                    content: "caCert",
+                    position: (145, 51),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (148, 5),
+             },
+             Raw {
+              content: "services",
+              position: (148, 13),
+             },
+             Raw {
+              content: "glusterd",
+              position: (148, 22),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             Inherit(
+              None,
+              [
+               Raw {
+                content: "restartTriggers",
+                position: (149, 15),
+               },
+              ],
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (151, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "GlusterFS, a clustered file-system server",
+                 position: (151, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "wantedBy",
+                 position: (153, 7),
+                },
+               ],
+              },
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "multi-user.target",
+                   position: (153, 21),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "requires",
+                 position: (155, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "lib",
+                 position: (155, 18),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "optional",
+                   position: (155, 22),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (155, 31),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "useRpcbind",
+                    position: (155, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "rpcbind.service",
+                   position: (155, 47),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "after",
+                 position: (156, 7),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Concatenation,
+               operands: [
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "network.target",
+                     position: (156, 18),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lib",
+                   position: (156, 39),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "optional",
+                     position: (156, 43),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (156, 52),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "useRpcbind",
+                      position: (156, 56),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "rpcbind.service",
+                     position: (156, 68),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "preStart",
+                 position: (158, 7),
+                },
+               ],
+              },
+              BinaryOperation {
+               operator: Addition,
+               operands: [
+                BinaryOperation {
+                 operator: Addition,
+                 operands: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "install -m 0755 -d /var/log/glusterfs\n",
+                     position: (159, 1),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "mkdir -p /var/lib/glusterd/hooks/\n",
+                     position: (163, 1),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "rsync",
+                      position: (164, 11),
+                     },
+                    },
+                    Raw {
+                     content: "/bin/rsync -a ",
+                     position: (164, 17),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "glusterfs",
+                      position: (164, 33),
+                     },
+                    },
+                    Raw {
+                     content: "/var/lib/glusterd/hooks/ /var/lib/glusterd/hooks/\n\n",
+                     position: (164, 43),
+                    },
+                    Expression {
+                     expression: Variable {
+                      identifier: "tlsCmd",
+                      position: (166, 11),
+                     },
+                    },
+                    Raw {
+                     content: "\n",
+                     position: (166, 18),
+                    },
+                   ],
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "mkdir -p /var/lib/glusterd/glusterfind/.keys\nmkdir -p /var/lib/glusterd/hooks/1/delete/post/\n",
+                   position: (171, 1),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "serviceConfig",
+                 position: (175, 7),
+                },
+               ],
+              },
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "LimitNOFILE",
+                    position: (176, 9),
+                   },
+                  ],
+                 },
+                 Int {
+                  value: 65536,
+                  position: (176, 21),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "ExecStart",
+                    position: (177, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Expression {
+                    expression: Variable {
+                     identifier: "glusterfs",
+                     position: (177, 22),
+                    },
+                   },
+                   Raw {
+                    content: "/sbin/glusterd --no-daemon --log-level=",
+                    position: (177, 32),
+                   },
+                   Expression {
+                    expression: PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (177, 73),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "logLevel",
+                        position: (177, 77),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   },
+                   Raw {
+                    content: " ",
+                    position: (177, 86),
+                   },
+                   Expression {
+                    expression: FunctionApplication {
+                     function: Variable {
+                      identifier: "toString",
+                      position: (177, 89),
+                     },
+                     arguments: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (177, 98),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "extraFlags",
+                          position: (177, 102),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                    },
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "KillMode",
+                    position: (178, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (178, 18),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "killMode",
+                     position: (178, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "TimeoutStopSec",
+                    position: (179, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (179, 24),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "stopKillTimeout",
+                     position: (179, 28),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+               ],
+               recursive: false,
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (183, 5),
+             },
+             Raw {
+              content: "services",
+              position: (183, 13),
+             },
+             Raw {
+              content: "glustereventsd",
+              position: (183, 22),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (183, 39),
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (183, 44),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "enableGlustereventsd",
+                 position: (183, 48),
+                },
+               ],
+              },
+              default: None,
+             },
+             Map {
+              bindings: [
+               Inherit(
+                None,
+                [
+                 Raw {
+                  content: "restartTriggers",
+                  position: (184, 15),
+                 },
+                ],
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (186, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Gluster Events Notifier",
+                   position: (186, 22),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "wantedBy",
+                   position: (188, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "multi-user.target",
+                     position: (188, 21),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "after",
+                   position: (190, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "network.target",
+                     position: (190, 18),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "preStart",
+                   position: (192, 7),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "install -m 0755 -d /var/log/glusterfs\n",
+                   position: (193, 1),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "path",
+                   position: (197, 7),
+                  },
+                 ],
+                },
+                List {
+                 elements: [
+                  Variable {
+                   identifier: "glusterfs",
+                   position: (197, 16),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "serviceConfig",
+                   position: (199, 7),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "Type",
+                      position: (200, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "simple",
+                      position: (200, 15),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "PIDFile",
+                      position: (201, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/run/glustereventsd.pid",
+                      position: (201, 18),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ExecStart",
+                      position: (202, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "glusterfs",
+                       position: (202, 22),
+                      },
+                     },
+                     Raw {
+                      content: "/sbin/glustereventsd --pid-file /run/glustereventsd.pid",
+                      position: (202, 32),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "ExecReload",
+                      position: (203, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "/bin/kill -SIGUSR2 $MAINPID",
+                      position: (203, 21),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "KillMode",
+                      position: (204, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "control-group",
+                      position: (204, 19),
+                     },
+                    ],
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

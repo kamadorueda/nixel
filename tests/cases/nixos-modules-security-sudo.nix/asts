@@ -1,0 +1,2959 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (7, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (7, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "security",
+         position: (7, 16),
+        },
+        Raw {
+         content: "sudo",
+         position: (7, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    Inherit(
+     Some(
+      Variable {
+       identifier: "pkgs",
+       position: (9, 12),
+      },
+     ),
+     [
+      Raw {
+       content: "sudo",
+       position: (9, 18),
+      },
+     ],
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "toUserString",
+        position: (11, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "user",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: IfThenElse {
+       predicate: FunctionApplication {
+        function: Variable {
+         identifier: "isInt",
+         position: (11, 28),
+        },
+        arguments: [
+         Variable {
+          identifier: "user",
+          position: (11, 34),
+         },
+        ],
+       },
+       then: String {
+        parts: [
+         Raw {
+          content: "#",
+          position: (11, 46),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (11, 49),
+           },
+           arguments: [
+            Variable {
+             identifier: "user",
+             position: (11, 58),
+            },
+           ],
+          },
+         },
+        ],
+       },
+       else_: String {
+        parts: [
+         Expression {
+          expression: Variable {
+           identifier: "user",
+           position: (11, 73),
+          },
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "toGroupString",
+        position: (12, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "group",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: IfThenElse {
+       predicate: FunctionApplication {
+        function: Variable {
+         identifier: "isInt",
+         position: (12, 30),
+        },
+        arguments: [
+         Variable {
+          identifier: "group",
+          position: (12, 36),
+         },
+        ],
+       },
+       then: String {
+        parts: [
+         Raw {
+          content: "%#",
+          position: (12, 49),
+         },
+         Expression {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "toString",
+            position: (12, 53),
+           },
+           arguments: [
+            Variable {
+             identifier: "group",
+             position: (12, 62),
+            },
+           ],
+          },
+         },
+        ],
+       },
+       else_: String {
+        parts: [
+         Raw {
+          content: "%",
+          position: (12, 76),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "group",
+           position: (12, 79),
+          },
+         },
+        ],
+       },
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "toCommandOptionsString",
+        position: (14, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "options",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: String {
+       parts: [
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "concatStringsSep",
+           position: (15, 8),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: ":",
+              position: (15, 26),
+             },
+            ],
+           },
+           Variable {
+            identifier: "options",
+            position: (15, 29),
+           },
+          ],
+         },
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "optionalString",
+           position: (15, 39),
+          },
+          arguments: [
+           BinaryOperation {
+            operator: NotEqualTo,
+            operands: [
+             FunctionApplication {
+              function: Variable {
+               identifier: "length",
+               position: (15, 55),
+              },
+              arguments: [
+               Variable {
+                identifier: "options",
+                position: (15, 62),
+               },
+              ],
+             },
+             Int {
+              value: 0,
+              position: (15, 73),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: ":",
+              position: (15, 77),
+             },
+            ],
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " ",
+         position: (15, 80),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "toCommandsString",
+        position: (17, 3),
+       },
+      ],
+     },
+     Function {
+      argument: Some(
+       "commands",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: Variable {
+        identifier: "concatStringsSep",
+        position: (18, 5),
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: ", ",
+           position: (18, 23),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "map",
+          position: (19, 7),
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "command",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: IfThenElse {
+            predicate: FunctionApplication {
+             function: Variable {
+              identifier: "isString",
+              position: (20, 13),
+             },
+             arguments: [
+              Variable {
+               identifier: "command",
+               position: (20, 22),
+              },
+             ],
+            },
+            then: Variable {
+             identifier: "command",
+             position: (21, 11),
+            },
+            else_: String {
+             parts: [
+              Expression {
+               expression: FunctionApplication {
+                function: Variable {
+                 identifier: "toCommandOptionsString",
+                 position: (23, 14),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "command",
+                   position: (23, 37),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "options",
+                     position: (23, 45),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+               },
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "command",
+                 position: (23, 55),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "command",
+                   position: (23, 63),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+           },
+          },
+          Variable {
+           identifier: "commands",
+           position: (24, 9),
+          },
+         ],
+        },
+       ],
+      },
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (33, 3),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (35, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (35, 14),
+           },
+           Raw {
+            content: "enable",
+            position: (35, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (35, 28),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (36, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (36, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (36, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (37, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (37, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (38, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether to enable the <command>sudo</command> command, which\nallows non-root users to execute commands as root.\n",
+                 position: (40, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (45, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (45, 14),
+           },
+           Raw {
+            content: "package",
+            position: (45, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (45, 29),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (46, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (46, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "package",
+                  position: (46, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (47, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (47, 17),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sudo",
+                  position: (47, 22),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "defaultText",
+                 position: (48, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (48, 21),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "pkgs.sudo",
+                   position: (48, 40),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (49, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Which package to use for `sudo`.\n",
+                 position: (50, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (54, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (54, 14),
+           },
+           Raw {
+            content: "wheelNeedsPassword",
+            position: (54, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (54, 40),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (55, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (55, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (55, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (56, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (56, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (57, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Whether users of the <code>wheel</code> group must\nprovide a password to run commands as super user via <command>sudo</command>.\n",
+                 position: (59, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (64, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (64, 14),
+           },
+           Raw {
+            content: "execWheelOnly",
+            position: (64, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (64, 35),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (65, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (65, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (65, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (66, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (66, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (67, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Only allow members of the <code>wheel</code> group to execute sudo by\nsetting the executable's permissions accordingly.\nThis prevents users that are not members of <code>wheel</code> from\nexploiting vulnerabilities in sudo such as CVE-2021-3156.\n",
+                 position: (68, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (75, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (75, 14),
+           },
+           Raw {
+            content: "configFile",
+            position: (75, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (75, 32),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (76, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (76, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "lines",
+                  position: (76, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (79, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "This string contains the contents of the\n<filename>sudoers</filename> file.\n",
+                 position: (81, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (86, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (86, 14),
+           },
+           Raw {
+            content: "extraRules",
+            position: (86, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (86, 32),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (87, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Define specific rules to be in the <filename>sudoers</filename> file.\nMore specific rules should come after more general ones in order to\nyield the expected behavior. You can use mkBefore/mkAfter to ensure\nthis is the case when configuration options are merged.\n",
+                 position: (88, 1),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (93, 7),
+                },
+               ],
+              },
+              List {
+               elements: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "example",
+                 position: (94, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "literalExpression",
+                position: (94, 17),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "[\n  # Allow execution of any command by all users in group sudo,\n  # requiring a password.\n  { groups = [ \"sudo\" ]; commands = [ \"ALL\" ]; }\n\n  # Allow execution of \"/home/root/secret.sh\" by user `backup`, `database`\n  # and the group with GID `1006` without a password.\n  { users = [ \"backup\" \"database\" ]; groups = [ 1006 ];\n    commands = [ { command = \"/home/root/secret.sh\"; options = [ \"SETENV\" \"NOPASSWD\" ]; } ]; }\n\n  # Allow all users of group `bar` to run two executables as user `foo`\n  # with arguments being pre-set.\n  { groups = [ \"bar\" ]; runAs = \"foo\";\n    commands =\n      [ \"/home/baz/cmd1.sh hello-sudo\"\n          { command = ",
+                   position: (95, 1),
+                  },
+                  Raw {
+                   content: "''",
+                   position: (110, 31),
+                  },
+                  Raw {
+                   content: "/home/baz/cmd2.sh \"\"",
+                   position: (110, 34),
+                  },
+                  Raw {
+                   content: "''",
+                   position: (110, 54),
+                  },
+                  Raw {
+                   content: "; options = [ \"SETENV\" ]; } ]; }\n]\n",
+                   position: (110, 57),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (113, 7),
+                },
+               ],
+              },
+              With {
+               expression: Variable {
+                identifier: "types",
+                position: (113, 19),
+               },
+               target: FunctionApplication {
+                function: Variable {
+                 identifier: "listOf",
+                 position: (113, 26),
+                },
+                arguments: [
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "submodule",
+                   position: (113, 34),
+                  },
+                  arguments: [
+                   Map {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "options",
+                         position: (114, 9),
+                        },
+                       ],
+                      },
+                      Map {
+                       bindings: [
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "users",
+                            position: (115, 11),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "mkOption",
+                           position: (115, 19),
+                          },
+                          arguments: [
+                           Map {
+                            bindings: [
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "type",
+                                 position: (116, 13),
+                                },
+                               ],
+                              },
+                              With {
+                               expression: Variable {
+                                identifier: "types",
+                                position: (116, 25),
+                               },
+                               target: FunctionApplication {
+                                function: Variable {
+                                 identifier: "listOf",
+                                 position: (116, 32),
+                                },
+                                arguments: [
+                                 FunctionApplication {
+                                  function: Variable {
+                                   identifier: "either",
+                                   position: (116, 40),
+                                  },
+                                  arguments: [
+                                   Variable {
+                                    identifier: "str",
+                                    position: (116, 47),
+                                   },
+                                   Variable {
+                                    identifier: "int",
+                                    position: (116, 51),
+                                   },
+                                  ],
+                                 },
+                                ],
+                               },
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "description",
+                                 position: (117, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "The usernames / UIDs this rule should apply for.\n",
+                                 position: (118, 1),
+                                },
+                               ],
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "default",
+                                 position: (120, 13),
+                                },
+                               ],
+                              },
+                              List {
+                               elements: [],
+                              },
+                             ),
+                            ],
+                            recursive: false,
+                           },
+                          ],
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "groups",
+                            position: (123, 11),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "mkOption",
+                           position: (123, 20),
+                          },
+                          arguments: [
+                           Map {
+                            bindings: [
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "type",
+                                 position: (124, 13),
+                                },
+                               ],
+                              },
+                              With {
+                               expression: Variable {
+                                identifier: "types",
+                                position: (124, 25),
+                               },
+                               target: FunctionApplication {
+                                function: Variable {
+                                 identifier: "listOf",
+                                 position: (124, 32),
+                                },
+                                arguments: [
+                                 FunctionApplication {
+                                  function: Variable {
+                                   identifier: "either",
+                                   position: (124, 40),
+                                  },
+                                  arguments: [
+                                   Variable {
+                                    identifier: "str",
+                                    position: (124, 47),
+                                   },
+                                   Variable {
+                                    identifier: "int",
+                                    position: (124, 51),
+                                   },
+                                  ],
+                                 },
+                                ],
+                               },
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "description",
+                                 position: (125, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "The groups / GIDs this rule should apply for.\n",
+                                 position: (126, 1),
+                                },
+                               ],
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "default",
+                                 position: (128, 13),
+                                },
+                               ],
+                              },
+                              List {
+                               elements: [],
+                              },
+                             ),
+                            ],
+                            recursive: false,
+                           },
+                          ],
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "host",
+                            position: (131, 11),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "mkOption",
+                           position: (131, 18),
+                          },
+                          arguments: [
+                           Map {
+                            bindings: [
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "type",
+                                 position: (132, 13),
+                                },
+                               ],
+                              },
+                              PropertyAccess {
+                               expression: Variable {
+                                identifier: "types",
+                                position: (132, 20),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "str",
+                                  position: (132, 26),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "default",
+                                 position: (133, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "ALL",
+                                 position: (133, 24),
+                                },
+                               ],
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "description",
+                                 position: (134, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "For what host this rule should apply.\n",
+                                 position: (135, 1),
+                                },
+                               ],
+                              },
+                             ),
+                            ],
+                            recursive: false,
+                           },
+                          ],
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "runAs",
+                            position: (139, 11),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "mkOption",
+                           position: (139, 19),
+                          },
+                          arguments: [
+                           Map {
+                            bindings: [
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "type",
+                                 position: (140, 13),
+                                },
+                               ],
+                              },
+                              With {
+                               expression: Variable {
+                                identifier: "types",
+                                position: (140, 25),
+                               },
+                               target: Variable {
+                                identifier: "str",
+                                position: (140, 32),
+                               },
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "default",
+                                 position: (141, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "ALL:ALL",
+                                 position: (141, 24),
+                                },
+                               ],
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "description",
+                                 position: (142, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "Under which user/group the specified command is allowed to run.\n\nA user can be specified using just the username: <code>\"foo\"</code>.\nIt is also possible to specify a user/group combination using <code>\"foo:bar\"</code>\nor to only allow running as a specific group with <code>\":bar\"</code>.\n",
+                                 position: (143, 1),
+                                },
+                               ],
+                              },
+                             ),
+                            ],
+                            recursive: false,
+                           },
+                          ],
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "commands",
+                            position: (151, 11),
+                           },
+                          ],
+                         },
+                         FunctionApplication {
+                          function: Variable {
+                           identifier: "mkOption",
+                           position: (151, 22),
+                          },
+                          arguments: [
+                           Map {
+                            bindings: [
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "description",
+                                 position: (152, 13),
+                                },
+                               ],
+                              },
+                              String {
+                               parts: [
+                                Raw {
+                                 content: "The commands for which the rule should apply.\n",
+                                 position: (153, 1),
+                                },
+                               ],
+                              },
+                             ),
+                             KeyValue(
+                              AttributePath {
+                               attributes: [
+                                Raw {
+                                 content: "type",
+                                 position: (155, 13),
+                                },
+                               ],
+                              },
+                              With {
+                               expression: Variable {
+                                identifier: "types",
+                                position: (155, 25),
+                               },
+                               target: FunctionApplication {
+                                function: Variable {
+                                 identifier: "listOf",
+                                 position: (155, 32),
+                                },
+                                arguments: [
+                                 FunctionApplication {
+                                  function: Variable {
+                                   identifier: "either",
+                                   position: (155, 40),
+                                  },
+                                  arguments: [
+                                   Variable {
+                                    identifier: "str",
+                                    position: (155, 47),
+                                   },
+                                   FunctionApplication {
+                                    function: Variable {
+                                     identifier: "submodule",
+                                     position: (155, 52),
+                                    },
+                                    arguments: [
+                                     Map {
+                                      bindings: [
+                                       KeyValue(
+                                        AttributePath {
+                                         attributes: [
+                                          Raw {
+                                           content: "options",
+                                           position: (157, 15),
+                                          },
+                                         ],
+                                        },
+                                        Map {
+                                         bindings: [
+                                          KeyValue(
+                                           AttributePath {
+                                            attributes: [
+                                             Raw {
+                                              content: "command",
+                                              position: (158, 17),
+                                             },
+                                            ],
+                                           },
+                                           FunctionApplication {
+                                            function: Variable {
+                                             identifier: "mkOption",
+                                             position: (158, 27),
+                                            },
+                                            arguments: [
+                                             Map {
+                                              bindings: [
+                                               KeyValue(
+                                                AttributePath {
+                                                 attributes: [
+                                                  Raw {
+                                                   content: "type",
+                                                   position: (159, 19),
+                                                  },
+                                                 ],
+                                                },
+                                                With {
+                                                 expression: Variable {
+                                                  identifier: "types",
+                                                  position: (159, 31),
+                                                 },
+                                                 target: Variable {
+                                                  identifier: "str",
+                                                  position: (159, 38),
+                                                 },
+                                                },
+                                               ),
+                                               KeyValue(
+                                                AttributePath {
+                                                 attributes: [
+                                                  Raw {
+                                                   content: "description",
+                                                   position: (160, 19),
+                                                  },
+                                                 ],
+                                                },
+                                                String {
+                                                 parts: [
+                                                  Raw {
+                                                   content: "A command being either just a path to a binary to allow any arguments,\nthe full command with arguments pre-set or with <code>\"\"</code> used as the argument,\nnot allowing arguments to the command at all.\n",
+                                                   position: (161, 1),
+                                                  },
+                                                 ],
+                                                },
+                                               ),
+                                              ],
+                                              recursive: false,
+                                             },
+                                            ],
+                                           },
+                                          ),
+                                          KeyValue(
+                                           AttributePath {
+                                            attributes: [
+                                             Raw {
+                                              content: "options",
+                                              position: (167, 17),
+                                             },
+                                            ],
+                                           },
+                                           FunctionApplication {
+                                            function: Variable {
+                                             identifier: "mkOption",
+                                             position: (167, 27),
+                                            },
+                                            arguments: [
+                                             Map {
+                                              bindings: [
+                                               KeyValue(
+                                                AttributePath {
+                                                 attributes: [
+                                                  Raw {
+                                                   content: "type",
+                                                   position: (168, 19),
+                                                  },
+                                                 ],
+                                                },
+                                                With {
+                                                 expression: Variable {
+                                                  identifier: "types",
+                                                  position: (168, 31),
+                                                 },
+                                                 target: FunctionApplication {
+                                                  function: Variable {
+                                                   identifier: "listOf",
+                                                   position: (168, 38),
+                                                  },
+                                                  arguments: [
+                                                   FunctionApplication {
+                                                    function: Variable {
+                                                     identifier: "enum",
+                                                     position: (168, 46),
+                                                    },
+                                                    arguments: [
+                                                     List {
+                                                      elements: [
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "NOPASSWD",
+                                                          position: (168, 54),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "PASSWD",
+                                                          position: (168, 65),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "NOEXEC",
+                                                          position: (168, 74),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "EXEC",
+                                                          position: (168, 83),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "SETENV",
+                                                          position: (168, 90),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "NOSETENV",
+                                                          position: (168, 99),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "LOG_INPUT",
+                                                          position: (168, 110),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "NOLOG_INPUT",
+                                                          position: (168, 122),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "LOG_OUTPUT",
+                                                          position: (168, 136),
+                                                         },
+                                                        ],
+                                                       },
+                                                       String {
+                                                        parts: [
+                                                         Raw {
+                                                          content: "NOLOG_OUTPUT",
+                                                          position: (168, 149),
+                                                         },
+                                                        ],
+                                                       },
+                                                      ],
+                                                     },
+                                                    ],
+                                                   },
+                                                  ],
+                                                 },
+                                                },
+                                               ),
+                                               KeyValue(
+                                                AttributePath {
+                                                 attributes: [
+                                                  Raw {
+                                                   content: "description",
+                                                   position: (169, 19),
+                                                  },
+                                                 ],
+                                                },
+                                                String {
+                                                 parts: [
+                                                  Raw {
+                                                   content: "Options for running the command. Refer to the <a href=\"https://www.sudo.ws/man/1.7.10/sudoers.man.html\">sudo manual</a>.\n",
+                                                   position: (170, 1),
+                                                  },
+                                                 ],
+                                                },
+                                               ),
+                                               KeyValue(
+                                                AttributePath {
+                                                 attributes: [
+                                                  Raw {
+                                                   content: "default",
+                                                   position: (172, 19),
+                                                  },
+                                                 ],
+                                                },
+                                                List {
+                                                 elements: [],
+                                                },
+                                               ),
+                                              ],
+                                              recursive: false,
+                                             },
+                                            ],
+                                           },
+                                          ),
+                                         ],
+                                         recursive: false,
+                                        },
+                                       ),
+                                      ],
+                                      recursive: false,
+                                     },
+                                    ],
+                                   },
+                                  ],
+                                 },
+                                ],
+                               },
+                              },
+                             ),
+                            ],
+                            recursive: false,
+                           },
+                          ],
+                         },
+                        ),
+                       ],
+                       recursive: false,
+                      },
+                     ),
+                    ],
+                    recursive: false,
+                   },
+                  ],
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "security",
+            position: (182, 5),
+           },
+           Raw {
+            content: "sudo",
+            position: (182, 14),
+           },
+           Raw {
+            content: "extraConfig",
+            position: (182, 19),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (182, 33),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (183, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (183, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "lines",
+                  position: (183, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (184, 7),
+                },
+               ],
+              },
+              String {
+               parts: [],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (185, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Extra configuration text appended to <filename>sudoers</filename>.\n",
+                 position: (186, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (194, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (194, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (194, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (194, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (198, 5),
+             },
+             Raw {
+              content: "sudo",
+              position: (198, 14),
+             },
+             Raw {
+              content: "extraRules",
+              position: (198, 19),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOrder",
+             position: (198, 32),
+            },
+            arguments: [
+             Int {
+              value: 600,
+              position: (198, 40),
+             },
+             List {
+              elements: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "groups",
+                     position: (199, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "wheel",
+                       position: (199, 21),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "commands",
+                     position: (200, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "command",
+                          position: (200, 24),
+                         },
+                        ],
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "ALL",
+                          position: (200, 35),
+                         },
+                        ],
+                       },
+                      ),
+                      KeyValue(
+                       AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "options",
+                          position: (200, 41),
+                         },
+                        ],
+                       },
+                       IfThenElse {
+                        predicate: PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (200, 55),
+                         },
+                         attribute_path: AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "wheelNeedsPassword",
+                            position: (200, 59),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                        then: List {
+                         elements: [
+                          String {
+                           parts: [
+                            Raw {
+                             content: "SETENV",
+                             position: (200, 86),
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                        else_: List {
+                         elements: [
+                          String {
+                           parts: [
+                            Raw {
+                             content: "NOPASSWD",
+                             position: (200, 104),
+                            },
+                           ],
+                          },
+                          String {
+                           parts: [
+                            Raw {
+                             content: "SETENV",
+                             position: (200, 115),
+                            },
+                           ],
+                          },
+                         ],
+                        },
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                    },
+                   ],
+                  },
+                 ),
+                ],
+                recursive: false,
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (204, 5),
+             },
+             Raw {
+              content: "sudo",
+              position: (204, 14),
+             },
+             Raw {
+              content: "configFile",
+              position: (204, 19),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "# Don't edit this file. Set the NixOS options ‘security.sudo.configFile’\n# or ‘security.sudo.extraRules’ instead.\n\n# Keep SSH_AUTH_SOCK so that pam_ssh_agent_auth.so can do its magic.\nDefaults env_keep+=SSH_AUTH_SOCK\n\n# \"root\" is allowed to do anything.\nroot        ALL=(ALL:ALL) SETENV: ALL\n\n# extraRules\n",
+              position: (206, 1),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "concatStringsSep",
+                position: (216, 11),
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "\n",
+                   position: (216, 29),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "lists",
+                   position: (217, 11),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "flatten",
+                     position: (217, 17),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "map",
+                    position: (218, 13),
+                   },
+                   arguments: [
+                    Function {
+                     argument: Some(
+                      "rule",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: IfThenElse {
+                      predicate: BinaryOperation {
+                       operator: NotEqualTo,
+                       operands: [
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "length",
+                          position: (219, 25),
+                         },
+                         arguments: [
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "rule",
+                            position: (219, 32),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "commands",
+                              position: (219, 37),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                        Int {
+                         value: 0,
+                         position: (219, 49),
+                        },
+                       ],
+                      },
+                      then: List {
+                       elements: [
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "map",
+                          position: (220, 18),
+                         },
+                         arguments: [
+                          Function {
+                           argument: Some(
+                            "user",
+                           ),
+                           arguments: FunctionArguments {
+                            arguments: [],
+                            ellipsis: false,
+                           },
+                           definition: String {
+                            parts: [
+                             Expression {
+                              expression: FunctionApplication {
+                               function: Variable {
+                                identifier: "toUserString",
+                                position: (220, 32),
+                               },
+                               arguments: [
+                                Variable {
+                                 identifier: "user",
+                                 position: (220, 45),
+                                },
+                               ],
+                              },
+                             },
+                             Raw {
+                              content: "\t",
+                              position: (220, 50),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "rule",
+                                position: (220, 53),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "host",
+                                  position: (220, 58),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                             Raw {
+                              content: "=(",
+                              position: (220, 63),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "rule",
+                                position: (220, 67),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "runAs",
+                                  position: (220, 72),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                             Raw {
+                              content: ")\t",
+                              position: (220, 78),
+                             },
+                             Expression {
+                              expression: FunctionApplication {
+                               function: Variable {
+                                identifier: "toCommandsString",
+                                position: (220, 82),
+                               },
+                               arguments: [
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "rule",
+                                  position: (220, 99),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "commands",
+                                    position: (220, 104),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ],
+                              },
+                             },
+                            ],
+                           },
+                          },
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "rule",
+                            position: (220, 116),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "users",
+                              position: (220, 121),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                        FunctionApplication {
+                         function: Variable {
+                          identifier: "map",
+                          position: (221, 18),
+                         },
+                         arguments: [
+                          Function {
+                           argument: Some(
+                            "group",
+                           ),
+                           arguments: FunctionArguments {
+                            arguments: [],
+                            ellipsis: false,
+                           },
+                           definition: String {
+                            parts: [
+                             Expression {
+                              expression: FunctionApplication {
+                               function: Variable {
+                                identifier: "toGroupString",
+                                position: (221, 33),
+                               },
+                               arguments: [
+                                Variable {
+                                 identifier: "group",
+                                 position: (221, 47),
+                                },
+                               ],
+                              },
+                             },
+                             Raw {
+                              content: "\t",
+                              position: (221, 53),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "rule",
+                                position: (221, 56),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "host",
+                                  position: (221, 61),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                             Raw {
+                              content: "=(",
+                              position: (221, 66),
+                             },
+                             Expression {
+                              expression: PropertyAccess {
+                               expression: Variable {
+                                identifier: "rule",
+                                position: (221, 70),
+                               },
+                               attribute_path: AttributePath {
+                                attributes: [
+                                 Raw {
+                                  content: "runAs",
+                                  position: (221, 75),
+                                 },
+                                ],
+                               },
+                               default: None,
+                              },
+                             },
+                             Raw {
+                              content: ")\t",
+                              position: (221, 81),
+                             },
+                             Expression {
+                              expression: FunctionApplication {
+                               function: Variable {
+                                identifier: "toCommandsString",
+                                position: (221, 85),
+                               },
+                               arguments: [
+                                PropertyAccess {
+                                 expression: Variable {
+                                  identifier: "rule",
+                                  position: (221, 102),
+                                 },
+                                 attribute_path: AttributePath {
+                                  attributes: [
+                                   Raw {
+                                    content: "commands",
+                                    position: (221, 107),
+                                   },
+                                  ],
+                                 },
+                                 default: None,
+                                },
+                               ],
+                              },
+                             },
+                            ],
+                           },
+                          },
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "rule",
+                            position: (221, 119),
+                           },
+                           attribute_path: AttributePath {
+                            attributes: [
+                             Raw {
+                              content: "groups",
+                              position: (221, 124),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                       ],
+                      },
+                      else_: List {
+                       elements: [],
+                      },
+                     },
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (223, 15),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "extraRules",
+                        position: (223, 19),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "\n\n",
+              position: (225, 11),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "cfg",
+                position: (227, 11),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "extraConfig",
+                  position: (227, 15),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "\n",
+              position: (227, 27),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (230, 5),
+             },
+             Raw {
+              content: "wrappers",
+              position: (230, 14),
+             },
+            ],
+           },
+           LetIn {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "owner",
+                 position: (231, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "root",
+                 position: (231, 16),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "group",
+                 position: (232, 7),
+                },
+               ],
+              },
+              IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (232, 18),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "execWheelOnly",
+                   position: (232, 22),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "wheel",
+                  position: (232, 42),
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "root",
+                  position: (232, 55),
+                 },
+                ],
+               },
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "setuid",
+                 position: (233, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (233, 16),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "permissions",
+                 position: (234, 7),
+                },
+               ],
+              },
+              IfThenElse {
+               predicate: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (234, 24),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "execWheelOnly",
+                   position: (234, 28),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "u+rx,g+x",
+                  position: (234, 48),
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "u+rx,g+x,o+x",
+                  position: (234, 64),
+                 },
+                ],
+               },
+              },
+             ),
+            ],
+            target: Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sudo",
+                  position: (236, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "source",
+                     position: (237, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (237, 21),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "package",
+                         position: (237, 25),
+                        },
+                        Raw {
+                         content: "out",
+                         position: (237, 33),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/bin/sudo",
+                     position: (237, 37),
+                    },
+                   ],
+                  },
+                 ),
+                 Inherit(
+                  None,
+                  [
+                   Raw {
+                    content: "owner",
+                    position: (238, 17),
+                   },
+                   Raw {
+                    content: "group",
+                    position: (238, 23),
+                   },
+                   Raw {
+                    content: "setuid",
+                    position: (238, 29),
+                   },
+                   Raw {
+                    content: "permissions",
+                    position: (238, 36),
+                   },
+                  ],
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "sudoedit",
+                  position: (240, 7),
+                 },
+                ],
+               },
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "source",
+                     position: (241, 9),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Expression {
+                     expression: PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (241, 21),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "package",
+                         position: (241, 25),
+                        },
+                        Raw {
+                         content: "out",
+                         position: (241, 33),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    },
+                    Raw {
+                     content: "/bin/sudoedit",
+                     position: (241, 37),
+                    },
+                   ],
+                  },
+                 ),
+                 Inherit(
+                  None,
+                  [
+                   Raw {
+                    content: "owner",
+                    position: (242, 17),
+                   },
+                   Raw {
+                    content: "group",
+                    position: (242, 23),
+                   },
+                   Raw {
+                    content: "setuid",
+                    position: (242, 29),
+                   },
+                   Raw {
+                    content: "permissions",
+                    position: (242, 36),
+                   },
+                  ],
+                 ),
+                ],
+                recursive: false,
+               },
+              ),
+             ],
+             recursive: false,
+            },
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (246, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (246, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "sudo",
+              position: (246, 36),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "security",
+              position: (248, 5),
+             },
+             Raw {
+              content: "pam",
+              position: (248, 14),
+             },
+             Raw {
+              content: "services",
+              position: (248, 18),
+             },
+             Raw {
+              content: "sudo",
+              position: (248, 27),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "sshAgentAuth",
+                 position: (248, 36),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (248, 51),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (250, 5),
+             },
+             Raw {
+              content: "etc",
+              position: (250, 17),
+             },
+             Raw {
+              content: "sudoers",
+              position: (250, 21),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "source",
+                 position: (251, 9),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (252, 11),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "runCommand",
+                   position: (252, 16),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "sudoers",
+                   position: (252, 28),
+                  },
+                 ],
+                },
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "src",
+                      position: (254, 13),
+                     },
+                    ],
+                   },
+                   FunctionApplication {
+                    function: PropertyAccess {
+                     expression: Variable {
+                      identifier: "pkgs",
+                      position: (254, 19),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "writeText",
+                        position: (254, 24),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "sudoers-in",
+                        position: (254, 35),
+                       },
+                      ],
+                     },
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "cfg",
+                       position: (254, 47),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "configFile",
+                         position: (254, 51),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "preferLocalBuild",
+                      position: (255, 13),
+                     },
+                    ],
+                   },
+                   Variable {
+                    identifier: "true",
+                    position: (255, 32),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                },
+                String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "pkgs",
+                     position: (259, 14),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "buildPackages",
+                       position: (259, 19),
+                      },
+                      Raw {
+                       content: "sudo",
+                       position: (259, 33),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/sbin/visudo -f $src -c && cp $src $out",
+                   position: (259, 38),
+                  },
+                 ],
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "mode",
+                 position: (260, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "0440",
+                 position: (260, 17),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

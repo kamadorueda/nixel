@@ -1,0 +1,285 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (5, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "gtk",
+           position: (6, 5),
+          },
+          Raw {
+           content: "iconCache",
+           position: (6, 9),
+          },
+          Raw {
+           content: "enable",
+           position: (6, 19),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkOption",
+          position: (6, 28),
+         },
+         arguments: [
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "type",
+                position: (7, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "types",
+               position: (7, 14),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "bool",
+                 position: (7, 20),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "default",
+                position: (8, 7),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (8, 17),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "services",
+                 position: (8, 24),
+                },
+                Raw {
+                 content: "xserver",
+                 position: (8, 33),
+                },
+                Raw {
+                 content: "enable",
+                 position: (8, 41),
+                },
+               ],
+              },
+              default: None,
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "defaultText",
+                position: (9, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "literalExpression",
+               position: (9, 21),
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "config.services.xserver.enable",
+                  position: (9, 40),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (10, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "Whether to build icon theme caches for GTK applications.\n",
+                position: (11, 1),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (16, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (16, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "config",
+         position: (16, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "gtk",
+           position: (16, 24),
+          },
+          Raw {
+           content: "iconCache",
+           position: (16, 28),
+          },
+          Raw {
+           content: "enable",
+           position: (16, 38),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "environment",
+             position: (53, 5),
+            },
+            Raw {
+             content: "extraSetup",
+             position: (53, 17),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "# For each icon theme directory ...\n\nfind $out/share/icons -mindepth 1 -maxdepth 1 -print0 | while read -d ",
+             position: (54, 1),
+            },
+            Raw {
+             content: "$",
+             position: (56, 77),
+            },
+            Raw {
+             content: "'\\0' themedir\ndo\n\n  # In order to build the cache, the theme dir should be\n  # writable. When the theme dir is a symbolic link to somewhere\n  # in the nix store it is not writable and it means that only\n  # one package is contributing to the theme. If it already has\n  # a cache, no rebuild is needed. Otherwise a cache has to be\n  # built, and to be able to do that we first remove the\n  # symbolic link and make a directory, and then make symbolic\n  # links from the original directory into the new one.\n\n  if [ ! -w \"$themedir\" -a -L \"$themedir\" -a ! -r \"$themedir\"/icon-theme.cache ]; then\n    name=$(basename \"$themedir\")\n    path=$(readlink -f \"$themedir\")\n    rm \"$themedir\"\n    mkdir -p \"$themedir\"\n    ln -s \"$path\"/* \"$themedir\"/\n  fi\n\n  # (Re)build the cache if the theme dir is writable, replacing any\n  # existing cache for the theme\n\n  if [ -w \"$themedir\" ]; then\n    rm -f \"$themedir\"/icon-theme.cache\n    ",
+             position: (56, 78),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (81, 13),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "buildPackages",
+                 position: (81, 18),
+                },
+                Raw {
+                 content: "gtk3",
+                 position: (81, 32),
+                },
+                Raw {
+                 content: "out",
+                 position: (81, 37),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Raw {
+             content: "/bin/gtk-update-icon-cache --ignore-theme-index \"$themedir\"\n  fi\ndone\n",
+             position: (81, 41),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}

@@ -1,0 +1,844 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: With {
+  expression: Variable {
+   identifier: "lib",
+   position: (3, 6),
+  },
+  target: LetIn {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "cfg",
+        position: (6, 3),
+       },
+      ],
+     },
+     PropertyAccess {
+      expression: Variable {
+       identifier: "config",
+       position: (6, 9),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "programs",
+         position: (6, 16),
+        },
+        Raw {
+         content: "steam",
+         position: (6, 25),
+        },
+       ],
+      },
+      default: None,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "steam",
+        position: (8, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (8, 11),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "steam",
+          position: (8, 16),
+         },
+         Raw {
+          content: "override",
+          position: (8, 22),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "extraLibraries",
+             position: (9, 5),
+            },
+           ],
+          },
+          Function {
+           argument: Some(
+            "pkgs",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: With {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "config",
+              position: (9, 33),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "hardware",
+                position: (9, 40),
+               },
+               Raw {
+                content: "opengl",
+                position: (9, 49),
+               },
+              ],
+             },
+             default: None,
+            },
+            target: IfThenElse {
+             predicate: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (10, 10),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "hostPlatform",
+                 position: (10, 15),
+                },
+                Raw {
+                 content: "is64bit",
+                 position: (10, 28),
+                },
+               ],
+              },
+              default: None,
+             },
+             then: BinaryOperation {
+              operator: Concatenation,
+              operands: [
+               List {
+                elements: [
+                 Variable {
+                  identifier: "package",
+                  position: (11, 14),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "extraPackages",
+                position: (11, 27),
+               },
+              ],
+             },
+             else_: BinaryOperation {
+              operator: Concatenation,
+              operands: [
+               List {
+                elements: [
+                 Variable {
+                  identifier: "package32",
+                  position: (12, 14),
+                 },
+                ],
+               },
+               Variable {
+                identifier: "extraPackages32",
+                position: (12, 29),
+               },
+              ],
+             },
+            },
+           },
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   target: Map {
+    bindings: [
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "options",
+         position: (15, 3),
+        },
+        Raw {
+         content: "programs",
+         position: (15, 11),
+        },
+        Raw {
+         content: "steam",
+         position: (15, 20),
+        },
+       ],
+      },
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (16, 5),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkEnableOption",
+           position: (16, 14),
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "steam",
+              position: (16, 30),
+             },
+            ],
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "remotePlay",
+            position: (18, 5),
+           },
+           Raw {
+            content: "openFirewall",
+            position: (18, 16),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (18, 31),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (19, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (19, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (19, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (20, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (20, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (21, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Open ports in the firewall for Steam Remote Play.\n",
+                 position: (22, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "dedicatedServer",
+            position: (26, 5),
+           },
+           Raw {
+            content: "openFirewall",
+            position: (26, 21),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: Variable {
+           identifier: "mkOption",
+           position: (26, 36),
+          },
+          arguments: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "type",
+                 position: (27, 7),
+                },
+               ],
+              },
+              PropertyAccess {
+               expression: Variable {
+                identifier: "types",
+                position: (27, 14),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "bool",
+                  position: (27, 20),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "default",
+                 position: (28, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "false",
+               position: (28, 17),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (29, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Open ports in the firewall for Source Dedicated Server.\n",
+                 position: (30, 1),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ],
+         },
+        ),
+       ],
+       recursive: false,
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "config",
+         position: (35, 3),
+        },
+       ],
+      },
+      FunctionApplication {
+       function: Variable {
+        identifier: "mkIf",
+        position: (35, 12),
+       },
+       arguments: [
+        PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (35, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "enable",
+            position: (35, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "hardware",
+              position: (36, 5),
+             },
+             Raw {
+              content: "opengl",
+              position: (36, 14),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "enable",
+                 position: (37, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (37, 16),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "driSupport",
+                 position: (38, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (38, 20),
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "driSupport32Bit",
+                 position: (39, 7),
+                },
+               ],
+              },
+              Variable {
+               identifier: "true",
+               position: (39, 25),
+              },
+             ),
+            ],
+            recursive: false,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "hardware",
+              position: (43, 5),
+             },
+             Raw {
+              content: "pulseaudio",
+              position: (43, 14),
+             },
+             Raw {
+              content: "support32Bit",
+              position: (43, 25),
+             },
+            ],
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "config",
+             position: (43, 40),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "hardware",
+               position: (43, 47),
+              },
+              Raw {
+               content: "pulseaudio",
+               position: (43, 56),
+              },
+              Raw {
+               content: "enable",
+               position: (43, 67),
+              },
+             ],
+            },
+            default: None,
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "hardware",
+              position: (45, 5),
+             },
+             Raw {
+              content: "steam-hardware",
+              position: (45, 14),
+             },
+             Raw {
+              content: "enable",
+              position: (45, 29),
+             },
+            ],
+           },
+           Variable {
+            identifier: "true",
+            position: (45, 38),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "environment",
+              position: (47, 5),
+             },
+             Raw {
+              content: "systemPackages",
+              position: (47, 17),
+             },
+            ],
+           },
+           List {
+            elements: [
+             Variable {
+              identifier: "steam",
+              position: (47, 36),
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "steam",
+               position: (47, 42),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "run",
+                 position: (47, 48),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "networking",
+              position: (49, 5),
+             },
+             Raw {
+              content: "firewall",
+              position: (49, 16),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (49, 27),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkMerge",
+                position: (49, 31),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             List {
+              elements: [
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkIf",
+                 position: (50, 8),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (50, 13),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "remotePlay",
+                     position: (50, 17),
+                    },
+                    Raw {
+                     content: "openFirewall",
+                     position: (50, 28),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "allowedTCPPorts",
+                       position: (51, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      Int {
+                       value: 27036,
+                       position: (51, 29),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "allowedUDPPortRanges",
+                       position: (52, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      Map {
+                       bindings: [
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "from",
+                            position: (52, 36),
+                           },
+                          ],
+                         },
+                         Int {
+                          value: 27031,
+                          position: (52, 43),
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "to",
+                            position: (52, 50),
+                           },
+                          ],
+                         },
+                         Int {
+                          value: 27036,
+                          position: (52, 55),
+                         },
+                        ),
+                       ],
+                       recursive: false,
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "mkIf",
+                 position: (55, 8),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (55, 13),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "dedicatedServer",
+                     position: (55, 17),
+                    },
+                    Raw {
+                     content: "openFirewall",
+                     position: (55, 33),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "allowedTCPPorts",
+                       position: (56, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      Int {
+                       value: 27015,
+                       position: (56, 29),
+                      },
+                     ],
+                    },
+                   ),
+                   KeyValue(
+                    AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "allowedUDPPorts",
+                       position: (57, 9),
+                      },
+                     ],
+                    },
+                    List {
+                     elements: [
+                      Int {
+                       value: 27015,
+                       position: (57, 29),
+                      },
+                     ],
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ],
+      },
+     ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "meta",
+         position: (62, 3),
+        },
+        Raw {
+         content: "maintainers",
+         position: (62, 8),
+        },
+       ],
+      },
+      With {
+       expression: Variable {
+        identifier: "maintainers",
+        position: (62, 27),
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "mkg20001",
+          position: (62, 42),
+         },
+        ],
+       },
+      },
+     ),
+    ],
+    recursive: false,
+   },
+  },
+ },
+}

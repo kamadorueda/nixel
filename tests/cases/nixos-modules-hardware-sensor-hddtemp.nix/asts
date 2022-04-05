@@ -1,0 +1,1180 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+  ],
+  ellipsis: true,
+ },
+ definition: LetIn {
+  bindings: [
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (3, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "mkIf",
+      position: (3, 17),
+     },
+     Raw {
+      content: "mkOption",
+      position: (3, 22),
+     },
+     Raw {
+      content: "types",
+      position: (3, 31),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (5, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (5, 9),
+     },
+     attribute_path: AttributePath {
+      attributes: [
+       Raw {
+        content: "hardware",
+        position: (5, 16),
+       },
+       Raw {
+        content: "sensor",
+        position: (5, 25),
+       },
+       Raw {
+        content: "hddtemp",
+        position: (5, 32),
+       },
+      ],
+     },
+     default: None,
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "wrapper",
+       position: (7, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (7, 13),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "writeShellScript",
+         position: (7, 18),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      String {
+       parts: [
+        Raw {
+         content: "hddtemp-wrapper",
+         position: (7, 36),
+        },
+       ],
+      },
+      String {
+       parts: [
+        Raw {
+         content: "set -eEuo pipefail\n\nfile=/var/lib/hddtemp/hddtemp.db\n\ndrives=(",
+         position: (8, 1),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: Variable {
+           identifier: "toString",
+           position: (12, 15),
+          },
+          arguments: [
+           FunctionApplication {
+            function: Variable {
+             identifier: "map",
+             position: (12, 25),
+            },
+            arguments: [
+             Function {
+              argument: Some(
+               "e",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: String {
+               parts: [
+                Raw {
+                 content: "$(realpath ",
+                 position: (12, 35),
+                },
+                Expression {
+                 expression: FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "lib",
+                    position: (12, 48),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "escapeShellArg",
+                      position: (12, 52),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "e",
+                    position: (12, 67),
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: ") ",
+                 position: (12, 69),
+                },
+               ],
+              },
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (12, 75),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "drives",
+                 position: (12, 79),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          ],
+         },
+        },
+        Raw {
+         content: ")\n\ncp ",
+         position: (12, 87),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (14, 10),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "hddtemp",
+             position: (14, 15),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "/share/hddtemp/hddtemp.db $file\n",
+         position: (14, 23),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (15, 7),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "concatMapStringsSep",
+              position: (15, 11),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "\n",
+              position: (15, 32),
+             },
+            ],
+           },
+           Function {
+            argument: Some(
+             "e",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: String {
+             parts: [
+              Raw {
+               content: "echo ",
+               position: (15, 41),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (15, 48),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "escapeShellArg",
+                    position: (15, 52),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "e",
+                  position: (15, 67),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: " >> $file",
+               position: (15, 69),
+              },
+             ],
+            },
+           },
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (15, 81),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "dbEntries",
+               position: (15, 85),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        },
+        Raw {
+         content: "\n\nexec ",
+         position: (15, 95),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (17, 12),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "hddtemp",
+             position: (17, 17),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: "/bin/hddtemp ",
+         position: (17, 25),
+        },
+        Expression {
+         expression: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (17, 40),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "escapeShellArgs",
+              position: (17, 44),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "cfg",
+             position: (17, 60),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "extraArgs",
+               position: (17, 64),
+              },
+             ],
+            },
+            default: None,
+           },
+          ],
+         },
+        },
+        Raw {
+         content: " \\\n  --daemon \\\n  --unit=",
+         position: (17, 74),
+        },
+        Expression {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "cfg",
+           position: (19, 16),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "unit",
+             position: (19, 20),
+            },
+           ],
+          },
+          default: None,
+         },
+        },
+        Raw {
+         content: " \\\n  --file=$file \\\n  ",
+         position: (19, 25),
+        },
+        Raw {
+         content: "$",
+         position: (21, 7),
+        },
+        Raw {
+         content: "{drives[@]}\n",
+         position: (21, 10),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "meta",
+        position: (26, 3),
+       },
+       Raw {
+        content: "maintainers",
+        position: (26, 8),
+       },
+      ],
+     },
+     With {
+      expression: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (26, 27),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "maintainers",
+          position: (26, 31),
+         },
+        ],
+       },
+       default: None,
+      },
+      target: List {
+       elements: [
+        Variable {
+         identifier: "peterhoeg",
+         position: (26, 46),
+        },
+       ],
+      },
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (30, 3),
+       },
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "hardware",
+           position: (31, 5),
+          },
+          Raw {
+           content: "sensor",
+           position: (31, 14),
+          },
+          Raw {
+           content: "hddtemp",
+           position: (31, 21),
+          },
+         ],
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "enable",
+              position: (32, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (32, 16),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (33, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Enable this option to support HDD/SSD temperature sensors.\n",
+                   position: (34, 1),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (36, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (36, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "bool",
+                    position: (36, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (37, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "false",
+                 position: (37, 19),
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "drives",
+              position: (40, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (40, 16),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (41, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "List of drives to monitor. If you pass /dev/disk/by-path/* entries the symlinks will be resolved as hddtemp doesn't like names with colons.",
+                   position: (41, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (42, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (42, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "listOf",
+                     position: (42, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (42, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (42, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "unit",
+              position: (45, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (45, 14),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (46, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Celcius or Fahrenheit",
+                   position: (46, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (47, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (47, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "enum",
+                     position: (47, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "C",
+                       position: (47, 30),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "F",
+                       position: (47, 34),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (48, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "C",
+                   position: (48, 20),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "dbEntries",
+              position: (51, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (51, 19),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (52, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Additional DB entries",
+                   position: (52, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (53, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (53, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "listOf",
+                     position: (53, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (53, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (53, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (54, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "extraArgs",
+              position: (57, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (57, 19),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (58, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Additional arguments passed to the daemon.",
+                   position: (58, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (59, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (59, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "listOf",
+                     position: (59, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (59, 29),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "str",
+                      position: (59, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (60, 9),
+                  },
+                 ],
+                },
+                List {
+                 elements: [],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+        },
+       ),
+      ],
+      recursive: false,
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (67, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (67, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (67, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (67, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "systemd",
+             position: (68, 5),
+            },
+            Raw {
+             content: "services",
+             position: (68, 13),
+            },
+            Raw {
+             content: "hddtemp",
+             position: (68, 22),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "description",
+                position: (69, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "HDD/SSD temperature",
+                position: (69, 22),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "wantedBy",
+                position: (70, 7),
+               },
+              ],
+             },
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "multi-user.target",
+                  position: (70, 21),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "serviceConfig",
+                position: (71, 7),
+               },
+              ],
+             },
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "Type",
+                   position: (72, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "forking",
+                   position: (72, 17),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ExecStart",
+                   position: (73, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "wrapper",
+                 position: (73, 21),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "StateDirectory",
+                   position: (74, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "hddtemp",
+                   position: (74, 27),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "PrivateTmp",
+                   position: (75, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (75, 22),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ProtectHome",
+                   position: (76, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "tmpfs",
+                   position: (76, 24),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "ProtectSystem",
+                   position: (77, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "strict",
+                   position: (77, 26),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+             },
+            ),
+           ],
+           recursive: false,
+          },
+         ),
+        ],
+        recursive: false,
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+  },
+ },
+}
