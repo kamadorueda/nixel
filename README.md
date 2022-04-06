@@ -23,6 +23,13 @@ SPDX-License-Identifier: AGPL-3.0-only
     >
     </img>
   </a>
+  <a href="https://coveralls.io/github/kamadorueda/nixel?branch=main">
+    <img
+      alt="Coverage"
+      src="https://coveralls.io/repos/github/kamadorueda/nixel/badge.svg?branch=main"
+    >
+    </img>
+  </a>
   <a href="https://crates.io/crates/nixel">
     <img
       alt="Version"
@@ -49,7 +56,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 NixEl is a Rust library that turns
 [Nix](https://nixos.org) code
-into a correct, typed, memory-safe data-structure.
+into a variety of correct, typed, memory-safe data-structures.
 
 It's based on the original
 [lexer](https://github.com/NixOS/nix/blob/a4a1de69dcc3c6e0c40a093d67b5f20568a5f31e/src/libexpr/lexer.l)
