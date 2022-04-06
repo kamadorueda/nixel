@@ -268,6 +268,10 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__AttributePath(attribute_path) => attribute_path,
                     _ => unreachable!(),
                 },
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "+" "expr_op"
             => |mut asts| AST::BinaryOperation {

@@ -37,6 +37,7 @@ pub enum AST {
     HasProperty {
         expression:     Box<AST>,
         attribute_path: AttributePath,
+        position:       Position,
     },
     IfThenElse {
         predicate: Box<AST>,
