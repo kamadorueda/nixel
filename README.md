@@ -110,6 +110,7 @@ LetIn {
         identifier: "greeting",
         position: (4, 3),
     },
+    position: (1, 1),
 }
 ```
 

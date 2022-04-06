@@ -13,10 +13,12 @@ pub enum AST {
     Assert {
         expression: Box<AST>,
         target:     Box<AST>,
+        position:   Position,
     },
     BinaryOperation {
         operator: BinaryOperator,
         operands: Vec<AST>,
+        position: Position,
     },
     Float {
         value:    f64,
@@ -26,6 +28,7 @@ pub enum AST {
         argument:   Option<String>,
         arguments:  FunctionArguments,
         definition: Box<AST>,
+        position:   Position,
     },
     FunctionApplication {
         function:  Box<AST>,
@@ -39,6 +42,7 @@ pub enum AST {
         predicate: Box<AST>,
         then:      Box<AST>,
         else_:     Box<AST>,
+        position:  Position,
     },
     Int {
         value:    isize,
@@ -47,6 +51,7 @@ pub enum AST {
     LetIn {
         bindings: LinkedList<Bind>,
         target:   Box<AST>,
+        position: Position,
     },
     List {
         elements: LinkedList<AST>,
@@ -73,8 +78,12 @@ pub enum AST {
     UnaryOperation {
         operator: UnaryOperator,
         operand:  Box<AST>,
+        position: Position,
     },
-    Uri(Rc<Lexeme>),
+    Uri {
+        uri:      String,
+        position: Position,
+    },
     Variable {
         identifier: String,
         position:   Position,
@@ -82,6 +91,7 @@ pub enum AST {
     With {
         expression: Box<AST>,
         target:     Box<AST>,
+        position:   Position,
     },
 
     // Temporary containers

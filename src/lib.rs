@@ -26,6 +26,6 @@
 #![doc = include_str!("./bin/nixel.rs")]
 //! ```
 pub mod ast;
-pub mod cst;
+// pub mod cst;
 pub mod grammar;
 pub mod lexer;

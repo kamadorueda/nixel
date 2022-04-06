@@ -20,59 +20,77 @@ pub fn grammar() -> Grammar<AST> {
         "expr" => rules "expr_function";
 
         "expr_function" => rules "ID" ":" "expr_function"
-            => |mut asts| AST::Function {
-                argument: Some(match asts.swap_remove(0) {
-                    AST::__Lexeme(lexeme) => lexeme.raw.clone(),
-                    _ => unreachable!(),
-                }),
-                arguments: FunctionArguments {
-                    arguments: LinkedList::new(),
-                    ellipsis: false,
+            => |mut asts| match asts.swap_remove(0) {
+                AST::__Lexeme(lexeme) => AST::Function {
+                    argument: Some(lexeme.raw.clone()),
+                    arguments: FunctionArguments {
+                        arguments: LinkedList::new(),
+                        ellipsis: false,
+                    },
+                    definition: Box::new(asts.swap_remove(0)),
+                    position: lexeme.position.clone(),
                 },
-                definition: Box::new(asts.swap_remove(0)),
+                _ => unreachable!(),
             };
         "expr_function" => rules "{" "formals" "}" ":" "expr_function"
-            => |mut asts| AST::Function {
-                argument: None,
-                arguments: match asts.swap_remove(1) {
-                    AST::__FunctionArguments(function_arguments) => function_arguments,
-                    _ => unreachable!(),
+            => |mut asts| match asts.swap_remove(0) {
+                AST::__Lexeme(lexeme) => AST::Function {
+                    argument: None,
+                    arguments: match asts.swap_remove(1) {
+                        AST::__FunctionArguments(function_arguments) => function_arguments,
+                        _ => unreachable!(),
+                    },
+                    definition: Box::new(asts.swap_remove(0)),
+                    position: lexeme.position.clone(),
                 },
-                definition: Box::new(asts.swap_remove(1)),
+                _ => unreachable!(),
             };
         "expr_function" => rules "{" "formals" "}" "@" "ID" ":" "expr_function"
-            => |mut asts| AST::Function {
-                argument: Some(match asts.swap_remove(4) {
-                    AST::__Lexeme(lexeme) => lexeme.raw.clone(),
-                    _ => unreachable!(),
-                }),
-                arguments: match asts.swap_remove(1) {
-                    AST::__FunctionArguments(function_arguments) => function_arguments,
-                    _ => unreachable!(),
+            => |mut asts| match asts.swap_remove(0) {
+                AST::__Lexeme(lexeme) => AST::Function {
+                    argument: Some(match asts.swap_remove(4) {
+                        AST::__Lexeme(lexeme) => lexeme.raw.clone(),
+                        _ => unreachable!(),
+                    }),
+                    arguments: match asts.swap_remove(1) {
+                        AST::__FunctionArguments(function_arguments) => function_arguments,
+                        _ => unreachable!(),
+                    },
+                    definition: Box::new(asts.swap_remove(0)),
+                    position: lexeme.position.clone(),
                 },
-                definition: Box::new(asts.swap_remove(4)),
+                _ => unreachable!(),
             };
         "expr_function" => rules "ID" "@" "{" "formals" "}" ":" "expr_function"
-            => |mut asts| AST::Function {
-                argument: Some(match asts.swap_remove(0) {
-                    AST::__Lexeme(lexeme) => lexeme.raw.clone(),
-                    _ => unreachable!(),
-                }),
-                arguments: match asts.swap_remove(3) {
-                    AST::__FunctionArguments(function_arguments) => function_arguments,
-                    _ => unreachable!(),
+            => |mut asts| match asts.swap_remove(0) {
+                AST::__Lexeme(lexeme) => AST::Function {
+                    argument: Some(lexeme.raw.clone()),
+                    arguments: match asts.swap_remove(3) {
+                        AST::__FunctionArguments(function_arguments) => function_arguments,
+                        _ => unreachable!(),
+                    },
+                    definition: Box::new(asts.swap_remove(0)),
+                    position: lexeme.position.clone(),
                 },
-                definition: Box::new(asts.swap_remove(0)),
+                _ => unreachable!(),
             };
         "expr_function" => rules "ASSERT" "expr" ";" "expr_function"
             => |mut asts| AST::Assert {
                 expression: Box::new(asts.swap_remove(1)),
                 target: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_function" => rules "WITH" "expr" ";" "expr_function"
             => |mut asts| AST::With {
                 expression: Box::new(asts.swap_remove(1)),
                 target: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_function" => rules "LET" "binds" "IN" "expr_function"
             => |mut asts| {
@@ -84,6 +102,10 @@ pub fn grammar() -> Grammar<AST> {
                         _ => unreachable!(),
                     },
                     target: Box::new(asts.swap_remove(1)),
+                    position: match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                        _ => unreachable!(),
+                    },
                 }
             };
         "expr_function" => rules "expr_if";
@@ -93,6 +115,10 @@ pub fn grammar() -> Grammar<AST> {
                 predicate: Box::new(asts.swap_remove(1)),
                 then: Box::new(asts.swap_remove(3)),
                 else_: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_if" => rules "expr_op";
 
@@ -100,11 +126,19 @@ pub fn grammar() -> Grammar<AST> {
             => |mut asts| AST::UnaryOperation {
                 operator: UnaryOperator::Not,
                 operand: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "NEGATE" "expr_op"
             => |mut asts| AST::UnaryOperation {
                 operator: UnaryOperator::Negate,
                 operand: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "EQ" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -113,6 +147,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "NEQ" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -121,6 +159,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "<" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -129,6 +171,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "LEQ" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -137,6 +183,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" ">" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -145,6 +195,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "GEQ" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -153,6 +207,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "AND" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -161,6 +219,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "OR" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -169,6 +231,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "IMPL" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -177,6 +243,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "UPDATE" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -185,6 +255,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "?" "attrpath"
             => |mut asts| AST::HasProperty {
@@ -201,6 +275,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "-" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -209,6 +287,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "*" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -217,6 +299,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "/" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -225,6 +311,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_op" "CONCAT" "expr_op"
             => |mut asts| AST::BinaryOperation {
@@ -233,6 +323,10 @@ pub fn grammar() -> Grammar<AST> {
                     asts.swap_remove(0),
                     asts.swap_remove(0),
                 ],
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
             };
         "expr_op" => rules "expr_app";
 
@@ -356,7 +450,10 @@ pub fn grammar() -> Grammar<AST> {
             };
         "expr_simple" => rules "URI"
             => |mut asts| match asts.swap_remove(0) {
-                AST::__Lexeme(lexeme) => AST::Uri(lexeme),
+                AST::__Lexeme(lexeme) => AST::Uri {
+                    uri: lexeme.raw.clone(),
+                    position: lexeme.position.clone(),
+                },
                 _ => unreachable!(),
             };
         "expr_simple" => rules "(" "expr" ")"
@@ -718,7 +815,9 @@ pub fn grammar() -> Grammar<AST> {
                 expr_list
             };
         "expr_list" => empty
-            => |_| AST::List { elements: LinkedList::new() };
+            => |_| AST::List {
+                elements: LinkedList::new(),
+            };
 
         "formals" => rules "formal" "," "formals"
             => |mut asts| {
