@@ -13,6 +13,7 @@ use crate::ast::UnaryOperator;
 use crate::ast::AST;
 use santiago::grammar::Associativity;
 use santiago::grammar::Grammar;
+use santiago::lexer::Position;
 use std::collections::LinkedList;
 
 pub fn grammar() -> Grammar<AST> {
@@ -468,6 +469,10 @@ pub fn grammar() -> Grammar<AST> {
                         AST::__Bindings(bindings) => bindings,
                         _ => unreachable!(),
                     },
+                    position: match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                        _ => unreachable!(),
+                    },
                     recursive: true,
                 }
             };
@@ -480,11 +485,29 @@ pub fn grammar() -> Grammar<AST> {
                         AST::__Bindings(bindings) => bindings,
                         _ => unreachable!(),
                     },
+                    position: match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                        _ => unreachable!(),
+                    },
                     recursive: false,
                 }
             };
         "expr_simple" => rules "[" "expr_list" "]"
-            => |mut asts| asts.swap_remove(1);
+            => |mut asts| {
+                let mut expr_list = asts.swap_remove(1);
+
+                match &mut expr_list {
+                    AST::List { position, .. } => {
+                        *position = match asts.swap_remove(0) {
+                            AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                            _ => unreachable!(),
+                        };
+                    },
+                    _ => unreachable!(),
+                }
+
+                expr_list
+            };
 
         "string_parts" => rules "STR"
             => |mut asts| AST::String {
@@ -806,7 +829,7 @@ pub fn grammar() -> Grammar<AST> {
                 let mut expr_list = asts.swap_remove(0);
 
                 match &mut expr_list {
-                    AST::List { elements } => {
+                    AST::List { elements, .. } => {
                         elements.push_back(asts.swap_remove(0));
                     }
                     _ => unreachable!(),
@@ -817,6 +840,10 @@ pub fn grammar() -> Grammar<AST> {
         "expr_list" => empty
             => |_| AST::List {
                 elements: LinkedList::new(),
+                position: Position {
+                    line: usize::MAX,
+                    column: usize::MAX,
+                },
             };
 
         "formals" => rules "formal" "," "formals"

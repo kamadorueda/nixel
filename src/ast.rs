@@ -55,10 +55,12 @@ pub enum AST {
     },
     List {
         elements: LinkedList<AST>,
+        position: Position,
     },
     Map {
         bindings:  LinkedList<Bind>,
         recursive: bool,
+        position:  Position,
     },
     Path {
         parts: LinkedList<StringPart>,
