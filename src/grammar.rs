@@ -273,7 +273,15 @@ pub fn grammar() -> Grammar<AST> {
         "expr_select" => rules "expr_simple" "OR_KW"
             => |mut asts| AST::FunctionApplication {
                 function: Box::new(asts.swap_remove(0)),
-                arguments: LinkedList::from([asts.swap_remove(0)]),
+                arguments: LinkedList::from([
+                    match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => AST::Variable {
+                            identifier: lexeme.raw.clone(),
+                            position: lexeme.position.clone(),
+                        },
+                        _ => unreachable!(),
+                    }
+                ]),
             };
         "expr_select" => rules "expr_simple";
 
