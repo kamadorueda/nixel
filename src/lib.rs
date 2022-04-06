@@ -27,5 +27,6 @@
 //! ```
 pub mod ast;
 // pub mod cst;
+pub mod deps;
 pub mod grammar;
 pub mod lexer;
