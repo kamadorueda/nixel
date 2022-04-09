@@ -50,7 +50,7 @@ pub enum AST {
         position: Position,
     },
     LetIn {
-        bindings: LinkedList<Bind>,
+        bindings: LinkedList<Binding>,
         target:   Box<AST>,
         position: Position,
     },
@@ -59,7 +59,7 @@ pub enum AST {
         position: Position,
     },
     Map {
-        bindings:  LinkedList<Bind>,
+        bindings:  LinkedList<Binding>,
         recursive: bool,
         position:  Position,
     },
@@ -105,7 +105,7 @@ pub enum AST {
     #[doc(hidden)]
     __AttributePath(AttributePath),
     #[doc(hidden)]
-    __Bindings(LinkedList<Bind>),
+    __Bindings(LinkedList<Binding>),
     #[doc(hidden)]
     __FunctionArgument(FunctionArgument),
     #[doc(hidden)]
@@ -127,8 +127,8 @@ pub struct AttributePath {
     pub attributes: LinkedList<Attribute>,
 }
 
-#[derive(Clone, Debug, PartialEq)]
-pub enum Bind {
+#[derive(Debug, PartialEq)]
+pub enum Binding {
     KeyValue(AttributePath, Box<AST>),
     Inherit(Option<Box<AST>>, LinkedList<Attribute>),
 }

@@ -5,7 +5,7 @@
 use crate::ast::Attribute;
 use crate::ast::AttributePath;
 use crate::ast::BinaryOperator;
-use crate::ast::Bind;
+use crate::ast::Binding;
 use crate::ast::FunctionArgument;
 use crate::ast::FunctionArguments;
 use crate::ast::StringPart;
@@ -651,7 +651,7 @@ pub fn grammar() -> Grammar<AST> {
 
                 match &mut binds {
                     AST::__Bindings(bindings) => {
-                        bindings.push_back(Bind::KeyValue(
+                        bindings.push_back(Binding::KeyValue(
                             match asts.swap_remove(1) {
                                 AST::__AttributePath(attribute_path) => attribute_path,
                                 _ => unreachable!(),
@@ -672,7 +672,7 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__Bindings(bindings) => {
                         match asts.swap_remove(2) {
                             AST::__Attributes(attributes) => {
-                                bindings.push_back(Bind::Inherit(
+                                bindings.push_back(Binding::Inherit(
                                     None,
                                     attributes,
                                 ));
@@ -693,7 +693,7 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__Bindings(bindings) => {
                         match asts.swap_remove(5) {
                             AST::__Attributes(attributes) => {
-                                bindings.push_back(Bind::Inherit(
+                                bindings.push_back(Binding::Inherit(
                                     Some(Box::new(asts.swap_remove(3))),
                                     attributes,
                                 ));
