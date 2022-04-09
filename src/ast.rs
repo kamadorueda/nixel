@@ -99,6 +99,8 @@ pub enum AST {
 
     // Temporary containers
     #[doc(hidden)]
+    __,
+    #[doc(hidden)]
     __Attribute(Attribute),
     #[doc(hidden)]
     __Attributes(LinkedList<Attribute>),
