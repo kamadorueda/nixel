@@ -8,7 +8,7 @@ use std::collections::LinkedList;
 use std::rc::Rc;
 
 /// Main type of an Abstract Syntax Tree.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum AST {
     Assert {
         expression: Box<AST>,
@@ -118,13 +118,13 @@ pub enum AST {
     __Lexeme(Rc<Lexeme>),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Attribute {
     Raw { content: String, position: Position },
     Expression { expression: Box<AST> },
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct AttributePath {
     pub attributes: LinkedList<Attribute>,
 }
@@ -135,7 +135,7 @@ pub enum Binding {
     Inherit(Option<Box<AST>>, LinkedList<Attribute>),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum BinaryOperator {
     Addition,
     Concatenation,
@@ -154,25 +154,25 @@ pub enum BinaryOperator {
     Update,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct FunctionArgument {
     pub identifier: String,
     pub default:    Option<Box<AST>>,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct FunctionArguments {
     pub arguments: LinkedList<FunctionArgument>,
     pub ellipsis:  bool,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum StringPart {
     Raw { content: String, position: Position },
     Expression { expression: Box<AST> },
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum UnaryOperator {
     Not,
     Negate,
