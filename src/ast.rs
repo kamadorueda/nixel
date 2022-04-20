@@ -8,6 +8,7 @@ use std::collections::LinkedList;
 use std::rc::Rc;
 
 /// Main type of an Abstract Syntax Tree.
+#[allow(clippy::manual_non_exhaustive)]
 #[derive(Debug, PartialEq)]
 pub enum AST {
     Assert {
