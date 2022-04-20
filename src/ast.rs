@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use santiago::lexer::Lexeme;
-use santiago::lexer::Position;
 use std::collections::LinkedList;
 use std::rc::Rc;
+
+use santiago::lexer::Lexeme;
+use santiago::lexer::Position;
 
 /// Main type of an Abstract Syntax Tree.
 #[allow(clippy::manual_non_exhaustive)]

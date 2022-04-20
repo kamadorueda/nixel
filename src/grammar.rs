@@ -2,6 +2,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use std::collections::LinkedList;
+
+use santiago::grammar::Associativity;
+use santiago::grammar::Grammar;
+use santiago::lexer::Position;
+
 use crate::ast::Attribute;
 use crate::ast::AttributePath;
 use crate::ast::BinaryOperator;
@@ -11,10 +17,6 @@ use crate::ast::FunctionArguments;
 use crate::ast::StringPart;
 use crate::ast::UnaryOperator;
 use crate::ast::AST;
-use santiago::grammar::Associativity;
-use santiago::grammar::Grammar;
-use santiago::lexer::Position;
-use std::collections::LinkedList;
 
 pub fn grammar() -> Grammar<AST> {
     santiago::grammar!(
