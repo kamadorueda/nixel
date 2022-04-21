@@ -66,7 +66,8 @@ pub enum AST {
         position:  Position,
     },
     Path {
-        parts: LinkedList<StringPart>,
+        parts:    LinkedList<StringPart>,
+        position: Position,
     },
     PropertyAccess {
         expression:     Box<AST>,
@@ -78,7 +79,8 @@ pub enum AST {
         position: Position,
     },
     String {
-        parts: LinkedList<StringPart>,
+        parts:    LinkedList<StringPart>,
+        position: Position,
     },
     UnaryOperation {
         operator: UnaryOperator,
@@ -118,6 +120,41 @@ pub enum AST {
     __StringParts(LinkedList<StringPart>),
     #[doc(hidden)]
     __Lexeme(Rc<Lexeme>),
+}
+
+impl AST {
+    pub fn position(&self) -> Position {
+        match &self {
+            AST::Assert { position, .. } => position.clone(),
+            AST::BinaryOperation { position, .. } => position.clone(),
+            AST::Float { position, .. } => position.clone(),
+            AST::Function { position, .. } => position.clone(),
+            AST::FunctionApplication { function, .. } => function.position(),
+            AST::HasProperty { position, .. } => position.clone(),
+            AST::IfThenElse { position, .. } => position.clone(),
+            AST::Int { position, .. } => position.clone(),
+            AST::LetIn { position, .. } => position.clone(),
+            AST::List { position, .. } => position.clone(),
+            AST::Map { position, .. } => position.clone(),
+            AST::Path { position, .. } => position.clone(),
+            AST::PropertyAccess { expression, .. } => expression.position(),
+            AST::SearchNixPath { position, .. } => position.clone(),
+            AST::String { position, .. } => position.clone(),
+            AST::UnaryOperation { position, .. } => position.clone(),
+            AST::Uri { position, .. } => position.clone(),
+            AST::Variable { position, .. } => position.clone(),
+            AST::With { position, .. } => position.clone(),
+            AST::__ => unreachable!(),
+            AST::__Attribute(_) => unreachable!(),
+            AST::__Attributes(_) => unreachable!(),
+            AST::__AttributePath(_) => unreachable!(),
+            AST::__Bindings(_) => unreachable!(),
+            AST::__FunctionArgument(_) => unreachable!(),
+            AST::__FunctionArguments(_) => unreachable!(),
+            AST::__StringParts(_) => unreachable!(),
+            AST::__Lexeme(_) => unreachable!(),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq)]
@@ -170,7 +207,7 @@ pub struct FunctionArguments {
 
 #[derive(Debug, PartialEq)]
 pub enum StringPart {
-    Raw { content: String, position: Position },
+    Raw { content: String },
     Expression { expression: Box<AST> },
 }
 

@@ -124,9 +124,9 @@ Function {
            parts: [
             Raw {
              content: "extra-udev-rules",
-             position: (12, 13),
             },
            ],
+           position: (12, 12),
           },
          ),
          KeyValue(
@@ -167,9 +167,9 @@ Function {
            parts: [
             Raw {
              content: "/etc/udev/rules.d/99-local.rules",
-             position: (14, 20),
             },
            ],
+           position: (14, 19),
           },
          ),
         ],
@@ -220,9 +220,9 @@ Function {
            parts: [
             Raw {
              content: "extra-hwdb-file",
-             position: (18, 13),
             },
            ],
+           position: (18, 12),
           },
          ),
          KeyValue(
@@ -263,9 +263,9 @@ Function {
            parts: [
             Raw {
              content: "/etc/udev/hwdb.d/99-local.hwdb",
-             position: (20, 20),
             },
            ],
+           position: (20, 19),
           },
          ),
         ],
@@ -288,9 +288,9 @@ Function {
       parts: [
        Raw {
         content: "# Miscellaneous devices.\nKERNEL==\"kvm\",                  MODE=\"0666\"\n\n# Needed for gpm.\nSUBSYSTEM==\"input\", KERNEL==\"mice\", TAG+=\"systemd\"\n",
-        position: (24, 1),
        },
       ],
+      position: (23, 16),
      },
     ),
     KeyValue(
@@ -435,7 +435,6 @@ Function {
          parts: [
           Raw {
            content: "mkdir -p $out\nshopt -s nullglob\nset +o pipefail\n\n# Set a reasonable $PATH for programs called by udev rules.\necho 'ENV{PATH}=\"",
-           position: (38, 1),
           },
           Expression {
            expression: Variable {
@@ -445,7 +444,6 @@ Function {
           },
           Raw {
            content: "/bin:",
-           position: (43, 35),
           },
           Expression {
            expression: Variable {
@@ -455,7 +453,6 @@ Function {
           },
           Raw {
            content: "/sbin\"' > $out/00-path.rules\n\n# Add the udev rules from other packages.\nfor i in $packages; do\n  echo \"Adding rules for package $i\"\n  for j in $i/{etc,lib}/udev/rules.d/*; do\n    echo \"Copying $j to $out/$(basename $j)\"\n    cat $j > $out/$(basename $j)\n  done\ndone\n\n# Fix some paths in the standard udev rules.  Hacky.\nfor i in $out/*.rules; do\n  substituteInPlace $i \\\n    --replace \\\"/sbin/modprobe \\\"",
-           position: (43, 51),
           },
           Expression {
            expression: PropertyAccess {
@@ -476,7 +473,6 @@ Function {
           },
           Raw {
            content: "/bin/modprobe \\\n    --replace \\\"/sbin/mdadm \\\"",
-           position: (57, 52),
           },
           Expression {
            expression: PropertyAccess {
@@ -497,7 +493,6 @@ Function {
           },
           Raw {
            content: "/sbin/mdadm \\\n    --replace \\\"/sbin/blkid \\\"",
-           position: (58, 50),
           },
           Expression {
            expression: PropertyAccess {
@@ -518,7 +513,6 @@ Function {
           },
           Raw {
            content: "/sbin/blkid \\\n    --replace \\\"/bin/mount \\\"",
-           position: (59, 55),
           },
           Expression {
            expression: PropertyAccess {
@@ -539,7 +533,6 @@ Function {
           },
           Raw {
            content: "/bin/mount \\\n    --replace /usr/bin/readlink ",
-           position: (60, 54),
           },
           Expression {
            expression: PropertyAccess {
@@ -560,7 +553,6 @@ Function {
           },
           Raw {
            content: "/bin/readlink \\\n    --replace /usr/bin/basename ",
-           position: (61, 56),
           },
           Expression {
            expression: PropertyAccess {
@@ -581,7 +573,6 @@ Function {
           },
           Raw {
            content: "/bin/basename\n",
-           position: (62, 56),
           },
           Expression {
            expression: FunctionApplication {
@@ -608,7 +599,6 @@ Function {
               parts: [
                Raw {
                 content: "substituteInPlace $i --replace '/run/current-system/systemd' \"",
-                position: (64, 1),
                },
                Expression {
                 expression: FunctionApplication {
@@ -621,9 +611,9 @@ Function {
                    parts: [
                     Raw {
                      content: "/bin",
-                     position: (64, 87),
                     },
                    ],
+                   position: (64, 86),
                   },
                   Variable {
                    identifier: "initrdBin",
@@ -634,16 +624,15 @@ Function {
                },
                Raw {
                 content: "\"\n",
-                position: (64, 103),
                },
               ],
+              position: (63, 44),
              },
             ],
            },
           },
           Raw {
            content: "\ndone\n\necho -n \"Checking that all programs called by relative paths in udev rules exist in ",
-           position: (65, 10),
           },
           Expression {
            expression: Variable {
@@ -653,7 +642,6 @@ Function {
           },
           Raw {
            content: "/lib/udev... \"\nimport_progs=$(grep 'IMPORT{program}=\"[^/$]' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"[^/$]' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  if [[ ! -x ",
-           position: (68, 98),
           },
           Expression {
            expression: Variable {
@@ -663,7 +651,6 @@ Function {
           },
           Raw {
            content: "/lib/udev/$i && ! $i =~ socket:.* ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but not installed by udev\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\necho -n \"Checking that all programs called by absolute paths in udev rules exist... \"\nimport_progs=$(grep 'IMPORT{program}=\"\\/' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"/' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  # if the path refers to /run/current-system/systemd, replace with config.systemd.package\n  if [[ $i == /run/current-system/systemd* ]]; then\n    i=\"",
-           position: (74, 27),
           },
           Expression {
            expression: Variable {
@@ -673,15 +660,12 @@ Function {
           },
           Raw {
            content: "/",
-           position: (90, 24),
           },
           Raw {
            content: "$",
-           position: (90, 25),
           },
           Raw {
            content: "{i#/run/current-system/systemd/}\"\n  fi\n\n  if [[ ! -x $i ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but is not executable or does not exist\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\nfilesToFixup=\"$(for i in \"$out\"/*; do\n  grep -l '\\B\\(/usr\\)\\?/s\\?bin' \"$i\" || :\ndone)\"\n\nif [ -n \"$filesToFixup\" ]; then\n  echo \"Consider fixing the following udev rules:\"\n  echo \"$filesToFixup\" | while read localFile; do\n    remoteFile=\"origin unknown\"\n    for i in ",
-           position: (90, 28),
           },
           Expression {
            expression: FunctionApplication {
@@ -699,15 +683,12 @@ Function {
           },
           Raw {
            content: "; do\n      for j in \"$i\"/*/udev/rules.d/*; do\n        [ -e \"$out/$(basename \"$j\")\" ] || continue\n        [ \"$(basename \"$j\")\" = \"$(basename \"$localFile\")\" ] || continue\n        remoteFile=\"originally from $j\"\n        break 2\n      done\n    done\n    refs=\"$(\n      grep -o '\\B\\(/usr\\)\\?/s\\?bin/[^ \"]\\+' \"$localFile\" \\\n        | sed -e ':r;N;",
-           position: (109, 43),
           },
           Raw {
            content: "$",
-           position: (119, 30),
           },
           Raw {
            content: "{s/\\n/ and /;br};s/\\n/, /g;br'\n    )\"\n    echo \"$localFile ($remoteFile) contains references to $refs.\"\n  done\n  exit 1\nfi\n\n# If auto-configuration is disabled, then remove\n# udev's 80-drivers.rules file, which contains rules for\n# automatically calling modprobe.\n",
-           position: (119, 33),
           },
           Expression {
            expression: FunctionApplication {
@@ -743,18 +724,18 @@ Function {
               parts: [
                Raw {
                 content: "ln -s /dev/null $out/80-drivers.rules\n",
-                position: (130, 1),
                },
               ],
+              position: (129, 52),
              },
             ],
            },
           },
           Raw {
            content: "\n",
-           position: (131, 10),
           },
          ],
+         position: (37, 5),
         },
        ],
       },
@@ -791,9 +772,9 @@ Function {
         parts: [
          Raw {
           content: "hwdb.bin",
-          position: (134, 30),
          },
         ],
+        position: (134, 29),
        },
        Map {
         bindings: [
@@ -893,7 +874,6 @@ Function {
         parts: [
          Raw {
           content: "mkdir -p etc/udev/hwdb.d\nfor i in $packages; do\n  echo \"Adding hwdb files for package $i\"\n  for j in $i/{etc,lib}/udev/hwdb.d/*; do\n    ln -s $j etc/udev/hwdb.d/$(basename $j)\n  done\ndone\n\necho \"Generating hwdb database...\"\n# hwdb --update doesn't return error code even on errors!\nres=\"$(",
-          position: (140, 1),
          },
          Expression {
           expression: PropertyAccess {
@@ -918,9 +898,9 @@ Function {
          },
          Raw {
           content: "/bin/udevadm hwdb --update --root=$(pwd) 2>&1)\"\necho \"$res\"\n[ -z \"$(echo \"$res\" | egrep '^Error')\" ]\nmv etc/udev/hwdb.bin $out\n",
-          position: (150, 40),
          },
         ],
+        position: (139, 5),
        },
       ],
      },
@@ -966,9 +946,9 @@ Function {
            parts: [
             Raw {
              content: "udev-path",
-             position: (159, 13),
             },
            ],
+           position: (159, 12),
           },
          ),
          KeyValue(
@@ -1011,17 +991,17 @@ Function {
              parts: [
               Raw {
                content: "/bin",
-               position: (161, 22),
               },
              ],
+             position: (161, 21),
             },
             String {
              parts: [
               Raw {
                content: "/sbin",
-               position: (161, 29),
               },
              ],
+             position: (161, 28),
             },
            ],
            position: (161, 19),
@@ -1135,9 +1115,9 @@ Function {
                parts: [
                 Raw {
                  content: "Whether to try to load kernel modules for all detected hardware.\nUsually this does a good job of providing you with the modules\nyou need, but sometimes it can crash the system or cause other\nnasty effects.\n",
-                 position: (177, 1),
                 },
                ],
+               position: (176, 21),
               },
              ),
             ],
@@ -1250,9 +1230,9 @@ Function {
                   parts: [
                    Raw {
                     content: "List of packages containing <command>udev</command> rules.\nAll files found in\n<filename><replaceable>pkg</replaceable>/etc/udev/rules.d</filename> and\n<filename><replaceable>pkg</replaceable>/lib/udev/rules.d</filename>\nwill be included.\n",
-                    position: (190, 1),
                    },
                   ],
+                  position: (189, 23),
                  },
                 ),
                 KeyValue(
@@ -1372,9 +1352,9 @@ Function {
                   parts: [
                    Raw {
                     content: "Packages added to the <envar>PATH</envar> environment variable when\nexecuting programs from Udev rules.\n",
-                    position: (203, 1),
                    },
                   ],
+                  position: (202, 23),
                  },
                 ),
                ],
@@ -1412,6 +1392,7 @@ Function {
                  },
                  String {
                   parts: [],
+                  position: (209, 19),
                  },
                 ),
                 KeyValue(
@@ -1427,9 +1408,9 @@ Function {
                   parts: [
                    Raw {
                     content: "ENV{ID_VENDOR_ID}==\"046d\", ENV{ID_MODEL_ID}==\"0825\", ENV{PULSE_IGNORE}=\"1\"\n",
-                    position: (211, 1),
                    },
                   ],
+                  position: (210, 19),
                  },
                 ),
                 KeyValue(
@@ -1470,9 +1451,9 @@ Function {
                   parts: [
                    Raw {
                     content: "Additional <command>udev</command> rules. They'll be written\ninto file <filename>99-local.rules</filename>. Thus they are\nread and applied after all other rules.\n",
-                    position: (215, 1),
                    },
                   ],
+                  position: (214, 23),
                  },
                 ),
                ],
@@ -1510,6 +1491,7 @@ Function {
                  },
                  String {
                   parts: [],
+                  position: (222, 19),
                  },
                 ),
                 KeyValue(
@@ -1525,9 +1507,9 @@ Function {
                   parts: [
                    Raw {
                     content: "evdev:input:b0003v05AFp8277*\n  KEYBOARD_KEY_70039=leftalt\n  KEYBOARD_KEY_700e2=leftctrl\n",
-                    position: (224, 1),
                    },
                   ],
+                  position: (223, 19),
                  },
                 ),
                 KeyValue(
@@ -1568,9 +1550,9 @@ Function {
                   parts: [
                    Raw {
                     content: "Additional <command>hwdb</command> files. They'll be written\ninto file <filename>99-local.hwdb</filename>. Thus they are\nread after all other files.\n",
-                    position: (230, 1),
                    },
                   ],
+                  position: (229, 23),
                  },
                 ),
                ],
@@ -1677,9 +1659,9 @@ Function {
                parts: [
                 Raw {
                  content: "List of packages containing firmware files.  Such files\nwill be loaded automatically if the kernel asks for them\n(i.e., when it has detected specific hardware that requires\nfirmware to function).  If multiple packages contain firmware\nfiles with the same name, the first package in the list takes\nprecedence.  Note that you must rebuild your system if you add\nfiles to any of these directories.\n",
-                 position: (242, 1),
                 },
                ],
+               position: (241, 21),
               },
              ),
              KeyValue(
@@ -1731,9 +1713,9 @@ Function {
                      parts: [
                       Raw {
                        content: "firmware",
-                       position: (251, 17),
                       },
                      ],
+                     position: (251, 16),
                     },
                    ),
                    KeyValue(
@@ -1765,9 +1747,9 @@ Function {
                        parts: [
                         Raw {
                          content: "/lib/firmware",
-                         position: (253, 26),
                         },
                        ],
+                       position: (253, 25),
                       },
                      ],
                      position: (253, 23),
@@ -1876,9 +1858,9 @@ Function {
                parts: [
                 Raw {
                  content: "Whether to assign <link\nxlink:href='http://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames'>predictable\nnames to network interfaces</link>.  If enabled, interfaces\nare assigned names that contain topology information\n(e.g. <literal>wlp3s0</literal>) and thus should be stable\nacross reboots.  If disabled, names depend on the order in\nwhich interfaces are discovered by the kernel, which may\nchange randomly across reboots; for instance, you may find\n<literal>eth0</literal> and <literal>eth1</literal> flipping\nunpredictably.\n",
-                 position: (262, 1),
                 },
                ],
+               position: (261, 21),
               },
              ),
             ],
@@ -2013,9 +1995,9 @@ Function {
                   parts: [
                    Raw {
                     content: "<emphasis>This will only be used when systemd is used in stage 1.</emphasis>\n\nList of packages containing <command>udev</command> rules that will be copied to stage 1.\nAll files found in\n<filename><replaceable>pkg</replaceable>/etc/udev/rules.d</filename> and\n<filename><replaceable>pkg</replaceable>/lib/udev/rules.d</filename>\nwill be included.\n",
-                    position: (282, 1),
                    },
                   ],
+                  position: (281, 23),
                  },
                 ),
                ],
@@ -2127,9 +2109,9 @@ Function {
                   parts: [
                    Raw {
                     content: "<emphasis>This will only be used when systemd is used in stage 1.</emphasis>\n\nPackages to search for binaries that are referenced by the udev rules in stage 1.\nThis list always contains /bin of the initrd.\n",
-                    position: (297, 1),
                    },
                   ],
+                  position: (296, 23),
                  },
                 ),
                 KeyValue(
@@ -2189,6 +2171,7 @@ Function {
                  },
                  String {
                   parts: [],
+                  position: (306, 19),
                  },
                 ),
                 KeyValue(
@@ -2204,9 +2187,9 @@ Function {
                   parts: [
                    Raw {
                     content: "SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"00:1D:60:B9:6D:4F\", KERNEL==\"eth*\", NAME=\"my_fast_network_card\"\n",
-                    position: (308, 1),
                    },
                   ],
+                  position: (307, 19),
                  },
                 ),
                 KeyValue(
@@ -2247,9 +2230,9 @@ Function {
                   parts: [
                    Raw {
                     content: "<command>udev</command> rules to include in the initrd\n<emphasis>only</emphasis>. They'll be written into file\n<filename>99-local.rules</filename>. Thus they are read and applied\nafter the essential initrd rules.\n",
-                    position: (312, 1),
                    },
                   ],
+                  position: (311, 23),
                  },
                 ),
                ],
@@ -2497,9 +2480,9 @@ Function {
                 parts: [
                  Raw {
                   content: "net.ifnames=0",
-                  position: (334, 83),
                  },
                 ],
+                position: (334, 82),
                },
               ],
               position: (334, 80),
@@ -2600,6 +2583,7 @@ Function {
                  },
                  String {
                   parts: [],
+                  position: (336, 138),
                  },
                 ],
                 position: (336, 135),
@@ -2611,7 +2595,6 @@ Function {
               parts: [
                Raw {
                 content: "cat <<'EOF' > $out/99-local.rules\n",
-                position: (338, 1),
                },
                Expression {
                 expression: PropertyAccess {
@@ -2648,9 +2631,9 @@ Function {
                },
                Raw {
                 content: "\nEOF\n",
-                position: (339, 50),
                },
               ],
+              position: (337, 7),
              },
             ],
            },
@@ -2682,41 +2665,41 @@ Function {
               parts: [
                Raw {
                 content: "systemd-udevd-control.socket",
-                position: (345, 8),
                },
               ],
+              position: (345, 7),
              },
              String {
               parts: [
                Raw {
                 content: "systemd-udevd-kernel.socket",
-                position: (346, 8),
                },
               ],
+              position: (346, 7),
              },
              String {
               parts: [
                Raw {
                 content: "systemd-udevd.service",
-                position: (347, 8),
                },
               ],
+              position: (347, 7),
              },
              String {
               parts: [
                Raw {
                 content: "systemd-udev-settle.service",
-                position: (348, 8),
                },
               ],
+              position: (348, 7),
              },
              String {
               parts: [
                Raw {
                 content: "systemd-udev-trigger.service",
-                position: (349, 8),
                },
               ],
+              position: (349, 7),
              },
             ],
             position: (343, 51),
@@ -2781,9 +2764,9 @@ Function {
                  },
                  Raw {
                   content: "/lib/systemd/systemd-udevd",
-                  position: (352, 45),
                  },
                 ],
+                position: (352, 7),
                },
                String {
                 parts: [
@@ -2818,9 +2801,9 @@ Function {
                  },
                  Raw {
                   content: "/lib/udev",
-                  position: (353, 45),
                  },
                 ],
+                position: (353, 7),
                },
               ],
               position: (351, 38),
@@ -2849,9 +2832,9 @@ Function {
                   },
                   Raw {
                    content: "/bin",
-                   position: (354, 23),
                   },
                  ],
+                 position: (354, 18),
                 },
                 position: (354, 15),
                },
@@ -2919,14 +2902,13 @@ Function {
               AttributePath {
                attributes: [
                 Expression {
-                 expression: String {
-                  parts: [
+                 expression: __StringParts(
+                  [
                    Raw {
                     content: "/etc/udev/rules.d",
-                    position: (358, 8),
                    },
                   ],
-                 },
+                 ),
                 },
                 Raw {
                  content: "source",
@@ -2955,9 +2937,9 @@ Function {
                     parts: [
                      Raw {
                       content: "initrd-udev-rules",
-                      position: (359, 17),
                      },
                     ],
+                    position: (359, 16),
                    },
                   ),
                   KeyValue(
@@ -2993,14 +2975,13 @@ Function {
                        position: (360, 48),
                       },
                       Expression {
-                       expression: String {
-                        parts: [
+                       expression: __StringParts(
+                        [
                          Raw {
                           content: "/bin",
-                          position: (360, 58),
                          },
                         ],
-                       },
+                       ),
                       },
                       Raw {
                        content: "source",
@@ -3085,14 +3066,13 @@ Function {
                        position: (362, 47),
                       },
                       Expression {
-                       expression: String {
-                        parts: [
+                       expression: __StringParts(
+                        [
                          Raw {
                           content: "/bin",
-                          position: (362, 57),
                          },
                         ],
-                       },
+                       ),
                       },
                       Raw {
                        content: "source",
@@ -3246,14 +3226,13 @@ Function {
                            position: (365, 100),
                           },
                           Expression {
-                           expression: String {
-                            parts: [
+                           expression: __StringParts(
+                            [
                              Raw {
                               content: "/bin",
-                              position: (365, 110),
                              },
                             ],
-                           },
+                           ),
                           },
                           Raw {
                            content: "source",
@@ -3349,6 +3328,7 @@ Function {
                },
                String {
                 parts: [],
+                position: (369, 90),
                },
               ],
               position: (369, 87),
@@ -3385,9 +3365,9 @@ Function {
                    parts: [
                     Raw {
                      content: "initrd-udev-rules",
-                     position: (370, 15),
                     },
                    ],
+                   position: (370, 14),
                   },
                  ),
                  KeyValue(
@@ -3403,9 +3383,9 @@ Function {
                    parts: [
                     Raw {
                      content: "/etc/udev/rules.d/99-local.rules",
-                     position: (371, 22),
                     },
                    ],
+                   position: (371, 21),
                   },
                  ),
                  KeyValue(
@@ -3477,14 +3457,13 @@ Function {
               AttributePath {
                attributes: [
                 Expression {
-                 expression: String {
-                  parts: [
+                 expression: __StringParts(
+                  [
                    Raw {
                     content: "udev/rules.d",
-                    position: (377, 10),
                    },
                   ],
-                 },
+                 ),
                 },
                 Raw {
                  content: "source",
@@ -3513,9 +3492,9 @@ Function {
                     parts: [
                      Raw {
                       content: "udev-rules",
-                      position: (378, 19),
                      },
                     ],
+                    position: (378, 18),
                    },
                   ),
                   KeyValue(
@@ -3621,14 +3600,13 @@ Function {
               AttributePath {
                attributes: [
                 Expression {
-                 expression: String {
-                  parts: [
+                 expression: __StringParts(
+                  [
                    Raw {
                     content: "udev/hwdb.bin",
-                    position: (384, 10),
                    },
                   ],
-                 },
+                 ),
                 },
                 Raw {
                  content: "source",
@@ -3691,9 +3669,9 @@ Function {
                  parts: [
                   Raw {
                    content: "UNIX",
-                   position: (388, 19),
                   },
                  ],
+                 position: (388, 18),
                 },
                ],
               },
@@ -3707,9 +3685,9 @@ Function {
                  parts: [
                   Raw {
                    content: "INOTIFY_USER",
-                   position: (389, 15),
                   },
                  ],
+                 position: (389, 14),
                 },
                ],
               },
@@ -3723,9 +3701,9 @@ Function {
                  parts: [
                   Raw {
                    content: "NET",
-                   position: (390, 15),
                   },
                  ],
+                 position: (390, 14),
                 },
                ],
               },
@@ -3747,14 +3725,13 @@ Function {
               position: (394, 17),
              },
              Expression {
-              expression: String {
-               parts: [
+              expression: __StringParts(
+               [
                 Raw {
                  content: "modprobe.d/firmware.conf",
-                 position: (394, 22),
                 },
                ],
-              },
+              ),
              },
              Raw {
               content: "text",
@@ -3766,7 +3743,6 @@ Function {
             parts: [
              Raw {
               content: "options firmware_class path=",
-              position: (394, 56),
              },
              Expression {
               expression: PropertyAccess {
@@ -3791,9 +3767,9 @@ Function {
              },
              Raw {
               content: "/lib/firmware",
-              position: (394, 111),
              },
             ],
+            position: (394, 55),
            },
           ),
           KeyValue(
@@ -3817,7 +3793,6 @@ Function {
             parts: [
              Raw {
               content: "# The deprecated hotplug uevent helper is not used anymore\nif [ -e /proc/sys/kernel/hotplug ]; then\n  echo \"\" > /proc/sys/kernel/hotplug\nfi\n\n# Allow the kernel to find our firmware.\nif [ -e /sys/module/firmware_class/parameters/path ]; then\n  echo -n \"",
-              position: (398, 1),
              },
              Expression {
               expression: PropertyAccess {
@@ -3842,9 +3817,9 @@ Function {
              },
              Raw {
               content: "/lib/firmware\" > /sys/module/firmware_class/parameters/path\nfi\n",
-              position: (405, 47),
              },
             ],
+            position: (397, 7),
            },
           ),
           KeyValue(
@@ -3926,25 +3901,25 @@ Function {
              parts: [
               Raw {
                content: "services",
-               position: (416, 31),
               },
              ],
+             position: (416, 30),
             },
             String {
              parts: [
               Raw {
                content: "udev",
-               position: (416, 42),
               },
              ],
+             position: (416, 41),
             },
             String {
              parts: [
               Raw {
                content: "initrdRules",
-               position: (416, 49),
               },
              ],
+             position: (416, 48),
             },
            ],
            position: (416, 28),
@@ -3955,41 +3930,41 @@ Function {
              parts: [
               Raw {
                content: "boot",
-               position: (416, 67),
               },
              ],
+             position: (416, 66),
             },
             String {
              parts: [
               Raw {
                content: "initrd",
-               position: (416, 74),
               },
              ],
+             position: (416, 73),
             },
             String {
              parts: [
               Raw {
                content: "services",
-               position: (416, 83),
               },
              ],
+             position: (416, 82),
             },
             String {
              parts: [
               Raw {
                content: "udev",
-               position: (416, 94),
               },
              ],
+             position: (416, 93),
             },
             String {
              parts: [
               Raw {
                content: "rules",
-               position: (416, 101),
               },
              ],
+             position: (416, 100),
             },
            ],
            position: (416, 64),

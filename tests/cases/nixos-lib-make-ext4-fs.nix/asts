@@ -26,9 +26,9 @@ Function {
       parts: [
        Raw {
         content: "44444444-4444-4444-8888-888888888888",
-        position: (16, 11),
        },
       ],
+      position: (16, 10),
      },
     ),
    },
@@ -41,6 +41,7 @@ Function {
     default: Some(
      String {
       parts: [],
+      position: (14, 27),
      },
     ),
    },
@@ -164,7 +165,6 @@ Function {
         parts: [
          Raw {
           content: "ext4-fs.img",
-          position: (27, 11),
          },
          Expression {
           expression: FunctionApplication {
@@ -192,14 +192,15 @@ Function {
              parts: [
               Raw {
                content: ".zst",
-               position: (27, 58),
               },
              ],
+             position: (27, 57),
             },
            ],
           },
          },
         ],
+        position: (27, 10),
        },
       ),
       KeyValue(
@@ -290,7 +291,6 @@ Function {
         parts: [
          Raw {
           content: "",
-          position: (34, 1),
          },
          Expression {
           expression: IfThenElse {
@@ -302,24 +302,23 @@ Function {
             parts: [
              Raw {
               content: "img=temp.img",
-              position: (34, 32),
              },
             ],
+            position: (34, 31),
            },
            else_: String {
             parts: [
              Raw {
               content: "img=$out",
-              position: (34, 52),
              },
             ],
+            position: (34, 51),
            },
            position: (34, 9),
           },
          },
          Raw {
           content: "\n(\nmkdir -p ./files\n",
-          position: (34, 62),
          },
          Expression {
           expression: Variable {
@@ -329,7 +328,6 @@ Function {
          },
          Raw {
           content: "\n)\n\necho \"Preparing store paths for image...\"\n\n# Create nix/store before copying path\nmkdir -p ./rootImage/nix/store\n\nxargs -I % cp -a --reflink=auto % -t ./rootImage/nix/store/ < ",
-          position: (37, 31),
          },
          Expression {
           expression: Variable {
@@ -339,7 +337,6 @@ Function {
          },
          Raw {
           content: "/store-paths\n(\n  GLOBIGNORE=\".:..\"\n  shopt -u dotglob\n\n  for f in ./files/*; do\n      cp -a --reflink=auto -t ./rootImage/ \"$f\"\n  done\n)\n\n# Also include a manifest of the closures in a format suitable for nix-store --load-db\ncp ",
-          position: (45, 85),
          },
          Expression {
           expression: Variable {
@@ -349,7 +346,6 @@ Function {
          },
          Raw {
           content: "/registration ./rootImage/nix-path-registration\n\n# Make a crude approximation of the size of the target image.\n# If the script starts failing, increase the fudge factors here.\nnumInodes=$(find ./rootImage | wc -l)\nnumDataBlocks=$(du -s -c -B 4096 --apparent-size ./rootImage | tail -1 | awk '{ print int($1 * 1.10) }')\nbytes=$((2 * 4096 * $numInodes + 4096 * $numDataBlocks))\necho \"Creating an EXT4 image of $bytes bytes (numInodes=$numInodes, numDataBlocks=$numDataBlocks)\"\n\ntruncate -s $bytes $img\n\nfaketime -f \"1970-01-01 00:00:01\" fakeroot mkfs.ext4 -L ",
-          position: (56, 26),
          },
          Expression {
           expression: Variable {
@@ -359,7 +355,6 @@ Function {
          },
          Raw {
           content: " -U ",
-          position: (67, 77),
          },
          Expression {
           expression: Variable {
@@ -369,7 +364,6 @@ Function {
          },
          Raw {
           content: " -d ./rootImage $img\n\nexport EXT2FS_NO_MTAB_OK=yes\n# I have ended up with corrupted images sometimes, I suspect that happens when the build machine's disk gets full during the build.\nif ! fsck.ext4 -n -f $img; then\n  echo \"--- Fsck failed for EXT4 image of $bytes bytes (numInodes=$numInodes, numDataBlocks=$numDataBlocks) ---\"\n  cat errorlog\n  return 1\nfi\n\n# We may want to shrink the file system and resize the image to\n# get rid of the unnecessary slack here--but see\n# https://github.com/NixOS/nixpkgs/issues/125121 for caveats.\n\nif [ ",
-          position: (67, 88),
          },
          Expression {
           expression: FunctionApplication {
@@ -398,9 +392,9 @@ Function {
          },
          Raw {
           content: " ]; then\n  echo \"Compressing image\"\n  zstd -v --no-progress ./$img -o $out\nfi\n",
-          position: (81, 46),
          },
         ],
+        position: (33, 5),
        },
       ),
      ],

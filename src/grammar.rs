@@ -424,23 +424,36 @@ pub fn grammar() -> Grammar<AST> {
                 _ => unreachable!(),
             };
         "expr_simple" => rules "\"" "string_parts" "\""
-            => |mut asts| asts.swap_remove(1);
-        "expr_simple" => rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
             => |mut asts| match asts.swap_remove(1) {
-                AST::String { parts } => strip_indentation(parts),
-                _ => unreachable!(),
-            };
-        "expr_simple" => rules "path_start" "PATH_END"
-            => |mut asts| match asts.swap_remove(0) {
-                AST::__StringParts(string_parts) => AST::Path {
-                    parts:string_parts
+                AST::__StringParts(parts) => AST::String {
+                    parts,
+                    position: match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                        _ => unreachable!(),
+                    },
                 },
                 _ => unreachable!(),
             };
+        "expr_simple" => rules "IND_STRING_OPEN" "ind_string_parts" "IND_STRING_CLOSE"
+            => |mut asts| match asts.swap_remove(1) {
+                AST::__StringParts(parts) => AST::String {
+                    parts: strip_indentation(parts),
+                    position: match asts.swap_remove(0) {
+                        AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                        _ => unreachable!(),
+                    },
+                },
+                _ => unreachable!(),
+            };
+        "expr_simple" => rules "path_start" "PATH_END"
+            =>  |mut asts| asts.swap_remove(0);
         "expr_simple" => rules "path_start" "string_parts_interpolated" "PATH_END"
             => |mut asts| {
-                let mut path_start = match asts.swap_remove(0) {
-                    AST::__StringParts(string_parts) => string_parts,
+                let (
+                    mut path_start_parts,
+                    path_start_position,
+                ) = match asts.swap_remove(0) {
+                    AST::Path { parts, position } => (parts, position),
                     _ => unreachable!(),
                 };
                 let mut string_parts_interpolated = match asts.swap_remove(1) {
@@ -449,10 +462,10 @@ pub fn grammar() -> Grammar<AST> {
                 };
 
                 let mut parts = LinkedList::new();
-                parts.append(&mut path_start);
+                parts.append(&mut path_start_parts);
                 parts.append(&mut string_parts_interpolated);
 
-                AST::Path { parts }
+                AST::Path { parts, position: path_start_position }
             };
         "expr_simple" => rules "SPATH"
             => |mut asts| match asts.swap_remove(0) {
@@ -523,26 +536,20 @@ pub fn grammar() -> Grammar<AST> {
             };
 
         "string_parts" => rules "STR"
-            => |mut asts| AST::String {
-                parts: LinkedList::from([
-                    match asts.swap_remove(0) {
-                        AST::__Lexeme(lexeme) => StringPart::Raw {
-                            content: lexeme.raw.clone(),
-                            position: lexeme.position.clone()
-                        },
-                        _ => unreachable!(),
-                    },
+            => |mut asts| AST::__StringParts(
+                LinkedList::from([
+                    StringPart::Raw {
+                        content: match asts.swap_remove(0) {
+                            AST::__Lexeme(lexeme) => lexeme.raw.clone(),
+                            _ => unreachable!(),
+                        }
+                    }
                 ]),
-            };
+            );
         "string_parts" => rules "string_parts_interpolated"
-            => |mut asts| AST::String {
-                parts: match asts.swap_remove(0) {
-                    AST::__StringParts(string_parts) => string_parts,
-                    _ => unreachable!(),
-                },
-            };
+            => |mut asts| asts.swap_remove(0);
         "string_parts" => empty
-            => |_| AST::String { parts: LinkedList::new() };
+            => |_| AST::__StringParts(LinkedList::new());
 
         "string_parts_interpolated" => rules "string_parts_interpolated" "STR"
             => |mut asts| {
@@ -553,7 +560,6 @@ pub fn grammar() -> Grammar<AST> {
                         string_parts.push_back(match asts.swap_remove(0) {
                             AST::__Lexeme(lexeme) => StringPart::Raw {
                                 content: lexeme.raw.clone(),
-                                position: lexeme.position.clone()
                             },
                             _ => unreachable!(),
                         });
@@ -589,7 +595,6 @@ pub fn grammar() -> Grammar<AST> {
                 match asts.swap_remove(0) {
                     AST::__Lexeme(lexeme) => StringPart::Raw {
                         content: lexeme.raw.clone(),
-                        position: lexeme.position.clone()
                     },
                     _ => unreachable!(),
                 },
@@ -600,22 +605,26 @@ pub fn grammar() -> Grammar<AST> {
 
         "path_start" => rules "PATH"
             => |mut asts| match asts.swap_remove(0) {
-                AST::__Lexeme(lexeme) => AST::__StringParts(
-                    LinkedList::from([StringPart::Raw {
-                        content: lexeme.raw.clone(),
-                        position: lexeme.position.clone()
-                    }])
-                ),
+                AST::__Lexeme(lexeme) => AST::Path {
+                    parts: LinkedList::from([
+                        StringPart::Raw {
+                            content: lexeme.raw.clone(),
+                        },
+                    ]),
+                    position: lexeme.position.clone(),
+                },
                 _ => unreachable!(),
             };
         "path_start" => rules "HPATH"
             => |mut asts| match asts.swap_remove(0) {
-                AST::__Lexeme(lexeme) => AST::__StringParts(
-                    LinkedList::from([StringPart::Raw {
-                        content: lexeme.raw.clone(),
-                        position: lexeme.position.clone()
-                    }])
-                ),
+                AST::__Lexeme(lexeme) => AST::Path {
+                    parts: LinkedList::from([
+                        StringPart::Raw {
+                            content: lexeme.raw.clone(),
+                        },
+                    ]),
+                    position: lexeme.position.clone(),
+                },
                 _ => unreachable!(),
             };
 
@@ -624,11 +633,10 @@ pub fn grammar() -> Grammar<AST> {
                 let mut ind_string_parts = asts.swap_remove(0);
 
                 match &mut ind_string_parts {
-                    AST::String { parts } => match asts.swap_remove(0) {
+                    AST::__StringParts(parts) => match asts.swap_remove(0) {
                         AST::__Lexeme(lexeme) => {
                             parts.push_back(StringPart::Raw {
                                 content: lexeme.raw.clone(),
-                                position: lexeme.position.clone()
                             });
                         },
                         _ => unreachable!(),
@@ -642,7 +650,7 @@ pub fn grammar() -> Grammar<AST> {
                 let mut ind_string_parts = asts.swap_remove(0);
 
                 match &mut ind_string_parts {
-                    AST::String { parts } => {
+                    AST::__StringParts(parts) => {
                         parts.push_back(StringPart::Expression {
                             expression: Box::new(asts.swap_remove(2)),
                         });
@@ -652,7 +660,7 @@ pub fn grammar() -> Grammar<AST> {
                 ind_string_parts
             };
         "ind_string_parts" => empty
-            => |_| AST::String { parts: LinkedList::new() };
+            => |_| AST::__StringParts(LinkedList::new());
 
         "binds" => rules "binds" "attrpath" "=" "expr" ";"
             => |mut asts| {
@@ -1051,7 +1059,9 @@ pub fn grammar() -> Grammar<AST> {
     )
 }
 
-fn strip_indentation(mut parts: LinkedList<StringPart>) -> AST {
+fn strip_indentation(
+    mut parts: LinkedList<StringPart>,
+) -> LinkedList<StringPart> {
     let mut at_start_of_line = true;
     let mut min_indent: usize = usize::MAX;
     let mut cur_indent: usize = 0;
@@ -1135,5 +1145,5 @@ fn strip_indentation(mut parts: LinkedList<StringPart>) -> AST {
         }
     }
 
-    AST::String { parts }
+    parts
 }
