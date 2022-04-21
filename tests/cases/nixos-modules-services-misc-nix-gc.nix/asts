@@ -353,7 +353,7 @@ Function {
                  String {
                   parts: [
                    Raw {
-                    content: "Add a randomized delay before each automatic upgrade.\nThe delay will be chosen between zero and this value.\nThis value must be a time span in the format specified by\n<citerefentry><refentrytitle>systemd.time</refentrytitle>\n<manvolnum>7</manvolnum></citerefentry>\n",
+                    content: "Add a randomized delay before each garbage collection.\nThe delay will be chosen between zero and this value.\nThis value must be a time span in the format specified by\n<citerefentry><refentrytitle>systemd.time</refentrytitle>\n<manvolnum>7</manvolnum></citerefentry>\n",
                     position: (42, 1),
                    },
                   ],
@@ -584,154 +584,89 @@ Function {
          AttributePath {
           attributes: [
            Raw {
-            content: "systemd",
-            position: (85, 5),
-           },
-           Raw {
-            content: "services",
-            position: (85, 13),
-           },
-           Raw {
-            content: "nix-gc",
-            position: (85, 22),
+            content: "assertions",
+            position: (84, 5),
            },
           ],
          },
-         Map {
-          bindings: [
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "description",
-               position: (86, 7),
-              },
-             ],
-            },
-            String {
-             parts: [
-              Raw {
-               content: "Nix Garbage Collector",
-               position: (86, 22),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "script",
-               position: (87, 7),
-              },
-             ],
-            },
-            String {
-             parts: [
-              Raw {
-               content: "exec ",
-               position: (87, 17),
-              },
-              Expression {
-               expression: PropertyAccess {
-                expression: Variable {
-                 identifier: "config",
-                 position: (87, 24),
+         List {
+          elements: [
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "assertion",
+                 position: (86, 9),
                 },
-                attribute_path: AttributePath {
-                 attributes: [
-                  Raw {
-                   content: "nix",
-                   position: (87, 31),
-                  },
-                  Raw {
-                   content: "package",
-                   position: (87, 35),
-                  },
-                  Raw {
-                   content: "out",
-                   position: (87, 43),
-                  },
-                 ],
-                },
-                default: None,
-               },
+               ],
               },
-              Raw {
-               content: "/bin/nix-collect-garbage ",
-               position: (87, 47),
-              },
-              Expression {
-               expression: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (87, 74),
-                },
-                attribute_path: AttributePath {
-                 attributes: [
-                  Raw {
-                   content: "options",
-                   position: (87, 78),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "startAt",
-               position: (88, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "optional",
-              position: (88, 17),
-             },
-             arguments: [
-              PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (88, 26),
-               },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "automatic",
-                  position: (88, 30),
+              BinaryOperation {
+               operator: Implication,
+               operands: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (86, 21),
                  },
-                ],
-               },
-               default: None,
-              },
-              PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (88, 40),
-               },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "dates",
-                  position: (88, 44),
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "automatic",
+                    position: (86, 25),
+                   },
+                  ],
                  },
-                ],
-               },
-               default: None,
+                 default: None,
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (86, 38),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "nix",
+                    position: (86, 45),
+                   },
+                   Raw {
+                    content: "enable",
+                    position: (86, 49),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+               position: (86, 35),
               },
-             ],
-            },
-           ),
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "message",
+                 position: (87, 9),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "nix.gc.automatic requires nix.enable",
+                 position: (87, 21),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+            position: (85, 7),
+           },
           ],
-          recursive: false,
-          position: (85, 31),
+          position: (84, 18),
          },
         ),
         KeyValue(
@@ -742,12 +677,12 @@ Function {
             position: (91, 5),
            },
            Raw {
-            content: "timers",
+            content: "services",
             position: (91, 13),
            },
            Raw {
             content: "nix-gc",
-            position: (91, 20),
+            position: (91, 22),
            },
           ],
          },
@@ -755,13 +690,205 @@ Function {
           function: PropertyAccess {
            expression: Variable {
             identifier: "lib",
-            position: (91, 29),
+            position: (91, 31),
            },
            attribute_path: AttributePath {
             attributes: [
              Raw {
               content: "mkIf",
-              position: (91, 33),
+              position: (91, 35),
+             },
+            ],
+           },
+           default: None,
+          },
+          arguments: [
+           PropertyAccess {
+            expression: Variable {
+             identifier: "config",
+             position: (91, 40),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "nix",
+               position: (91, 47),
+              },
+              Raw {
+               content: "enable",
+               position: (91, 51),
+              },
+             ],
+            },
+            default: None,
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "description",
+                 position: (92, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "Nix Garbage Collector",
+                 position: (92, 22),
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "script",
+                 position: (93, 7),
+                },
+               ],
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "exec ",
+                 position: (93, 17),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (93, 24),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "nix",
+                     position: (93, 31),
+                    },
+                    Raw {
+                     content: "package",
+                     position: (93, 35),
+                    },
+                    Raw {
+                     content: "out",
+                     position: (93, 43),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/nix-collect-garbage ",
+                 position: (93, 47),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (93, 74),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "options",
+                     position: (93, 78),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+               ],
+              },
+             ),
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Raw {
+                 content: "startAt",
+                 position: (94, 7),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optional",
+                position: (94, 17),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (94, 26),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "automatic",
+                    position: (94, 30),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (94, 40),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dates",
+                    position: (94, 44),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+            position: (91, 58),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "systemd",
+            position: (97, 5),
+           },
+           Raw {
+            content: "timers",
+            position: (97, 13),
+           },
+           Raw {
+            content: "nix-gc",
+            position: (97, 20),
+           },
+          ],
+         },
+         FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (97, 29),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "mkIf",
+              position: (97, 33),
              },
             ],
            },
@@ -771,13 +898,13 @@ Function {
            PropertyAccess {
             expression: Variable {
              identifier: "cfg",
-             position: (91, 38),
+             position: (97, 38),
             },
             attribute_path: AttributePath {
              attributes: [
               Raw {
                content: "automatic",
-               position: (91, 42),
+               position: (97, 42),
               },
              ],
             },
@@ -790,7 +917,7 @@ Function {
                attributes: [
                 Raw {
                  content: "timerConfig",
-                 position: (92, 7),
+                 position: (98, 7),
                 },
                ],
               },
@@ -801,20 +928,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "RandomizedDelaySec",
-                    position: (93, 9),
+                    position: (99, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "cfg",
-                   position: (93, 30),
+                   position: (99, 30),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "randomizedDelaySec",
-                     position: (93, 34),
+                     position: (99, 34),
                     },
                    ],
                   },
@@ -826,20 +953,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "Persistent",
-                    position: (94, 9),
+                    position: (100, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "cfg",
-                   position: (94, 22),
+                   position: (100, 22),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "persistent",
-                     position: (94, 26),
+                     position: (100, 26),
                     },
                    ],
                   },
@@ -848,12 +975,12 @@ Function {
                 ),
                ],
                recursive: false,
-               position: (92, 21),
+               position: (98, 21),
               },
              ),
             ],
             recursive: false,
-            position: (91, 52),
+            position: (97, 52),
            },
           ],
          },

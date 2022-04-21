@@ -287,7 +287,7 @@ Function {
      String {
       parts: [
        Raw {
-        content: "# Miscellaneous devices.\nKERNEL==\"kvm\",                  MODE=\"0666\"\nKERNEL==\"kqemu\",                MODE=\"0666\"\n\n# Needed for gpm.\nSUBSYSTEM==\"input\", KERNEL==\"mice\", TAG+=\"systemd\"\n",
+        content: "# Miscellaneous devices.\nKERNEL==\"kvm\",                  MODE=\"0666\"\n\n# Needed for gpm.\nSUBSYSTEM==\"input\", KERNEL==\"mice\", TAG+=\"systemd\"\n",
         position: (24, 1),
        },
       ],
@@ -297,405 +297,468 @@ Function {
      AttributePath {
       attributes: [
        Raw {
-        content: "udevRules",
-        position: (33, 3),
+        content: "udevRulesFor",
+        position: (32, 3),
        },
       ],
      },
-     FunctionApplication {
-      function: PropertyAccess {
-       expression: Variable {
-        identifier: "pkgs",
-        position: (33, 15),
-       },
-       attribute_path: AttributePath {
-        attributes: [
-         Raw {
-          content: "runCommand",
-          position: (33, 20),
-         },
-        ],
-       },
-       default: None,
+     Function {
+      argument: None,
+      arguments: FunctionArguments {
+       arguments: [
+        FunctionArgument {
+         identifier: "initrdBin",
+         default: Some(
+          Variable {
+           identifier: "null",
+           position: (32, 90),
+          },
+         ),
+        },
+        FunctionArgument {
+         identifier: "binPackages",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "systemd",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "udev",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "udevPath",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "udevPackages",
+         default: None,
+        },
+        FunctionArgument {
+         identifier: "name",
+         default: None,
+        },
+       ],
+       ellipsis: false,
       },
-      arguments: [
-       String {
-        parts: [
-         Raw {
-          content: "udev-rules",
-          position: (33, 32),
-         },
-        ],
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (32, 98),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "runCommand",
+           position: (32, 103),
+          },
+         ],
+        },
+        default: None,
        },
-       Map {
-        bindings: [
-         KeyValue(
-          AttributePath {
-           attributes: [
-            Raw {
-             content: "preferLocalBuild",
-             position: (34, 7),
-            },
-           ],
-          },
-          Variable {
-           identifier: "true",
-           position: (34, 26),
-          },
-         ),
-         KeyValue(
-          AttributePath {
-           attributes: [
-            Raw {
-             content: "allowSubstitutes",
-             position: (35, 7),
-            },
-           ],
-          },
-          Variable {
-           identifier: "false",
-           position: (35, 26),
-          },
-         ),
-         KeyValue(
-          AttributePath {
-           attributes: [
-            Raw {
-             content: "packages",
-             position: (36, 7),
-            },
-           ],
-          },
-          FunctionApplication {
-           function: Variable {
-            identifier: "unique",
-            position: (36, 18),
-           },
-           arguments: [
-            FunctionApplication {
-             function: Variable {
-              identifier: "map",
-              position: (36, 26),
+       arguments: [
+        Variable {
+         identifier: "name",
+         position: (32, 114),
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "preferLocalBuild",
+              position: (33, 7),
              },
-             arguments: [
-              Variable {
-               identifier: "toString",
-               position: (36, 30),
+            ],
+           },
+           Variable {
+            identifier: "true",
+            position: (33, 26),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "allowSubstitutes",
+              position: (34, 7),
+             },
+            ],
+           },
+           Variable {
+            identifier: "false",
+            position: (34, 26),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "packages",
+              position: (35, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "unique",
+             position: (35, 18),
+            },
+            arguments: [
+             FunctionApplication {
+              function: Variable {
+               identifier: "map",
+               position: (35, 26),
               },
-              PropertyAccess {
+              arguments: [
+               Variable {
+                identifier: "toString",
+                position: (35, 30),
+               },
+               Variable {
+                identifier: "udevPackages",
+                position: (35, 39),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+         position: (33, 5),
+        },
+        String {
+         parts: [
+          Raw {
+           content: "mkdir -p $out\nshopt -s nullglob\nset +o pipefail\n\n# Set a reasonable $PATH for programs called by udev rules.\necho 'ENV{PATH}=\"",
+           position: (38, 1),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "udevPath",
+            position: (43, 26),
+           },
+          },
+          Raw {
+           content: "/bin:",
+           position: (43, 35),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "udevPath",
+            position: (43, 42),
+           },
+          },
+          Raw {
+           content: "/sbin\"' > $out/00-path.rules\n\n# Add the udev rules from other packages.\nfor i in $packages; do\n  echo \"Adding rules for package $i\"\n  for j in $i/{etc,lib}/udev/rules.d/*; do\n    echo \"Copying $j to $out/$(basename $j)\"\n    cat $j > $out/$(basename $j)\n  done\ndone\n\n# Fix some paths in the standard udev rules.  Hacky.\nfor i in $out/*.rules; do\n  substituteInPlace $i \\\n    --replace \\\"/sbin/modprobe \\\"",
+           position: (43, 51),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (57, 42),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "kmod",
+               position: (57, 47),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/modprobe \\\n    --replace \\\"/sbin/mdadm \\\"",
+           position: (57, 52),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (58, 39),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "mdadm",
+               position: (58, 44),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/sbin/mdadm \\\n    --replace \\\"/sbin/blkid \\\"",
+           position: (58, 50),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (59, 39),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "util-linux",
+               position: (59, 44),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/sbin/blkid \\\n    --replace \\\"/bin/mount \\\"",
+           position: (59, 55),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (60, 38),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "util-linux",
+               position: (60, 43),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/mount \\\n    --replace /usr/bin/readlink ",
+           position: (60, 54),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (61, 41),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "coreutils",
+               position: (61, 46),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/readlink \\\n    --replace /usr/bin/basename ",
+           position: (61, 56),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "pkgs",
+             position: (62, 41),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "coreutils",
+               position: (62, 46),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: "/bin/basename\n",
+           position: (62, 56),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "optionalString",
+             position: (63, 9),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               Variable {
+                identifier: "initrdBin",
+                position: (63, 25),
+               },
+               Variable {
+                identifier: "null",
+                position: (63, 38),
+               },
+              ],
+              position: (63, 35),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "substituteInPlace $i --replace '/run/current-system/systemd' \"",
+                position: (64, 1),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "removeSuffix",
+                  position: (64, 73),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/bin",
+                     position: (64, 87),
+                    },
+                   ],
+                  },
+                  Variable {
+                   identifier: "initrdBin",
+                   position: (64, 93),
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "\"\n",
+                position: (64, 103),
+               },
+              ],
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\ndone\n\necho -n \"Checking that all programs called by relative paths in udev rules exist in ",
+           position: (65, 10),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "udev",
+            position: (68, 93),
+           },
+          },
+          Raw {
+           content: "/lib/udev... \"\nimport_progs=$(grep 'IMPORT{program}=\"[^/$]' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"[^/$]' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  if [[ ! -x ",
+           position: (68, 98),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "udev",
+            position: (74, 22),
+           },
+          },
+          Raw {
+           content: "/lib/udev/$i && ! $i =~ socket:.* ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but not installed by udev\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\necho -n \"Checking that all programs called by absolute paths in udev rules exist... \"\nimport_progs=$(grep 'IMPORT{program}=\"\\/' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"/' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  # if the path refers to /run/current-system/systemd, replace with config.systemd.package\n  if [[ $i == /run/current-system/systemd* ]]; then\n    i=\"",
+           position: (74, 27),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "systemd",
+            position: (90, 16),
+           },
+          },
+          Raw {
+           content: "/",
+           position: (90, 24),
+          },
+          Raw {
+           content: "$",
+           position: (90, 25),
+          },
+          Raw {
+           content: "{i#/run/current-system/systemd/}\"\n  fi\n\n  if [[ ! -x $i ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but is not executable or does not exist\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\nfilesToFixup=\"$(for i in \"$out\"/*; do\n  grep -l '\\B\\(/usr\\)\\?/s\\?bin' \"$i\" || :\ndone)\"\n\nif [ -n \"$filesToFixup\" ]; then\n  echo \"Consider fixing the following udev rules:\"\n  echo \"$filesToFixup\" | while read localFile; do\n    remoteFile=\"origin unknown\"\n    for i in ",
+           position: (90, 28),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "toString",
+             position: (109, 22),
+            },
+            arguments: [
+             Variable {
+              identifier: "binPackages",
+              position: (109, 31),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "; do\n      for j in \"$i\"/*/udev/rules.d/*; do\n        [ -e \"$out/$(basename \"$j\")\" ] || continue\n        [ \"$(basename \"$j\")\" = \"$(basename \"$localFile\")\" ] || continue\n        remoteFile=\"originally from $j\"\n        break 2\n      done\n    done\n    refs=\"$(\n      grep -o '\\B\\(/usr\\)\\?/s\\?bin/[^ \"]\\+' \"$localFile\" \\\n        | sed -e ':r;N;",
+           position: (109, 43),
+          },
+          Raw {
+           content: "$",
+           position: (119, 30),
+          },
+          Raw {
+           content: "{s/\\n/ and /;br};s/\\n/, /g;br'\n    )\"\n    echo \"$localFile ($remoteFile) contains references to $refs.\"\n  done\n  exit 1\nfi\n\n# If auto-configuration is disabled, then remove\n# udev's 80-drivers.rules file, which contains rules for\n# automatically calling modprobe.\n",
+           position: (119, 33),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "optionalString",
+             position: (129, 9),
+            },
+            arguments: [
+             UnaryOperation {
+              operator: Not,
+              operand: PropertyAccess {
                expression: Variable {
-                identifier: "cfg",
-                position: (36, 39),
+                identifier: "config",
+                position: (129, 26),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
-                  content: "packages",
-                  position: (36, 43),
+                  content: "boot",
+                  position: (129, 33),
+                 },
+                 Raw {
+                  content: "hardwareScan",
+                  position: (129, 38),
                  },
                 ],
                },
                default: None,
               },
-             ],
-            },
-           ],
-          },
-         ),
-        ],
-        recursive: false,
-        position: (34, 5),
-       },
-       String {
-        parts: [
-         Raw {
-          content: "mkdir -p $out\nshopt -s nullglob\nset +o pipefail\n\n# Set a reasonable $PATH for programs called by udev rules.\necho 'ENV{PATH}=\"",
-          position: (39, 1),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "udevPath",
-           position: (44, 26),
-          },
-         },
-         Raw {
-          content: "/bin:",
-          position: (44, 35),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "udevPath",
-           position: (44, 42),
-          },
-         },
-         Raw {
-          content: "/sbin\"' > $out/00-path.rules\n\n# Add the udev rules from other packages.\nfor i in $packages; do\n  echo \"Adding rules for package $i\"\n  for j in $i/{etc,lib}/udev/rules.d/*; do\n    echo \"Copying $j to $out/$(basename $j)\"\n    cat $j > $out/$(basename $j)\n  done\ndone\n\n# Fix some paths in the standard udev rules.  Hacky.\nfor i in $out/*.rules; do\n  substituteInPlace $i \\\n    --replace \\\"/sbin/modprobe \\\"",
-          position: (44, 51),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (58, 42),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "kmod",
-              position: (58, 47),
+              position: (129, 25),
              },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/bin/modprobe \\\n    --replace \\\"/sbin/mdadm \\\"",
-          position: (58, 52),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (59, 39),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "mdadm",
-              position: (59, 44),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/sbin/mdadm \\\n    --replace \\\"/sbin/blkid \\\"",
-          position: (59, 50),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (60, 39),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "util-linux",
-              position: (60, 44),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/sbin/blkid \\\n    --replace \\\"/bin/mount \\\"",
-          position: (60, 55),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (61, 38),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "util-linux",
-              position: (61, 43),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/bin/mount \\\n    --replace /usr/bin/readlink ",
-          position: (61, 54),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (62, 41),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "coreutils",
-              position: (62, 46),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/bin/readlink \\\n    --replace /usr/bin/basename ",
-          position: (62, 56),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "pkgs",
-            position: (63, 41),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "coreutils",
-              position: (63, 46),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/bin/basename\ndone\n\necho -n \"Checking that all programs called by relative paths in udev rules exist in ",
-          position: (63, 56),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "udev",
-           position: (66, 93),
-          },
-         },
-         Raw {
-          content: "/lib/udev... \"\nimport_progs=$(grep 'IMPORT{program}=\"[^/$]' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"[^/$]' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  if [[ ! -x ",
-          position: (66, 98),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "udev",
-           position: (72, 22),
-          },
-         },
-         Raw {
-          content: "/lib/udev/$i && ! $i =~ socket:.* ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but not installed by udev\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\necho -n \"Checking that all programs called by absolute paths in udev rules exist... \"\nimport_progs=$(grep 'IMPORT{program}=\"\\/' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"/' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  # if the path refers to /run/current-system/systemd, replace with config.systemd.package\n  if [[ $i == /run/current-system/systemd* ]]; then\n    i=\"",
-          position: (72, 27),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "config",
-            position: (88, 16),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "systemd",
-              position: (88, 23),
-             },
-             Raw {
-              content: "package",
-              position: (88, 31),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "/",
-          position: (88, 39),
-         },
-         Raw {
-          content: "$",
-          position: (88, 40),
-         },
-         Raw {
-          content: "{i#/run/current-system/systemd/}\"\n  fi\n  if [[ ! -x $i ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but is not executable or does not exist\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\nfilesToFixup=\"$(for i in \"$out\"/*; do\n  grep -l '\\B\\(/usr\\)\\?/s\\?bin' \"$i\" || :\ndone)\"\n\nif [ -n \"$filesToFixup\" ]; then\n  echo \"Consider fixing the following udev rules:\"\n  echo \"$filesToFixup\" | while read localFile; do\n    remoteFile=\"origin unknown\"\n    for i in ",
-          position: (88, 43),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "toString",
-            position: (106, 22),
-           },
-           arguments: [
-            PropertyAccess {
-             expression: Variable {
-              identifier: "cfg",
-              position: (106, 31),
-             },
-             attribute_path: AttributePath {
-              attributes: [
+             String {
+              parts: [
                Raw {
-                content: "packages",
-                position: (106, 35),
+                content: "ln -s /dev/null $out/80-drivers.rules\n",
+                position: (130, 1),
                },
               ],
              },
-             default: None,
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "; do\n      for j in \"$i\"/*/udev/rules.d/*; do\n        [ -e \"$out/$(basename \"$j\")\" ] || continue\n        [ \"$(basename \"$j\")\" = \"$(basename \"$localFile\")\" ] || continue\n        remoteFile=\"originally from $j\"\n        break 2\n      done\n    done\n    refs=\"$(\n      grep -o '\\B\\(/usr\\)\\?/s\\?bin/[^ \"]\\+' \"$localFile\" \\\n        | sed -e ':r;N;",
-          position: (106, 44),
-         },
-         Raw {
-          content: "$",
-          position: (116, 30),
-         },
-         Raw {
-          content: "{s/\\n/ and /;br};s/\\n/, /g;br'\n    )\"\n    echo \"$localFile ($remoteFile) contains references to $refs.\"\n  done\n  exit 1\nfi\n\n# If auto-configuration is disabled, then remove\n# udev's 80-drivers.rules file, which contains rules for\n# automatically calling modprobe.\n",
-          position: (116, 33),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "optionalString",
-            position: (126, 9),
+            ],
            },
-           arguments: [
-            UnaryOperation {
-             operator: Not,
-             operand: PropertyAccess {
-              expression: Variable {
-               identifier: "config",
-               position: (126, 26),
-              },
-              attribute_path: AttributePath {
-               attributes: [
-                Raw {
-                 content: "boot",
-                 position: (126, 33),
-                },
-                Raw {
-                 content: "hardwareScan",
-                 position: (126, 38),
-                },
-               ],
-              },
-              default: None,
-             },
-             position: (126, 25),
-            },
-            String {
-             parts: [
-              Raw {
-               content: "ln -s /dev/null $out/80-drivers.rules\n",
-               position: (127, 1),
-              },
-             ],
-            },
-           ],
           },
-         },
-         Raw {
-          content: "\n",
-          position: (128, 10),
-         },
-        ],
-       },
-      ],
+          Raw {
+           content: "\n",
+           position: (131, 10),
+          },
+         ],
+        },
+       ],
+      },
+      position: (32, 18),
      },
     ),
     KeyValue(
@@ -703,7 +766,7 @@ Function {
       attributes: [
        Raw {
         content: "hwdbBin",
-        position: (131, 3),
+        position: (134, 3),
        },
       ],
      },
@@ -711,13 +774,13 @@ Function {
       function: PropertyAccess {
        expression: Variable {
         identifier: "pkgs",
-        position: (131, 13),
+        position: (134, 13),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "runCommand",
-          position: (131, 18),
+          position: (134, 18),
          },
         ],
        },
@@ -728,7 +791,7 @@ Function {
         parts: [
          Raw {
           content: "hwdb.bin",
-          position: (131, 30),
+          position: (134, 30),
          },
         ],
        },
@@ -739,13 +802,13 @@ Function {
            attributes: [
             Raw {
              content: "preferLocalBuild",
-             position: (132, 7),
+             position: (135, 7),
             },
            ],
           },
           Variable {
            identifier: "true",
-           position: (132, 26),
+           position: (135, 26),
           },
          ),
          KeyValue(
@@ -753,13 +816,13 @@ Function {
            attributes: [
             Raw {
              content: "allowSubstitutes",
-             position: (133, 7),
+             position: (136, 7),
             },
            ],
           },
           Variable {
            identifier: "false",
-           position: (133, 26),
+           position: (136, 26),
           },
          ),
          KeyValue(
@@ -767,25 +830,25 @@ Function {
            attributes: [
             Raw {
              content: "packages",
-             position: (134, 7),
+             position: (137, 7),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "unique",
-            position: (134, 18),
+            position: (137, 18),
            },
            arguments: [
             FunctionApplication {
              function: Variable {
               identifier: "map",
-              position: (134, 26),
+              position: (137, 26),
              },
              arguments: [
               Variable {
                identifier: "toString",
-               position: (134, 30),
+               position: (137, 30),
               },
               BinaryOperation {
                operator: Concatenation,
@@ -794,28 +857,28 @@ Function {
                  elements: [
                   Variable {
                    identifier: "udev",
-                   position: (134, 41),
+                   position: (137, 41),
                   },
                  ],
-                 position: (134, 40),
+                 position: (137, 40),
                 },
                 PropertyAccess {
                  expression: Variable {
                   identifier: "cfg",
-                  position: (134, 50),
+                  position: (137, 50),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
                     content: "packages",
-                    position: (134, 54),
+                    position: (137, 54),
                    },
                   ],
                  },
                  default: None,
                 },
                ],
-               position: (134, 47),
+               position: (137, 47),
               },
              ],
             },
@@ -824,29 +887,29 @@ Function {
          ),
         ],
         recursive: false,
-        position: (132, 5),
+        position: (135, 5),
        },
        String {
         parts: [
          Raw {
           content: "mkdir -p etc/udev/hwdb.d\nfor i in $packages; do\n  echo \"Adding hwdb files for package $i\"\n  for j in $i/{etc,lib}/udev/hwdb.d/*; do\n    ln -s $j etc/udev/hwdb.d/$(basename $j)\n  done\ndone\n\necho \"Generating hwdb database...\"\n# hwdb --update doesn't return error code even on errors!\nres=\"$(",
-          position: (137, 1),
+          position: (140, 1),
          },
          Expression {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
-            position: (147, 16),
+            position: (150, 16),
            },
            attribute_path: AttributePath {
             attributes: [
              Raw {
               content: "buildPackages",
-              position: (147, 21),
+              position: (150, 21),
              },
              Raw {
               content: "udev",
-              position: (147, 35),
+              position: (150, 35),
              },
             ],
            },
@@ -855,7 +918,7 @@ Function {
          },
          Raw {
           content: "/bin/udevadm hwdb --update --root=$(pwd) 2>&1)\"\necho \"$res\"\n[ -z \"$(echo \"$res\" | egrep '^Error')\" ]\nmv etc/udev/hwdb.bin $out\n",
-          position: (147, 40),
+          position: (150, 40),
          },
         ],
        },
@@ -867,7 +930,7 @@ Function {
       attributes: [
        Raw {
         content: "udevPath",
-        position: (155, 3),
+        position: (158, 3),
        },
       ],
      },
@@ -875,13 +938,13 @@ Function {
       function: PropertyAccess {
        expression: Variable {
         identifier: "pkgs",
-        position: (155, 14),
+        position: (158, 14),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "buildEnv",
-          position: (155, 19),
+          position: (158, 19),
          },
         ],
        },
@@ -895,7 +958,7 @@ Function {
            attributes: [
             Raw {
              content: "name",
-             position: (156, 5),
+             position: (159, 5),
             },
            ],
           },
@@ -903,7 +966,7 @@ Function {
            parts: [
             Raw {
              content: "udev-path",
-             position: (156, 13),
+             position: (159, 13),
             },
            ],
           },
@@ -913,20 +976,20 @@ Function {
            attributes: [
             Raw {
              content: "paths",
-             position: (157, 5),
+             position: (160, 5),
             },
            ],
           },
           PropertyAccess {
            expression: Variable {
             identifier: "cfg",
-            position: (157, 13),
+            position: (160, 13),
            },
            attribute_path: AttributePath {
             attributes: [
              Raw {
               content: "path",
-              position: (157, 17),
+              position: (160, 17),
              },
             ],
            },
@@ -938,7 +1001,7 @@ Function {
            attributes: [
             Raw {
              content: "pathsToLink",
-             position: (158, 5),
+             position: (161, 5),
             },
            ],
           },
@@ -948,7 +1011,7 @@ Function {
              parts: [
               Raw {
                content: "/bin",
-               position: (158, 22),
+               position: (161, 22),
               },
              ],
             },
@@ -956,12 +1019,12 @@ Function {
              parts: [
               Raw {
                content: "/sbin",
-               position: (158, 29),
+               position: (161, 29),
               },
              ],
             },
            ],
-           position: (158, 19),
+           position: (161, 19),
           },
          ),
          KeyValue(
@@ -969,18 +1032,18 @@ Function {
            attributes: [
             Raw {
              content: "ignoreCollisions",
-             position: (159, 5),
+             position: (162, 5),
             },
            ],
           },
           Variable {
            identifier: "true",
-           position: (159, 24),
+           position: (162, 24),
           },
          ),
         ],
         recursive: false,
-        position: (155, 28),
+        position: (158, 28),
        },
       ],
      },
@@ -993,7 +1056,7 @@ Function {
        attributes: [
         Raw {
          content: "options",
-         position: (168, 3),
+         position: (171, 3),
         },
        ],
       },
@@ -1004,18 +1067,18 @@ Function {
           attributes: [
            Raw {
             content: "boot",
-            position: (170, 5),
+            position: (173, 5),
            },
            Raw {
             content: "hardwareScan",
-            position: (170, 10),
+            position: (173, 10),
            },
           ],
          },
          FunctionApplication {
           function: Variable {
            identifier: "mkOption",
-           position: (170, 25),
+           position: (173, 25),
           },
           arguments: [
            Map {
@@ -1025,20 +1088,20 @@ Function {
                attributes: [
                 Raw {
                  content: "type",
-                 position: (171, 7),
+                 position: (174, 7),
                 },
                ],
               },
               PropertyAccess {
                expression: Variable {
                 identifier: "types",
-                position: (171, 14),
+                position: (174, 14),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "bool",
-                  position: (171, 20),
+                  position: (174, 20),
                  },
                 ],
                },
@@ -1050,13 +1113,13 @@ Function {
                attributes: [
                 Raw {
                  content: "default",
-                 position: (172, 7),
+                 position: (175, 7),
                 },
                ],
               },
               Variable {
                identifier: "true",
-               position: (172, 17),
+               position: (175, 17),
               },
              ),
              KeyValue(
@@ -1064,7 +1127,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (173, 7),
+                 position: (176, 7),
                 },
                ],
               },
@@ -1072,14 +1135,14 @@ Function {
                parts: [
                 Raw {
                  content: "Whether to try to load kernel modules for all detected hardware.\nUsually this does a good job of providing you with the modules\nyou need, but sometimes it can crash the system or cause other\nnasty effects.\n",
-                 position: (174, 1),
+                 position: (177, 1),
                 },
                ],
               },
              ),
             ],
             recursive: false,
-            position: (170, 34),
+            position: (173, 34),
            },
           ],
          },
@@ -1089,11 +1152,11 @@ Function {
           attributes: [
            Raw {
             content: "services",
-            position: (181, 5),
+            position: (184, 5),
            },
            Raw {
             content: "udev",
-            position: (181, 14),
+            position: (184, 14),
            },
           ],
          },
@@ -1104,14 +1167,14 @@ Function {
              attributes: [
               Raw {
                content: "packages",
-               position: (183, 7),
+               position: (186, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (183, 18),
+              position: (186, 18),
              },
              arguments: [
               Map {
@@ -1121,7 +1184,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (184, 9),
+                    position: (187, 9),
                    },
                   ],
                  },
@@ -1129,13 +1192,13 @@ Function {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
-                    position: (184, 16),
+                    position: (187, 16),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "listOf",
-                      position: (184, 22),
+                      position: (187, 22),
                      },
                     ],
                    },
@@ -1145,13 +1208,13 @@ Function {
                    PropertyAccess {
                     expression: Variable {
                      identifier: "types",
-                     position: (184, 29),
+                     position: (187, 29),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "path",
-                       position: (184, 35),
+                       position: (187, 35),
                       },
                      ],
                     },
@@ -1165,13 +1228,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (185, 9),
+                    position: (188, 9),
                    },
                   ],
                  },
                  List {
                   elements: [],
-                  position: (185, 19),
+                  position: (188, 19),
                  },
                 ),
                 KeyValue(
@@ -1179,7 +1242,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (186, 9),
+                    position: (189, 9),
                    },
                   ],
                  },
@@ -1187,7 +1250,7 @@ Function {
                   parts: [
                    Raw {
                     content: "List of packages containing <command>udev</command> rules.\nAll files found in\n<filename><replaceable>pkg</replaceable>/etc/udev/rules.d</filename> and\n<filename><replaceable>pkg</replaceable>/lib/udev/rules.d</filename>\nwill be included.\n",
-                    position: (187, 1),
+                    position: (190, 1),
                    },
                   ],
                  },
@@ -1197,26 +1260,26 @@ Function {
                   attributes: [
                    Raw {
                     content: "apply",
-                    position: (193, 9),
+                    position: (196, 9),
                    },
                   ],
                  },
                  FunctionApplication {
                   function: Variable {
                    identifier: "map",
-                   position: (193, 17),
+                   position: (196, 17),
                   },
                   arguments: [
                    Variable {
                     identifier: "getBin",
-                    position: (193, 21),
+                    position: (196, 21),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (183, 27),
+               position: (186, 27),
               },
              ],
             },
@@ -1226,14 +1289,14 @@ Function {
              attributes: [
               Raw {
                content: "path",
-               position: (196, 7),
+               position: (199, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (196, 14),
+              position: (199, 14),
              },
              arguments: [
               Map {
@@ -1243,7 +1306,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (197, 9),
+                    position: (200, 9),
                    },
                   ],
                  },
@@ -1251,13 +1314,13 @@ Function {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
-                    position: (197, 16),
+                    position: (200, 16),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "listOf",
-                      position: (197, 22),
+                      position: (200, 22),
                      },
                     ],
                    },
@@ -1267,13 +1330,13 @@ Function {
                    PropertyAccess {
                     expression: Variable {
                      identifier: "types",
-                     position: (197, 29),
+                     position: (200, 29),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "path",
-                       position: (197, 35),
+                       position: (200, 35),
                       },
                      ],
                     },
@@ -1287,13 +1350,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (198, 9),
+                    position: (201, 9),
                    },
                   ],
                  },
                  List {
                   elements: [],
-                  position: (198, 19),
+                  position: (201, 19),
                  },
                 ),
                 KeyValue(
@@ -1301,7 +1364,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (199, 9),
+                    position: (202, 9),
                    },
                   ],
                  },
@@ -1309,112 +1372,14 @@ Function {
                   parts: [
                    Raw {
                     content: "Packages added to the <envar>PATH</envar> environment variable when\nexecuting programs from Udev rules.\n",
-                    position: (200, 1),
+                    position: (203, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (196, 23),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "initrdRules",
-               position: (205, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (205, 21),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "default",
-                    position: (206, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "example",
-                    position: (207, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"00:1D:60:B9:6D:4F\", KERNEL==\"eth*\", NAME=\"my_fast_network_card\"\n",
-                    position: (208, 1),
-                   },
-                  ],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (210, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (210, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "lines",
-                     position: (210, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (211, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "<command>udev</command> rules to include in the initrd\n<emphasis>only</emphasis>. They'll be written into file\n<filename>99-local.rules</filename>. Thus they are read and applied\nafter the essential initrd rules.\n",
-                    position: (212, 1),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (205, 30),
+               position: (199, 23),
               },
              ],
             },
@@ -1424,14 +1389,14 @@ Function {
              attributes: [
               Raw {
                content: "extraRules",
-               position: (219, 7),
+               position: (208, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (219, 20),
+              position: (208, 20),
              },
              arguments: [
               Map {
@@ -1441,7 +1406,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (220, 9),
+                    position: (209, 9),
                    },
                   ],
                  },
@@ -1454,7 +1419,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "example",
-                    position: (221, 9),
+                    position: (210, 9),
                    },
                   ],
                  },
@@ -1462,7 +1427,7 @@ Function {
                   parts: [
                    Raw {
                     content: "ENV{ID_VENDOR_ID}==\"046d\", ENV{ID_MODEL_ID}==\"0825\", ENV{PULSE_IGNORE}=\"1\"\n",
-                    position: (222, 1),
+                    position: (211, 1),
                    },
                   ],
                  },
@@ -1472,20 +1437,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (224, 9),
+                    position: (213, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (224, 16),
+                   position: (213, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "lines",
-                     position: (224, 22),
+                     position: (213, 22),
                     },
                    ],
                   },
@@ -1497,7 +1462,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (225, 9),
+                    position: (214, 9),
                    },
                   ],
                  },
@@ -1505,14 +1470,14 @@ Function {
                   parts: [
                    Raw {
                     content: "Additional <command>udev</command> rules. They'll be written\ninto file <filename>99-local.rules</filename>. Thus they are\nread and applied after all other rules.\n",
-                    position: (226, 1),
+                    position: (215, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (219, 29),
+               position: (208, 29),
               },
              ],
             },
@@ -1522,14 +1487,14 @@ Function {
              attributes: [
               Raw {
                content: "extraHwdb",
-               position: (232, 7),
+               position: (221, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (232, 19),
+              position: (221, 19),
              },
              arguments: [
               Map {
@@ -1539,7 +1504,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (233, 9),
+                    position: (222, 9),
                    },
                   ],
                  },
@@ -1552,7 +1517,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "example",
-                    position: (234, 9),
+                    position: (223, 9),
                    },
                   ],
                  },
@@ -1560,7 +1525,7 @@ Function {
                   parts: [
                    Raw {
                     content: "evdev:input:b0003v05AFp8277*\n  KEYBOARD_KEY_70039=leftalt\n  KEYBOARD_KEY_700e2=leftctrl\n",
-                    position: (235, 1),
+                    position: (224, 1),
                    },
                   ],
                  },
@@ -1570,20 +1535,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (239, 9),
+                    position: (228, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (239, 16),
+                   position: (228, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "lines",
-                     position: (239, 22),
+                     position: (228, 22),
                     },
                    ],
                   },
@@ -1595,7 +1560,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (240, 9),
+                    position: (229, 9),
                    },
                   ],
                  },
@@ -1603,21 +1568,21 @@ Function {
                   parts: [
                    Raw {
                     content: "Additional <command>hwdb</command> files. They'll be written\ninto file <filename>99-local.hwdb</filename>. Thus they are\nread after all other files.\n",
-                    position: (241, 1),
+                    position: (230, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (232, 28),
+               position: (221, 28),
               },
              ],
             },
            ),
           ],
           recursive: false,
-          position: (181, 21),
+          position: (184, 21),
          },
         ),
         KeyValue(
@@ -1625,18 +1590,18 @@ Function {
           attributes: [
            Raw {
             content: "hardware",
-            position: (249, 5),
+            position: (238, 5),
            },
            Raw {
             content: "firmware",
-            position: (249, 14),
+            position: (238, 14),
            },
           ],
          },
          FunctionApplication {
           function: Variable {
            identifier: "mkOption",
-           position: (249, 25),
+           position: (238, 25),
           },
           arguments: [
            Map {
@@ -1646,7 +1611,7 @@ Function {
                attributes: [
                 Raw {
                  content: "type",
-                 position: (250, 7),
+                 position: (239, 7),
                 },
                ],
               },
@@ -1654,13 +1619,13 @@ Function {
                function: PropertyAccess {
                 expression: Variable {
                  identifier: "types",
-                 position: (250, 14),
+                 position: (239, 14),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "listOf",
-                   position: (250, 20),
+                   position: (239, 20),
                   },
                  ],
                 },
@@ -1670,13 +1635,13 @@ Function {
                 PropertyAccess {
                  expression: Variable {
                   identifier: "types",
-                  position: (250, 27),
+                  position: (239, 27),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
                     content: "package",
-                    position: (250, 33),
+                    position: (239, 33),
                    },
                   ],
                  },
@@ -1690,13 +1655,13 @@ Function {
                attributes: [
                 Raw {
                  content: "default",
-                 position: (251, 7),
+                 position: (240, 7),
                 },
                ],
               },
               List {
                elements: [],
-               position: (251, 17),
+               position: (240, 17),
               },
              ),
              KeyValue(
@@ -1704,7 +1669,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (252, 7),
+                 position: (241, 7),
                 },
                ],
               },
@@ -1712,7 +1677,7 @@ Function {
                parts: [
                 Raw {
                  content: "List of packages containing firmware files.  Such files\nwill be loaded automatically if the kernel asks for them\n(i.e., when it has detected specific hardware that requires\nfirmware to function).  If multiple packages contain firmware\nfiles with the same name, the first package in the list takes\nprecedence.  Note that you must rebuild your system if you add\nfiles to any of these directories.\n",
-                 position: (253, 1),
+                 position: (242, 1),
                 },
                ],
               },
@@ -1722,7 +1687,7 @@ Function {
                attributes: [
                 Raw {
                  content: "apply",
-                 position: (261, 7),
+                 position: (250, 7),
                 },
                ],
               },
@@ -1738,13 +1703,13 @@ Function {
                 function: PropertyAccess {
                  expression: Variable {
                   identifier: "pkgs",
-                  position: (261, 21),
+                  position: (250, 21),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
                     content: "buildEnv",
-                    position: (261, 26),
+                    position: (250, 26),
                    },
                   ],
                  },
@@ -1758,7 +1723,7 @@ Function {
                      attributes: [
                       Raw {
                        content: "name",
-                       position: (262, 9),
+                       position: (251, 9),
                       },
                      ],
                     },
@@ -1766,7 +1731,7 @@ Function {
                      parts: [
                       Raw {
                        content: "firmware",
-                       position: (262, 17),
+                       position: (251, 17),
                       },
                      ],
                     },
@@ -1776,13 +1741,13 @@ Function {
                      attributes: [
                       Raw {
                        content: "paths",
-                       position: (263, 9),
+                       position: (252, 9),
                       },
                      ],
                     },
                     Variable {
                      identifier: "list",
-                     position: (263, 17),
+                     position: (252, 17),
                     },
                    ),
                    KeyValue(
@@ -1790,7 +1755,7 @@ Function {
                      attributes: [
                       Raw {
                        content: "pathsToLink",
-                       position: (264, 9),
+                       position: (253, 9),
                       },
                      ],
                     },
@@ -1800,12 +1765,12 @@ Function {
                        parts: [
                         Raw {
                          content: "/lib/firmware",
-                         position: (264, 26),
+                         position: (253, 26),
                         },
                        ],
                       },
                      ],
-                     position: (264, 23),
+                     position: (253, 23),
                     },
                    ),
                    KeyValue(
@@ -1813,27 +1778,27 @@ Function {
                      attributes: [
                       Raw {
                        content: "ignoreCollisions",
-                       position: (265, 9),
+                       position: (254, 9),
                       },
                      ],
                     },
                     Variable {
                      identifier: "true",
-                     position: (265, 28),
+                     position: (254, 28),
                     },
                    ),
                   ],
                   recursive: false,
-                  position: (261, 35),
+                  position: (250, 35),
                  },
                 ],
                },
-               position: (261, 15),
+               position: (250, 15),
               },
              ),
             ],
             recursive: false,
-            position: (249, 34),
+            position: (238, 34),
            },
           ],
          },
@@ -1843,18 +1808,18 @@ Function {
           attributes: [
            Raw {
             content: "networking",
-            position: (269, 5),
+            position: (258, 5),
            },
            Raw {
             content: "usePredictableInterfaceNames",
-            position: (269, 16),
+            position: (258, 16),
            },
           ],
          },
          FunctionApplication {
           function: Variable {
            identifier: "mkOption",
-           position: (269, 47),
+           position: (258, 47),
           },
           arguments: [
            Map {
@@ -1864,13 +1829,13 @@ Function {
                attributes: [
                 Raw {
                  content: "default",
-                 position: (270, 7),
+                 position: (259, 7),
                 },
                ],
               },
               Variable {
                identifier: "true",
-               position: (270, 17),
+               position: (259, 17),
               },
              ),
              KeyValue(
@@ -1878,20 +1843,20 @@ Function {
                attributes: [
                 Raw {
                  content: "type",
-                 position: (271, 7),
+                 position: (260, 7),
                 },
                ],
               },
               PropertyAccess {
                expression: Variable {
                 identifier: "types",
-                position: (271, 14),
+                position: (260, 14),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "bool",
-                  position: (271, 20),
+                  position: (260, 20),
                  },
                 ],
                },
@@ -1903,7 +1868,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (272, 7),
+                 position: (261, 7),
                 },
                ],
               },
@@ -1911,21 +1876,397 @@ Function {
                parts: [
                 Raw {
                  content: "Whether to assign <link\nxlink:href='http://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames'>predictable\nnames to network interfaces</link>.  If enabled, interfaces\nare assigned names that contain topology information\n(e.g. <literal>wlp3s0</literal>) and thus should be stable\nacross reboots.  If disabled, names depend on the order in\nwhich interfaces are discovered by the kernel, which may\nchange randomly across reboots; for instance, you may find\n<literal>eth0</literal> and <literal>eth1</literal> flipping\nunpredictably.\n",
-                 position: (273, 1),
+                 position: (262, 1),
                 },
                ],
               },
              ),
             ],
             recursive: false,
-            position: (269, 56),
+            position: (258, 56),
            },
           ],
          },
         ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "boot",
+            position: (275, 5),
+           },
+           Raw {
+            content: "initrd",
+            position: (275, 10),
+           },
+           Raw {
+            content: "services",
+            position: (275, 17),
+           },
+           Raw {
+            content: "udev",
+            position: (275, 26),
+           },
+          ],
+         },
+         Map {
+          bindings: [
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "packages",
+               position: (277, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (277, 18),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (278, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (278, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (278, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (278, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (278, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (279, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                  position: (279, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "visible",
+                    position: (280, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (280, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (281, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "<emphasis>This will only be used when systemd is used in stage 1.</emphasis>\n\nList of packages containing <command>udev</command> rules that will be copied to stage 1.\nAll files found in\n<filename><replaceable>pkg</replaceable>/etc/udev/rules.d</filename> and\n<filename><replaceable>pkg</replaceable>/lib/udev/rules.d</filename>\nwill be included.\n",
+                    position: (282, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+               position: (277, 27),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "binPackages",
+               position: (292, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (292, 21),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (293, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (293, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (293, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (293, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "path",
+                       position: (293, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (294, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                  position: (294, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "visible",
+                    position: (295, 9),
+                   },
+                  ],
+                 },
+                 Variable {
+                  identifier: "false",
+                  position: (295, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (296, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "<emphasis>This will only be used when systemd is used in stage 1.</emphasis>\n\nPackages to search for binaries that are referenced by the udev rules in stage 1.\nThis list always contains /bin of the initrd.\n",
+                    position: (297, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "apply",
+                    position: (302, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "map",
+                   position: (302, 17),
+                  },
+                  arguments: [
+                   Variable {
+                    identifier: "getBin",
+                    position: (302, 21),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+               position: (292, 30),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "rules",
+               position: (305, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (305, 15),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (306, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (307, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\", ATTR{address}==\"00:1D:60:B9:6D:4F\", KERNEL==\"eth*\", NAME=\"my_fast_network_card\"\n",
+                    position: (308, 1),
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (310, 9),
+                   },
+                  ],
+                 },
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (310, 16),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "lines",
+                     position: (310, 22),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (311, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "<command>udev</command> rules to include in the initrd\n<emphasis>only</emphasis>. They'll be written into file\n<filename>99-local.rules</filename>. Thus they are read and applied\nafter the essential initrd rules.\n",
+                    position: (312, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+               position: (305, 24),
+              },
+             ],
+            },
+           ),
+          ],
+          recursive: false,
+          position: (275, 33),
+         },
+        ),
        ],
        recursive: false,
-       position: (168, 13),
+       position: (171, 13),
       },
      ),
      KeyValue(
@@ -1933,14 +2274,14 @@ Function {
        attributes: [
         Raw {
          content: "config",
-         position: (291, 3),
+         position: (326, 3),
         },
        ],
       },
       FunctionApplication {
        function: Variable {
         identifier: "mkIf",
-        position: (291, 12),
+        position: (326, 12),
        },
        arguments: [
         UnaryOperation {
@@ -1948,23 +2289,23 @@ Function {
          operand: PropertyAccess {
           expression: Variable {
            identifier: "config",
-           position: (291, 19),
+           position: (326, 19),
           },
           attribute_path: AttributePath {
            attributes: [
             Raw {
              content: "boot",
-             position: (291, 26),
+             position: (326, 26),
             },
             Raw {
              content: "isContainer",
-             position: (291, 31),
+             position: (326, 31),
             },
            ],
           },
           default: None,
          },
-         position: (291, 18),
+         position: (326, 18),
         },
         Map {
          bindings: [
@@ -1973,21 +2314,21 @@ Function {
             attributes: [
              Raw {
               content: "services",
-              position: (293, 5),
+              position: (328, 5),
              },
              Raw {
               content: "udev",
-              position: (293, 14),
+              position: (328, 14),
              },
              Raw {
               content: "extraRules",
-              position: (293, 19),
+              position: (328, 19),
              },
             ],
            },
            Variable {
             identifier: "nixosRules",
-            position: (293, 32),
+            position: (328, 32),
            },
           ),
           KeyValue(
@@ -1995,15 +2336,15 @@ Function {
             attributes: [
              Raw {
               content: "services",
-              position: (295, 5),
+              position: (330, 5),
              },
              Raw {
               content: "udev",
-              position: (295, 14),
+              position: (330, 14),
              },
              Raw {
               content: "packages",
-              position: (295, 19),
+              position: (330, 19),
              },
             ],
            },
@@ -2011,14 +2352,14 @@ Function {
             elements: [
              Variable {
               identifier: "extraUdevRules",
-              position: (295, 32),
+              position: (330, 32),
              },
              Variable {
               identifier: "extraHwdbFile",
-              position: (295, 47),
+              position: (330, 47),
              },
             ],
-            position: (295, 30),
+            position: (330, 30),
            },
           ),
           KeyValue(
@@ -2026,15 +2367,15 @@ Function {
             attributes: [
              Raw {
               content: "services",
-              position: (297, 5),
+              position: (332, 5),
              },
              Raw {
               content: "udev",
-              position: (297, 14),
+              position: (332, 14),
              },
              Raw {
               content: "path",
-              position: (297, 19),
+              position: (332, 19),
              },
             ],
            },
@@ -2043,13 +2384,13 @@ Function {
              PropertyAccess {
               expression: Variable {
                identifier: "pkgs",
-               position: (297, 28),
+               position: (332, 28),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "coreutils",
-                 position: (297, 33),
+                 position: (332, 33),
                 },
                ],
               },
@@ -2058,13 +2399,13 @@ Function {
              PropertyAccess {
               expression: Variable {
                identifier: "pkgs",
-               position: (297, 43),
+               position: (332, 43),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "gnused",
-                 position: (297, 48),
+                 position: (332, 48),
                 },
                ],
               },
@@ -2073,13 +2414,13 @@ Function {
              PropertyAccess {
               expression: Variable {
                identifier: "pkgs",
-               position: (297, 55),
+               position: (332, 55),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "gnugrep",
-                 position: (297, 60),
+                 position: (332, 60),
                 },
                ],
               },
@@ -2088,13 +2429,13 @@ Function {
              PropertyAccess {
               expression: Variable {
                identifier: "pkgs",
-               position: (297, 68),
+               position: (332, 68),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "util-linux",
-                 position: (297, 73),
+                 position: (332, 73),
                 },
                ],
               },
@@ -2102,10 +2443,10 @@ Function {
              },
              Variable {
               identifier: "udev",
-              position: (297, 84),
+              position: (332, 84),
              },
             ],
-            position: (297, 26),
+            position: (332, 26),
            },
           ),
           KeyValue(
@@ -2113,18 +2454,18 @@ Function {
             attributes: [
              Raw {
               content: "boot",
-              position: (299, 5),
+              position: (334, 5),
              },
              Raw {
               content: "kernelParams",
-              position: (299, 10),
+              position: (334, 10),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "mkIf",
-             position: (299, 25),
+             position: (334, 25),
             },
             arguments: [
              UnaryOperation {
@@ -2132,23 +2473,23 @@ Function {
               operand: PropertyAccess {
                expression: Variable {
                 identifier: "config",
-                position: (299, 32),
+                position: (334, 32),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "networking",
-                  position: (299, 39),
+                  position: (334, 39),
                  },
                  Raw {
                   content: "usePredictableInterfaceNames",
-                  position: (299, 50),
+                  position: (334, 50),
                  },
                 ],
                },
                default: None,
               },
-              position: (299, 31),
+              position: (334, 31),
              },
              List {
               elements: [
@@ -2156,12 +2497,12 @@ Function {
                 parts: [
                  Raw {
                   content: "net.ifnames=0",
-                  position: (299, 83),
+                  position: (334, 83),
                  },
                 ],
                },
               ],
-              position: (299, 80),
+              position: (334, 80),
              },
             ],
            },
@@ -2171,22 +2512,805 @@ Function {
             attributes: [
              Raw {
               content: "boot",
-              position: (301, 5),
+              position: (336, 5),
              },
              Raw {
               content: "initrd",
-              position: (301, 10),
+              position: (336, 10),
              },
              Raw {
               content: "extraUdevRulesCommands",
-              position: (301, 17),
+              position: (336, 17),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "optionalString",
-             position: (301, 42),
+             position: (336, 42),
+            },
+            arguments: [
+             BinaryOperation {
+              operator: LogicalAnd,
+              operands: [
+               UnaryOperation {
+                operator: Not,
+                operand: PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (336, 59),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "boot",
+                    position: (336, 66),
+                   },
+                   Raw {
+                    content: "initrd",
+                    position: (336, 71),
+                   },
+                   Raw {
+                    content: "systemd",
+                    position: (336, 78),
+                   },
+                   Raw {
+                    content: "enable",
+                    position: (336, 86),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                position: (336, 58),
+               },
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "config",
+                   position: (336, 96),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "boot",
+                     position: (336, 103),
+                    },
+                    Raw {
+                     content: "initrd",
+                     position: (336, 108),
+                    },
+                    Raw {
+                     content: "services",
+                     position: (336, 115),
+                    },
+                    Raw {
+                     content: "udev",
+                     position: (336, 124),
+                    },
+                    Raw {
+                     content: "rules",
+                     position: (336, 129),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 String {
+                  parts: [],
+                 },
+                ],
+                position: (336, 135),
+               },
+              ],
+              position: (336, 93),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "cat <<'EOF' > $out/99-local.rules\n",
+                position: (338, 1),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (339, 11),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "boot",
+                    position: (339, 18),
+                   },
+                   Raw {
+                    content: "initrd",
+                    position: (339, 23),
+                   },
+                   Raw {
+                    content: "services",
+                    position: (339, 30),
+                   },
+                   Raw {
+                    content: "udev",
+                    position: (339, 39),
+                   },
+                   Raw {
+                    content: "rules",
+                    position: (339, 44),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "\nEOF\n",
+                position: (339, 50),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (343, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (343, 10),
+             },
+             Raw {
+              content: "systemd",
+              position: (343, 17),
+             },
+             Raw {
+              content: "additionalUpstreamUnits",
+              position: (343, 25),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "systemd-udevd-control.socket",
+                position: (345, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "systemd-udevd-kernel.socket",
+                position: (346, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "systemd-udevd.service",
+                position: (347, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "systemd-udev-settle.service",
+                position: (348, 8),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "systemd-udev-trigger.service",
+                position: (349, 8),
+               },
+              ],
+             },
+            ],
+            position: (343, 51),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (351, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (351, 10),
+             },
+             Raw {
+              content: "systemd",
+              position: (351, 17),
+             },
+             Raw {
+              content: "storePaths",
+              position: (351, 25),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             List {
+              elements: [
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (352, 10),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "boot",
+                      position: (352, 17),
+                     },
+                     Raw {
+                      content: "initrd",
+                      position: (352, 22),
+                     },
+                     Raw {
+                      content: "systemd",
+                      position: (352, 29),
+                     },
+                     Raw {
+                      content: "package",
+                      position: (352, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/lib/systemd/systemd-udevd",
+                  position: (352, 45),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (353, 10),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "boot",
+                      position: (353, 17),
+                     },
+                     Raw {
+                      content: "initrd",
+                      position: (353, 22),
+                     },
+                     Raw {
+                      content: "systemd",
+                      position: (353, 29),
+                     },
+                     Raw {
+                      content: "package",
+                      position: (353, 37),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/lib/udev",
+                  position: (353, 45),
+                 },
+                ],
+               },
+              ],
+              position: (351, 38),
+             },
+             FunctionApplication {
+              function: Variable {
+               identifier: "map",
+               position: (354, 10),
+              },
+              arguments: [
+               Function {
+                argument: Some(
+                 "x",
+                ),
+                arguments: FunctionArguments {
+                 arguments: [],
+                 ellipsis: false,
+                },
+                definition: String {
+                 parts: [
+                  Expression {
+                   expression: Variable {
+                    identifier: "x",
+                    position: (354, 21),
+                   },
+                  },
+                  Raw {
+                   content: "/bin",
+                   position: (354, 23),
+                  },
+                 ],
+                },
+                position: (354, 15),
+               },
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "config",
+                 position: (354, 30),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "boot",
+                   position: (354, 37),
+                  },
+                  Raw {
+                   content: "initrd",
+                   position: (354, 42),
+                  },
+                  Raw {
+                   content: "services",
+                   position: (354, 49),
+                  },
+                  Raw {
+                   content: "udev",
+                   position: (354, 58),
+                  },
+                  Raw {
+                   content: "binPackages",
+                   position: (354, 63),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+            position: (354, 7),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (357, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (357, 10),
+             },
+             Raw {
+              content: "systemd",
+              position: (357, 17),
+             },
+             Raw {
+              content: "contents",
+              position: (357, 25),
+             },
+            ],
+           },
+           Map {
+            bindings: [
+             KeyValue(
+              AttributePath {
+               attributes: [
+                Expression {
+                 expression: String {
+                  parts: [
+                   Raw {
+                    content: "/etc/udev/rules.d",
+                    position: (358, 8),
+                   },
+                  ],
+                 },
+                },
+                Raw {
+                 content: "source",
+                 position: (358, 27),
+                },
+               ],
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "udevRulesFor",
+                position: (358, 36),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "name",
+                      position: (359, 9),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "initrd-udev-rules",
+                      position: (359, 17),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "initrdBin",
+                      position: (360, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (360, 21),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "boot",
+                       position: (360, 28),
+                      },
+                      Raw {
+                       content: "initrd",
+                       position: (360, 33),
+                      },
+                      Raw {
+                       content: "systemd",
+                       position: (360, 40),
+                      },
+                      Raw {
+                       content: "contents",
+                       position: (360, 48),
+                      },
+                      Expression {
+                       expression: String {
+                        parts: [
+                         Raw {
+                          content: "/bin",
+                          position: (360, 58),
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "source",
+                       position: (360, 64),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "udevPackages",
+                      position: (361, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (361, 24),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "boot",
+                       position: (361, 31),
+                      },
+                      Raw {
+                       content: "initrd",
+                       position: (361, 36),
+                      },
+                      Raw {
+                       content: "services",
+                       position: (361, 43),
+                      },
+                      Raw {
+                       content: "udev",
+                       position: (361, 52),
+                      },
+                      Raw {
+                       content: "packages",
+                       position: (361, 57),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "udevPath",
+                      position: (362, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (362, 20),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "boot",
+                       position: (362, 27),
+                      },
+                      Raw {
+                       content: "initrd",
+                       position: (362, 32),
+                      },
+                      Raw {
+                       content: "systemd",
+                       position: (362, 39),
+                      },
+                      Raw {
+                       content: "contents",
+                       position: (362, 47),
+                      },
+                      Expression {
+                       expression: String {
+                        parts: [
+                         Raw {
+                          content: "/bin",
+                          position: (362, 57),
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "source",
+                       position: (362, 63),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "udev",
+                      position: (363, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (363, 16),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "boot",
+                       position: (363, 23),
+                      },
+                      Raw {
+                       content: "initrd",
+                       position: (363, 28),
+                      },
+                      Raw {
+                       content: "systemd",
+                       position: (363, 35),
+                      },
+                      Raw {
+                       content: "package",
+                       position: (363, 43),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "systemd",
+                      position: (364, 9),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (364, 19),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "boot",
+                       position: (364, 26),
+                      },
+                      Raw {
+                       content: "initrd",
+                       position: (364, 31),
+                      },
+                      Raw {
+                       content: "systemd",
+                       position: (364, 38),
+                      },
+                      Raw {
+                       content: "package",
+                       position: (364, 46),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "binPackages",
+                      position: (365, 9),
+                     },
+                    ],
+                   },
+                   BinaryOperation {
+                    operator: Concatenation,
+                    operands: [
+                     PropertyAccess {
+                      expression: Variable {
+                       identifier: "config",
+                       position: (365, 23),
+                      },
+                      attribute_path: AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "boot",
+                         position: (365, 30),
+                        },
+                        Raw {
+                         content: "initrd",
+                         position: (365, 35),
+                        },
+                        Raw {
+                         content: "services",
+                         position: (365, 42),
+                        },
+                        Raw {
+                         content: "udev",
+                         position: (365, 51),
+                        },
+                        Raw {
+                         content: "binPackages",
+                         position: (365, 56),
+                        },
+                       ],
+                      },
+                      default: None,
+                     },
+                     List {
+                      elements: [
+                       PropertyAccess {
+                        expression: Variable {
+                         identifier: "config",
+                         position: (365, 73),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "boot",
+                           position: (365, 80),
+                          },
+                          Raw {
+                           content: "initrd",
+                           position: (365, 85),
+                          },
+                          Raw {
+                           content: "systemd",
+                           position: (365, 92),
+                          },
+                          Raw {
+                           content: "contents",
+                           position: (365, 100),
+                          },
+                          Expression {
+                           expression: String {
+                            parts: [
+                             Raw {
+                              content: "/bin",
+                              position: (365, 110),
+                             },
+                            ],
+                           },
+                          },
+                          Raw {
+                           content: "source",
+                           position: (365, 116),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      ],
+                      position: (365, 71),
+                     },
+                    ],
+                    position: (365, 68),
+                   },
+                  ),
+                 ],
+                 recursive: false,
+                 position: (358, 49),
+                },
+               ],
+              },
+             ),
+            ],
+            recursive: false,
+            position: (357, 36),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "boot",
+              position: (369, 5),
+             },
+             Raw {
+              content: "initrd",
+              position: (369, 10),
+             },
+             Raw {
+              content: "services",
+              position: (369, 17),
+             },
+             Raw {
+              content: "udev",
+              position: (369, 26),
+             },
+             Raw {
+              content: "packages",
+              position: (369, 31),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkIf",
+             position: (369, 42),
             },
             arguments: [
              BinaryOperation {
@@ -2194,14 +3318,30 @@ Function {
               operands: [
                PropertyAccess {
                 expression: Variable {
-                 identifier: "cfg",
-                 position: (301, 58),
+                 identifier: "config",
+                 position: (369, 48),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
-                   content: "initrdRules",
-                   position: (301, 62),
+                   content: "boot",
+                   position: (369, 55),
+                  },
+                  Raw {
+                   content: "initrd",
+                   position: (369, 60),
+                  },
+                  Raw {
+                   content: "services",
+                   position: (369, 67),
+                  },
+                  Raw {
+                   content: "udev",
+                   position: (369, 76),
+                  },
+                  Raw {
+                   content: "rules",
+                   position: (369, 81),
                   },
                  ],
                 },
@@ -2211,34 +3351,107 @@ Function {
                 parts: [],
                },
               ],
-              position: (301, 74),
+              position: (369, 87),
              },
-             String {
-              parts: [
-               Raw {
-                content: "cat <<'EOF' > $out/99-local.rules\n",
-                position: (303, 1),
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (369, 95),
                },
-               Expression {
-                expression: PropertyAccess {
-                 expression: Variable {
-                  identifier: "cfg",
-                  position: (304, 11),
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "writeTextFile",
+                  position: (369, 100),
                  },
-                 attribute_path: AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "initrdRules",
-                    position: (304, 15),
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               Map {
+                bindings: [
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "name",
+                     position: (370, 7),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "initrd-udev-rules",
+                     position: (370, 15),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "destination",
+                     position: (371, 7),
+                    },
+                   ],
+                  },
+                  String {
+                   parts: [
+                    Raw {
+                     content: "/etc/udev/rules.d/99-local.rules",
+                     position: (371, 22),
+                    },
+                   ],
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "text",
+                     position: (372, 7),
+                    },
+                   ],
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (372, 14),
                    },
-                  ],
-                 },
-                 default: None,
-                },
-               },
-               Raw {
-                content: "\nEOF\n",
-                position: (304, 27),
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "boot",
+                      position: (372, 21),
+                     },
+                     Raw {
+                      content: "initrd",
+                      position: (372, 26),
+                     },
+                     Raw {
+                      content: "services",
+                      position: (372, 33),
+                     },
+                     Raw {
+                      content: "udev",
+                      position: (372, 42),
+                     },
+                     Raw {
+                      content: "rules",
+                      position: (372, 47),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ),
+                ],
+                recursive: false,
+                position: (369, 114),
                },
               ],
              },
@@ -2250,11 +3463,11 @@ Function {
             attributes: [
              Raw {
               content: "environment",
-              position: (308, 5),
+              position: (375, 5),
              },
              Raw {
               content: "etc",
-              position: (308, 17),
+              position: (375, 17),
              },
             ],
            },
@@ -2268,20 +3481,140 @@ Function {
                   parts: [
                    Raw {
                     content: "udev/rules.d",
-                    position: (310, 10),
+                    position: (377, 10),
                    },
                   ],
                  },
                 },
                 Raw {
                  content: "source",
-                 position: (310, 24),
+                 position: (377, 24),
                 },
                ],
               },
-              Variable {
-               identifier: "udevRules",
-               position: (310, 33),
+              FunctionApplication {
+               function: Variable {
+                identifier: "udevRulesFor",
+                position: (377, 33),
+               },
+               arguments: [
+                Map {
+                 bindings: [
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "name",
+                      position: (378, 11),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "udev-rules",
+                      position: (378, 19),
+                     },
+                    ],
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "udevPackages",
+                      position: (379, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (379, 26),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "packages",
+                       position: (379, 30),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "systemd",
+                      position: (380, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (380, 21),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "systemd",
+                       position: (380, 28),
+                      },
+                      Raw {
+                       content: "package",
+                       position: (380, 36),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  KeyValue(
+                   AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "binPackages",
+                      position: (381, 11),
+                     },
+                    ],
+                   },
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (381, 25),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "packages",
+                       position: (381, 29),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ),
+                  Inherit(
+                   None,
+                   [
+                    Raw {
+                     content: "udevPath",
+                     position: (382, 19),
+                    },
+                    Raw {
+                     content: "udev",
+                     position: (382, 28),
+                    },
+                   ],
+                  ),
+                 ],
+                 recursive: false,
+                 position: (377, 46),
+                },
+               ],
               },
              ),
              KeyValue(
@@ -2292,25 +3625,25 @@ Function {
                   parts: [
                    Raw {
                     content: "udev/hwdb.bin",
-                    position: (311, 10),
+                    position: (384, 10),
                    },
                   ],
                  },
                 },
                 Raw {
                  content: "source",
-                 position: (311, 25),
+                 position: (384, 25),
                 },
                ],
               },
               Variable {
                identifier: "hwdbBin",
-               position: (311, 34),
+               position: (384, 34),
               },
              ),
             ],
             recursive: false,
-            position: (309, 7),
+            position: (376, 7),
            },
           ),
           KeyValue(
@@ -2318,11 +3651,11 @@ Function {
             attributes: [
              Raw {
               content: "system",
-              position: (314, 5),
+              position: (387, 5),
              },
              Raw {
               content: "requiredKernelConfig",
-              position: (314, 12),
+              position: (387, 12),
              },
             ],
            },
@@ -2330,17 +3663,17 @@ Function {
             expression: PropertyAccess {
              expression: Variable {
               identifier: "config",
-              position: (314, 40),
+              position: (387, 40),
              },
              attribute_path: AttributePath {
               attributes: [
                Raw {
                 content: "lib",
-                position: (314, 47),
+                position: (387, 47),
                },
                Raw {
                 content: "kernelConfig",
-                position: (314, 51),
+                position: (387, 51),
                },
               ],
              },
@@ -2351,14 +3684,14 @@ Function {
               FunctionApplication {
                function: Variable {
                 identifier: "isEnabled",
-                position: (315, 8),
+                position: (388, 8),
                },
                arguments: [
                 String {
                  parts: [
                   Raw {
                    content: "UNIX",
-                   position: (315, 19),
+                   position: (388, 19),
                   },
                  ],
                 },
@@ -2367,14 +3700,14 @@ Function {
               FunctionApplication {
                function: Variable {
                 identifier: "isYes",
-                position: (316, 8),
+                position: (389, 8),
                },
                arguments: [
                 String {
                  parts: [
                   Raw {
                    content: "INOTIFY_USER",
-                   position: (316, 15),
+                   position: (389, 15),
                   },
                  ],
                 },
@@ -2383,23 +3716,23 @@ Function {
               FunctionApplication {
                function: Variable {
                 identifier: "isYes",
-                position: (317, 8),
+                position: (390, 8),
                },
                arguments: [
                 String {
                  parts: [
                   Raw {
                    content: "NET",
-                   position: (317, 15),
+                   position: (390, 15),
                   },
                  ],
                 },
                ],
               },
              ],
-             position: (314, 65),
+             position: (387, 65),
             },
-            position: (314, 35),
+            position: (387, 35),
            },
           ),
           KeyValue(
@@ -2407,25 +3740,25 @@ Function {
             attributes: [
              Raw {
               content: "environment",
-              position: (321, 5),
+              position: (394, 5),
              },
              Raw {
               content: "etc",
-              position: (321, 17),
+              position: (394, 17),
              },
              Expression {
               expression: String {
                parts: [
                 Raw {
                  content: "modprobe.d/firmware.conf",
-                 position: (321, 22),
+                 position: (394, 22),
                 },
                ],
               },
              },
              Raw {
               content: "text",
-              position: (321, 48),
+              position: (394, 48),
              },
             ],
            },
@@ -2433,23 +3766,23 @@ Function {
             parts: [
              Raw {
               content: "options firmware_class path=",
-              position: (321, 56),
+              position: (394, 56),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",
-                position: (321, 86),
+                position: (394, 86),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "hardware",
-                  position: (321, 93),
+                  position: (394, 93),
                  },
                  Raw {
                   content: "firmware",
-                  position: (321, 102),
+                  position: (394, 102),
                  },
                 ],
                },
@@ -2458,7 +3791,7 @@ Function {
              },
              Raw {
               content: "/lib/firmware",
-              position: (321, 111),
+              position: (394, 111),
              },
             ],
            },
@@ -2468,15 +3801,15 @@ Function {
             attributes: [
              Raw {
               content: "system",
-              position: (323, 5),
+              position: (396, 5),
              },
              Raw {
               content: "activationScripts",
-              position: (323, 12),
+              position: (396, 12),
              },
              Raw {
               content: "udevd",
-              position: (323, 30),
+              position: (396, 30),
              },
             ],
            },
@@ -2484,23 +3817,23 @@ Function {
             parts: [
              Raw {
               content: "# The deprecated hotplug uevent helper is not used anymore\nif [ -e /proc/sys/kernel/hotplug ]; then\n  echo \"\" > /proc/sys/kernel/hotplug\nfi\n\n# Allow the kernel to find our firmware.\nif [ -e /sys/module/firmware_class/parameters/path ]; then\n  echo -n \"",
-              position: (325, 1),
+              position: (398, 1),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",
-                position: (332, 22),
+                position: (405, 22),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "hardware",
-                  position: (332, 29),
+                  position: (405, 29),
                  },
                  Raw {
                   content: "firmware",
-                  position: (332, 38),
+                  position: (405, 38),
                  },
                 ],
                },
@@ -2509,7 +3842,7 @@ Function {
              },
              Raw {
               content: "/lib/firmware\" > /sys/module/firmware_class/parameters/path\nfi\n",
-              position: (332, 47),
+              position: (405, 47),
              },
             ],
            },
@@ -2519,15 +3852,15 @@ Function {
             attributes: [
              Raw {
               content: "systemd",
-              position: (336, 5),
+              position: (409, 5),
              },
              Raw {
               content: "services",
-              position: (336, 13),
+              position: (409, 13),
              },
              Raw {
               content: "systemd-udevd",
-              position: (336, 22),
+              position: (409, 22),
              },
             ],
            },
@@ -2538,20 +3871,20 @@ Function {
                attributes: [
                 Raw {
                  content: "restartTriggers",
-                 position: (337, 9),
+                 position: (410, 9),
                 },
                ],
               },
               PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (337, 27),
+                position: (410, 27),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "packages",
-                  position: (337, 31),
+                  position: (410, 31),
                  },
                 ],
                },
@@ -2560,19 +3893,116 @@ Function {
              ),
             ],
             recursive: false,
-            position: (337, 7),
+            position: (410, 7),
            },
           ),
          ],
          recursive: false,
-         position: (291, 44),
+         position: (326, 44),
         },
        ],
       },
      ),
+     KeyValue(
+      AttributePath {
+       attributes: [
+        Raw {
+         content: "imports",
+         position: (415, 3),
+        },
+       ],
+      },
+      List {
+       elements: [
+        FunctionApplication {
+         function: Variable {
+          identifier: "mkRenamedOptionModule",
+          position: (416, 6),
+         },
+         arguments: [
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (416, 31),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "udev",
+               position: (416, 42),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "initrdRules",
+               position: (416, 49),
+              },
+             ],
+            },
+           ],
+           position: (416, 28),
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "boot",
+               position: (416, 67),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "initrd",
+               position: (416, 74),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "services",
+               position: (416, 83),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "udev",
+               position: (416, 94),
+              },
+             ],
+            },
+            String {
+             parts: [
+              Raw {
+               content: "rules",
+               position: (416, 101),
+              },
+             ],
+            },
+           ],
+           position: (416, 64),
+          },
+         ],
+        },
+       ],
+       position: (415, 13),
+      },
+     ),
     ],
     recursive: false,
-    position: (164, 1),
+    position: (167, 1),
    },
    position: (5, 1),
   },

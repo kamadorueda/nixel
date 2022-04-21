@@ -337,7 +337,7 @@ Function {
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
-                   content: "enum",
+                   content: "listOf",
                    position: (25, 20),
                   },
                  ],
@@ -345,26 +345,53 @@ Function {
                 default: None,
                },
                arguments: [
-                List {
-                 elements: [
-                  String {
-                   parts: [
+                FunctionApplication {
+                 function: PropertyAccess {
+                  expression: Variable {
+                   identifier: "types",
+                   position: (25, 28),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
                     Raw {
-                     content: "history",
-                     position: (25, 28),
+                     content: "enum",
+                     position: (25, 34),
                     },
                    ],
                   },
-                  String {
-                   parts: [
-                    Raw {
-                     content: "match_prev_cmd",
-                     position: (25, 38),
+                  default: None,
+                 },
+                 arguments: [
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "history",
+                       position: (25, 42),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "completion",
+                       position: (25, 52),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "match_prev_cmd",
+                       position: (25, 65),
+                      },
+                     ],
                     },
                    ],
+                   position: (25, 39),
                   },
                  ],
-                 position: (25, 25),
                 },
                ],
               },
@@ -378,13 +405,18 @@ Function {
                 },
                ],
               },
-              String {
-               parts: [
-                Raw {
-                 content: "history",
-                 position: (26, 18),
+              List {
+               elements: [
+                String {
+                 parts: [
+                  Raw {
+                   content: "history",
+                   position: (26, 20),
+                  },
+                 ],
                 },
                ],
+               position: (26, 17),
               },
              ),
              KeyValue(
@@ -399,7 +431,7 @@ Function {
               String {
                parts: [
                 Raw {
-                 content: "Set ZSH_AUTOSUGGEST_STRATEGY to choose the strategy for generating suggestions.\nThere are currently two to choose from:\n\n  * history: Chooses the most recent match.\n  * match_prev_cmd: Chooses the most recent match whose preceding history item matches\n    the most recently executed command (more info). Note that this strategy won't work as\n    expected with ZSH options that don't preserve the history order such as\n    HIST_IGNORE_ALL_DUPS or HIST_EXPIRE_DUPS_FIRST.\n",
+                 content: "`ZSH_AUTOSUGGEST_STRATEGY` is an array that specifies how suggestions should be generated.\nThe strategies in the array are tried successively until a suggestion is found.\nThere are currently three built-in strategies to choose from:\n\n- `history`: Chooses the most recent match from history.\n- `completion`: Chooses a suggestion based on what tab-completion would suggest. (requires `zpty` module)\n- `match_prev_cmd`: Like `history`, but chooses the most recent match whose preceding history item matches\n    the most recently executed command. Note that this strategy won't work as expected with ZSH options that\n    don't preserve the history order such as `HIST_IGNORE_ALL_DUPS` or `HIST_EXPIRE_DUPS_FIRST`.\n",
                  position: (28, 1),
                 },
                ],
@@ -417,14 +449,14 @@ Function {
           attributes: [
            Raw {
             content: "async",
-            position: (39, 5),
+            position: (40, 5),
            },
           ],
          },
          FunctionApplication {
           function: Variable {
            identifier: "mkOption",
-           position: (39, 13),
+           position: (40, 13),
           },
           arguments: [
            Map {
@@ -434,20 +466,20 @@ Function {
                attributes: [
                 Raw {
                  content: "type",
-                 position: (40, 7),
+                 position: (41, 7),
                 },
                ],
               },
               PropertyAccess {
                expression: Variable {
                 identifier: "types",
-                position: (40, 14),
+                position: (41, 14),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "bool",
-                  position: (40, 20),
+                  position: (41, 20),
                  },
                 ],
                },
@@ -459,13 +491,13 @@ Function {
                attributes: [
                 Raw {
                  content: "default",
-                 position: (41, 7),
+                 position: (42, 7),
                 },
                ],
               },
               Variable {
                identifier: "true",
-               position: (41, 17),
+               position: (42, 17),
               },
              ),
              KeyValue(
@@ -473,7 +505,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (42, 7),
+                 position: (43, 7),
                 },
                ],
               },
@@ -481,7 +513,7 @@ Function {
                parts: [
                 Raw {
                  content: "Whether to fetch suggestions asynchronously",
-                 position: (42, 22),
+                 position: (43, 22),
                 },
                ],
               },
@@ -491,18 +523,18 @@ Function {
                attributes: [
                 Raw {
                  content: "example",
-                 position: (43, 7),
+                 position: (44, 7),
                 },
                ],
               },
               Variable {
                identifier: "false",
-               position: (43, 17),
+               position: (44, 17),
               },
              ),
             ],
             recursive: false,
-            position: (39, 22),
+            position: (40, 22),
            },
           ],
          },
@@ -512,14 +544,14 @@ Function {
           attributes: [
            Raw {
             content: "extraConfig",
-            position: (46, 5),
+            position: (47, 5),
            },
           ],
          },
          FunctionApplication {
           function: Variable {
            identifier: "mkOption",
-           position: (46, 19),
+           position: (47, 19),
           },
           arguments: [
            Map {
@@ -529,28 +561,28 @@ Function {
                attributes: [
                 Raw {
                  content: "type",
-                 position: (47, 7),
+                 position: (48, 7),
                 },
                ],
               },
               With {
                expression: Variable {
                 identifier: "types",
-                position: (47, 19),
+                position: (48, 19),
                },
                target: FunctionApplication {
                 function: Variable {
                  identifier: "attrsOf",
-                 position: (47, 26),
+                 position: (48, 26),
                 },
                 arguments: [
                  Variable {
                   identifier: "str",
-                  position: (47, 34),
+                  position: (48, 34),
                  },
                 ],
                },
-               position: (47, 14),
+               position: (48, 14),
               },
              ),
              KeyValue(
@@ -558,14 +590,14 @@ Function {
                attributes: [
                 Raw {
                  content: "default",
-                 position: (48, 7),
+                 position: (49, 7),
                 },
                ],
               },
               Map {
                bindings: [],
                recursive: false,
-               position: (48, 17),
+               position: (49, 17),
               },
              ),
              KeyValue(
@@ -573,7 +605,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (49, 7),
+                 position: (50, 7),
                 },
                ],
               },
@@ -581,7 +613,7 @@ Function {
                parts: [
                 Raw {
                  content: "Attribute set with additional configuration values",
-                 position: (49, 22),
+                 position: (50, 22),
                 },
                ],
               },
@@ -591,21 +623,21 @@ Function {
                attributes: [
                 Raw {
                  content: "example",
-                 position: (50, 7),
+                 position: (51, 7),
                 },
                ],
               },
               FunctionApplication {
                function: Variable {
                 identifier: "literalExpression",
-                position: (50, 17),
+                position: (51, 17),
                },
                arguments: [
                 String {
                  parts: [
                   Raw {
                    content: "{\n  \"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE\" = \"20\";\n}\n",
-                   position: (51, 1),
+                   position: (52, 1),
                   },
                  ],
                 },
@@ -614,7 +646,7 @@ Function {
              ),
             ],
             recursive: false,
-            position: (46, 28),
+            position: (47, 28),
            },
           ],
          },
@@ -629,26 +661,26 @@ Function {
        attributes: [
         Raw {
          content: "config",
-         position: (59, 3),
+         position: (60, 3),
         },
        ],
       },
       FunctionApplication {
        function: Variable {
         identifier: "mkIf",
-        position: (59, 12),
+        position: (60, 12),
        },
        arguments: [
         PropertyAccess {
          expression: Variable {
           identifier: "cfg",
-          position: (59, 17),
+          position: (60, 17),
          },
          attribute_path: AttributePath {
           attributes: [
            Raw {
             content: "enable",
-            position: (59, 21),
+            position: (60, 21),
            },
           ],
          },
@@ -661,15 +693,15 @@ Function {
             attributes: [
              Raw {
               content: "programs",
-              position: (61, 5),
+              position: (62, 5),
              },
              Raw {
               content: "zsh",
-              position: (61, 14),
+              position: (62, 14),
              },
              Raw {
               content: "interactiveShellInit",
-              position: (61, 18),
+              position: (62, 18),
              },
             ],
            },
@@ -677,19 +709,19 @@ Function {
             parts: [
              Raw {
               content: "source ",
-              position: (62, 1),
+              position: (63, 1),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "pkgs",
-                position: (62, 16),
+                position: (63, 16),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "zsh-autosuggestions",
-                  position: (62, 21),
+                  position: (63, 21),
                  },
                 ],
                },
@@ -698,19 +730,19 @@ Function {
              },
              Raw {
               content: "/share/zsh-autosuggestions/zsh-autosuggestions.zsh\n\nexport ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=\"",
-              position: (62, 41),
+              position: (63, 41),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (64, 49),
+                position: (65, 49),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "highlightStyle",
-                  position: (64, 53),
+                  position: (65, 53),
                  },
                 ],
                },
@@ -718,35 +750,51 @@ Function {
               },
              },
              Raw {
-              content: "\"\nexport ZSH_AUTOSUGGEST_STRATEGY=(\"",
-              position: (64, 68),
+              content: "\"\nexport ZSH_AUTOSUGGEST_STRATEGY=(",
+              position: (65, 68),
              },
              Expression {
-              expression: PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (65, 43),
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "concatStringsSep",
+                position: (66, 42),
                },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "strategy",
-                  position: (65, 47),
+               arguments: [
+                String {
+                 parts: [
+                  Raw {
+                   content: " ",
+                   position: (66, 60),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (66, 63),
                  },
-                ],
-               },
-               default: None,
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "strategy",
+                    position: (66, 67),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
               },
              },
              Raw {
-              content: "\")\n",
-              position: (65, 56),
+              content: ")\n",
+              position: (66, 76),
              },
              Expression {
               expression: FunctionApplication {
                function: Variable {
                 identifier: "optionalString",
-                position: (66, 9),
+                position: (67, 9),
                },
                arguments: [
                 UnaryOperation {
@@ -754,25 +802,25 @@ Function {
                  operand: PropertyAccess {
                   expression: Variable {
                    identifier: "cfg",
-                   position: (66, 26),
+                   position: (67, 26),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "async",
-                     position: (66, 30),
+                     position: (67, 30),
                     },
                    ],
                   },
                   default: None,
                  },
-                 position: (66, 25),
+                 position: (67, 25),
                 },
                 String {
                  parts: [
                   Raw {
                    content: "unset ZSH_AUTOSUGGEST_USE_ASYNC",
-                   position: (66, 38),
+                   position: (67, 38),
                   },
                  ],
                 },
@@ -781,27 +829,27 @@ Function {
              },
              Raw {
               content: "\n\n",
-              position: (66, 71),
+              position: (67, 71),
              },
              Expression {
               expression: FunctionApplication {
                function: Variable {
                 identifier: "concatStringsSep",
-                position: (68, 9),
+                position: (69, 9),
                },
                arguments: [
                 String {
                  parts: [
                   Raw {
                    content: "\n",
-                   position: (68, 27),
+                   position: (69, 27),
                   },
                  ],
                 },
                 FunctionApplication {
                  function: Variable {
                   identifier: "mapAttrsToList",
-                  position: (68, 32),
+                  position: (69, 32),
                  },
                  arguments: [
                   Function {
@@ -824,44 +872,44 @@ Function {
                      parts: [
                       Raw {
                        content: "export ",
-                       position: (68, 62),
+                       position: (69, 62),
                       },
                       Expression {
                        expression: Variable {
                         identifier: "key",
-                        position: (68, 71),
+                        position: (69, 71),
                        },
                       },
                       Raw {
                        content: "=\"",
-                       position: (68, 75),
+                       position: (69, 75),
                       },
                       Expression {
                        expression: Variable {
                         identifier: "value",
-                        position: (68, 79),
+                        position: (69, 79),
                        },
                       },
                       Raw {
                        content: "\"",
-                       position: (68, 85),
+                       position: (69, 85),
                       },
                      ],
                     },
-                    position: (68, 53),
+                    position: (69, 53),
                    },
-                   position: (68, 48),
+                   position: (69, 48),
                   },
                   PropertyAccess {
                    expression: Variable {
                     identifier: "cfg",
-                    position: (68, 90),
+                    position: (69, 90),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "extraConfig",
-                      position: (68, 94),
+                      position: (69, 94),
                      },
                     ],
                    },
@@ -874,14 +922,14 @@ Function {
              },
              Raw {
               content: "\n",
-              position: (68, 107),
+              position: (69, 107),
              },
             ],
            },
           ),
          ],
          recursive: false,
-         position: (59, 28),
+         position: (60, 28),
         },
        ],
       },

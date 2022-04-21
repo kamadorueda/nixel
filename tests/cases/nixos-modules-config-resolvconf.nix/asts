@@ -720,8 +720,44 @@ Function {
                    },
                   ],
                  },
-                 Variable {
-                  identifier: "false",
+                 UnaryOperation {
+                  operator: Not,
+                  operand: HasProperty {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (50, 21),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "environment",
+                       position: (50, 28),
+                      },
+                      Raw {
+                       content: "etc",
+                       position: (50, 40),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Expression {
+                      expression: String {
+                       parts: [
+                        Raw {
+                         content: "resolv.conf",
+                         position: (50, 47),
+                        },
+                       ],
+                      },
+                     },
+                    ],
+                   },
+                   position: (50, 44),
+                  },
                   position: (50, 19),
                  },
                 ),
@@ -729,14 +765,26 @@ Function {
                  AttributePath {
                   attributes: [
                    Raw {
-                    content: "internal",
+                    content: "defaultText",
                     position: (51, 9),
                    },
                   ],
                  },
-                 Variable {
-                  identifier: "true",
-                  position: (51, 20),
+                 FunctionApplication {
+                  function: Variable {
+                   identifier: "literalExpression",
+                   position: (51, 23),
+                  },
+                  arguments: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "!(config.environment.etc ? \"resolv.conf\")",
+                      position: (51, 43),
+                     },
+                    ],
+                   },
+                  ],
                  },
                 ),
                 KeyValue(
@@ -1280,84 +1328,26 @@ Function {
              AttributePath {
               attributes: [
                Raw {
-                content: "networking",
+                content: "environment",
                 position: (113, 7),
                },
                Raw {
-                content: "resolvconf",
-                position: (113, 18),
-               },
-               Raw {
-                content: "enable",
-                position: (113, 29),
-               },
-              ],
-             },
-             UnaryOperation {
-              operator: Not,
-              operand: HasProperty {
-               expression: PropertyAccess {
-                expression: Variable {
-                 identifier: "config",
-                 position: (113, 40),
-                },
-                attribute_path: AttributePath {
-                 attributes: [
-                  Raw {
-                   content: "environment",
-                   position: (113, 47),
-                  },
-                  Raw {
-                   content: "etc",
-                   position: (113, 59),
-                  },
-                 ],
-                },
-                default: None,
-               },
-               attribute_path: AttributePath {
-                attributes: [
-                 Expression {
-                  expression: String {
-                   parts: [
-                    Raw {
-                     content: "resolv.conf",
-                     position: (113, 66),
-                    },
-                   ],
-                  },
-                 },
-                ],
-               },
-               position: (113, 63),
-              },
-              position: (113, 38),
-             },
-            ),
-            KeyValue(
-             AttributePath {
-              attributes: [
-               Raw {
-                content: "environment",
-                position: (115, 7),
-               },
-               Raw {
                 content: "etc",
-                position: (115, 19),
+                position: (113, 19),
                },
                Expression {
                 expression: String {
                  parts: [
                   Raw {
                    content: "resolvconf.conf",
-                   position: (115, 24),
+                   position: (113, 24),
                   },
                  ],
                 },
                },
                Raw {
                 content: "text",
-                position: (115, 41),
+                position: (113, 41),
                },
               ],
              },
@@ -1367,33 +1357,33 @@ Function {
                operand: PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (116, 13),
+                 position: (114, 13),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "enable",
-                   position: (116, 17),
+                   position: (114, 17),
                   },
                  ],
                 },
                 default: None,
                },
-               position: (116, 12),
+               position: (114, 12),
               },
               then: String {
                parts: [
                 Raw {
                  content: "echo \"resolvconf is disabled on this system but was used anyway:\" >&2\necho \"$0 $*\" >&2\nexit 1\n",
-                 position: (119, 1),
+                 position: (117, 1),
                 },
                ],
               },
               else_: Variable {
                identifier: "configText",
-               position: (123, 14),
+               position: (121, 14),
               },
-              position: (116, 9),
+              position: (114, 9),
              },
             ),
            ],
@@ -1403,19 +1393,19 @@ Function {
           FunctionApplication {
            function: Variable {
             identifier: "mkIf",
-            position: (126, 6),
+            position: (124, 6),
            },
            arguments: [
             PropertyAccess {
              expression: Variable {
               identifier: "cfg",
-              position: (126, 11),
+              position: (124, 11),
              },
              attribute_path: AttributePath {
               attributes: [
                Raw {
                 content: "enable",
-                position: (126, 15),
+                position: (124, 15),
                },
               ],
              },
@@ -1428,11 +1418,11 @@ Function {
                 attributes: [
                  Raw {
                   content: "environment",
-                  position: (127, 7),
+                  position: (125, 7),
                  },
                  Raw {
                   content: "systemPackages",
-                  position: (127, 19),
+                  position: (125, 19),
                  },
                 ],
                },
@@ -1441,20 +1431,20 @@ Function {
                  PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
-                   position: (127, 38),
+                   position: (125, 38),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "openresolv",
-                     position: (127, 43),
+                     position: (125, 43),
                     },
                    ],
                   },
                   default: None,
                  },
                 ],
-                position: (127, 36),
+                position: (125, 36),
                },
               ),
               KeyValue(
@@ -1462,15 +1452,15 @@ Function {
                 attributes: [
                  Raw {
                   content: "systemd",
-                  position: (129, 7),
+                  position: (127, 7),
                  },
                  Raw {
                   content: "services",
-                  position: (129, 15),
+                  position: (127, 15),
                  },
                  Raw {
                   content: "resolvconf",
-                  position: (129, 24),
+                  position: (127, 24),
                  },
                 ],
                },
@@ -1481,7 +1471,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "description",
-                     position: (130, 9),
+                     position: (128, 9),
                     },
                    ],
                   },
@@ -1489,7 +1479,7 @@ Function {
                    parts: [
                     Raw {
                      content: "resolvconf update",
-                     position: (130, 24),
+                     position: (128, 24),
                     },
                    ],
                   },
@@ -1499,6 +1489,52 @@ Function {
                    attributes: [
                     Raw {
                      content: "before",
+                     position: (130, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "network-pre.target",
+                       position: (130, 21),
+                      },
+                     ],
+                    },
+                   ],
+                   position: (130, 18),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wants",
+                     position: (131, 9),
+                    },
+                   ],
+                  },
+                  List {
+                   elements: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "network-pre.target",
+                       position: (131, 20),
+                      },
+                     ],
+                    },
+                   ],
+                   position: (131, 17),
+                  },
+                 ),
+                 KeyValue(
+                  AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "wantedBy",
                      position: (132, 9),
                     },
                    ],
@@ -1508,59 +1544,13 @@ Function {
                     String {
                      parts: [
                       Raw {
-                       content: "network-pre.target",
-                       position: (132, 21),
-                      },
-                     ],
-                    },
-                   ],
-                   position: (132, 18),
-                  },
-                 ),
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "wants",
-                     position: (133, 9),
-                    },
-                   ],
-                  },
-                  List {
-                   elements: [
-                    String {
-                     parts: [
-                      Raw {
-                       content: "network-pre.target",
-                       position: (133, 20),
-                      },
-                     ],
-                    },
-                   ],
-                   position: (133, 17),
-                  },
-                 ),
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "wantedBy",
-                     position: (134, 9),
-                    },
-                   ],
-                  },
-                  List {
-                   elements: [
-                    String {
-                     parts: [
-                      Raw {
                        content: "multi-user.target",
-                       position: (134, 23),
+                       position: (132, 23),
                       },
                      ],
                     },
                    ],
-                   position: (134, 20),
+                   position: (132, 20),
                   },
                  ),
                  KeyValue(
@@ -1568,7 +1558,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "restartTriggers",
-                     position: (135, 9),
+                     position: (133, 9),
                     },
                    ],
                   },
@@ -1577,38 +1567,38 @@ Function {
                     PropertyAccess {
                      expression: Variable {
                       identifier: "config",
-                      position: (135, 29),
+                      position: (133, 29),
                      },
                      attribute_path: AttributePath {
                       attributes: [
                        Raw {
                         content: "environment",
-                        position: (135, 36),
+                        position: (133, 36),
                        },
                        Raw {
                         content: "etc",
-                        position: (135, 48),
+                        position: (133, 48),
                        },
                        Expression {
                         expression: String {
                          parts: [
                           Raw {
                            content: "resolvconf.conf",
-                           position: (135, 53),
+                           position: (133, 53),
                           },
                          ],
                         },
                        },
                        Raw {
                         content: "source",
-                        position: (135, 70),
+                        position: (133, 70),
                        },
                       ],
                      },
                      default: None,
                     },
                    ],
-                   position: (135, 27),
+                   position: (133, 27),
                   },
                  ),
                  KeyValue(
@@ -1616,7 +1606,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "serviceConfig",
-                     position: (137, 9),
+                     position: (135, 9),
                     },
                    ],
                   },
@@ -1627,7 +1617,7 @@ Function {
                       attributes: [
                        Raw {
                         content: "Type",
-                        position: (138, 11),
+                        position: (136, 11),
                        },
                       ],
                      },
@@ -1635,7 +1625,7 @@ Function {
                       parts: [
                        Raw {
                         content: "oneshot",
-                        position: (138, 19),
+                        position: (136, 19),
                        },
                       ],
                      },
@@ -1645,7 +1635,7 @@ Function {
                       attributes: [
                        Raw {
                         content: "ExecStart",
-                        position: (139, 11),
+                        position: (137, 11),
                        },
                       ],
                      },
@@ -1655,13 +1645,13 @@ Function {
                         expression: PropertyAccess {
                          expression: Variable {
                           identifier: "pkgs",
-                          position: (139, 26),
+                          position: (137, 26),
                          },
                          attribute_path: AttributePath {
                           attributes: [
                            Raw {
                             content: "openresolv",
-                            position: (139, 31),
+                            position: (137, 31),
                            },
                           ],
                          },
@@ -1670,7 +1660,7 @@ Function {
                        },
                        Raw {
                         content: "/bin/resolvconf -u",
-                        position: (139, 42),
+                        position: (137, 42),
                        },
                       ],
                      },
@@ -1680,28 +1670,28 @@ Function {
                       attributes: [
                        Raw {
                         content: "RemainAfterExit",
-                        position: (140, 11),
+                        position: (138, 11),
                        },
                       ],
                      },
                      Variable {
                       identifier: "true",
-                      position: (140, 29),
+                      position: (138, 29),
                      },
                     ),
                    ],
                    recursive: false,
-                   position: (137, 25),
+                   position: (135, 25),
                   },
                  ),
                 ],
                 recursive: false,
-                position: (129, 37),
+                position: (127, 37),
                },
               ),
              ],
              recursive: false,
-             position: (126, 22),
+             position: (124, 22),
             },
            ],
           },

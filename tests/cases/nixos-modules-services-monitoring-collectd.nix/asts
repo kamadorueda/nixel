@@ -58,8 +58,47 @@ Function {
      AttributePath {
       attributes: [
        Raw {
-        content: "unvalidated_conf",
+        content: "baseDirLine",
         position: (8, 3),
+       },
+      ],
+     },
+     String {
+      parts: [
+       Raw {
+        content: "BaseDir \"",
+        position: (8, 19),
+       },
+       Expression {
+        expression: PropertyAccess {
+         expression: Variable {
+          identifier: "cfg",
+          position: (8, 30),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "dataDir",
+            position: (8, 34),
+           },
+          ],
+         },
+         default: None,
+        },
+       },
+       Raw {
+        content: "\"",
+        position: (8, 42),
+       },
+      ],
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "unvalidated_conf",
+        position: (9, 3),
        },
       ],
      },
@@ -67,13 +106,13 @@ Function {
       function: PropertyAccess {
        expression: Variable {
         identifier: "pkgs",
-        position: (8, 22),
+        position: (9, 22),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "writeText",
-          position: (8, 27),
+          position: (9, 27),
          },
         ],
        },
@@ -84,265 +123,24 @@ Function {
         parts: [
          Raw {
           content: "collectd-unvalidated.conf",
-          position: (8, 38),
+          position: (9, 38),
          },
         ],
        },
-       String {
-        parts: [
-         Raw {
-          content: "BaseDir \"",
-          position: (9, 1),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "cfg",
-            position: (9, 16),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "dataDir",
-              position: (9, 20),
-             },
-            ],
-           },
-           default: None,
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (9, 65),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "extraConfig",
+           position: (9, 69),
           },
-         },
-         Raw {
-          content: "\"\nAutoLoadPlugin ",
-          position: (9, 28),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "boolToString",
-            position: (10, 22),
-           },
-           arguments: [
-            PropertyAccess {
-             expression: Variable {
-              identifier: "cfg",
-              position: (10, 35),
-             },
-             attribute_path: AttributePath {
-              attributes: [
-               Raw {
-                content: "autoLoadPlugin",
-                position: (10, 39),
-               },
-              ],
-             },
-             default: None,
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "\nHostname \"",
-          position: (10, 54),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "config",
-            position: (11, 17),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "networking",
-              position: (11, 24),
-             },
-             Raw {
-              content: "hostName",
-              position: (11, 35),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "\"\n\nLoadPlugin syslog\n<Plugin \"syslog\">\n  LogLevel \"info\"\n  NotifyLevel \"OKAY\"\n</Plugin>\n\n",
-          position: (11, 44),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "concatStrings",
-            position: (19, 7),
-           },
-           arguments: [
-            FunctionApplication {
-             function: Variable {
-              identifier: "mapAttrsToList",
-              position: (19, 22),
-             },
-             arguments: [
-              Function {
-               argument: Some(
-                "plugin",
-               ),
-               arguments: FunctionArguments {
-                arguments: [],
-                ellipsis: false,
-               },
-               definition: Function {
-                argument: Some(
-                 "pluginConfig",
-                ),
-                arguments: FunctionArguments {
-                 arguments: [],
-                 ellipsis: false,
-                },
-                definition: String {
-                 parts: [
-                  Raw {
-                   content: "LoadPlugin ",
-                   position: (20, 1),
-                  },
-                  Expression {
-                   expression: Variable {
-                    identifier: "plugin",
-                    position: (20, 20),
-                   },
-                  },
-                  Raw {
-                   content: "\n<Plugin \"",
-                   position: (20, 27),
-                  },
-                  Expression {
-                   expression: Variable {
-                    identifier: "plugin",
-                    position: (21, 18),
-                   },
-                  },
-                  Raw {
-                   content: "\">\n",
-                   position: (21, 25),
-                  },
-                  Expression {
-                   expression: Variable {
-                    identifier: "pluginConfig",
-                    position: (22, 9),
-                   },
-                  },
-                  Raw {
-                   content: "\n</Plugin>\n",
-                   position: (22, 22),
-                  },
-                 ],
-                },
-                position: (19, 46),
-               },
-               position: (19, 38),
-              },
-              PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (24, 9),
-               },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "plugins",
-                  position: (24, 13),
-                 },
-                ],
-               },
-               default: None,
-              },
-             ],
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "\n\n",
-          position: (24, 22),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "concatMapStrings",
-            position: (26, 7),
-           },
-           arguments: [
-            Function {
-             argument: Some(
-              "f",
-             ),
-             arguments: FunctionArguments {
-              arguments: [],
-              ellipsis: false,
-             },
-             definition: String {
-              parts: [
-               Raw {
-                content: "Include \"",
-                position: (27, 1),
-               },
-               Expression {
-                expression: Variable {
-                 identifier: "f",
-                 position: (27, 18),
-                },
-               },
-               Raw {
-                content: "\"\n",
-                position: (27, 20),
-               },
-              ],
-             },
-             position: (26, 25),
-            },
-            PropertyAccess {
-             expression: Variable {
-              identifier: "cfg",
-              position: (28, 9),
-             },
-             attribute_path: AttributePath {
-              attributes: [
-               Raw {
-                content: "include",
-                position: (28, 13),
-               },
-              ],
-             },
-             default: None,
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "\n\n",
-          position: (28, 21),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "cfg",
-            position: (30, 7),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "extraConfig",
-              position: (30, 11),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "\n",
-          position: (30, 23),
-         },
-        ],
+         ],
+        },
+        default: None,
        },
       ],
      },
@@ -352,7 +150,7 @@ Function {
       attributes: [
        Raw {
         content: "conf",
-        position: (33, 3),
+        position: (11, 3),
        },
       ],
      },
@@ -360,13 +158,13 @@ Function {
       predicate: PropertyAccess {
        expression: Variable {
         identifier: "cfg",
-        position: (33, 13),
+        position: (11, 13),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "validateConfig",
-          position: (33, 17),
+          position: (11, 17),
          },
         ],
        },
@@ -376,13 +174,13 @@ Function {
        function: PropertyAccess {
         expression: Variable {
          identifier: "pkgs",
-         position: (34, 5),
+         position: (12, 5),
         },
         attribute_path: AttributePath {
          attributes: [
           Raw {
            content: "runCommand",
-           position: (34, 10),
+           position: (12, 10),
           },
          ],
         },
@@ -393,60 +191,94 @@ Function {
          parts: [
           Raw {
            content: "collectd.conf",
-           position: (34, 22),
+           position: (12, 22),
           },
          ],
         },
         Map {
          bindings: [],
          recursive: false,
-         position: (34, 37),
+         position: (12, 37),
         },
         String {
          parts: [
           Raw {
            content: "echo testing ",
-           position: (35, 1),
+           position: (13, 1),
           },
           Expression {
            expression: Variable {
             identifier: "unvalidated_conf",
-            position: (35, 22),
+            position: (13, 22),
            },
           },
           Raw {
-           content: "\n# collectd -t fails if BaseDir does not exist.\nsed '1s/^BaseDir.*$/BaseDir \".\"/' ",
-           position: (35, 39),
+           content: "\ncp ",
+           position: (13, 39),
           },
           Expression {
            expression: Variable {
             identifier: "unvalidated_conf",
-            position: (37, 43),
+            position: (14, 12),
            },
           },
           Raw {
-           content: " > collectd.conf\n",
-           position: (37, 60),
+           content: " collectd.conf\n# collectd -t fails if BaseDir does not exist.\nsubstituteInPlace collectd.conf --replace ",
+           position: (14, 29),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (16, 51),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "escapeShellArgs",
+                position: (16, 55),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             List {
+              elements: [
+               Variable {
+                identifier: "baseDirLine",
+                position: (16, 73),
+               },
+              ],
+              position: (16, 71),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " 'BaseDir \".\"'\n",
+           position: (16, 87),
           },
           Expression {
            expression: Variable {
             identifier: "package",
-            position: (38, 9),
+            position: (17, 9),
            },
           },
           Raw {
            content: "/bin/collectd -t -C collectd.conf\ncp ",
-           position: (38, 17),
+           position: (17, 17),
           },
           Expression {
            expression: Variable {
             identifier: "unvalidated_conf",
-            position: (39, 12),
+            position: (18, 12),
            },
           },
           Raw {
            content: " $out\n",
-           position: (39, 29),
+           position: (18, 29),
           },
          ],
         },
@@ -454,9 +286,9 @@ Function {
       },
       else_: Variable {
        identifier: "unvalidated_conf",
-       position: (40, 13),
+       position: (19, 13),
       },
-      position: (33, 10),
+      position: (11, 10),
      },
     ),
     KeyValue(
@@ -464,7 +296,7 @@ Function {
       attributes: [
        Raw {
         content: "package",
-        position: (42, 3),
+        position: (21, 3),
        },
       ],
      },
@@ -472,13 +304,13 @@ Function {
       predicate: PropertyAccess {
        expression: Variable {
         identifier: "cfg",
-        position: (43, 8),
+        position: (22, 8),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "buildMinimalPackage",
-          position: (43, 12),
+          position: (22, 12),
          },
         ],
        },
@@ -486,24 +318,24 @@ Function {
       },
       then: Variable {
        identifier: "minimalPackage",
-       position: (44, 10),
+       position: (23, 10),
       },
       else_: PropertyAccess {
        expression: Variable {
         identifier: "cfg",
-        position: (45, 10),
+        position: (24, 10),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "package",
-          position: (45, 14),
+          position: (24, 14),
          },
         ],
        },
        default: None,
       },
-      position: (43, 5),
+      position: (22, 5),
      },
     ),
     KeyValue(
@@ -511,7 +343,7 @@ Function {
       attributes: [
        Raw {
         content: "minimalPackage",
-        position: (47, 3),
+        position: (26, 3),
        },
       ],
      },
@@ -519,17 +351,17 @@ Function {
       function: PropertyAccess {
        expression: Variable {
         identifier: "cfg",
-        position: (47, 20),
+        position: (26, 20),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
           content: "package",
-          position: (47, 24),
+          position: (26, 24),
          },
          Raw {
           content: "override",
-          position: (47, 32),
+          position: (26, 32),
          },
         ],
        },
@@ -543,7 +375,7 @@ Function {
            attributes: [
             Raw {
              content: "enabledPlugins",
-             position: (48, 5),
+             position: (27, 5),
             },
            ],
           },
@@ -556,24 +388,24 @@ Function {
                parts: [
                 Raw {
                  content: "syslog",
-                 position: (48, 25),
+                 position: (27, 25),
                 },
                ],
               },
              ],
-             position: (48, 22),
+             position: (27, 22),
             },
             FunctionApplication {
              function: PropertyAccess {
               expression: Variable {
                identifier: "builtins",
-               position: (48, 38),
+               position: (27, 38),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "attrNames",
-                 position: (48, 47),
+                 position: (27, 47),
                 },
                ],
               },
@@ -583,13 +415,13 @@ Function {
               PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (48, 57),
+                position: (27, 57),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "plugins",
-                  position: (48, 61),
+                  position: (27, 61),
                  },
                 ],
                },
@@ -598,12 +430,12 @@ Function {
              ],
             },
            ],
-           position: (48, 35),
+           position: (27, 35),
           },
          ),
         ],
         recursive: false,
-        position: (47, 41),
+        position: (26, 41),
        },
       ],
      },
@@ -616,22 +448,22 @@ Function {
        attributes: [
         Raw {
          content: "options",
-         position: (52, 3),
+         position: (31, 3),
         },
         Raw {
          content: "services",
-         position: (52, 11),
+         position: (31, 11),
         },
         Raw {
          content: "collectd",
-         position: (52, 20),
+         position: (31, 20),
         },
        ],
       },
       With {
        expression: Variable {
         identifier: "types",
-        position: (52, 36),
+        position: (31, 36),
        },
        target: Map {
         bindings: [
@@ -640,21 +472,21 @@ Function {
            attributes: [
             Raw {
              content: "enable",
-             position: (53, 5),
+             position: (32, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkEnableOption",
-            position: (53, 14),
+            position: (32, 14),
            },
            arguments: [
             String {
              parts: [
               Raw {
                content: "collectd agent",
-               position: (53, 30),
+               position: (32, 30),
               },
              ],
             },
@@ -666,14 +498,14 @@ Function {
            attributes: [
             Raw {
              content: "validateConfig",
-             position: (55, 5),
+             position: (34, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (55, 22),
+            position: (34, 22),
            },
            arguments: [
             Map {
@@ -683,13 +515,13 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (56, 7),
+                  position: (35, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "true",
-                position: (56, 17),
+                position: (35, 17),
                },
               ),
               KeyValue(
@@ -697,7 +529,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (57, 7),
+                  position: (36, 7),
                  },
                 ],
                },
@@ -705,7 +537,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Validate the syntax of collectd configuration file at build time.\nDisable this if you use the Include directive on files unavailable in\nthe build sandbox, or when cross-compiling.\n",
-                  position: (58, 1),
+                  position: (37, 1),
                  },
                 ],
                },
@@ -715,20 +547,20 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (62, 7),
+                  position: (41, 7),
                  },
                 ],
                },
                PropertyAccess {
                 expression: Variable {
                  identifier: "types",
-                 position: (62, 14),
+                 position: (41, 14),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "bool",
-                   position: (62, 20),
+                   position: (41, 20),
                   },
                  ],
                 },
@@ -737,7 +569,7 @@ Function {
               ),
              ],
              recursive: false,
-             position: (55, 31),
+             position: (34, 31),
             },
            ],
           },
@@ -747,14 +579,14 @@ Function {
            attributes: [
             Raw {
              content: "package",
-             position: (65, 5),
+             position: (44, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (65, 15),
+            position: (44, 15),
            },
            arguments: [
             Map {
@@ -764,20 +596,20 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (66, 7),
+                  position: (45, 7),
                  },
                 ],
                },
                PropertyAccess {
                 expression: Variable {
                  identifier: "pkgs",
-                 position: (66, 17),
+                 position: (45, 17),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "collectd",
-                   position: (66, 22),
+                   position: (45, 22),
                   },
                  ],
                 },
@@ -789,21 +621,21 @@ Function {
                 attributes: [
                  Raw {
                   content: "defaultText",
-                  position: (67, 7),
+                  position: (46, 7),
                  },
                 ],
                },
                FunctionApplication {
                 function: Variable {
                  identifier: "literalExpression",
-                 position: (67, 21),
+                 position: (46, 21),
                 },
                 arguments: [
                  String {
                   parts: [
                    Raw {
                     content: "pkgs.collectd",
-                    position: (67, 40),
+                    position: (46, 40),
                    },
                   ],
                  },
@@ -815,7 +647,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (68, 7),
+                  position: (47, 7),
                  },
                 ],
                },
@@ -823,7 +655,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Which collectd package to use.\n",
-                  position: (69, 1),
+                  position: (48, 1),
                  },
                 ],
                },
@@ -833,20 +665,20 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (71, 7),
+                  position: (50, 7),
                  },
                 ],
                },
                PropertyAccess {
                 expression: Variable {
                  identifier: "types",
-                 position: (71, 14),
+                 position: (50, 14),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "package",
-                   position: (71, 20),
+                   position: (50, 20),
                   },
                  ],
                 },
@@ -855,7 +687,7 @@ Function {
               ),
              ],
              recursive: false,
-             position: (65, 24),
+             position: (44, 24),
             },
            ],
           },
@@ -865,14 +697,14 @@ Function {
            attributes: [
             Raw {
              content: "buildMinimalPackage",
-             position: (74, 5),
+             position: (53, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (74, 27),
+            position: (53, 27),
            },
            arguments: [
             Map {
@@ -882,13 +714,13 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (75, 7),
+                  position: (54, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "false",
-                position: (75, 17),
+                position: (54, 17),
                },
               ),
               KeyValue(
@@ -896,7 +728,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (76, 7),
+                  position: (55, 7),
                  },
                 ],
                },
@@ -904,7 +736,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Build a minimal collectd package with only the configured `services.collectd.plugins`\n",
-                  position: (77, 1),
+                  position: (56, 1),
                  },
                 ],
                },
@@ -914,18 +746,18 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (79, 7),
+                  position: (58, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "bool",
-                position: (79, 14),
+                position: (58, 14),
                },
               ),
              ],
              recursive: false,
-             position: (74, 36),
+             position: (53, 36),
             },
            ],
           },
@@ -935,14 +767,14 @@ Function {
            attributes: [
             Raw {
              content: "user",
-             position: (82, 5),
+             position: (61, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (82, 12),
+            position: (61, 12),
            },
            arguments: [
             Map {
@@ -952,7 +784,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (83, 7),
+                  position: (62, 7),
                  },
                 ],
                },
@@ -960,7 +792,7 @@ Function {
                 parts: [
                  Raw {
                   content: "collectd",
-                  position: (83, 18),
+                  position: (62, 18),
                  },
                 ],
                },
@@ -970,7 +802,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (84, 7),
+                  position: (63, 7),
                  },
                 ],
                },
@@ -978,7 +810,7 @@ Function {
                 parts: [
                  Raw {
                   content: "User under which to run collectd.\n",
-                  position: (85, 1),
+                  position: (64, 1),
                  },
                 ],
                },
@@ -988,26 +820,26 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (87, 7),
+                  position: (66, 7),
                  },
                 ],
                },
                FunctionApplication {
                 function: Variable {
                  identifier: "nullOr",
-                 position: (87, 14),
+                 position: (66, 14),
                 },
                 arguments: [
                  Variable {
                   identifier: "str",
-                  position: (87, 21),
+                  position: (66, 21),
                  },
                 ],
                },
               ),
              ],
              recursive: false,
-             position: (82, 21),
+             position: (61, 21),
             },
            ],
           },
@@ -1017,14 +849,14 @@ Function {
            attributes: [
             Raw {
              content: "dataDir",
-             position: (90, 5),
+             position: (69, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (90, 15),
+            position: (69, 15),
            },
            arguments: [
             Map {
@@ -1034,7 +866,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (91, 7),
+                  position: (70, 7),
                  },
                 ],
                },
@@ -1042,7 +874,7 @@ Function {
                 parts: [
                  Raw {
                   content: "/var/lib/collectd",
-                  position: (91, 18),
+                  position: (70, 18),
                  },
                 ],
                },
@@ -1052,7 +884,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (92, 7),
+                  position: (71, 7),
                  },
                 ],
                },
@@ -1060,7 +892,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Data directory for collectd agent.\n",
-                  position: (93, 1),
+                  position: (72, 1),
                  },
                 ],
                },
@@ -1070,18 +902,18 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (95, 7),
+                  position: (74, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "path",
-                position: (95, 14),
+                position: (74, 14),
                },
               ),
              ],
              recursive: false,
-             position: (90, 24),
+             position: (69, 24),
             },
            ],
           },
@@ -1091,14 +923,14 @@ Function {
            attributes: [
             Raw {
              content: "autoLoadPlugin",
-             position: (98, 5),
+             position: (77, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (98, 22),
+            position: (77, 22),
            },
            arguments: [
             Map {
@@ -1108,13 +940,13 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (99, 7),
+                  position: (78, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "false",
-                position: (99, 17),
+                position: (78, 17),
                },
               ),
               KeyValue(
@@ -1122,7 +954,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (100, 7),
+                  position: (79, 7),
                  },
                 ],
                },
@@ -1130,7 +962,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Enable plugin autoloading.\n",
-                  position: (101, 1),
+                  position: (80, 1),
                  },
                 ],
                },
@@ -1140,18 +972,18 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (103, 7),
+                  position: (82, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "bool",
-                position: (103, 14),
+                position: (82, 14),
                },
               ),
              ],
              recursive: false,
-             position: (98, 31),
+             position: (77, 31),
             },
            ],
           },
@@ -1161,14 +993,14 @@ Function {
            attributes: [
             Raw {
              content: "include",
-             position: (106, 5),
+             position: (85, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (106, 15),
+            position: (85, 15),
            },
            arguments: [
             Map {
@@ -1178,13 +1010,13 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (107, 7),
+                  position: (86, 7),
                  },
                 ],
                },
                List {
                 elements: [],
-                position: (107, 17),
+                position: (86, 17),
                },
               ),
               KeyValue(
@@ -1192,7 +1024,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (108, 7),
+                  position: (87, 7),
                  },
                 ],
                },
@@ -1200,7 +1032,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Additional paths to load config from.\n",
-                  position: (109, 1),
+                  position: (88, 1),
                  },
                 ],
                },
@@ -1210,26 +1042,26 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (111, 7),
+                  position: (90, 7),
                  },
                 ],
                },
                FunctionApplication {
                 function: Variable {
                  identifier: "listOf",
-                 position: (111, 14),
+                 position: (90, 14),
                 },
                 arguments: [
                  Variable {
                   identifier: "str",
-                  position: (111, 21),
+                  position: (90, 21),
                  },
                 ],
                },
               ),
              ],
              recursive: false,
-             position: (106, 24),
+             position: (85, 24),
             },
            ],
           },
@@ -1239,14 +1071,14 @@ Function {
            attributes: [
             Raw {
              content: "plugins",
-             position: (114, 5),
+             position: (93, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (114, 15),
+            position: (93, 15),
            },
            arguments: [
             Map {
@@ -1256,14 +1088,14 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (115, 7),
+                  position: (94, 7),
                  },
                 ],
                },
                Map {
                 bindings: [],
                 recursive: false,
-                position: (115, 17),
+                position: (94, 17),
                },
               ),
               KeyValue(
@@ -1271,7 +1103,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "example",
-                  position: (116, 7),
+                  position: (95, 7),
                  },
                 ],
                },
@@ -1282,7 +1114,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "cpu",
-                     position: (116, 19),
+                     position: (95, 19),
                     },
                    ],
                   },
@@ -1295,7 +1127,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "memory",
-                     position: (116, 29),
+                     position: (95, 29),
                     },
                    ],
                   },
@@ -1308,7 +1140,7 @@ Function {
                    attributes: [
                     Raw {
                      content: "network",
-                     position: (116, 42),
+                     position: (95, 42),
                     },
                    ],
                   },
@@ -1316,14 +1148,14 @@ Function {
                    parts: [
                     Raw {
                      content: "Server 192.168.1.1 25826",
-                     position: (116, 53),
+                     position: (95, 53),
                     },
                    ],
                   },
                  ),
                 ],
                 recursive: false,
-                position: (116, 17),
+                position: (95, 17),
                },
               ),
               KeyValue(
@@ -1331,7 +1163,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (117, 7),
+                  position: (96, 7),
                  },
                 ],
                },
@@ -1339,7 +1171,7 @@ Function {
                 parts: [
                  Raw {
                   content: "Attribute set of plugin names to plugin config segments\n",
-                  position: (118, 1),
+                  position: (97, 1),
                  },
                 ],
                },
@@ -1349,26 +1181,26 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (120, 7),
+                  position: (99, 7),
                  },
                 ],
                },
                FunctionApplication {
                 function: Variable {
                  identifier: "attrsOf",
-                 position: (120, 14),
+                 position: (99, 14),
                 },
                 arguments: [
                  Variable {
                   identifier: "lines",
-                  position: (120, 22),
+                  position: (99, 22),
                  },
                 ],
                },
               ),
              ],
              recursive: false,
-             position: (114, 24),
+             position: (93, 24),
             },
            ],
           },
@@ -1378,14 +1210,14 @@ Function {
            attributes: [
             Raw {
              content: "extraConfig",
-             position: (123, 5),
+             position: (102, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (123, 19),
+            position: (102, 19),
            },
            arguments: [
             Map {
@@ -1395,7 +1227,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (124, 7),
+                  position: (103, 7),
                  },
                 ],
                },
@@ -1408,15 +1240,15 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (125, 7),
+                  position: (104, 7),
                  },
                 ],
                },
                String {
                 parts: [
                  Raw {
-                  content: "Extra configuration for collectd.\n",
-                  position: (126, 1),
+                  content: "Extra configuration for collectd. Use mkBefore to add lines before the\ndefault config, and mkAfter to add them below.\n",
+                  position: (105, 1),
                  },
                 ],
                },
@@ -1426,27 +1258,27 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (128, 7),
+                  position: (108, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "lines",
-                position: (128, 14),
+                position: (108, 14),
                },
               ),
              ],
              recursive: false,
-             position: (123, 28),
+             position: (102, 28),
             },
            ],
           },
          ),
         ],
         recursive: false,
-        position: (52, 43),
+        position: (31, 43),
        },
-       position: (52, 31),
+       position: (31, 31),
       },
      ),
      KeyValue(
@@ -1454,26 +1286,26 @@ Function {
        attributes: [
         Raw {
          content: "config",
-         position: (133, 3),
+         position: (113, 3),
         },
        ],
       },
       FunctionApplication {
        function: Variable {
         identifier: "mkIf",
-        position: (133, 12),
+        position: (113, 12),
        },
        arguments: [
         PropertyAccess {
          expression: Variable {
           identifier: "cfg",
-          position: (133, 17),
+          position: (113, 17),
          },
          attribute_path: AttributePath {
           attributes: [
            Raw {
             content: "enable",
-            position: (133, 21),
+            position: (113, 21),
            },
           ],
          },
@@ -1485,38 +1317,100 @@ Function {
            AttributePath {
             attributes: [
              Raw {
-              content: "systemd",
-              position: (134, 5),
+              content: "services",
+              position: (115, 5),
              },
              Raw {
-              content: "tmpfiles",
-              position: (134, 13),
+              content: "collectd",
+              position: (115, 14),
              },
              Raw {
-              content: "rules",
-              position: (134, 22),
+              content: "extraConfig",
+              position: (115, 23),
              },
             ],
            },
-           List {
-            elements: [
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (115, 37),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "mkOrder",
+                position: (115, 41),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Int {
+              value: 1200,
+              position: (115, 49),
+             },
              String {
               parts: [
                Raw {
-                content: "d '",
-                position: (135, 8),
+                content: "",
+                position: (116, 1),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "baseDirLine",
+                 position: (116, 9),
+                },
+               },
+               Raw {
+                content: "\nAutoLoadPlugin ",
+                position: (116, 21),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "boolToString",
+                  position: (117, 24),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (117, 37),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "autoLoadPlugin",
+                      position: (117, 41),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "\nHostname \"",
+                position: (117, 56),
                },
                Expression {
                 expression: PropertyAccess {
                  expression: Variable {
-                  identifier: "cfg",
-                  position: (135, 13),
+                  identifier: "config",
+                  position: (118, 19),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
-                    content: "dataDir",
-                    position: (135, 17),
+                    content: "networking",
+                    position: (118, 26),
+                   },
+                   Raw {
+                    content: "hostName",
+                    position: (118, 37),
                    },
                   ],
                  },
@@ -1524,34 +1418,164 @@ Function {
                 },
                },
                Raw {
-                content: "' - ",
-                position: (135, 25),
+                content: "\"\n\nLoadPlugin syslog\n<Plugin \"syslog\">\n  LogLevel \"info\"\n  NotifyLevel \"OKAY\"\n</Plugin>\n\n",
+                position: (118, 46),
                },
                Expression {
-                expression: PropertyAccess {
-                 expression: Variable {
-                  identifier: "cfg",
-                  position: (135, 31),
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatStrings",
+                  position: (126, 9),
                  },
-                 attribute_path: AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "user",
-                    position: (135, 35),
+                 arguments: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "mapAttrsToList",
+                    position: (126, 24),
                    },
-                  ],
-                 },
-                 default: None,
+                   arguments: [
+                    Function {
+                     argument: Some(
+                      "plugin",
+                     ),
+                     arguments: FunctionArguments {
+                      arguments: [],
+                      ellipsis: false,
+                     },
+                     definition: Function {
+                      argument: Some(
+                       "pluginConfig",
+                      ),
+                      arguments: FunctionArguments {
+                       arguments: [],
+                       ellipsis: false,
+                      },
+                      definition: String {
+                       parts: [
+                        Raw {
+                         content: "LoadPlugin ",
+                         position: (127, 1),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "plugin",
+                          position: (127, 22),
+                         },
+                        },
+                        Raw {
+                         content: "\n<Plugin \"",
+                         position: (127, 29),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "plugin",
+                          position: (128, 20),
+                         },
+                        },
+                        Raw {
+                         content: "\">\n",
+                         position: (128, 27),
+                        },
+                        Expression {
+                         expression: Variable {
+                          identifier: "pluginConfig",
+                          position: (129, 11),
+                         },
+                        },
+                        Raw {
+                         content: "\n</Plugin>\n",
+                         position: (129, 24),
+                        },
+                       ],
+                      },
+                      position: (126, 48),
+                     },
+                     position: (126, 40),
+                    },
+                    PropertyAccess {
+                     expression: Variable {
+                      identifier: "cfg",
+                      position: (131, 11),
+                     },
+                     attribute_path: AttributePath {
+                      attributes: [
+                       Raw {
+                        content: "plugins",
+                        position: (131, 15),
+                       },
+                      ],
+                     },
+                     default: None,
+                    },
+                   ],
+                  },
+                 ],
                 },
                },
                Raw {
-                content: " - - -",
-                position: (135, 40),
+                content: "\n\n",
+                position: (131, 24),
+               },
+               Expression {
+                expression: FunctionApplication {
+                 function: Variable {
+                  identifier: "concatMapStrings",
+                  position: (133, 9),
+                 },
+                 arguments: [
+                  Function {
+                   argument: Some(
+                    "f",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: String {
+                    parts: [
+                     Raw {
+                      content: "Include \"",
+                      position: (134, 1),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "f",
+                       position: (134, 20),
+                      },
+                     },
+                     Raw {
+                      content: "\"\n",
+                      position: (134, 22),
+                     },
+                    ],
+                   },
+                   position: (133, 27),
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (135, 11),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "include",
+                      position: (135, 15),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               },
+               Raw {
+                content: "\n",
+                position: (135, 23),
                },
               ],
              },
             ],
-            position: (134, 30),
            },
           ),
           KeyValue(
@@ -1562,12 +1586,85 @@ Function {
               position: (138, 5),
              },
              Raw {
-              content: "services",
+              content: "tmpfiles",
               position: (138, 13),
              },
              Raw {
-              content: "collectd",
+              content: "rules",
               position: (138, 22),
+             },
+            ],
+           },
+           List {
+            elements: [
+             String {
+              parts: [
+               Raw {
+                content: "d '",
+                position: (139, 8),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (139, 13),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "dataDir",
+                    position: (139, 17),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "' - ",
+                position: (139, 25),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (139, 31),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "user",
+                    position: (139, 35),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: " - - -",
+                position: (139, 40),
+               },
+              ],
+             },
+            ],
+            position: (138, 30),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "systemd",
+              position: (142, 5),
+             },
+             Raw {
+              content: "services",
+              position: (142, 13),
+             },
+             Raw {
+              content: "collectd",
+              position: (142, 22),
              },
             ],
            },
@@ -1578,7 +1675,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (139, 7),
+                 position: (143, 7),
                 },
                ],
               },
@@ -1586,7 +1683,7 @@ Function {
                parts: [
                 Raw {
                  content: "Collectd Monitoring Agent",
-                 position: (139, 22),
+                 position: (143, 22),
                 },
                ],
               },
@@ -1596,7 +1693,7 @@ Function {
                attributes: [
                 Raw {
                  content: "after",
-                 position: (140, 7),
+                 position: (144, 7),
                 },
                ],
               },
@@ -1606,12 +1703,12 @@ Function {
                  parts: [
                   Raw {
                    content: "network.target",
-                   position: (140, 18),
+                   position: (144, 18),
                   },
                  ],
                 },
                ],
-               position: (140, 15),
+               position: (144, 15),
               },
              ),
              KeyValue(
@@ -1619,7 +1716,7 @@ Function {
                attributes: [
                 Raw {
                  content: "wantedBy",
-                 position: (141, 7),
+                 position: (145, 7),
                 },
                ],
               },
@@ -1629,12 +1726,12 @@ Function {
                  parts: [
                   Raw {
                    content: "multi-user.target",
-                   position: (141, 21),
+                   position: (145, 21),
                   },
                  ],
                 },
                ],
-               position: (141, 18),
+               position: (145, 18),
               },
              ),
              KeyValue(
@@ -1642,7 +1739,7 @@ Function {
                attributes: [
                 Raw {
                  content: "serviceConfig",
-                 position: (143, 7),
+                 position: (147, 7),
                 },
                ],
               },
@@ -1653,7 +1750,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "ExecStart",
-                    position: (144, 9),
+                    position: (148, 9),
                    },
                   ],
                  },
@@ -1662,22 +1759,22 @@ Function {
                    Expression {
                     expression: Variable {
                      identifier: "package",
-                     position: (144, 24),
+                     position: (148, 24),
                     },
                    },
                    Raw {
                     content: "/sbin/collectd -C ",
-                    position: (144, 32),
+                    position: (148, 32),
                    },
                    Expression {
                     expression: Variable {
                      identifier: "conf",
-                     position: (144, 52),
+                     position: (148, 52),
                     },
                    },
                    Raw {
                     content: " -f",
-                    position: (144, 57),
+                    position: (148, 57),
                    },
                   ],
                  },
@@ -1687,20 +1784,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "User",
-                    position: (145, 9),
+                    position: (149, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "cfg",
-                   position: (145, 16),
+                   position: (149, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "user",
-                     position: (145, 20),
+                     position: (149, 20),
                     },
                    ],
                   },
@@ -1712,7 +1809,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "Restart",
-                    position: (146, 9),
+                    position: (150, 9),
                    },
                   ],
                  },
@@ -1720,7 +1817,7 @@ Function {
                   parts: [
                    Raw {
                     content: "on-failure",
-                    position: (146, 20),
+                    position: (150, 20),
                    },
                   ],
                  },
@@ -1730,23 +1827,23 @@ Function {
                   attributes: [
                    Raw {
                     content: "RestartSec",
-                    position: (147, 9),
+                    position: (151, 9),
                    },
                   ],
                  },
                  Int {
                   value: 3,
-                  position: (147, 22),
+                  position: (151, 22),
                  },
                 ),
                ],
                recursive: false,
-               position: (143, 23),
+               position: (147, 23),
               },
              ),
             ],
             recursive: false,
-            position: (138, 33),
+            position: (142, 33),
            },
           ),
           KeyValue(
@@ -1754,18 +1851,18 @@ Function {
             attributes: [
              Raw {
               content: "users",
-              position: (151, 5),
+              position: (155, 5),
              },
              Raw {
               content: "users",
-              position: (151, 11),
+              position: (155, 11),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "optionalAttrs",
-             position: (151, 19),
+             position: (155, 19),
             },
             arguments: [
              BinaryOperation {
@@ -1774,13 +1871,13 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (151, 34),
+                 position: (155, 34),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "user",
-                   position: (151, 38),
+                   position: (155, 38),
                   },
                  ],
                 },
@@ -1790,12 +1887,12 @@ Function {
                 parts: [
                  Raw {
                   content: "collectd",
-                  position: (151, 47),
+                  position: (155, 47),
                  },
                 ],
                },
               ],
-              position: (151, 43),
+              position: (155, 43),
              },
              Map {
               bindings: [
@@ -1804,7 +1901,7 @@ Function {
                  attributes: [
                   Raw {
                    content: "collectd",
-                   position: (152, 7),
+                   position: (156, 7),
                   },
                  ],
                 },
@@ -1815,13 +1912,13 @@ Function {
                     attributes: [
                      Raw {
                       content: "isSystemUser",
-                      position: (153, 9),
+                      position: (157, 9),
                      },
                     ],
                    },
                    Variable {
                     identifier: "true",
-                    position: (153, 24),
+                    position: (157, 24),
                    },
                   ),
                   KeyValue(
@@ -1829,7 +1926,7 @@ Function {
                     attributes: [
                      Raw {
                       content: "group",
-                      position: (154, 9),
+                      position: (158, 9),
                      },
                     ],
                    },
@@ -1837,19 +1934,19 @@ Function {
                     parts: [
                      Raw {
                       content: "collectd",
-                      position: (154, 18),
+                      position: (158, 18),
                      },
                     ],
                    },
                   ),
                  ],
                  recursive: false,
-                 position: (152, 18),
+                 position: (156, 18),
                 },
                ),
               ],
               recursive: false,
-              position: (151, 58),
+              position: (155, 58),
              },
             ],
            },
@@ -1859,18 +1956,18 @@ Function {
             attributes: [
              Raw {
               content: "users",
-              position: (158, 5),
+              position: (162, 5),
              },
              Raw {
               content: "groups",
-              position: (158, 11),
+              position: (162, 11),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "optionalAttrs",
-             position: (158, 20),
+             position: (162, 20),
             },
             arguments: [
              BinaryOperation {
@@ -1879,13 +1976,13 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (158, 35),
+                 position: (162, 35),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "user",
-                   position: (158, 39),
+                   position: (162, 39),
                   },
                  ],
                 },
@@ -1895,12 +1992,12 @@ Function {
                 parts: [
                  Raw {
                   content: "collectd",
-                  position: (158, 48),
+                  position: (162, 48),
                  },
                 ],
                },
               ],
-              position: (158, 44),
+              position: (162, 44),
              },
              Map {
               bindings: [
@@ -1909,33 +2006,33 @@ Function {
                  attributes: [
                   Raw {
                    content: "collectd",
-                   position: (159, 7),
+                   position: (163, 7),
                   },
                  ],
                 },
                 Map {
                  bindings: [],
                  recursive: false,
-                 position: (159, 18),
+                 position: (163, 18),
                 },
                ),
               ],
               recursive: false,
-              position: (158, 59),
+              position: (162, 59),
              },
             ],
            },
           ),
          ],
          recursive: false,
-         position: (133, 28),
+         position: (113, 28),
         },
        ],
       },
      ),
     ],
     recursive: false,
-    position: (51, 4),
+    position: (30, 4),
    },
    position: (5, 1),
   },

@@ -18,823 +18,374 @@ Function {
   ],
   ellipsis: true,
  },
- definition: With {
-  expression: Variable {
-   identifier: "lib",
-   position: (3, 6),
-  },
-  target: LetIn {
-   bindings: [
-    KeyValue(
-     AttributePath {
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "cfg",
+       position: (4, 3),
+      },
+     ],
+    },
+    PropertyAccess {
+     expression: Variable {
+      identifier: "config",
+      position: (4, 9),
+     },
+     attribute_path: AttributePath {
       attributes: [
        Raw {
-        content: "cfg",
-        position: (5, 3),
+        content: "programs",
+        position: (4, 16),
+       },
+       Raw {
+        content: "captive-browser",
+        position: (4, 25),
        },
       ],
      },
-     PropertyAccess {
+     default: None,
+    },
+   ),
+   Inherit(
+    Some(
+     Variable {
+      identifier: "lib",
+      position: (6, 12),
+     },
+    ),
+    [
+     Raw {
+      content: "concatStringsSep",
+      position: (7, 5),
+     },
+     Raw {
+      content: "escapeShellArgs",
+      position: (7, 22),
+     },
+     Raw {
+      content: "optionalString",
+      position: (7, 38),
+     },
+     Raw {
+      content: "literalExpression",
+      position: (8, 5),
+     },
+     Raw {
+      content: "mkEnableOption",
+      position: (8, 23),
+     },
+     Raw {
+      content: "mkIf",
+      position: (8, 38),
+     },
+     Raw {
+      content: "mkOption",
+      position: (8, 43),
+     },
+     Raw {
+      content: "mkOptionDefault",
+      position: (8, 52),
+     },
+     Raw {
+      content: "types",
+      position: (8, 68),
+     },
+    ],
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "browserDefault",
+       position: (10, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "chromium",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: Variable {
+       identifier: "concatStringsSep",
+       position: (10, 30),
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: " ",
+          position: (10, 48),
+         },
+        ],
+       },
+       List {
+        elements: [
+         String {
+          parts: [
+           Raw {
+            content: "env XDG_CONFIG_HOME=\"$PREV_CONFIG_HOME\"",
+            position: (11, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Expression {
+            expression: Variable {
+             identifier: "chromium",
+             position: (12, 9),
+            },
+           },
+           Raw {
+            content: "/bin/chromium",
+            position: (12, 18),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--user-data-dir=",
+            position: (13, 7),
+           },
+           Raw {
+            content: "$",
+            position: (13, 23),
+           },
+           Raw {
+            content: "{XDG_DATA_HOME:-$HOME/.local/share}/chromium-captive",
+            position: (13, 26),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--proxy-server=\"socks5://$PROXY\"",
+            position: (14, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--host-resolver-rules=\"MAP * ~NOTFOUND , EXCLUDE localhost\"",
+            position: (15, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--no-first-run",
+            position: (16, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--new-window",
+            position: (17, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "--incognito",
+            position: (18, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "-no-default-browser-check",
+            position: (19, 7),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "http://cache.nixos.org/",
+            position: (20, 7),
+           },
+          ],
+         },
+        ],
+        position: (10, 51),
+       },
+      ],
+     },
+     position: (10, 20),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "desktopItem",
+       position: (23, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
       expression: Variable {
-       identifier: "config",
-       position: (5, 9),
+       identifier: "pkgs",
+       position: (23, 17),
       },
       attribute_path: AttributePath {
        attributes: [
         Raw {
-         content: "programs",
-         position: (5, 16),
-        },
-        Raw {
-         content: "captive-browser",
-         position: (5, 25),
+         content: "makeDesktopItem",
+         position: (23, 22),
         },
        ],
       },
       default: None,
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
-       Raw {
-        content: "browserDefault",
-        position: (6, 3),
-       },
-      ],
-     },
-     Function {
-      argument: Some(
-       "chromium",
-      ),
-      arguments: FunctionArguments {
-       arguments: [],
-       ellipsis: false,
-      },
-      definition: FunctionApplication {
-       function: Variable {
-        identifier: "concatStringsSep",
-        position: (6, 30),
-       },
-       arguments: [
-        String {
-         parts: [
-          Raw {
-           content: " ",
-           position: (6, 48),
-          },
-         ],
-        },
-        List {
-         elements: [
-          String {
-           parts: [
-            Raw {
-             content: "env XDG_CONFIG_HOME=\"$PREV_CONFIG_HOME\"",
-             position: (7, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Expression {
-             expression: Variable {
-              identifier: "chromium",
-              position: (8, 9),
-             },
-            },
-            Raw {
-             content: "/bin/chromium",
-             position: (8, 18),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--user-data-dir=",
-             position: (9, 7),
-            },
-            Raw {
-             content: "$",
-             position: (9, 23),
-            },
-            Raw {
-             content: "{XDG_DATA_HOME:-$HOME/.local/share}/chromium-captive",
-             position: (9, 26),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--proxy-server=\"socks5://$PROXY\"",
-             position: (10, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--host-resolver-rules=\"MAP * ~NOTFOUND , EXCLUDE localhost\"",
-             position: (11, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--no-first-run",
-             position: (12, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--new-window",
-             position: (13, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "--incognito",
-             position: (14, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "-no-default-browser-check",
-             position: (15, 7),
-            },
-           ],
-          },
-          String {
-           parts: [
-            Raw {
-             content: "http://cache.nixos.org/",
-             position: (16, 7),
-            },
-           ],
-          },
-         ],
-         position: (6, 51),
-        },
-       ],
-      },
-      position: (6, 20),
-     },
-    ),
-   ],
-   target: Map {
-    bindings: [
-     KeyValue(
-      AttributePath {
-       attributes: [
-        Raw {
-         content: "options",
-         position: (22, 3),
-        },
-       ],
-      },
+     arguments: [
       Map {
        bindings: [
         KeyValue(
          AttributePath {
           attributes: [
            Raw {
-            content: "programs",
-            position: (23, 5),
-           },
-           Raw {
-            content: "captive-browser",
-            position: (23, 14),
+            content: "name",
+            position: (24, 5),
            },
           ],
          },
-         Map {
-          bindings: [
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "enable",
-               position: (24, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkEnableOption",
-              position: (24, 16),
-             },
-             arguments: [
-              String {
-               parts: [
-                Raw {
-                 content: "captive browser",
-                 position: (24, 32),
-                },
-               ],
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "package",
-               position: (26, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (26, 17),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (27, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (27, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "package",
-                     position: (27, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "default",
-                    position: (28, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "pkgs",
-                   position: (28, 19),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "captive-browser",
-                     position: (28, 24),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "defaultText",
-                    position: (29, 9),
-                   },
-                  ],
-                 },
-                 FunctionApplication {
-                  function: Variable {
-                   identifier: "literalExpression",
-                   position: (29, 23),
-                  },
-                  arguments: [
-                   String {
-                    parts: [
-                     Raw {
-                      content: "pkgs.captive-browser",
-                      position: (29, 42),
-                     },
-                    ],
-                   },
-                  ],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (30, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "Which package to use for captive-browser",
-                    position: (30, 24),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (26, 26),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "interface",
-               position: (33, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (33, 19),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (34, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (34, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "str",
-                     position: (34, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (35, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "your public network interface (wlp3s0, wlan0, eth0, ...)",
-                    position: (35, 24),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (33, 28),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "browser",
-               position: (39, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (39, 17),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (40, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (40, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "str",
-                     position: (40, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "default",
-                    position: (41, 9),
-                   },
-                  ],
-                 },
-                 FunctionApplication {
-                  function: Variable {
-                   identifier: "browserDefault",
-                   position: (41, 19),
-                  },
-                  arguments: [
-                   PropertyAccess {
-                    expression: Variable {
-                     identifier: "pkgs",
-                     position: (41, 34),
-                    },
-                    attribute_path: AttributePath {
-                     attributes: [
-                      Raw {
-                       content: "chromium",
-                       position: (41, 39),
-                      },
-                     ],
-                    },
-                    default: None,
-                   },
-                  ],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "defaultText",
-                    position: (42, 9),
-                   },
-                  ],
-                 },
-                 FunctionApplication {
-                  function: Variable {
-                   identifier: "literalExpression",
-                   position: (42, 23),
-                  },
-                  arguments: [
-                   FunctionApplication {
-                    function: Variable {
-                     identifier: "browserDefault",
-                     position: (42, 42),
-                    },
-                    arguments: [
-                     String {
-                      parts: [
-                       Raw {
-                        content: "${pkgs.chromium}",
-                        position: (42, 58),
-                       },
-                      ],
-                     },
-                    ],
-                   },
-                  ],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (43, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "The shell (/bin/sh) command executed once the proxy starts.\nWhen browser exits, the proxy exits. An extra env var PROXY is available.\n\nHere, we use a separate Chrome instance in Incognito mode, so that\nit can run (and be waited for) alongside the default one, and that\nit maintains no state across runs. To configure this browser open a\nnormal window in it, settings will be preserved.\n\n@volth: chromium is to open a plain HTTP (not HTTPS nor redirect to HTTPS!) website.\n        upstream uses http://example.com but I have seen captive portals whose DNS server resolves \"example.com\" to 127.0.0.1\n",
-                    position: (44, 1),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (39, 26),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "dhcp-dns",
-               position: (57, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (57, 18),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (58, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (58, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "str",
-                     position: (58, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (59, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "The shell (/bin/sh) command executed to obtain the DHCP\nDNS server address. The first match of an IPv4 regex is used.\nIPv4 only, because let's be real, it's a captive portal.\n",
-                    position: (60, 1),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (57, 27),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "socks5-addr",
-               position: (66, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (66, 21),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (67, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (67, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "str",
-                     position: (67, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "default",
-                    position: (68, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "localhost:1666",
-                    position: (68, 20),
-                   },
-                  ],
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (69, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "the listen address for the SOCKS5 proxy server",
-                    position: (69, 24),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (66, 30),
-              },
-             ],
-            },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
-              Raw {
-               content: "bindInterface",
-               position: (72, 7),
-              },
-             ],
-            },
-            FunctionApplication {
-             function: Variable {
-              identifier: "mkOption",
-              position: (72, 23),
-             },
-             arguments: [
-              Map {
-               bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "default",
-                    position: (73, 9),
-                   },
-                  ],
-                 },
-                 Variable {
-                  identifier: "true",
-                  position: (73, 19),
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "type",
-                    position: (74, 9),
-                   },
-                  ],
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "types",
-                   position: (74, 16),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "bool",
-                     position: (74, 22),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
-                   Raw {
-                    content: "description",
-                    position: (75, 9),
-                   },
-                  ],
-                 },
-                 String {
-                  parts: [
-                   Raw {
-                    content: "Binds <package>captive-browser</package> to the network interface declared in\n<literal>cfg.interface</literal>. This can be used to avoid collisions\nwith private subnets.\n",
-                    position: (76, 1),
-                   },
-                  ],
-                 },
-                ),
-               ],
-               recursive: false,
-               position: (72, 32),
-              },
-             ],
-            },
-           ),
+         String {
+          parts: [
+           Raw {
+            content: "captive-browser",
+            position: (24, 13),
+           },
           ],
-          recursive: false,
-          position: (23, 32),
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "desktopName",
+            position: (25, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "Captive Portal Browser",
+            position: (25, 20),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "exec",
+            position: (26, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "/run/wrappers/bin/captive-browser",
+            position: (26, 13),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "icon",
+            position: (27, 5),
+           },
+          ],
+         },
+         String {
+          parts: [
+           Raw {
+            content: "nix-snowflake",
+            position: (27, 13),
+           },
+          ],
+         },
+        ),
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "categories",
+            position: (28, 5),
+           },
+          ],
+         },
+         List {
+          elements: [
+           String {
+            parts: [
+             Raw {
+              content: "Network",
+              position: (28, 21),
+             },
+            ],
+           },
+          ],
+          position: (28, 18),
          },
         ),
        ],
        recursive: false,
-       position: (22, 13),
+       position: (23, 38),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
-        Raw {
-         content: "config",
-         position: (86, 3),
-        },
-       ],
-      },
-      FunctionApplication {
-       function: Variable {
-        identifier: "mkIf",
-        position: (86, 12),
+     ],
+    },
+   ),
+  ],
+  target: Map {
+   bindings: [
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "options",
+        position: (35, 3),
        },
-       arguments: [
-        PropertyAccess {
-         expression: Variable {
-          identifier: "cfg",
-          position: (86, 17),
-         },
-         attribute_path: AttributePath {
-          attributes: [
-           Raw {
-            content: "enable",
-            position: (86, 21),
-           },
-          ],
-         },
-         default: None,
+      ],
+     },
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "programs",
+           position: (36, 5),
+          },
+          Raw {
+           content: "captive-browser",
+           position: (36, 14),
+          },
+         ],
         },
         Map {
          bindings: [
@@ -842,128 +393,905 @@ Function {
            AttributePath {
             attributes: [
              Raw {
-              content: "programs",
-              position: (88, 5),
-             },
-             Raw {
-              content: "captive-browser",
-              position: (88, 14),
-             },
-             Raw {
-              content: "dhcp-dns",
-              position: (88, 30),
+              content: "enable",
+              position: (37, 7),
              },
             ],
            },
-           LetIn {
-            bindings: [
-             KeyValue(
-              AttributePath {
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkEnableOption",
+             position: (37, 16),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "captive browser",
+                position: (37, 32),
+               },
+              ],
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "package",
+              position: (39, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (39, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (40, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (40, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "package",
+                    position: (40, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (41, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (41, 19),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "captive-browser",
+                    position: (41, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "defaultText",
+                   position: (42, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (42, 23),
+                 },
+                 arguments: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "pkgs.captive-browser",
+                     position: (42, 42),
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (43, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Which package to use for captive-browser",
+                   position: (43, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (39, 26),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "interface",
+              position: (46, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (46, 19),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (47, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (47, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (47, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (48, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "your public network interface (wlp3s0, wlan0, eth0, ...)",
+                   position: (48, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (46, 28),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "browser",
+              position: (52, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (52, 17),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (53, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (53, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (53, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (54, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "browserDefault",
+                  position: (54, 19),
+                 },
+                 arguments: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (54, 34),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "chromium",
+                      position: (54, 39),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "defaultText",
+                   position: (55, 9),
+                  },
+                 ],
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "literalExpression",
+                  position: (55, 23),
+                 },
+                 arguments: [
+                  FunctionApplication {
+                   function: Variable {
+                    identifier: "browserDefault",
+                    position: (55, 42),
+                   },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "${pkgs.chromium}",
+                       position: (55, 58),
+                      },
+                     ],
+                    },
+                   ],
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (56, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "The shell (/bin/sh) command executed once the proxy starts.\nWhen browser exits, the proxy exits. An extra env var PROXY is available.\n\nHere, we use a separate Chrome instance in Incognito mode, so that\nit can run (and be waited for) alongside the default one, and that\nit maintains no state across runs. To configure this browser open a\nnormal window in it, settings will be preserved.\n\n@volth: chromium is to open a plain HTTP (not HTTPS nor redirect to HTTPS!) website.\n        upstream uses http://example.com but I have seen captive portals whose DNS server resolves \"example.com\" to 127.0.0.1\n",
+                   position: (57, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (52, 26),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "dhcp-dns",
+              position: (70, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (70, 18),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (71, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (71, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (71, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (72, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "The shell (/bin/sh) command executed to obtain the DHCP\nDNS server address. The first match of an IPv4 regex is used.\nIPv4 only, because let's be real, it's a captive portal.\n",
+                   position: (73, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (70, 27),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "socks5-addr",
+              position: (79, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (79, 21),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (80, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (80, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "str",
+                    position: (80, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (81, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "localhost:1666",
+                   position: (81, 20),
+                  },
+                 ],
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (82, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "the listen address for the SOCKS5 proxy server",
+                   position: (82, 24),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (79, 30),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "bindInterface",
+              position: (85, 7),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "mkOption",
+             position: (85, 23),
+            },
+            arguments: [
+             Map {
+              bindings: [
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "default",
+                   position: (86, 9),
+                  },
+                 ],
+                },
+                Variable {
+                 identifier: "true",
+                 position: (86, 19),
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "type",
+                   position: (87, 9),
+                  },
+                 ],
+                },
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "types",
+                  position: (87, 16),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "bool",
+                    position: (87, 22),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ),
+               KeyValue(
+                AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "description",
+                   position: (88, 9),
+                  },
+                 ],
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "Binds <package>captive-browser</package> to the network interface declared in\n<literal>cfg.interface</literal>. This can be used to avoid collisions\nwith private subnets.\n",
+                   position: (89, 1),
+                  },
+                 ],
+                },
+               ),
+              ],
+              recursive: false,
+              position: (85, 32),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+         position: (36, 32),
+        },
+       ),
+      ],
+      recursive: false,
+      position: (35, 13),
+     },
+    ),
+    KeyValue(
+     AttributePath {
+      attributes: [
+       Raw {
+        content: "config",
+        position: (99, 3),
+       },
+      ],
+     },
+     FunctionApplication {
+      function: Variable {
+       identifier: "mkIf",
+       position: (99, 12),
+      },
+      arguments: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "cfg",
+         position: (99, 17),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "enable",
+           position: (99, 21),
+          },
+         ],
+        },
+        default: None,
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "environment",
+             position: (100, 5),
+            },
+            Raw {
+             content: "systemPackages",
+             position: (100, 17),
+            },
+           ],
+          },
+          List {
+           elements: [
+            FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (101, 8),
+              },
+              attribute_path: AttributePath {
                attributes: [
                 Raw {
-                 content: "iface",
-                 position: (90, 9),
+                 content: "runCommandNoCC",
+                 position: (101, 13),
                 },
                ],
               },
-              Function {
-               argument: Some(
-                "prefixes",
-               ),
-               arguments: FunctionArguments {
-                arguments: [],
-                ellipsis: false,
-               },
-               definition: FunctionApplication {
-                function: Variable {
-                 identifier: "optionalString",
-                 position: (91, 11),
+              default: None,
+             },
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "captive-browser-desktop-item",
+                 position: (101, 29),
                 },
-                arguments: [
-                 PropertyAccess {
+               ],
+              },
+              Map {
+               bindings: [],
+               recursive: false,
+               position: (101, 59),
+              },
+              String {
+               parts: [
+                Raw {
+                 content: "install -Dm444 -t $out/share/applications ",
+                 position: (102, 1),
+                },
+                Expression {
+                 expression: Variable {
+                  identifier: "desktopItem",
+                  position: (102, 53),
+                 },
+                },
+                Raw {
+                 content: "/share/applications/*.desktop\n",
+                 position: (102, 65),
+                },
+               ],
+              },
+             ],
+            },
+           ],
+           position: (100, 34),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "programs",
+             position: (106, 5),
+            },
+            Raw {
+             content: "captive-browser",
+             position: (106, 14),
+            },
+            Raw {
+             content: "dhcp-dns",
+             position: (106, 30),
+            },
+           ],
+          },
+          LetIn {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "iface",
+                position: (108, 9),
+               },
+              ],
+             },
+             Function {
+              argument: Some(
+               "prefixes",
+              ),
+              arguments: FunctionArguments {
+               arguments: [],
+               ellipsis: false,
+              },
+              definition: FunctionApplication {
+               function: Variable {
+                identifier: "optionalString",
+                position: (109, 11),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (109, 26),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "bindInterface",
+                    position: (109, 30),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                FunctionApplication {
+                 function: Variable {
+                  identifier: "escapeShellArgs",
+                  position: (109, 45),
+                 },
+                 arguments: [
+                  BinaryOperation {
+                   operator: Concatenation,
+                   operands: [
+                    Variable {
+                     identifier: "prefixes",
+                     position: (109, 62),
+                    },
+                    List {
+                     elements: [
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "cfg",
+                        position: (109, 76),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "interface",
+                          position: (109, 80),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ],
+                     position: (109, 74),
+                    },
+                   ],
+                   position: (109, 71),
+                  },
+                 ],
+                },
+               ],
+              },
+              position: (108, 17),
+             },
+            ),
+           ],
+           target: FunctionApplication {
+            function: Variable {
+             identifier: "mkOptionDefault",
+             position: (111, 7),
+            },
+            arguments: [
+             IfThenElse {
+              predicate: PropertyAccess {
+               expression: Variable {
+                identifier: "config",
+                position: (112, 12),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "networking",
+                  position: (112, 19),
+                 },
+                 Raw {
+                  content: "networkmanager",
+                  position: (112, 30),
+                 },
+                 Raw {
+                  content: "enable",
+                  position: (112, 45),
+                 },
+                ],
+               },
+               default: None,
+              },
+              then: String {
+               parts: [
+                Expression {
+                 expression: PropertyAccess {
                   expression: Variable {
-                   identifier: "cfg",
-                   position: (91, 26),
+                   identifier: "pkgs",
+                   position: (113, 14),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
-                     content: "bindInterface",
-                     position: (91, 30),
+                     content: "networkmanager",
+                     position: (113, 19),
                     },
                    ],
                   },
                   default: None,
                  },
-                 FunctionApplication {
+                },
+                Raw {
+                 content: "/bin/nmcli dev show ",
+                 position: (113, 34),
+                },
+                Expression {
+                 expression: FunctionApplication {
                   function: Variable {
-                   identifier: "escapeShellArgs",
-                   position: (91, 45),
+                   identifier: "iface",
+                   position: (113, 56),
                   },
                   arguments: [
-                   BinaryOperation {
-                    operator: Concatenation,
-                    operands: [
-                     Variable {
-                      identifier: "prefixes",
-                      position: (91, 62),
-                     },
-                     List {
-                      elements: [
-                       PropertyAccess {
-                        expression: Variable {
-                         identifier: "cfg",
-                         position: (91, 76),
-                        },
-                        attribute_path: AttributePath {
-                         attributes: [
-                          Raw {
-                           content: "interface",
-                           position: (91, 80),
-                          },
-                         ],
-                        },
-                        default: None,
-                       },
-                      ],
-                      position: (91, 74),
-                     },
-                    ],
-                    position: (91, 71),
+                   List {
+                    elements: [],
+                    position: (113, 62),
                    },
                   ],
                  },
-                ],
-               },
-               position: (90, 17),
+                },
+                Raw {
+                 content: " | ",
+                 position: (113, 65),
+                },
+                Expression {
+                 expression: PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (113, 70),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "gnugrep",
+                     position: (113, 75),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "/bin/fgrep IP4.DNS",
+                 position: (113, 83),
+                },
+               ],
               },
-             ),
-            ],
-            target: FunctionApplication {
-             function: Variable {
-              identifier: "mkOptionDefault",
-              position: (93, 7),
-             },
-             arguments: [
-              IfThenElse {
+              else_: IfThenElse {
                predicate: PropertyAccess {
                 expression: Variable {
                  identifier: "config",
-                 position: (94, 12),
+                 position: (114, 17),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "networking",
-                   position: (94, 19),
+                   position: (114, 24),
                   },
                   Raw {
-                   content: "networkmanager",
-                   position: (94, 30),
+                   content: "dhcpcd",
+                   position: (114, 35),
                   },
                   Raw {
                    content: "enable",
-                   position: (94, 45),
+                   position: (114, 42),
                   },
                  ],
                 },
@@ -975,13 +1303,13 @@ Function {
                   expression: PropertyAccess {
                    expression: Variable {
                     identifier: "pkgs",
-                    position: (95, 14),
+                    position: (115, 14),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
-                      content: "networkmanager",
-                      position: (95, 19),
+                      content: "dhcpcd",
+                      position: (115, 19),
                      },
                     ],
                    },
@@ -989,38 +1317,47 @@ Function {
                   },
                  },
                  Raw {
-                  content: "/bin/nmcli dev show ",
-                  position: (95, 34),
+                  content: "/bin/dhcpcd ",
+                  position: (115, 26),
                  },
                  Expression {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "iface",
-                    position: (95, 56),
+                    position: (115, 40),
                    },
                    arguments: [
                     List {
-                     elements: [],
-                     position: (95, 62),
+                     elements: [
+                      String {
+                       parts: [
+                        Raw {
+                         content: "-U",
+                         position: (115, 48),
+                        },
+                       ],
+                      },
+                     ],
+                     position: (115, 46),
                     },
                    ],
                   },
                  },
                  Raw {
                   content: " | ",
-                  position: (95, 65),
+                  position: (115, 53),
                  },
                  Expression {
                   expression: PropertyAccess {
                    expression: Variable {
                     identifier: "pkgs",
-                    position: (95, 70),
+                    position: (115, 58),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "gnugrep",
-                      position: (95, 75),
+                      position: (115, 63),
                      },
                     ],
                    },
@@ -1028,8 +1365,8 @@ Function {
                   },
                  },
                  Raw {
-                  content: "/bin/fgrep IP4.DNS",
-                  position: (95, 83),
+                  content: "/bin/fgrep domain_name_servers",
+                  position: (115, 71),
                  },
                 ],
                },
@@ -1037,21 +1374,17 @@ Function {
                 predicate: PropertyAccess {
                  expression: Variable {
                   identifier: "config",
-                  position: (96, 17),
+                  position: (116, 17),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
                     content: "networking",
-                    position: (96, 24),
+                    position: (116, 24),
                    },
                    Raw {
-                    content: "dhcpcd",
-                    position: (96, 35),
-                   },
-                   Raw {
-                    content: "enable",
-                    position: (96, 42),
+                    content: "useNetworkd",
+                    position: (116, 35),
                    },
                   ],
                  },
@@ -1062,14 +1395,14 @@ Function {
                   Expression {
                    expression: PropertyAccess {
                     expression: Variable {
-                     identifier: "pkgs",
-                     position: (97, 14),
+                     identifier: "cfg",
+                     position: (117, 14),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
-                       content: "dhcpcd",
-                       position: (97, 19),
+                       content: "package",
+                       position: (117, 18),
                       },
                      ],
                     },
@@ -1077,14 +1410,57 @@ Function {
                    },
                   },
                   Raw {
-                   content: "/bin/dhcpcd ",
-                   position: (97, 26),
+                   content: "/bin/systemd-networkd-dns ",
+                   position: (117, 26),
                   },
                   Expression {
                    expression: FunctionApplication {
                     function: Variable {
                      identifier: "iface",
-                     position: (97, 40),
+                     position: (117, 54),
+                    },
+                    arguments: [
+                     List {
+                      elements: [],
+                      position: (117, 60),
+                     },
+                    ],
+                   },
+                  },
+                 ],
+                },
+                else_: String {
+                 parts: [
+                  Expression {
+                   expression: PropertyAccess {
+                    expression: Variable {
+                     identifier: "config",
+                     position: (119, 14),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "security",
+                       position: (119, 21),
+                      },
+                      Raw {
+                       content: "wrapperDir",
+                       position: (119, 30),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  },
+                  Raw {
+                   content: "/udhcpc --quit --now -f ",
+                   position: (119, 41),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "iface",
+                     position: (119, 67),
                     },
                     arguments: [
                      List {
@@ -1092,445 +1468,33 @@ Function {
                        String {
                         parts: [
                          Raw {
-                          content: "-U",
-                          position: (97, 48),
+                          content: "-i",
+                          position: (119, 75),
                          },
                         ],
                        },
                       ],
-                      position: (97, 46),
+                      position: (119, 73),
                      },
                     ],
                    },
                   },
                   Raw {
-                   content: " | ",
-                   position: (97, 53),
-                  },
-                  Expression {
-                   expression: PropertyAccess {
-                    expression: Variable {
-                     identifier: "pkgs",
-                     position: (97, 58),
-                    },
-                    attribute_path: AttributePath {
-                     attributes: [
-                      Raw {
-                       content: "gnugrep",
-                       position: (97, 63),
-                      },
-                     ],
-                    },
-                    default: None,
-                   },
-                  },
-                  Raw {
-                   content: "/bin/fgrep domain_name_servers",
-                   position: (97, 71),
-                  },
-                 ],
-                },
-                else_: IfThenElse {
-                 predicate: PropertyAccess {
-                  expression: Variable {
-                   identifier: "config",
-                   position: (98, 17),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "networking",
-                     position: (98, 24),
-                    },
-                    Raw {
-                     content: "useNetworkd",
-                     position: (98, 35),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                 then: String {
-                  parts: [
-                   Expression {
-                    expression: PropertyAccess {
-                     expression: Variable {
-                      identifier: "cfg",
-                      position: (99, 14),
-                     },
-                     attribute_path: AttributePath {
-                      attributes: [
-                       Raw {
-                        content: "package",
-                        position: (99, 18),
-                       },
-                      ],
-                     },
-                     default: None,
-                    },
-                   },
-                   Raw {
-                    content: "/bin/systemd-networkd-dns ",
-                    position: (99, 26),
-                   },
-                   Expression {
-                    expression: FunctionApplication {
-                     function: Variable {
-                      identifier: "iface",
-                      position: (99, 54),
-                     },
-                     arguments: [
-                      List {
-                       elements: [],
-                       position: (99, 60),
-                      },
-                     ],
-                    },
-                   },
-                  ],
-                 },
-                 else_: String {
-                  parts: [
-                   Expression {
-                    expression: PropertyAccess {
-                     expression: Variable {
-                      identifier: "config",
-                      position: (101, 14),
-                     },
-                     attribute_path: AttributePath {
-                      attributes: [
-                       Raw {
-                        content: "security",
-                        position: (101, 21),
-                       },
-                       Raw {
-                        content: "wrapperDir",
-                        position: (101, 30),
-                       },
-                      ],
-                     },
-                     default: None,
-                    },
-                   },
-                   Raw {
-                    content: "/udhcpc --quit --now -f ",
-                    position: (101, 41),
-                   },
-                   Expression {
-                    expression: FunctionApplication {
-                     function: Variable {
-                      identifier: "iface",
-                      position: (101, 67),
-                     },
-                     arguments: [
-                      List {
-                       elements: [
-                        String {
-                         parts: [
-                          Raw {
-                           content: "-i",
-                           position: (101, 75),
-                          },
-                         ],
-                        },
-                       ],
-                       position: (101, 73),
-                      },
-                     ],
-                    },
-                   },
-                   Raw {
-                    content: " -O dns --script ",
-                    position: (101, 80),
-                   },
-                   Expression {
-                    expression: FunctionApplication {
-                     function: PropertyAccess {
-                      expression: Variable {
-                       identifier: "pkgs",
-                       position: (102, 11),
-                      },
-                      attribute_path: AttributePath {
-                       attributes: [
-                        Raw {
-                         content: "writeShellScript",
-                         position: (102, 16),
-                        },
-                       ],
-                      },
-                      default: None,
-                     },
-                     arguments: [
-                      String {
-                       parts: [
-                        Raw {
-                         content: "udhcp-script",
-                         position: (102, 34),
-                        },
-                       ],
-                      },
-                      String {
-                       parts: [
-                        Raw {
-                         content: "if [ \"$1\" = bound ]; then\n  echo \"$dns\"\nfi\n",
-                         position: (103, 1),
-                        },
-                       ],
-                      },
-                     ],
-                    },
-                   },
-                  ],
-                 },
-                 position: (98, 14),
-                },
-                position: (96, 14),
-               },
-               position: (94, 9),
-              },
-             ],
-            },
-            position: (89, 7),
-           },
-          ),
-          KeyValue(
-           AttributePath {
-            attributes: [
-             Raw {
-              content: "security",
-              position: (109, 5),
-             },
-             Raw {
-              content: "wrappers",
-              position: (109, 14),
-             },
-             Raw {
-              content: "udhcpc",
-              position: (109, 23),
-             },
-            ],
-           },
-           Map {
-            bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "owner",
-                 position: (110, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "root",
-                 position: (110, 16),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "group",
-                 position: (111, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "root",
-                 position: (111, 16),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "capabilities",
-                 position: (112, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "cap_net_raw+p",
-                 position: (112, 23),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "source",
-                 position: (113, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Expression {
-                 expression: PropertyAccess {
-                  expression: Variable {
-                   identifier: "pkgs",
-                   position: (113, 19),
-                  },
-                  attribute_path: AttributePath {
-                   attributes: [
-                    Raw {
-                     content: "busybox",
-                     position: (113, 24),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                },
-                Raw {
-                 content: "/bin/udhcpc",
-                 position: (113, 32),
-                },
-               ],
-              },
-             ),
-            ],
-            recursive: false,
-            position: (109, 32),
-           },
-          ),
-          KeyValue(
-           AttributePath {
-            attributes: [
-             Raw {
-              content: "security",
-              position: (116, 5),
-             },
-             Raw {
-              content: "wrappers",
-              position: (116, 14),
-             },
-             Raw {
-              content: "captive-browser",
-              position: (116, 23),
-             },
-            ],
-           },
-           Map {
-            bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "owner",
-                 position: (117, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "root",
-                 position: (117, 16),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "group",
-                 position: (118, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "root",
-                 position: (118, 16),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "capabilities",
-                 position: (119, 7),
-                },
-               ],
-              },
-              String {
-               parts: [
-                Raw {
-                 content: "cap_net_raw+p",
-                 position: (119, 23),
-                },
-               ],
-              },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
-                Raw {
-                 content: "source",
-                 position: (120, 7),
-                },
-               ],
-              },
-              FunctionApplication {
-               function: PropertyAccess {
-                expression: Variable {
-                 identifier: "pkgs",
-                 position: (120, 16),
-                },
-                attribute_path: AttributePath {
-                 attributes: [
-                  Raw {
-                   content: "writeShellScript",
-                   position: (120, 21),
-                  },
-                 ],
-                },
-                default: None,
-               },
-               arguments: [
-                String {
-                 parts: [
-                  Raw {
-                   content: "captive-browser",
-                   position: (120, 39),
-                  },
-                 ],
-                },
-                String {
-                 parts: [
-                  Raw {
-                   content: "export PREV_CONFIG_HOME=\"$XDG_CONFIG_HOME\"\nexport XDG_CONFIG_HOME=",
-                   position: (121, 1),
+                   content: " -O dns --script ",
+                   position: (119, 80),
                   },
                   Expression {
                    expression: FunctionApplication {
                     function: PropertyAccess {
                      expression: Variable {
                       identifier: "pkgs",
-                      position: (122, 34),
+                      position: (120, 11),
                      },
                      attribute_path: AttributePath {
                       attributes: [
                        Raw {
-                        content: "writeTextDir",
-                        position: (122, 39),
+                        content: "writeShellScript",
+                        position: (120, 16),
                        },
                       ],
                      },
@@ -1540,190 +1504,464 @@ Function {
                      String {
                       parts: [
                        Raw {
-                        content: "captive-browser.toml",
-                        position: (122, 53),
+                        content: "udhcp-script",
+                        position: (120, 34),
                        },
                       ],
                      },
                      String {
                       parts: [
                        Raw {
-                        content: "browser = \"\"\"",
-                        position: (123, 1),
-                       },
-                       Expression {
-                        expression: PropertyAccess {
-                         expression: Variable {
-                          identifier: "cfg",
-                          position: (123, 50),
-                         },
-                         attribute_path: AttributePath {
-                          attributes: [
-                           Raw {
-                            content: "browser",
-                            position: (123, 54),
-                           },
-                          ],
-                         },
-                         default: None,
-                        },
-                       },
-                       Raw {
-                        content: "\"\"\"\ndhcp-dns = \"\"\"",
-                        position: (123, 62),
-                       },
-                       Expression {
-                        expression: PropertyAccess {
-                         expression: Variable {
-                          identifier: "cfg",
-                          position: (124, 51),
-                         },
-                         attribute_path: AttributePath {
-                          attributes: [
-                           Raw {
-                            content: "dhcp-dns",
-                            position: (124, 55),
-                           },
-                          ],
-                         },
-                         default: None,
-                        },
-                       },
-                       Raw {
-                        content: "\"\"\"\nsocks5-addr = \"\"\"",
-                        position: (124, 64),
-                       },
-                       Expression {
-                        expression: PropertyAccess {
-                         expression: Variable {
-                          identifier: "cfg",
-                          position: (125, 54),
-                         },
-                         attribute_path: AttributePath {
-                          attributes: [
-                           Raw {
-                            content: "socks5-addr",
-                            position: (125, 58),
-                           },
-                          ],
-                         },
-                         default: None,
-                        },
-                       },
-                       Raw {
-                        content: "\"\"\"\n",
-                        position: (125, 70),
-                       },
-                       Expression {
-                        expression: FunctionApplication {
-                         function: Variable {
-                          identifier: "optionalString",
-                          position: (126, 37),
-                         },
-                         arguments: [
-                          PropertyAccess {
-                           expression: Variable {
-                            identifier: "cfg",
-                            position: (126, 52),
-                           },
-                           attribute_path: AttributePath {
-                            attributes: [
-                             Raw {
-                              content: "bindInterface",
-                              position: (126, 56),
-                             },
-                            ],
-                           },
-                           default: None,
-                          },
-                          String {
-                           parts: [
-                            Raw {
-                             content: "bind-device = \"\"\"",
-                             position: (127, 1),
-                            },
-                            Expression {
-                             expression: PropertyAccess {
-                              expression: Variable {
-                               identifier: "cfg",
-                               position: (127, 56),
-                              },
-                              attribute_path: AttributePath {
-                               attributes: [
-                                Raw {
-                                 content: "interface",
-                                 position: (127, 60),
-                                },
-                               ],
-                              },
-                              default: None,
-                             },
-                            },
-                            Raw {
-                             content: "\"\"\"\n",
-                             position: (127, 70),
-                            },
-                           ],
-                          },
-                         ],
-                        },
-                       },
-                       Raw {
-                        content: "\n",
-                        position: (128, 38),
+                        content: "if [ \"$1\" = bound ]; then\n  echo \"$dns\"\nfi\n",
+                        position: (121, 1),
                        },
                       ],
                      },
                     ],
                    },
                   },
-                  Raw {
-                   content: "\nexec ",
-                   position: (129, 36),
-                  },
-                  Expression {
-                   expression: PropertyAccess {
+                 ],
+                },
+                position: (116, 14),
+               },
+               position: (114, 14),
+              },
+              position: (112, 9),
+             },
+            ],
+           },
+           position: (107, 7),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "security",
+             position: (127, 5),
+            },
+            Raw {
+             content: "wrappers",
+             position: (127, 14),
+            },
+            Raw {
+             content: "udhcpc",
+             position: (127, 23),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "owner",
+                position: (128, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "root",
+                position: (128, 16),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "group",
+                position: (129, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "root",
+                position: (129, 16),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "capabilities",
+                position: (130, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "cap_net_raw+p",
+                position: (130, 23),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "source",
+                position: (131, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "pkgs",
+                  position: (131, 19),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "busybox",
+                    position: (131, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "/bin/udhcpc",
+                position: (131, 32),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+           position: (127, 32),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "security",
+             position: (134, 5),
+            },
+            Raw {
+             content: "wrappers",
+             position: (134, 14),
+            },
+            Raw {
+             content: "captive-browser",
+             position: (134, 23),
+            },
+           ],
+          },
+          Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "owner",
+                position: (135, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "root",
+                position: (135, 16),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "group",
+                position: (136, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "root",
+                position: (136, 16),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "capabilities",
+                position: (137, 7),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "cap_net_raw+p",
+                position: (137, 23),
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "source",
+                position: (138, 7),
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (138, 16),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "writeShellScript",
+                  position: (138, 21),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               String {
+                parts: [
+                 Raw {
+                  content: "captive-browser",
+                  position: (138, 39),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "export PREV_CONFIG_HOME=\"$XDG_CONFIG_HOME\"\nexport XDG_CONFIG_HOME=",
+                  position: (139, 1),
+                 },
+                 Expression {
+                  expression: FunctionApplication {
+                   function: PropertyAccess {
                     expression: Variable {
-                     identifier: "cfg",
-                     position: (130, 16),
+                     identifier: "pkgs",
+                     position: (140, 34),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
-                       content: "package",
-                       position: (130, 20),
+                       content: "writeTextDir",
+                       position: (140, 39),
                       },
                      ],
                     },
                     default: None,
                    },
+                   arguments: [
+                    String {
+                     parts: [
+                      Raw {
+                       content: "captive-browser.toml",
+                       position: (140, 53),
+                      },
+                     ],
+                    },
+                    String {
+                     parts: [
+                      Raw {
+                       content: "browser = \"\"\"",
+                       position: (141, 1),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (141, 50),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "browser",
+                           position: (141, 54),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "\"\"\"\ndhcp-dns = \"\"\"",
+                       position: (141, 62),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (142, 51),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "dhcp-dns",
+                           position: (142, 55),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "\"\"\"\nsocks5-addr = \"\"\"",
+                       position: (142, 64),
+                      },
+                      Expression {
+                       expression: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (143, 54),
+                        },
+                        attribute_path: AttributePath {
+                         attributes: [
+                          Raw {
+                           content: "socks5-addr",
+                           position: (143, 58),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Raw {
+                       content: "\"\"\"\n",
+                       position: (143, 70),
+                      },
+                      Expression {
+                       expression: FunctionApplication {
+                        function: Variable {
+                         identifier: "optionalString",
+                         position: (144, 37),
+                        },
+                        arguments: [
+                         PropertyAccess {
+                          expression: Variable {
+                           identifier: "cfg",
+                           position: (144, 52),
+                          },
+                          attribute_path: AttributePath {
+                           attributes: [
+                            Raw {
+                             content: "bindInterface",
+                             position: (144, 56),
+                            },
+                           ],
+                          },
+                          default: None,
+                         },
+                         String {
+                          parts: [
+                           Raw {
+                            content: "bind-device = \"\"\"",
+                            position: (145, 1),
+                           },
+                           Expression {
+                            expression: PropertyAccess {
+                             expression: Variable {
+                              identifier: "cfg",
+                              position: (145, 56),
+                             },
+                             attribute_path: AttributePath {
+                              attributes: [
+                               Raw {
+                                content: "interface",
+                                position: (145, 60),
+                               },
+                              ],
+                             },
+                             default: None,
+                            },
+                           },
+                           Raw {
+                            content: "\"\"\"\n",
+                            position: (145, 70),
+                           },
+                          ],
+                         },
+                        ],
+                       },
+                      },
+                      Raw {
+                       content: "\n",
+                       position: (146, 38),
+                      },
+                     ],
+                    },
+                   ],
                   },
-                  Raw {
-                   content: "/bin/captive-browser\n",
-                   position: (130, 28),
+                 },
+                 Raw {
+                  content: "\nexec ",
+                  position: (147, 36),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (148, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "package",
+                      position: (148, 20),
+                     },
+                    ],
+                   },
+                   default: None,
                   },
-                 ],
-                },
-               ],
-              },
-             ),
-            ],
-            recursive: false,
-            position: (116, 41),
-           },
-          ),
-         ],
-         recursive: false,
-         position: (86, 28),
-        },
-       ],
-      },
-     ),
-    ],
-    recursive: false,
-    position: (19, 1),
-   },
-   position: (4, 1),
+                 },
+                 Raw {
+                  content: "/bin/captive-browser\n",
+                  position: (148, 28),
+                 },
+                ],
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+           position: (134, 41),
+          },
+         ),
+        ],
+        recursive: false,
+        position: (99, 28),
+       },
+      ],
+     },
+    ),
+   ],
+   recursive: false,
+   position: (32, 1),
   },
   position: (3, 1),
  },

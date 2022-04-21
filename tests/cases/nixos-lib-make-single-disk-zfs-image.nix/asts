@@ -1,0 +1,3594 @@
+---
+Function {
+ argument: None,
+ arguments: FunctionArguments {
+  arguments: [
+   FunctionArgument {
+    identifier: "includeChannel",
+    default: Some(
+     Variable {
+      identifier: "true",
+      position: (71, 20),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "format",
+    default: Some(
+     String {
+      parts: [
+       Raw {
+        content: "raw",
+        position: (68, 13),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "name",
+    default: Some(
+     String {
+      parts: [
+       Raw {
+        content: "nixos-disk-image",
+        position: (65, 11),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "postVM",
+    default: Some(
+     String {
+      parts: [],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "configFile",
+    default: Some(
+     Variable {
+      identifier: "null",
+      position: (60, 16),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "contents",
+    default: Some(
+     List {
+      elements: [],
+      position: (55, 14),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "datasets",
+    default: Some(
+     Map {
+      bindings: [],
+      recursive: false,
+      position: (49, 14),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "rootPoolFilesystemProperties",
+    default: Some(
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "acltype",
+           position: (36, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "posixacl",
+           position: (36, 16),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "atime",
+           position: (37, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "off",
+           position: (37, 14),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "compression",
+           position: (38, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "on",
+           position: (38, 20),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "mountpoint",
+           position: (39, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "legacy",
+           position: (39, 19),
+          },
+         ],
+        },
+       ),
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "xattr",
+           position: (40, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "sa",
+           position: (40, 14),
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+      position: (35, 34),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "rootPoolProperties",
+    default: Some(
+     Map {
+      bindings: [
+       KeyValue(
+        AttributePath {
+         attributes: [
+          Raw {
+           content: "autoexpand",
+           position: (32, 5),
+          },
+         ],
+        },
+        String {
+         parts: [
+          Raw {
+           content: "on",
+           position: (32, 19),
+          },
+         ],
+        },
+       ),
+      ],
+      recursive: false,
+      position: (31, 24),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "rootPoolName",
+    default: Some(
+     String {
+      parts: [
+       Raw {
+        content: "tank",
+        position: (28, 19),
+       },
+      ],
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "rootSize",
+    default: Some(
+     Int {
+      value: 2048,
+      position: (25, 14),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "bootSize",
+    default: Some(
+     Int {
+      value: 1024,
+      position: (22, 14),
+     },
+    ),
+   },
+   FunctionArgument {
+    identifier: "config",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "pkgs",
+    default: None,
+   },
+   FunctionArgument {
+    identifier: "lib",
+    default: None,
+   },
+  ],
+  ellipsis: false,
+ },
+ definition: LetIn {
+  bindings: [
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "formatOpt",
+       position: (74, 3),
+      },
+     ],
+    },
+    IfThenElse {
+     predicate: BinaryOperation {
+      operator: EqualTo,
+      operands: [
+       Variable {
+        identifier: "format",
+        position: (74, 18),
+       },
+       String {
+        parts: [
+         Raw {
+          content: "qcow2-compressed",
+          position: (74, 29),
+         },
+        ],
+       },
+      ],
+      position: (74, 25),
+     },
+     then: String {
+      parts: [
+       Raw {
+        content: "qcow2",
+        position: (74, 53),
+       },
+      ],
+     },
+     else_: Variable {
+      identifier: "format",
+      position: (74, 65),
+     },
+     position: (74, 15),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "compress",
+       position: (76, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "lib",
+       position: (76, 14),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "optionalString",
+         position: (76, 18),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      BinaryOperation {
+       operator: EqualTo,
+       operands: [
+        Variable {
+         identifier: "format",
+         position: (76, 34),
+        },
+        String {
+         parts: [
+          Raw {
+           content: "qcow2-compressed",
+           position: (76, 45),
+          },
+         ],
+        },
+       ],
+       position: (76, 41),
+      },
+      String {
+       parts: [
+        Raw {
+         content: "-c",
+         position: (76, 65),
+        },
+       ],
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "filenameSuffix",
+       position: (78, 3),
+      },
+     ],
+    },
+    BinaryOperation {
+     operator: Addition,
+     operands: [
+      String {
+       parts: [
+        Raw {
+         content: ".",
+         position: (78, 21),
+        },
+       ],
+      },
+      PropertyAccess {
+       expression: Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "qcow2",
+             position: (79, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "qcow2",
+             position: (79, 14),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "vdi",
+             position: (80, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "vdi",
+             position: (80, 12),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "vpc",
+             position: (81, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "vhd",
+             position: (81, 12),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "raw",
+             position: (82, 5),
+            },
+           ],
+          },
+          String {
+           parts: [
+            Raw {
+             content: "img",
+             position: (82, 12),
+            },
+           ],
+          },
+         ),
+        ],
+        recursive: false,
+        position: (78, 26),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Expression {
+          expression: Variable {
+           identifier: "formatOpt",
+           position: (83, 7),
+          },
+         },
+        ],
+       },
+       default: Some(
+        Variable {
+         identifier: "formatOpt",
+         position: (83, 21),
+        },
+       ),
+      },
+     ],
+     position: (78, 24),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "rootFilename",
+       position: (84, 3),
+      },
+     ],
+    },
+    String {
+     parts: [
+      Raw {
+       content: "nixos.root",
+       position: (84, 19),
+      },
+      Expression {
+       expression: Variable {
+        identifier: "filenameSuffix",
+        position: (84, 31),
+       },
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "channelSources",
+       position: (87, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "nixpkgs",
+          position: (89, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (89, 17),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "cleanSource",
+            position: (89, 21),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (89, 33),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "path",
+             position: (89, 38),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (91, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (91, 10),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "nixos-",
+          position: (91, 22),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (91, 30),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (91, 37),
+             },
+             Raw {
+              content: "nixos",
+              position: (91, 44),
+             },
+             Raw {
+              content: "version",
+              position: (91, 50),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+        ],
+       },
+       Map {
+        bindings: [],
+        recursive: false,
+        position: (91, 60),
+       },
+       String {
+        parts: [
+         Raw {
+          content: "mkdir -p $out\ncp -prd ",
+          position: (92, 1),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "nixpkgs",
+            position: (93, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "outPath",
+              position: (93, 25),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " $out/nixos\nchmod -R u+w $out/nixos\nif [ ! -e $out/nixos/nixpkgs ]; then\n  ln -s . $out/nixos/nixpkgs\nfi\nrm -rf $out/nixos/.git\necho -n ",
+          position: (93, 33),
+         },
+         Expression {
+          expression: PropertyAccess {
+           expression: Variable {
+            identifier: "config",
+            position: (99, 17),
+           },
+           attribute_path: AttributePath {
+            attributes: [
+             Raw {
+              content: "system",
+              position: (99, 24),
+             },
+             Raw {
+              content: "nixos",
+              position: (99, 31),
+             },
+             Raw {
+              content: "versionSuffix",
+              position: (99, 37),
+             },
+            ],
+           },
+           default: None,
+          },
+         },
+         Raw {
+          content: " > $out/nixos/.version-suffix\n",
+          position: (99, 51),
+         },
+        ],
+       },
+      ],
+     },
+     position: (88, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "closureInfo",
+       position: (102, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (102, 17),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "closureInfo",
+         position: (102, 22),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      Map {
+       bindings: [
+        KeyValue(
+         AttributePath {
+          attributes: [
+           Raw {
+            content: "rootPaths",
+            position: (103, 5),
+           },
+          ],
+         },
+         BinaryOperation {
+          operator: Concatenation,
+          operands: [
+           List {
+            elements: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (103, 19),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "system",
+                 position: (103, 26),
+                },
+                Raw {
+                 content: "build",
+                 position: (103, 33),
+                },
+                Raw {
+                 content: "toplevel",
+                 position: (103, 39),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+            position: (103, 17),
+           },
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (104, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optional",
+                position: (104, 15),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "includeChannel",
+              position: (104, 24),
+             },
+             Variable {
+              identifier: "channelSources",
+              position: (104, 39),
+             },
+            ],
+           },
+          ],
+          position: (104, 7),
+         },
+        ),
+       ],
+       recursive: false,
+       position: (102, 34),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "modulesTree",
+       position: (107, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "pkgs",
+       position: (107, 17),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "aggregateModules",
+         position: (107, 22),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      With {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "config",
+         position: (108, 11),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "boot",
+           position: (108, 18),
+          },
+          Raw {
+           content: "kernelPackages",
+           position: (108, 23),
+          },
+         ],
+        },
+        default: None,
+       },
+       target: List {
+        elements: [
+         Variable {
+          identifier: "kernel",
+          position: (108, 41),
+         },
+         Variable {
+          identifier: "zfs",
+          position: (108, 48),
+         },
+        ],
+        position: (108, 39),
+       },
+       position: (108, 6),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "tools",
+       position: (110, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: Variable {
+       identifier: "lib",
+       position: (110, 11),
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "makeBinPath",
+         position: (110, 15),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      With {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (111, 10),
+       },
+       target: List {
+        elements: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "config",
+           position: (112, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "system",
+             position: (112, 14),
+            },
+            Raw {
+             content: "build",
+             position: (112, 21),
+            },
+            Raw {
+             content: "nixos-enter",
+             position: (112, 27),
+            },
+           ],
+          },
+          default: None,
+         },
+         PropertyAccess {
+          expression: Variable {
+           identifier: "config",
+           position: (113, 7),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "system",
+             position: (113, 14),
+            },
+            Raw {
+             content: "build",
+             position: (113, 21),
+            },
+            Raw {
+             content: "nixos-install",
+             position: (113, 27),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "dosfstools",
+          position: (114, 7),
+         },
+         Variable {
+          identifier: "e2fsprogs",
+          position: (115, 7),
+         },
+         Variable {
+          identifier: "gptfdisk",
+          position: (116, 7),
+         },
+         Variable {
+          identifier: "nix",
+          position: (117, 7),
+         },
+         Variable {
+          identifier: "parted",
+          position: (118, 7),
+         },
+         Variable {
+          identifier: "utillinux",
+          position: (119, 7),
+         },
+         Variable {
+          identifier: "zfs",
+          position: (120, 7),
+         },
+        ],
+        position: (111, 16),
+       },
+       position: (111, 5),
+      },
+     ],
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "hasDefinedMount",
+       position: (124, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "disk",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: BinaryOperation {
+      operator: NotEqualTo,
+      operands: [
+       PropertyAccess {
+        expression: Variable {
+         identifier: "disk",
+         position: (124, 29),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "mount",
+           position: (124, 34),
+          },
+         ],
+        },
+        default: Some(
+         Variable {
+          identifier: "null",
+          position: (124, 43),
+         },
+        ),
+       },
+       Variable {
+        identifier: "null",
+        position: (124, 52),
+       },
+      ],
+      position: (124, 49),
+     },
+     position: (124, 21),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "stringifyProperties",
+       position: (126, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "prefix",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: Function {
+      argument: Some(
+       "properties",
+      ),
+      arguments: FunctionArguments {
+       arguments: [],
+       ellipsis: false,
+      },
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (126, 45),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "concatStringsSep",
+           position: (126, 49),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        String {
+         parts: [
+          Raw {
+           content: " \\\n",
+           position: (126, 67),
+          },
+         ],
+        },
+        FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (127, 5),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "mapAttrsToList",
+             position: (127, 9),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Function {
+           argument: Some(
+            "property",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: Function {
+            argument: Some(
+             "value",
+            ),
+            arguments: FunctionArguments {
+             arguments: [],
+             ellipsis: false,
+            },
+            definition: String {
+             parts: [
+              Expression {
+               expression: Variable {
+                identifier: "prefix",
+                position: (129, 29),
+               },
+              },
+              Raw {
+               content: " ",
+               position: (129, 36),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (129, 39),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "escapeShellArg",
+                    position: (129, 43),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "property",
+                  position: (129, 58),
+                 },
+                ],
+               },
+              },
+              Raw {
+               content: "=",
+               position: (129, 67),
+              },
+              Expression {
+               expression: FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (129, 70),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "escapeShellArg",
+                    position: (129, 74),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Variable {
+                  identifier: "value",
+                  position: (129, 89),
+                 },
+                ],
+               },
+              },
+             ],
+            },
+            position: (129, 19),
+           },
+           position: (129, 9),
+          },
+          Variable {
+           identifier: "properties",
+           position: (131, 7),
+          },
+         ],
+        },
+       ],
+      },
+      position: (126, 33),
+     },
+     position: (126, 25),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "featuresToProperties",
+       position: (134, 3),
+      },
+     ],
+    },
+    Function {
+     argument: Some(
+      "features",
+     ),
+     arguments: FunctionArguments {
+      arguments: [],
+      ellipsis: false,
+     },
+     definition: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (135, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "listToAttrs",
+          position: (135, 9),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "builtins",
+          position: (136, 8),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "map",
+            position: (136, 17),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "feature",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Map {
+           bindings: [
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "name",
+                position: (138, 11),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "feature@",
+                position: (138, 19),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "feature",
+                 position: (138, 29),
+                },
+               },
+              ],
+             },
+            ),
+            KeyValue(
+             AttributePath {
+              attributes: [
+               Raw {
+                content: "value",
+                position: (139, 11),
+               },
+              ],
+             },
+             String {
+              parts: [
+               Raw {
+                content: "enabled",
+                position: (139, 20),
+               },
+              ],
+             },
+            ),
+           ],
+           recursive: false,
+           position: (137, 19),
+          },
+          position: (137, 10),
+         },
+         Variable {
+          identifier: "features",
+          position: (141, 9),
+         },
+        ],
+       },
+      ],
+     },
+     position: (134, 26),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "createDatasets",
+       position: (143, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "datasetlist",
+          position: (145, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (145, 21),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mapAttrsToList",
+            position: (145, 25),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (145, 40),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "nameValuePair",
+             position: (145, 44),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "datasets",
+          position: (145, 58),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "sorted",
+          position: (146, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (146, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "sort",
+            position: (146, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "left",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "right",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: BinaryOperation {
+            operator: LessThan,
+            operands: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (146, 40),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (146, 44),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "left",
+                 position: (146, 57),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "name",
+                   position: (146, 62),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (146, 71),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (146, 75),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "right",
+                 position: (146, 88),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "name",
+                   position: (146, 94),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+            position: (146, 68),
+           },
+           position: (146, 32),
+          },
+          position: (146, 26),
+         },
+         Variable {
+          identifier: "datasetlist",
+          position: (146, 101),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "cmd",
+          position: (147, 7),
+         },
+        ],
+       },
+       Function {
+        argument: None,
+        arguments: FunctionArguments {
+         arguments: [
+          FunctionArgument {
+           identifier: "value",
+           default: None,
+          },
+          FunctionArgument {
+           identifier: "name",
+           default: None,
+          },
+         ],
+         ellipsis: false,
+        },
+        definition: LetIn {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "properties",
+              position: (149, 11),
+             },
+            ],
+           },
+           FunctionApplication {
+            function: Variable {
+             identifier: "stringifyProperties",
+             position: (149, 24),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "-o",
+                position: (149, 45),
+               },
+              ],
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "value",
+               position: (149, 50),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "properties",
+                 position: (149, 56),
+                },
+               ],
+              },
+              default: Some(
+               Map {
+                bindings: [],
+                recursive: false,
+                position: (149, 70),
+               },
+              ),
+             },
+            ],
+           },
+          ),
+         ],
+         target: String {
+          parts: [
+           Raw {
+            content: "zfs create -p ",
+            position: (151, 10),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "properties",
+             position: (151, 26),
+            },
+           },
+           Raw {
+            content: " ",
+            position: (151, 37),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "name",
+             position: (151, 40),
+            },
+           },
+          ],
+         },
+         position: (148, 9),
+        },
+        position: (147, 13),
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (153, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "concatMapStringsSep",
+          position: (153, 9),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "\n",
+          position: (153, 30),
+         },
+        ],
+       },
+       Variable {
+        identifier: "cmd",
+        position: (153, 34),
+       },
+       Variable {
+        identifier: "sorted",
+        position: (153, 38),
+       },
+      ],
+     },
+     position: (144, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mountDatasets",
+       position: (155, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "datasetlist",
+          position: (157, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (157, 21),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mapAttrsToList",
+            position: (157, 25),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (157, 40),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "nameValuePair",
+             position: (157, 44),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "datasets",
+          position: (157, 58),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "mounts",
+          position: (158, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (158, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "filter",
+            position: (158, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: None,
+          arguments: FunctionArguments {
+           arguments: [
+            FunctionArgument {
+             identifier: "value",
+             default: None,
+            },
+           ],
+           ellipsis: true,
+          },
+          definition: FunctionApplication {
+           function: Variable {
+            identifier: "hasDefinedMount",
+            position: (158, 44),
+           },
+           arguments: [
+            Variable {
+             identifier: "value",
+             position: (158, 60),
+            },
+           ],
+          },
+          position: (158, 28),
+         },
+         Variable {
+          identifier: "datasetlist",
+          position: (158, 67),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "sorted",
+          position: (159, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (159, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "sort",
+            position: (159, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "left",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "right",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: BinaryOperation {
+            operator: LessThan,
+            operands: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (159, 40),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (159, 44),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "left",
+                 position: (159, 57),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "value",
+                   position: (159, 62),
+                  },
+                  Raw {
+                   content: "mount",
+                   position: (159, 68),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (159, 78),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (159, 82),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "right",
+                 position: (159, 95),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "value",
+                   position: (159, 101),
+                  },
+                  Raw {
+                   content: "mount",
+                   position: (159, 107),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+            position: (159, 75),
+           },
+           position: (159, 32),
+          },
+          position: (159, 26),
+         },
+         Variable {
+          identifier: "mounts",
+          position: (159, 115),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "cmd",
+          position: (160, 7),
+         },
+        ],
+       },
+       Function {
+        argument: None,
+        arguments: FunctionArguments {
+         arguments: [
+          FunctionArgument {
+           identifier: "value",
+           default: None,
+          },
+          FunctionArgument {
+           identifier: "name",
+           default: None,
+          },
+         ],
+         ellipsis: false,
+        },
+        definition: String {
+         parts: [
+          Raw {
+           content: "mkdir -p /mnt",
+           position: (162, 1),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (162, 26),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "escapeShellArg",
+                position: (162, 30),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "value",
+               position: (162, 45),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mount",
+                 position: (162, 51),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\nmount -t zfs ",
+           position: (162, 57),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "name",
+            position: (163, 26),
+           },
+          },
+          Raw {
+           content: " /mnt",
+           position: (163, 31),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (163, 38),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "escapeShellArg",
+                position: (163, 42),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "value",
+               position: (163, 57),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mount",
+                 position: (163, 63),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (163, 69),
+          },
+         ],
+        },
+        position: (160, 13),
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (166, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "concatMapStringsSep",
+          position: (166, 9),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "\n",
+          position: (166, 30),
+         },
+        ],
+       },
+       Variable {
+        identifier: "cmd",
+        position: (166, 34),
+       },
+       Variable {
+        identifier: "sorted",
+        position: (166, 38),
+       },
+      ],
+     },
+     position: (156, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "unmountDatasets",
+       position: (168, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "datasetlist",
+          position: (170, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (170, 21),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "mapAttrsToList",
+            position: (170, 25),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (170, 40),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "nameValuePair",
+             position: (170, 44),
+            },
+           ],
+          },
+          default: None,
+         },
+         Variable {
+          identifier: "datasets",
+          position: (170, 58),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "mounts",
+          position: (171, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (171, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "filter",
+            position: (171, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: None,
+          arguments: FunctionArguments {
+           arguments: [
+            FunctionArgument {
+             identifier: "value",
+             default: None,
+            },
+           ],
+           ellipsis: true,
+          },
+          definition: FunctionApplication {
+           function: Variable {
+            identifier: "hasDefinedMount",
+            position: (171, 44),
+           },
+           arguments: [
+            Variable {
+             identifier: "value",
+             position: (171, 60),
+            },
+           ],
+          },
+          position: (171, 28),
+         },
+         Variable {
+          identifier: "datasetlist",
+          position: (171, 67),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "sorted",
+          position: (172, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (172, 16),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "sort",
+            position: (172, 20),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "left",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "right",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: BinaryOperation {
+            operator: GreaterThan,
+            operands: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (172, 40),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (172, 44),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "left",
+                 position: (172, 57),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "value",
+                   position: (172, 62),
+                  },
+                  Raw {
+                   content: "mount",
+                   position: (172, 68),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (172, 78),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "stringLength",
+                  position: (172, 82),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "right",
+                 position: (172, 95),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "value",
+                   position: (172, 101),
+                  },
+                  Raw {
+                   content: "mount",
+                   position: (172, 107),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              ],
+             },
+            ],
+            position: (172, 75),
+           },
+           position: (172, 32),
+          },
+          position: (172, 26),
+         },
+         Variable {
+          identifier: "mounts",
+          position: (172, 115),
+         },
+        ],
+       },
+      ),
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "cmd",
+          position: (173, 7),
+         },
+        ],
+       },
+       Function {
+        argument: None,
+        arguments: FunctionArguments {
+         arguments: [
+          FunctionArgument {
+           identifier: "value",
+           default: None,
+          },
+          FunctionArgument {
+           identifier: "name",
+           default: None,
+          },
+         ],
+         ellipsis: false,
+        },
+        definition: String {
+         parts: [
+          Raw {
+           content: "umount /mnt",
+           position: (175, 1),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (175, 24),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "escapeShellArg",
+                position: (175, 28),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "value",
+               position: (175, 43),
+              },
+              attribute_path: AttributePath {
+               attributes: [
+                Raw {
+                 content: "mount",
+                 position: (175, 49),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (175, 55),
+          },
+         ],
+        },
+        position: (173, 13),
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "lib",
+        position: (178, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "concatMapStringsSep",
+          position: (178, 9),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "\n",
+          position: (178, 30),
+         },
+        ],
+       },
+       Variable {
+        identifier: "cmd",
+        position: (178, 34),
+       },
+       Variable {
+        identifier: "sorted",
+        position: (178, 38),
+       },
+      ],
+     },
+     position: (169, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "fileSystemsCfgFile",
+       position: (181, 3),
+      },
+     ],
+    },
+    LetIn {
+     bindings: [
+      KeyValue(
+       AttributePath {
+        attributes: [
+         Raw {
+          content: "mountable",
+          position: (183, 7),
+         },
+        ],
+       },
+       FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "lib",
+          position: (183, 19),
+         },
+         attribute_path: AttributePath {
+          attributes: [
+           Raw {
+            content: "filterAttrs",
+            position: (183, 23),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Function {
+          argument: Some(
+           "_",
+          ),
+          arguments: FunctionArguments {
+           arguments: [],
+           ellipsis: false,
+          },
+          definition: Function {
+           argument: Some(
+            "value",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: FunctionApplication {
+            function: Variable {
+             identifier: "hasDefinedMount",
+             position: (183, 46),
+            },
+            arguments: [
+             Variable {
+              identifier: "value",
+              position: (183, 62),
+             },
+            ],
+           },
+           position: (183, 39),
+          },
+          position: (183, 36),
+         },
+         Variable {
+          identifier: "datasets",
+          position: (183, 69),
+         },
+        ],
+       },
+      ),
+     ],
+     target: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (185, 5),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (185, 10),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "filesystem-config.nix",
+          position: (185, 22),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "buildInputs",
+             position: (187, 9),
+            },
+           ],
+          },
+          With {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (187, 28),
+           },
+           target: List {
+            elements: [
+             Variable {
+              identifier: "jq",
+              position: (187, 36),
+             },
+             Variable {
+              identifier: "nixpkgs-fmt",
+              position: (187, 39),
+             },
+            ],
+            position: (187, 34),
+           },
+           position: (187, 23),
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "filesystems",
+             position: (188, 9),
+            },
+           ],
+          },
+          FunctionApplication {
+           function: PropertyAccess {
+            expression: Variable {
+             identifier: "builtins",
+             position: (188, 23),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "toJSON",
+               position: (188, 32),
+              },
+             ],
+            },
+            default: None,
+           },
+           arguments: [
+            Map {
+             bindings: [
+              KeyValue(
+               AttributePath {
+                attributes: [
+                 Raw {
+                  content: "fileSystems",
+                  position: (189, 11),
+                 },
+                ],
+               },
+               FunctionApplication {
+                function: PropertyAccess {
+                 expression: Variable {
+                  identifier: "lib",
+                  position: (189, 25),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "mapAttrs'",
+                    position: (189, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+                arguments: [
+                 Function {
+                  argument: Some(
+                   "dataset",
+                  ),
+                  arguments: FunctionArguments {
+                   arguments: [],
+                   ellipsis: false,
+                  },
+                  definition: Function {
+                   argument: Some(
+                    "attrs",
+                   ),
+                   arguments: FunctionArguments {
+                    arguments: [],
+                    ellipsis: false,
+                   },
+                   definition: Map {
+                    bindings: [
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "name",
+                         position: (193, 19),
+                        },
+                       ],
+                      },
+                      PropertyAccess {
+                       expression: Variable {
+                        identifier: "attrs",
+                        position: (193, 26),
+                       },
+                       attribute_path: AttributePath {
+                        attributes: [
+                         Raw {
+                          content: "mount",
+                          position: (193, 32),
+                         },
+                        ],
+                       },
+                       default: None,
+                      },
+                     ),
+                     KeyValue(
+                      AttributePath {
+                       attributes: [
+                        Raw {
+                         content: "value",
+                         position: (194, 19),
+                        },
+                       ],
+                      },
+                      Map {
+                       bindings: [
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "fsType",
+                            position: (195, 21),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Raw {
+                            content: "zfs",
+                            position: (195, 31),
+                           },
+                          ],
+                         },
+                        ),
+                        KeyValue(
+                         AttributePath {
+                          attributes: [
+                           Raw {
+                            content: "device",
+                            position: (196, 21),
+                           },
+                          ],
+                         },
+                         String {
+                          parts: [
+                           Expression {
+                            expression: Variable {
+                             identifier: "dataset",
+                             position: (196, 33),
+                            },
+                           },
+                          ],
+                         },
+                        ),
+                       ],
+                       recursive: false,
+                       position: (194, 27),
+                      },
+                     ),
+                    ],
+                    recursive: false,
+                    position: (192, 17),
+                   },
+                   position: (191, 24),
+                  },
+                  position: (191, 15),
+                 },
+                 Variable {
+                  identifier: "mountable",
+                  position: (200, 13),
+                 },
+                ],
+               },
+              ),
+             ],
+             recursive: false,
+             position: (188, 39),
+            },
+           ],
+          },
+         ),
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "passAsFile",
+             position: (202, 9),
+            },
+           ],
+          },
+          List {
+           elements: [
+            String {
+             parts: [
+              Raw {
+               content: "filesystems",
+               position: (202, 25),
+              },
+             ],
+            },
+           ],
+           position: (202, 22),
+          },
+         ),
+        ],
+        recursive: false,
+        position: (186, 7),
+       },
+       String {
+        parts: [
+         Raw {
+          content: "(\n  echo \"builtins.fromJSON ",
+          position: (204, 1),
+         },
+         Raw {
+          content: "''",
+          position: (205, 33),
+         },
+         Raw {
+          content: "\"\n  jq . < \"$filesystemsPath\"\n  echo \"",
+          position: (205, 36),
+         },
+         Raw {
+          content: "''",
+          position: (207, 15),
+         },
+         Raw {
+          content: "\"\n) > $out\n\nnixpkgs-fmt $out\n",
+          position: (207, 18),
+         },
+        ],
+       },
+      ],
+     },
+     position: (182, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "mergedConfig",
+       position: (213, 3),
+      },
+     ],
+    },
+    IfThenElse {
+     predicate: BinaryOperation {
+      operator: EqualTo,
+      operands: [
+       Variable {
+        identifier: "configFile",
+        position: (214, 8),
+       },
+       Variable {
+        identifier: "null",
+        position: (214, 22),
+       },
+      ],
+      position: (214, 19),
+     },
+     then: Variable {
+      identifier: "fileSystemsCfgFile",
+      position: (215, 10),
+     },
+     else_: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "pkgs",
+        position: (217, 7),
+       },
+       attribute_path: AttributePath {
+        attributes: [
+         Raw {
+          content: "runCommand",
+          position: (217, 12),
+         },
+        ],
+       },
+       default: None,
+      },
+      arguments: [
+       String {
+        parts: [
+         Raw {
+          content: "configuration.nix",
+          position: (217, 24),
+         },
+        ],
+       },
+       Map {
+        bindings: [
+         KeyValue(
+          AttributePath {
+           attributes: [
+            Raw {
+             content: "buildInputs",
+             position: (219, 11),
+            },
+           ],
+          },
+          With {
+           expression: Variable {
+            identifier: "pkgs",
+            position: (219, 30),
+           },
+           target: List {
+            elements: [
+             Variable {
+              identifier: "nixpkgs-fmt",
+              position: (219, 38),
+             },
+            ],
+            position: (219, 36),
+           },
+           position: (219, 25),
+          },
+         ),
+        ],
+        recursive: false,
+        position: (218, 9),
+       },
+       String {
+        parts: [
+         Raw {
+          content: "(\n  echo '{ imports = ['\n  printf \"(%s)\\n\" \"$(cat ",
+          position: (222, 1),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "fileSystemsCfgFile",
+           position: (224, 38),
+          },
+         },
+         Raw {
+          content: ")\";\n  printf \"(%s)\\n\" \"$(cat ",
+          position: (224, 57),
+         },
+         Expression {
+          expression: Variable {
+           identifier: "configFile",
+           position: (225, 38),
+          },
+         },
+         Raw {
+          content: ")\";\n  echo ']; }'\n) > $out\n\nnixpkgs-fmt $out\n",
+          position: (225, 49),
+         },
+        ],
+       },
+      ],
+     },
+     position: (214, 5),
+    },
+   ),
+   KeyValue(
+    AttributePath {
+     attributes: [
+      Raw {
+       content: "image",
+       position: (232, 3),
+      },
+     ],
+    },
+    FunctionApplication {
+     function: PropertyAccess {
+      expression: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (233, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "vmTools",
+           position: (233, 10),
+          },
+          Raw {
+           content: "override",
+           position: (233, 18),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "rootModules",
+              position: (234, 7),
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             List {
+              elements: [
+               String {
+                parts: [
+                 Raw {
+                  content: "zfs",
+                  position: (235, 12),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "9p",
+                  position: (235, 18),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "9pnet_virtio",
+                  position: (235, 23),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "virtio_pci",
+                  position: (235, 38),
+                 },
+                ],
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "virtio_blk",
+                  position: (235, 51),
+                 },
+                ],
+               },
+              ],
+              position: (235, 9),
+             },
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (236, 10),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "lib",
+                  position: (236, 15),
+                 },
+                 Raw {
+                  content: "optional",
+                  position: (236, 19),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "pkgs",
+                 position: (236, 28),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "stdenv",
+                   position: (236, 33),
+                  },
+                  Raw {
+                   content: "hostPlatform",
+                   position: (236, 40),
+                  },
+                  Raw {
+                   content: "isx86",
+                   position: (236, 53),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "rtc_cmos",
+                  position: (236, 60),
+                 },
+                ],
+               },
+              ],
+             },
+            ],
+            position: (235, 65),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "kernel",
+              position: (237, 7),
+             },
+            ],
+           },
+           Variable {
+            identifier: "modulesTree",
+            position: (237, 16),
+           },
+          ),
+         ],
+         recursive: false,
+         position: (233, 27),
+        },
+       ],
+      },
+      attribute_path: AttributePath {
+       attributes: [
+        Raw {
+         content: "runInLinuxVM",
+         position: (239, 5),
+        },
+       ],
+      },
+      default: None,
+     },
+     arguments: [
+      FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "pkgs",
+         position: (240, 5),
+        },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "runCommand",
+           position: (240, 10),
+          },
+         ],
+        },
+        default: None,
+       },
+       arguments: [
+        Variable {
+         identifier: "name",
+         position: (240, 21),
+        },
+        Map {
+         bindings: [
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "memSize",
+              position: (242, 9),
+             },
+            ],
+           },
+           Int {
+            value: 1024,
+            position: (242, 19),
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "QEMU_OPTS",
+              position: (243, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "-drive file=$rootDiskImage,if=virtio,cache=unsafe,werror=report",
+              position: (243, 22),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "preVM",
+              position: (244, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "PATH=$PATH:",
+              position: (245, 1),
+             },
+             Expression {
+              expression: PropertyAccess {
+               expression: Variable {
+                identifier: "pkgs",
+                position: (245, 24),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "qemu_kvm",
+                  position: (245, 29),
+                 },
+                ],
+               },
+               default: None,
+              },
+             },
+             Raw {
+              content: "/bin\nmkdir $out\n\nrootDiskImage=root.raw\nqemu-img create -f raw $rootDiskImage ",
+              position: (245, 38),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "toString",
+                position: (249, 51),
+               },
+               arguments: [
+                BinaryOperation {
+                 operator: Addition,
+                 operands: [
+                  Variable {
+                   identifier: "bootSize",
+                   position: (249, 61),
+                  },
+                  Variable {
+                   identifier: "rootSize",
+                   position: (249, 72),
+                  },
+                 ],
+                 position: (249, 70),
+                },
+               ],
+              },
+             },
+             Raw {
+              content: "M\n",
+              position: (249, 82),
+             },
+            ],
+           },
+          ),
+          KeyValue(
+           AttributePath {
+            attributes: [
+             Raw {
+              content: "postVM",
+              position: (252, 9),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "",
+              position: (253, 1),
+             },
+             Expression {
+              expression: IfThenElse {
+               predicate: BinaryOperation {
+                operator: EqualTo,
+                operands: [
+                 Variable {
+                  identifier: "formatOpt",
+                  position: (253, 18),
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "raw",
+                    position: (253, 32),
+                   },
+                  ],
+                 },
+                ],
+                position: (253, 28),
+               },
+               then: String {
+                parts: [
+                 Raw {
+                  content: "mv $rootDiskImage $out/",
+                  position: (254, 1),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "rootFilename",
+                   position: (254, 38),
+                  },
+                 },
+                 Raw {
+                  content: "\n",
+                  position: (254, 51),
+                 },
+                ],
+               },
+               else_: String {
+                parts: [
+                 Raw {
+                  content: "",
+                  position: (256, 1),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (256, 15),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "qemu",
+                      position: (256, 20),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                 Raw {
+                  content: "/bin/qemu-img convert -f raw -O ",
+                  position: (256, 25),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "formatOpt",
+                   position: (256, 59),
+                  },
+                 },
+                 Raw {
+                  content: " ",
+                  position: (256, 69),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "compress",
+                   position: (256, 72),
+                  },
+                 },
+                 Raw {
+                  content: " $rootDiskImage $out/",
+                  position: (256, 81),
+                 },
+                 Expression {
+                  expression: Variable {
+                   identifier: "rootFilename",
+                   position: (256, 104),
+                  },
+                 },
+                 Raw {
+                  content: "\n",
+                  position: (256, 117),
+                 },
+                ],
+               },
+               position: (253, 15),
+              },
+             },
+             Raw {
+              content: "\nrootDiskImage=$out/",
+              position: (257, 14),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "rootFilename",
+               position: (258, 34),
+              },
+             },
+             Raw {
+              content: "\nset -x\n",
+              position: (258, 47),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "postVM",
+               position: (260, 15),
+              },
+             },
+             Raw {
+              content: "\n",
+              position: (260, 22),
+             },
+            ],
+           },
+          ),
+         ],
+         recursive: false,
+         position: (241, 7),
+        },
+        String {
+         parts: [
+          Raw {
+           content: "export PATH=",
+           position: (263, 1),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "tools",
+            position: (263, 21),
+           },
+          },
+          Raw {
+           content: ":$PATH\nset -x\n\ncp -sv /dev/vda /dev/sda\ncp -sv /dev/vda /dev/xvda\n\nparted --script /dev/vda -- \\\n  mklabel gpt \\\n  mkpart no-fs 1MiB 2MiB \\\n  set 1 bios_grub on \\\n  align-check optimal 1 \\\n  mkpart primary fat32 2MiB ",
+           position: (263, 27),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "toString",
+             position: (274, 37),
+            },
+            arguments: [
+             Variable {
+              identifier: "bootSize",
+              position: (274, 46),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "MiB \\\n  align-check optimal 2 \\\n  mkpart primary fat32 ",
+           position: (274, 55),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "toString",
+             position: (276, 32),
+            },
+            arguments: [
+             Variable {
+              identifier: "bootSize",
+              position: (276, 41),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "MiB -1MiB \\\n  align-check optimal 3 \\\n  print\n\nsfdisk --dump /dev/vda\n\n\nzpool create \\\n  ",
+           position: (276, 50),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "stringifyProperties",
+             position: (284, 11),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "  -o",
+                position: (284, 32),
+               },
+              ],
+             },
+             Variable {
+              identifier: "rootPoolProperties",
+              position: (284, 38),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " \\\n  ",
+           position: (284, 57),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: Variable {
+             identifier: "stringifyProperties",
+             position: (285, 11),
+            },
+            arguments: [
+             String {
+              parts: [
+               Raw {
+                content: "  -O",
+                position: (285, 32),
+               },
+              ],
+             },
+             Variable {
+              identifier: "rootPoolFilesystemProperties",
+              position: (285, 38),
+             },
+            ],
+           },
+          },
+          Raw {
+           content: " \\\n  ",
+           position: (285, 67),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "rootPoolName",
+            position: (286, 11),
+           },
+          },
+          Raw {
+           content: " /dev/vda3\nparted --script /dev/vda -- print\n\n",
+           position: (286, 24),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "createDatasets",
+            position: (289, 9),
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (289, 24),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "mountDatasets",
+            position: (290, 9),
+           },
+          },
+          Raw {
+           content: "\n\nmkdir -p /mnt/boot\nmkfs.vfat -n ESP /dev/vda2\nmount /dev/vda2 /mnt/boot\n\nmount\n\n# Install a configuration.nix\nmkdir -p /mnt/etc/nixos\n# `cat` so it is mutable on the fs\ncat ",
+           position: (290, 23),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "mergedConfig",
+            position: (301, 13),
+           },
+          },
+          Raw {
+           content: " > /mnt/etc/nixos/configuration.nix\n\nexport NIX_STATE_DIR=$TMPDIR/state\nnix-store --load-db < ",
+           position: (301, 26),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "closureInfo",
+            position: (304, 31),
+           },
+          },
+          Raw {
+           content: "/registration\n\nnixos-install \\\n  --root /mnt \\\n  --no-root-passwd \\\n  --system ",
+           position: (304, 43),
+          },
+          Expression {
+           expression: PropertyAccess {
+            expression: Variable {
+             identifier: "config",
+             position: (309, 20),
+            },
+            attribute_path: AttributePath {
+             attributes: [
+              Raw {
+               content: "system",
+               position: (309, 27),
+              },
+              Raw {
+               content: "build",
+               position: (309, 34),
+              },
+              Raw {
+               content: "toplevel",
+               position: (309, 40),
+              },
+             ],
+            },
+            default: None,
+           },
+          },
+          Raw {
+           content: " \\\n  --substituters \"\" \\\n  ",
+           position: (309, 49),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (311, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optionalString",
+                position: (311, 15),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "includeChannel",
+              position: (311, 30),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "--channel ",
+                position: (311, 47),
+               },
+               Expression {
+                expression: Variable {
+                 identifier: "channelSources",
+                 position: (311, 59),
+                },
+               },
+              ],
+             },
+            ],
+           },
+          },
+          Raw {
+           content: "\n\ndf -h\n\numount /mnt/boot\n",
+           position: (311, 77),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "unmountDatasets",
+            position: (316, 9),
+           },
+          },
+          Raw {
+           content: "\n\nzpool export ",
+           position: (316, 25),
+          },
+          Expression {
+           expression: Variable {
+            identifier: "rootPoolName",
+            position: (318, 22),
+           },
+          },
+          Raw {
+           content: "\n",
+           position: (318, 35),
+          },
+         ],
+        },
+       ],
+      },
+     ],
+    },
+   ),
+  ],
+  target: Variable {
+   identifier: "image",
+   position: (322, 1),
+  },
+  position: (73, 1),
+ },
+ position: (16, 1),
+}

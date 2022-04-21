@@ -4,6 +4,10 @@ Function {
  arguments: FunctionArguments {
   arguments: [
    FunctionArgument {
+    identifier: "utils",
+    default: None,
+   },
+   FunctionArgument {
     identifier: "pkgs",
     default: None,
    },
@@ -83,7 +87,7 @@ Function {
      AttributePath {
       attributes: [
        Raw {
-        content: "escape",
+        content: "startupCommand",
         position: (9, 3),
        },
       ],
@@ -91,530 +95,458 @@ Function {
      FunctionApplication {
       function: PropertyAccess {
        expression: Variable {
-        identifier: "builtins",
-        position: (9, 15),
+        identifier: "utils",
+        position: (9, 20),
        },
        attribute_path: AttributePath {
         attributes: [
          Raw {
-          content: "replaceStrings",
-          position: (9, 24),
+          content: "escapeSystemdExecArgs",
+          position: (9, 26),
          },
         ],
        },
        default: None,
       },
       arguments: [
-       List {
-        elements: [
-         String {
-          parts: [
-           Raw {
-            content: "%",
-            position: (9, 41),
-           },
-          ],
-         },
-        ],
-        position: (9, 39),
-       },
-       List {
-        elements: [
-         String {
-          parts: [
-           Raw {
-            content: "%%",
-            position: (9, 47),
-           },
-          ],
-         },
-        ],
-        position: (9, 45),
-       },
-      ],
-     },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
-       Raw {
-        content: "ifNotNull",
-        position: (10, 3),
-       },
-      ],
-     },
-     Function {
-      argument: Some(
-       "v",
-      ),
-      arguments: FunctionArguments {
-       arguments: [],
-       ellipsis: false,
-      },
-      definition: Function {
-       argument: Some(
-        "s",
-       ),
-       arguments: FunctionArguments {
-        arguments: [],
-        ellipsis: false,
-       },
-       definition: FunctionApplication {
-        function: Variable {
-         identifier: "optionalString",
-         position: (10, 21),
-        },
-        arguments: [
-         BinaryOperation {
-          operator: NotEqualTo,
-          operands: [
-           Variable {
-            identifier: "v",
-            position: (10, 37),
-           },
-           Variable {
-            identifier: "null",
-            position: (10, 42),
-           },
-          ],
-          position: (10, 39),
-         },
-         Variable {
-          identifier: "s",
-          position: (10, 48),
-         },
-        ],
-       },
-       position: (10, 18),
-      },
-      position: (10, 15),
-     },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
-       Raw {
-        content: "startupCommand",
-        position: (12, 3),
-       },
-      ],
-     },
-     FunctionApplication {
-      function: PropertyAccess {
-       expression: Variable {
-        identifier: "lib",
-        position: (12, 20),
-       },
-       attribute_path: AttributePath {
-        attributes: [
-         Raw {
-          content: "concatStringsSep",
-          position: (12, 24),
-         },
-        ],
-       },
-       default: None,
-      },
-      arguments: [
-       String {
-        parts: [
-         Raw {
-          content: " ",
-          position: (12, 42),
-         },
-        ],
-       },
-       List {
-        elements: [
-         String {
-          parts: [
-           Expression {
-            expression: Variable {
-             identifier: "crdb",
-             position: (14, 10),
-            },
-           },
-           Raw {
-            content: "/bin/cockroach start",
-            position: (14, 15),
-           },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--logtostderr",
-            position: (15, 8),
-           },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--store=/var/lib/cockroachdb",
-            position: (16, 8),
-           },
-          ],
-         },
-         FunctionApplication {
-          function: Variable {
-           identifier: "ifNotNull",
-           position: (17, 8),
-          },
-          arguments: [
-           PropertyAccess {
-            expression: Variable {
-             identifier: "cfg",
-             position: (17, 18),
-            },
-            attribute_path: AttributePath {
-             attributes: [
-              Raw {
-               content: "locality",
-               position: (17, 22),
+       BinaryOperation {
+        operator: Concatenation,
+        operands: [
+         List {
+          elements: [
+           String {
+            parts: [
+             Expression {
+              expression: Variable {
+               identifier: "crdb",
+               position: (12, 10),
               },
-             ],
-            },
-            default: None,
+             },
+             Raw {
+              content: "/bin/cockroach",
+              position: (12, 15),
+             },
+            ],
            },
            String {
             parts: [
              Raw {
-              content: "--locality='",
-              position: (17, 32),
+              content: "start",
+              position: (13, 8),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "--logtostderr",
+              position: (14, 8),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "--store=/var/lib/cockroachdb",
+              position: (15, 8),
+             },
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "--http-addr=",
+              position: (18, 8),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (17, 46),
-               },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "locality",
-                  position: (17, 50),
-                 },
-                ],
-               },
-               default: None,
-              },
-             },
-             Raw {
-              content: "'",
-              position: (17, 59),
-             },
-            ],
-           },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--http-addr='",
-            position: (20, 8),
-           },
-           Expression {
-            expression: PropertyAccess {
-             expression: Variable {
-              identifier: "cfg",
-              position: (20, 23),
-             },
-             attribute_path: AttributePath {
-              attributes: [
-               Raw {
-                content: "http",
-                position: (20, 27),
-               },
-               Raw {
-                content: "address",
-                position: (20, 32),
-               },
-              ],
-             },
-             default: None,
-            },
-           },
-           Raw {
-            content: ":",
-            position: (20, 40),
-           },
-           Expression {
-            expression: FunctionApplication {
-             function: Variable {
-              identifier: "toString",
-              position: (20, 43),
-             },
-             arguments: [
-              PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (20, 52),
+                position: (18, 22),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "http",
-                  position: (20, 56),
+                  position: (18, 26),
                  },
                  Raw {
-                  content: "port",
-                  position: (20, 61),
+                  content: "address",
+                  position: (18, 31),
                  },
                 ],
                },
                default: None,
               },
-             ],
-            },
-           },
-           Raw {
-            content: "'",
-            position: (20, 66),
-           },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--listen-addr='",
-            position: (23, 8),
-           },
-           Expression {
-            expression: PropertyAccess {
-             expression: Variable {
-              identifier: "cfg",
-              position: (23, 25),
              },
-             attribute_path: AttributePath {
-              attributes: [
-               Raw {
-                content: "listen",
-                position: (23, 29),
-               },
-               Raw {
-                content: "address",
-                position: (23, 36),
-               },
-              ],
+             Raw {
+              content: ":",
+              position: (18, 39),
              },
-             default: None,
-            },
-           },
-           Raw {
-            content: ":",
-            position: (23, 44),
-           },
-           Expression {
-            expression: FunctionApplication {
-             function: Variable {
-              identifier: "toString",
-              position: (23, 47),
-             },
-             arguments: [
-              PropertyAccess {
-               expression: Variable {
-                identifier: "cfg",
-                position: (23, 56),
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "toString",
+                position: (18, 42),
                },
-               attribute_path: AttributePath {
-                attributes: [
-                 Raw {
-                  content: "listen",
-                  position: (23, 60),
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (18, 51),
                  },
-                 Raw {
-                  content: "port",
-                  position: (23, 67),
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "http",
+                    position: (18, 55),
+                   },
+                   Raw {
+                    content: "port",
+                    position: (18, 60),
+                   },
+                  ],
                  },
-                ],
-               },
-               default: None,
+                 default: None,
+                },
+               ],
               },
-             ],
-            },
-           },
-           Raw {
-            content: "'",
-            position: (23, 72),
-           },
-          ],
-         },
-         FunctionApplication {
-          function: Variable {
-           identifier: "ifNotNull",
-           position: (26, 8),
-          },
-          arguments: [
-           PropertyAccess {
-            expression: Variable {
-             identifier: "cfg",
-             position: (26, 18),
-            },
-            attribute_path: AttributePath {
-             attributes: [
-              Raw {
-               content: "join",
-               position: (26, 22),
-              },
-             ],
-            },
-            default: None,
+             },
+            ],
            },
            String {
             parts: [
              Raw {
-              content: "--join=",
-              position: (26, 28),
+              content: "--listen-addr=",
+              position: (21, 8),
              },
              Expression {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (26, 37),
+                position: (21, 24),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
-                  content: "join",
-                  position: (26, 41),
+                  content: "listen",
+                  position: (21, 28),
+                 },
+                 Raw {
+                  content: "address",
+                  position: (21, 35),
                  },
                 ],
                },
                default: None,
               },
              },
+             Raw {
+              content: ":",
+              position: (21, 43),
+             },
+             Expression {
+              expression: FunctionApplication {
+               function: Variable {
+                identifier: "toString",
+                position: (21, 46),
+               },
+               arguments: [
+                PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (21, 55),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "listen",
+                    position: (21, 59),
+                   },
+                   Raw {
+                    content: "port",
+                    position: (21, 66),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               ],
+              },
+             },
             ],
            },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--cache='",
-            position: (29, 8),
-           },
-           Expression {
-            expression: FunctionApplication {
-             function: Variable {
-              identifier: "escape",
-              position: (29, 19),
+           String {
+            parts: [
+             Raw {
+              content: "--cache=",
+              position: (24, 8),
              },
-             arguments: [
-              PropertyAccess {
+             Expression {
+              expression: PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (29, 26),
+                position: (24, 18),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "cache",
-                  position: (29, 30),
+                  position: (24, 22),
                  },
                 ],
                },
                default: None,
               },
-             ],
-            },
-           },
-           Raw {
-            content: "'",
-            position: (29, 36),
-           },
-          ],
-         },
-         String {
-          parts: [
-           Raw {
-            content: "--max-sql-memory='",
-            position: (30, 8),
-           },
-           Expression {
-            expression: FunctionApplication {
-             function: Variable {
-              identifier: "escape",
-              position: (30, 28),
              },
-             arguments: [
-              PropertyAccess {
+            ],
+           },
+           String {
+            parts: [
+             Raw {
+              content: "--max-sql-memory=",
+              position: (25, 8),
+             },
+             Expression {
+              expression: PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (30, 35),
+                position: (25, 27),
                },
                attribute_path: AttributePath {
                 attributes: [
                  Raw {
                   content: "maxSqlMemory",
-                  position: (30, 39),
+                  position: (25, 31),
                  },
                 ],
                },
                default: None,
               },
-             ],
-            },
-           },
-           Raw {
-            content: "'",
-            position: (30, 52),
-           },
-          ],
-         },
-         IfThenElse {
-          predicate: PropertyAccess {
-           expression: Variable {
-            identifier: "cfg",
-            position: (33, 11),
-           },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "insecure",
-              position: (33, 15),
              },
             ],
            },
-           default: None,
-          },
-          then: String {
-           parts: [
-            Raw {
-             content: "--insecure",
-             position: (33, 30),
+           IfThenElse {
+            predicate: PropertyAccess {
+             expression: Variable {
+              identifier: "cfg",
+              position: (28, 11),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "insecure",
+                position: (28, 15),
+               },
+              ],
+             },
+             default: None,
             },
-           ],
-          },
-          else_: String {
-           parts: [
-            Raw {
-             content: "--certs-dir=",
-             position: (33, 48),
+            then: String {
+             parts: [
+              Raw {
+               content: "--insecure",
+               position: (28, 30),
+              },
+             ],
             },
-            Expression {
-             expression: PropertyAccess {
+            else_: String {
+             parts: [
+              Raw {
+               content: "--certs-dir=",
+               position: (28, 48),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (28, 62),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "certsDir",
+                   position: (28, 66),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+            },
+            position: (28, 8),
+           },
+          ],
+          position: (10, 6),
+         },
+         BinaryOperation {
+          operator: Concatenation,
+          operands: [
+           FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "lib",
+              position: (30, 8),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "optional",
+                position: (30, 12),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             BinaryOperation {
+              operator: NotEqualTo,
+              operands: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (30, 22),
+                },
+                attribute_path: AttributePath {
+                 attributes: [
+                  Raw {
+                   content: "join",
+                   position: (30, 26),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               Variable {
+                identifier: "null",
+                position: (30, 34),
+               },
+              ],
+              position: (30, 31),
+             },
+             String {
+              parts: [
+               Raw {
+                content: "--join=",
+                position: (30, 41),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (30, 50),
+                 },
+                 attribute_path: AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "join",
+                    position: (30, 54),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+              ],
+             },
+            ],
+           },
+           BinaryOperation {
+            operator: Concatenation,
+            operands: [
+             FunctionApplication {
+              function: PropertyAccess {
+               expression: Variable {
+                identifier: "lib",
+                position: (31, 8),
+               },
+               attribute_path: AttributePath {
+                attributes: [
+                 Raw {
+                  content: "optional",
+                  position: (31, 12),
+                 },
+                ],
+               },
+               default: None,
+              },
+              arguments: [
+               BinaryOperation {
+                operator: NotEqualTo,
+                operands: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (31, 22),
+                  },
+                  attribute_path: AttributePath {
+                   attributes: [
+                    Raw {
+                     content: "locality",
+                     position: (31, 26),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                 Variable {
+                  identifier: "null",
+                  position: (31, 38),
+                 },
+                ],
+                position: (31, 35),
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "--locality=",
+                  position: (31, 45),
+                 },
+                 Expression {
+                  expression: PropertyAccess {
+                   expression: Variable {
+                    identifier: "cfg",
+                    position: (31, 58),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "locality",
+                      position: (31, 62),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 },
+                ],
+               },
+              ],
+             },
+             PropertyAccess {
               expression: Variable {
                identifier: "cfg",
-               position: (33, 62),
+               position: (32, 8),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
-                 content: "certsDir",
-                 position: (33, 66),
+                 content: "extraArgs",
+                 position: (32, 12),
                 },
                ],
               },
               default: None,
              },
-            },
-           ],
-          },
-          position: (33, 8),
+            ],
+            position: (32, 5),
+           },
+          ],
+          position: (31, 5),
          },
         ],
-        position: (13, 5),
+        position: (30, 5),
        },
       ],
      },
@@ -624,7 +556,7 @@ Function {
       attributes: [
        Raw {
         content: "addressOption",
-        position: (36, 5),
+        position: (34, 3),
        },
       ],
      },
@@ -651,14 +583,14 @@ Function {
            attributes: [
             Raw {
              content: "address",
-             position: (37, 7),
+             position: (35, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (37, 17),
+            position: (35, 15),
            },
            arguments: [
             Map {
@@ -668,20 +600,20 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (38, 9),
+                  position: (36, 7),
                  },
                 ],
                },
                PropertyAccess {
                 expression: Variable {
                  identifier: "types",
-                 position: (38, 16),
+                 position: (36, 14),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "str",
-                   position: (38, 22),
+                   position: (36, 20),
                   },
                  ],
                 },
@@ -693,7 +625,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (39, 9),
+                  position: (37, 7),
                  },
                 ],
                },
@@ -701,7 +633,7 @@ Function {
                 parts: [
                  Raw {
                   content: "localhost",
-                  position: (39, 20),
+                  position: (37, 18),
                  },
                 ],
                },
@@ -711,7 +643,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (40, 9),
+                  position: (38, 7),
                  },
                 ],
                },
@@ -719,12 +651,12 @@ Function {
                 parts: [
                  Raw {
                   content: "Address to bind to for ",
-                  position: (40, 24),
+                  position: (38, 22),
                  },
                  Expression {
                   expression: Variable {
                    identifier: "descr",
-                   position: (40, 49),
+                   position: (38, 47),
                   },
                  },
                 ],
@@ -732,7 +664,7 @@ Function {
               ),
              ],
              recursive: false,
-             position: (37, 26),
+             position: (35, 24),
             },
            ],
           },
@@ -742,14 +674,14 @@ Function {
            attributes: [
             Raw {
              content: "port",
-             position: (43, 7),
+             position: (41, 5),
             },
            ],
           },
           FunctionApplication {
            function: Variable {
             identifier: "mkOption",
-            position: (43, 14),
+            position: (41, 12),
            },
            arguments: [
             Map {
@@ -759,20 +691,20 @@ Function {
                 attributes: [
                  Raw {
                   content: "type",
-                  position: (44, 9),
+                  position: (42, 7),
                  },
                 ],
                },
                PropertyAccess {
                 expression: Variable {
                  identifier: "types",
-                 position: (44, 16),
+                 position: (42, 14),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "port",
-                   position: (44, 22),
+                   position: (42, 20),
                   },
                  ],
                 },
@@ -784,13 +716,13 @@ Function {
                 attributes: [
                  Raw {
                   content: "default",
-                  position: (45, 9),
+                  position: (43, 7),
                  },
                 ],
                },
                Variable {
                 identifier: "defaultPort",
-                position: (45, 19),
+                position: (43, 17),
                },
               ),
               KeyValue(
@@ -798,7 +730,7 @@ Function {
                 attributes: [
                  Raw {
                   content: "description",
-                  position: (46, 9),
+                  position: (44, 7),
                  },
                 ],
                },
@@ -806,12 +738,12 @@ Function {
                 parts: [
                  Raw {
                   content: "Port to bind to for ",
-                  position: (46, 24),
+                  position: (44, 22),
                  },
                  Expression {
                   expression: Variable {
                    identifier: "descr",
-                   position: (46, 46),
+                   position: (44, 44),
                   },
                  },
                 ],
@@ -819,18 +751,18 @@ Function {
               ),
              ],
              recursive: false,
-             position: (43, 23),
+             position: (41, 21),
             },
            ],
           },
          ),
         ],
         recursive: false,
-        position: (36, 41),
+        position: (34, 39),
        },
-       position: (36, 28),
+       position: (34, 26),
       },
-      position: (36, 21),
+      position: (34, 19),
      },
     ),
    ],
@@ -841,7 +773,7 @@ Function {
        attributes: [
         Raw {
          content: "options",
-         position: (52, 3),
+         position: (50, 3),
         },
        ],
       },
@@ -852,11 +784,11 @@ Function {
           attributes: [
            Raw {
             content: "services",
-            position: (53, 5),
+            position: (51, 5),
            },
            Raw {
             content: "cockroachdb",
-            position: (53, 14),
+            position: (51, 14),
            },
           ],
          },
@@ -867,21 +799,21 @@ Function {
              attributes: [
               Raw {
                content: "enable",
-               position: (54, 7),
+               position: (52, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkEnableOption",
-              position: (54, 16),
+              position: (52, 16),
              },
              arguments: [
               String {
                parts: [
                 Raw {
                  content: "CockroachDB Server",
-                 position: (54, 32),
+                 position: (52, 32),
                 },
                ],
               },
@@ -893,27 +825,27 @@ Function {
              attributes: [
               Raw {
                content: "listen",
-               position: (56, 7),
+               position: (54, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "addressOption",
-              position: (56, 16),
+              position: (54, 16),
              },
              arguments: [
               String {
                parts: [
                 Raw {
                  content: "intra-cluster communication",
-                 position: (56, 31),
+                 position: (54, 31),
                 },
                ],
               },
               Int {
                value: 26257,
-               position: (56, 60),
+               position: (54, 60),
               },
              ],
             },
@@ -923,27 +855,27 @@ Function {
              attributes: [
               Raw {
                content: "http",
-               position: (58, 7),
+               position: (56, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "addressOption",
-              position: (58, 14),
+              position: (56, 14),
              },
              arguments: [
               String {
                parts: [
                 Raw {
                  content: "http-based Admin UI",
-                 position: (58, 29),
+                 position: (56, 29),
                 },
                ],
               },
               Int {
                value: 8080,
-               position: (58, 50),
+               position: (56, 50),
               },
              ],
             },
@@ -953,14 +885,14 @@ Function {
              attributes: [
               Raw {
                content: "locality",
-               position: (60, 7),
+               position: (58, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (60, 18),
+              position: (58, 18),
              },
              arguments: [
               Map {
@@ -970,7 +902,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (61, 9),
+                    position: (59, 9),
                    },
                   ],
                  },
@@ -978,13 +910,13 @@ Function {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
-                    position: (61, 16),
+                    position: (59, 16),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "nullOr",
-                      position: (61, 22),
+                      position: (59, 22),
                      },
                     ],
                    },
@@ -994,13 +926,13 @@ Function {
                    PropertyAccess {
                     expression: Variable {
                      identifier: "types",
-                     position: (61, 29),
+                     position: (59, 29),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "str",
-                       position: (61, 35),
+                       position: (59, 35),
                       },
                      ],
                     },
@@ -1014,13 +946,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (62, 9),
+                    position: (60, 9),
                    },
                   ],
                  },
                  Variable {
                   identifier: "null",
-                  position: (62, 19),
+                  position: (60, 19),
                  },
                 ),
                 KeyValue(
@@ -1028,7 +960,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (63, 9),
+                    position: (61, 9),
                    },
                   ],
                  },
@@ -1036,14 +968,14 @@ Function {
                   parts: [
                    Raw {
                     content: "An ordered, comma-separated list of key-value pairs that describe the\ntopography of the machine. Topography might include country,\ndatacenter or rack designations. Data is automatically replicated to\nmaximize diversities of each tier. The order of tiers is used to\ndetermine the priority of the diversity, so the more inclusive\nlocalities like country should come before less inclusive localities\nlike datacenter.  The tiers and order must be the same on all nodes.\nIncluding more tiers is better than including fewer. For example:\n\n<literal>\n    country=us,region=us-west,datacenter=us-west-1b,rack=12\n    country=ca,region=ca-east,datacenter=ca-east-2,rack=4\n\n    planet=earth,province=manitoba,colo=secondary,power=3\n</literal>\n",
-                    position: (64, 1),
+                    position: (62, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (60, 27),
+               position: (58, 27),
               },
              ],
             },
@@ -1053,14 +985,14 @@ Function {
              attributes: [
               Raw {
                content: "join",
-               position: (82, 7),
+               position: (80, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (82, 14),
+              position: (80, 14),
              },
              arguments: [
               Map {
@@ -1070,7 +1002,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (83, 9),
+                    position: (81, 9),
                    },
                   ],
                  },
@@ -1078,13 +1010,13 @@ Function {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
-                    position: (83, 16),
+                    position: (81, 16),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "nullOr",
-                      position: (83, 22),
+                      position: (81, 22),
                      },
                     ],
                    },
@@ -1094,13 +1026,13 @@ Function {
                    PropertyAccess {
                     expression: Variable {
                      identifier: "types",
-                     position: (83, 29),
+                     position: (81, 29),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "str",
-                       position: (83, 35),
+                       position: (81, 35),
                       },
                      ],
                     },
@@ -1114,13 +1046,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (84, 9),
+                    position: (82, 9),
                    },
                   ],
                  },
                  Variable {
                   identifier: "null",
-                  position: (84, 19),
+                  position: (82, 19),
                  },
                 ),
                 KeyValue(
@@ -1128,7 +1060,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (85, 9),
+                    position: (83, 9),
                    },
                   ],
                  },
@@ -1136,14 +1068,14 @@ Function {
                   parts: [
                    Raw {
                     content: "The addresses for connecting the node to a cluster.",
-                    position: (85, 24),
+                    position: (83, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (82, 23),
+               position: (80, 23),
               },
              ],
             },
@@ -1153,14 +1085,14 @@ Function {
              attributes: [
               Raw {
                content: "insecure",
-               position: (88, 7),
+               position: (86, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (88, 18),
+              position: (86, 18),
              },
              arguments: [
               Map {
@@ -1170,20 +1102,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (89, 9),
+                    position: (87, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (89, 16),
+                   position: (87, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "bool",
-                     position: (89, 22),
+                     position: (87, 22),
                     },
                    ],
                   },
@@ -1195,13 +1127,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (90, 9),
+                    position: (88, 9),
                    },
                   ],
                  },
                  Variable {
                   identifier: "false",
-                  position: (90, 19),
+                  position: (88, 19),
                  },
                 ),
                 KeyValue(
@@ -1209,7 +1141,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (91, 9),
+                    position: (89, 9),
                    },
                   ],
                  },
@@ -1217,14 +1149,14 @@ Function {
                   parts: [
                    Raw {
                     content: "Run in insecure mode.",
-                    position: (91, 24),
+                    position: (89, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (88, 27),
+               position: (86, 27),
               },
              ],
             },
@@ -1234,14 +1166,14 @@ Function {
              attributes: [
               Raw {
                content: "certsDir",
-               position: (94, 7),
+               position: (92, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (94, 18),
+              position: (92, 18),
              },
              arguments: [
               Map {
@@ -1251,7 +1183,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (95, 9),
+                    position: (93, 9),
                    },
                   ],
                  },
@@ -1259,13 +1191,13 @@ Function {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
-                    position: (95, 16),
+                    position: (93, 16),
                    },
                    attribute_path: AttributePath {
                     attributes: [
                      Raw {
                       content: "nullOr",
-                      position: (95, 22),
+                      position: (93, 22),
                      },
                     ],
                    },
@@ -1275,13 +1207,13 @@ Function {
                    PropertyAccess {
                     expression: Variable {
                      identifier: "types",
-                     position: (95, 29),
+                     position: (93, 29),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "path",
-                       position: (95, 35),
+                       position: (93, 35),
                       },
                      ],
                     },
@@ -1295,13 +1227,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (96, 9),
+                    position: (94, 9),
                    },
                   ],
                  },
                  Variable {
                   identifier: "null",
-                  position: (96, 19),
+                  position: (94, 19),
                  },
                 ),
                 KeyValue(
@@ -1309,7 +1241,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (97, 9),
+                    position: (95, 9),
                    },
                   ],
                  },
@@ -1317,14 +1249,14 @@ Function {
                   parts: [
                    Raw {
                     content: "The path to the certificate directory.",
-                    position: (97, 24),
+                    position: (95, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (94, 27),
+               position: (92, 27),
               },
              ],
             },
@@ -1334,14 +1266,14 @@ Function {
              attributes: [
               Raw {
                content: "user",
-               position: (100, 7),
+               position: (98, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (100, 14),
+              position: (98, 14),
              },
              arguments: [
               Map {
@@ -1351,20 +1283,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (101, 9),
+                    position: (99, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (101, 16),
+                   position: (99, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "str",
-                     position: (101, 22),
+                     position: (99, 22),
                     },
                    ],
                   },
@@ -1376,7 +1308,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (102, 9),
+                    position: (100, 9),
                    },
                   ],
                  },
@@ -1384,7 +1316,7 @@ Function {
                   parts: [
                    Raw {
                     content: "cockroachdb",
-                    position: (102, 20),
+                    position: (100, 20),
                    },
                   ],
                  },
@@ -1394,7 +1326,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (103, 9),
+                    position: (101, 9),
                    },
                   ],
                  },
@@ -1402,14 +1334,14 @@ Function {
                   parts: [
                    Raw {
                     content: "User account under which CockroachDB runs",
-                    position: (103, 24),
+                    position: (101, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (100, 23),
+               position: (98, 23),
               },
              ],
             },
@@ -1419,14 +1351,14 @@ Function {
              attributes: [
               Raw {
                content: "group",
-               position: (106, 7),
+               position: (104, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (106, 15),
+              position: (104, 15),
              },
              arguments: [
               Map {
@@ -1436,20 +1368,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (107, 9),
+                    position: (105, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (107, 16),
+                   position: (105, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "str",
-                     position: (107, 22),
+                     position: (105, 22),
                     },
                    ],
                   },
@@ -1461,7 +1393,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (108, 9),
+                    position: (106, 9),
                    },
                   ],
                  },
@@ -1469,7 +1401,7 @@ Function {
                   parts: [
                    Raw {
                     content: "cockroachdb",
-                    position: (108, 20),
+                    position: (106, 20),
                    },
                   ],
                  },
@@ -1479,7 +1411,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (109, 9),
+                    position: (107, 9),
                    },
                   ],
                  },
@@ -1487,14 +1419,14 @@ Function {
                   parts: [
                    Raw {
                     content: "User account under which CockroachDB runs",
-                    position: (109, 24),
+                    position: (107, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (106, 24),
+               position: (104, 24),
               },
              ],
             },
@@ -1504,14 +1436,14 @@ Function {
              attributes: [
               Raw {
                content: "openPorts",
-               position: (112, 7),
+               position: (110, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (112, 19),
+              position: (110, 19),
              },
              arguments: [
               Map {
@@ -1521,20 +1453,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (113, 9),
+                    position: (111, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (113, 16),
+                   position: (111, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "bool",
-                     position: (113, 22),
+                     position: (111, 22),
                     },
                    ],
                   },
@@ -1546,13 +1478,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (114, 9),
+                    position: (112, 9),
                    },
                   ],
                  },
                  Variable {
                   identifier: "false",
-                  position: (114, 19),
+                  position: (112, 19),
                  },
                 ),
                 KeyValue(
@@ -1560,7 +1492,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (115, 9),
+                    position: (113, 9),
                    },
                   ],
                  },
@@ -1568,14 +1500,14 @@ Function {
                   parts: [
                    Raw {
                     content: "Open firewall ports for cluster communication by default",
-                    position: (115, 24),
+                    position: (113, 24),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (112, 28),
+               position: (110, 28),
               },
              ],
             },
@@ -1585,14 +1517,14 @@ Function {
              attributes: [
               Raw {
                content: "cache",
-               position: (118, 7),
+               position: (116, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (118, 15),
+              position: (116, 15),
              },
              arguments: [
               Map {
@@ -1602,20 +1534,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (119, 9),
+                    position: (117, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (119, 16),
+                   position: (117, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "str",
-                     position: (119, 22),
+                     position: (117, 22),
                     },
                    ],
                   },
@@ -1627,7 +1559,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (120, 9),
+                    position: (118, 9),
                    },
                   ],
                  },
@@ -1635,7 +1567,7 @@ Function {
                   parts: [
                    Raw {
                     content: "25%",
-                    position: (120, 20),
+                    position: (118, 20),
                    },
                   ],
                  },
@@ -1645,7 +1577,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (121, 9),
+                    position: (119, 9),
                    },
                   ],
                  },
@@ -1653,14 +1585,14 @@ Function {
                   parts: [
                    Raw {
                     content: "The total size for caches.\n\nThis can be a percentage, expressed with a fraction sign or as a\ndecimal-point number, or any bytes-based unit. For example,\n<literal>\"25%\"</literal>, <literal>\"0.25\"</literal> both represent\n25% of the available system memory. The values\n<literal>\"1000000000\"</literal> and <literal>\"1GB\"</literal> both\nrepresent 1 gigabyte of memory.\n\n",
-                    position: (122, 1),
+                    position: (120, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (118, 24),
+               position: (116, 24),
               },
              ],
             },
@@ -1670,14 +1602,14 @@ Function {
              attributes: [
               Raw {
                content: "maxSqlMemory",
-               position: (134, 7),
+               position: (132, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (134, 22),
+              position: (132, 22),
              },
              arguments: [
               Map {
@@ -1687,20 +1619,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (135, 9),
+                    position: (133, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (135, 16),
+                   position: (133, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "str",
-                     position: (135, 22),
+                     position: (133, 22),
                     },
                    ],
                   },
@@ -1712,7 +1644,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (136, 9),
+                    position: (134, 9),
                    },
                   ],
                  },
@@ -1720,7 +1652,7 @@ Function {
                   parts: [
                    Raw {
                     content: "25%",
-                    position: (136, 20),
+                    position: (134, 20),
                    },
                   ],
                  },
@@ -1730,7 +1662,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (137, 9),
+                    position: (135, 9),
                    },
                   ],
                  },
@@ -1738,14 +1670,14 @@ Function {
                   parts: [
                    Raw {
                     content: "The maximum in-memory storage capacity available to store temporary\ndata for SQL queries.\n\nThis can be a percentage, expressed with a fraction sign or as a\ndecimal-point number, or any bytes-based unit. For example,\n<literal>\"25%\"</literal>, <literal>\"0.25\"</literal> both represent\n25% of the available system memory. The values\n<literal>\"1000000000\"</literal> and <literal>\"1GB\"</literal> both\nrepresent 1 gigabyte of memory.\n",
-                    position: (138, 1),
+                    position: (136, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (134, 31),
+               position: (132, 31),
               },
              ],
             },
@@ -1755,14 +1687,14 @@ Function {
              attributes: [
               Raw {
                content: "package",
-               position: (150, 7),
+               position: (148, 7),
               },
              ],
             },
             FunctionApplication {
              function: Variable {
               identifier: "mkOption",
-              position: (150, 17),
+              position: (148, 17),
              },
              arguments: [
               Map {
@@ -1772,20 +1704,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "type",
-                    position: (151, 9),
+                    position: (149, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "types",
-                   position: (151, 16),
+                   position: (149, 16),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "package",
-                     position: (151, 22),
+                     position: (149, 22),
                     },
                    ],
                   },
@@ -1797,20 +1729,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "default",
-                    position: (152, 9),
+                    position: (150, 9),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
-                   position: (152, 19),
+                   position: (150, 19),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "cockroachdb",
-                     position: (152, 24),
+                     position: (150, 24),
                     },
                    ],
                   },
@@ -1822,21 +1754,21 @@ Function {
                   attributes: [
                    Raw {
                     content: "defaultText",
-                    position: (153, 9),
+                    position: (151, 9),
                    },
                   ],
                  },
                  FunctionApplication {
                   function: Variable {
                    identifier: "literalExpression",
-                   position: (153, 23),
+                   position: (151, 23),
                   },
                   arguments: [
                    String {
                     parts: [
                      Raw {
                       content: "pkgs.cockroachdb",
-                      position: (153, 42),
+                      position: (151, 42),
                      },
                     ],
                    },
@@ -1848,7 +1780,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "description",
-                    position: (154, 9),
+                    position: (152, 9),
                    },
                   ],
                  },
@@ -1856,26 +1788,157 @@ Function {
                   parts: [
                    Raw {
                     content: "The CockroachDB derivation to use for running the service.\n\nThis would primarily be useful to enable Enterprise Edition features\nin your own custom CockroachDB build (Nixpkgs CockroachDB binaries\nonly contain open source features and open source code).\n",
-                    position: (155, 1),
+                    position: (153, 1),
                    },
                   ],
                  },
                 ),
                ],
                recursive: false,
-               position: (150, 26),
+               position: (148, 26),
+              },
+             ],
+            },
+           ),
+           KeyValue(
+            AttributePath {
+             attributes: [
+              Raw {
+               content: "extraArgs",
+               position: (161, 7),
+              },
+             ],
+            },
+            FunctionApplication {
+             function: Variable {
+              identifier: "mkOption",
+              position: (161, 19),
+             },
+             arguments: [
+              Map {
+               bindings: [
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "type",
+                    position: (162, 9),
+                   },
+                  ],
+                 },
+                 FunctionApplication {
+                  function: PropertyAccess {
+                   expression: Variable {
+                    identifier: "types",
+                    position: (162, 16),
+                   },
+                   attribute_path: AttributePath {
+                    attributes: [
+                     Raw {
+                      content: "listOf",
+                      position: (162, 22),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  arguments: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "types",
+                     position: (162, 29),
+                    },
+                    attribute_path: AttributePath {
+                     attributes: [
+                      Raw {
+                       content: "str",
+                       position: (162, 35),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                  ],
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "default",
+                    position: (163, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [],
+                  position: (163, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "example",
+                    position: (164, 9),
+                   },
+                  ],
+                 },
+                 List {
+                  elements: [
+                   String {
+                    parts: [
+                     Raw {
+                      content: "--advertise-addr",
+                      position: (164, 22),
+                     },
+                    ],
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "[fe80::f6f2:::]",
+                      position: (164, 41),
+                     },
+                    ],
+                   },
+                  ],
+                  position: (164, 19),
+                 },
+                ),
+                KeyValue(
+                 AttributePath {
+                  attributes: [
+                   Raw {
+                    content: "description",
+                    position: (165, 9),
+                   },
+                  ],
+                 },
+                 String {
+                  parts: [
+                   Raw {
+                    content: "Extra CLI arguments passed to <command>cockroach start</command>.\nFor the full list of supported argumemnts, check <link xlink:href=\"https://www.cockroachlabs.com/docs/stable/cockroach-start.html#flags\"/>\n",
+                    position: (166, 1),
+                   },
+                  ],
+                 },
+                ),
+               ],
+               recursive: false,
+               position: (161, 28),
               },
              ],
             },
            ),
           ],
           recursive: false,
-          position: (53, 28),
+          position: (51, 28),
          },
         ),
        ],
        recursive: false,
-       position: (52, 13),
+       position: (50, 13),
       },
      ),
      KeyValue(
@@ -1883,34 +1946,34 @@ Function {
        attributes: [
         Raw {
          content: "config",
-         position: (165, 3),
+         position: (173, 3),
         },
        ],
       },
       FunctionApplication {
        function: Variable {
         identifier: "mkIf",
-        position: (165, 12),
+        position: (173, 12),
        },
        arguments: [
         PropertyAccess {
          expression: Variable {
           identifier: "config",
-          position: (165, 17),
+          position: (173, 17),
          },
          attribute_path: AttributePath {
           attributes: [
            Raw {
             content: "services",
-            position: (165, 24),
+            position: (173, 24),
            },
            Raw {
             content: "cockroachdb",
-            position: (165, 33),
+            position: (173, 33),
            },
            Raw {
             content: "enable",
-            position: (165, 45),
+            position: (173, 45),
            },
           ],
          },
@@ -1923,7 +1986,7 @@ Function {
             attributes: [
              Raw {
               content: "assertions",
-              position: (166, 5),
+              position: (174, 5),
              },
             ],
            },
@@ -1936,7 +1999,7 @@ Function {
                  attributes: [
                   Raw {
                    content: "assertion",
-                   position: (167, 9),
+                   position: (175, 9),
                   },
                  ],
                 },
@@ -1948,19 +2011,19 @@ Function {
                    operand: PropertyAccess {
                     expression: Variable {
                      identifier: "cfg",
-                     position: (167, 22),
+                     position: (175, 22),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "insecure",
-                       position: (167, 26),
+                       position: (175, 26),
                       },
                      ],
                     },
                     default: None,
                    },
-                   position: (167, 21),
+                   position: (175, 21),
                   },
                   BinaryOperation {
                    operator: NotEqualTo,
@@ -1968,13 +2031,13 @@ Function {
                     PropertyAccess {
                      expression: Variable {
                       identifier: "cfg",
-                      position: (167, 38),
+                      position: (175, 38),
                      },
                      attribute_path: AttributePath {
                       attributes: [
                        Raw {
                         content: "certsDir",
-                        position: (167, 42),
+                        position: (175, 42),
                        },
                       ],
                      },
@@ -1982,13 +2045,13 @@ Function {
                     },
                     Variable {
                      identifier: "null",
-                     position: (167, 54),
+                     position: (175, 54),
                     },
                    ],
-                   position: (167, 51),
+                   position: (175, 51),
                   },
                  ],
-                 position: (167, 35),
+                 position: (175, 35),
                 },
                ),
                KeyValue(
@@ -1996,7 +2059,7 @@ Function {
                  attributes: [
                   Raw {
                    content: "message",
-                   position: (168, 9),
+                   position: (176, 9),
                   },
                  ],
                 },
@@ -2004,17 +2067,17 @@ Function {
                  parts: [
                   Raw {
                    content: "CockroachDB must have a set of SSL certificates (.certsDir), or run in Insecure Mode (.insecure = true)",
-                   position: (168, 20),
+                   position: (176, 20),
                   },
                  ],
                 },
                ),
               ],
               recursive: false,
-              position: (167, 7),
+              position: (175, 7),
              },
             ],
-            position: (166, 18),
+            position: (174, 18),
            },
           ),
           KeyValue(
@@ -2022,11 +2085,11 @@ Function {
             attributes: [
              Raw {
               content: "environment",
-              position: (172, 5),
+              position: (180, 5),
              },
              Raw {
               content: "systemPackages",
-              position: (172, 17),
+              position: (180, 17),
              },
             ],
            },
@@ -2034,10 +2097,10 @@ Function {
             elements: [
              Variable {
               identifier: "crdb",
-              position: (172, 36),
+              position: (180, 36),
              },
             ],
-            position: (172, 34),
+            position: (180, 34),
            },
           ),
           KeyValue(
@@ -2045,18 +2108,18 @@ Function {
             attributes: [
              Raw {
               content: "users",
-              position: (174, 5),
+              position: (182, 5),
              },
              Raw {
               content: "users",
-              position: (174, 11),
+              position: (182, 11),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "optionalAttrs",
-             position: (174, 19),
+             position: (182, 19),
             },
             arguments: [
              BinaryOperation {
@@ -2065,13 +2128,13 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (174, 34),
+                 position: (182, 34),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "user",
-                   position: (174, 38),
+                   position: (182, 38),
                   },
                  ],
                 },
@@ -2081,12 +2144,12 @@ Function {
                 parts: [
                  Raw {
                   content: "cockroachdb",
-                  position: (174, 47),
+                  position: (182, 47),
                  },
                 ],
                },
               ],
-              position: (174, 43),
+              position: (182, 43),
              },
              Map {
               bindings: [
@@ -2095,7 +2158,7 @@ Function {
                  attributes: [
                   Raw {
                    content: "cockroachdb",
-                   position: (175, 7),
+                   position: (183, 7),
                   },
                  ],
                 },
@@ -2106,7 +2169,7 @@ Function {
                     attributes: [
                      Raw {
                       content: "description",
-                      position: (176, 9),
+                      position: (184, 9),
                      },
                     ],
                    },
@@ -2114,7 +2177,7 @@ Function {
                     parts: [
                      Raw {
                       content: "CockroachDB Server User",
-                      position: (176, 24),
+                      position: (184, 24),
                      },
                     ],
                    },
@@ -2124,28 +2187,28 @@ Function {
                     attributes: [
                      Raw {
                       content: "uid",
-                      position: (177, 9),
+                      position: (185, 9),
                      },
                     ],
                    },
                    PropertyAccess {
                     expression: Variable {
                      identifier: "config",
-                     position: (177, 23),
+                     position: (185, 23),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "ids",
-                       position: (177, 30),
+                       position: (185, 30),
                       },
                       Raw {
                        content: "uids",
-                       position: (177, 34),
+                       position: (185, 34),
                       },
                       Raw {
                        content: "cockroachdb",
-                       position: (177, 39),
+                       position: (185, 39),
                       },
                      ],
                     },
@@ -2157,20 +2220,20 @@ Function {
                     attributes: [
                      Raw {
                       content: "group",
-                      position: (178, 9),
+                      position: (186, 9),
                      },
                     ],
                    },
                    PropertyAccess {
                     expression: Variable {
                      identifier: "cfg",
-                     position: (178, 23),
+                     position: (186, 23),
                     },
                     attribute_path: AttributePath {
                      attributes: [
                       Raw {
                        content: "group",
-                       position: (178, 27),
+                       position: (186, 27),
                       },
                      ],
                     },
@@ -2179,12 +2242,12 @@ Function {
                   ),
                  ],
                  recursive: false,
-                 position: (175, 21),
+                 position: (183, 21),
                 },
                ),
               ],
               recursive: false,
-              position: (174, 61),
+              position: (182, 61),
              },
             ],
            },
@@ -2194,18 +2257,18 @@ Function {
             attributes: [
              Raw {
               content: "users",
-              position: (182, 5),
+              position: (190, 5),
              },
              Raw {
               content: "groups",
-              position: (182, 11),
+              position: (190, 11),
              },
             ],
            },
            FunctionApplication {
             function: Variable {
              identifier: "optionalAttrs",
-             position: (182, 20),
+             position: (190, 20),
             },
             arguments: [
              BinaryOperation {
@@ -2214,13 +2277,13 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (182, 35),
+                 position: (190, 35),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "group",
-                   position: (182, 39),
+                   position: (190, 39),
                   },
                  ],
                 },
@@ -2230,12 +2293,12 @@ Function {
                 parts: [
                  Raw {
                   content: "cockroachdb",
-                  position: (182, 49),
+                  position: (190, 49),
                  },
                 ],
                },
               ],
-              position: (182, 45),
+              position: (190, 45),
              },
              Map {
               bindings: [
@@ -2244,32 +2307,32 @@ Function {
                  attributes: [
                   Raw {
                    content: "cockroachdb",
-                   position: (183, 7),
+                   position: (191, 7),
                   },
                   Raw {
                    content: "gid",
-                   position: (183, 19),
+                   position: (191, 19),
                   },
                  ],
                 },
                 PropertyAccess {
                  expression: Variable {
                   identifier: "config",
-                  position: (183, 25),
+                  position: (191, 25),
                  },
                  attribute_path: AttributePath {
                   attributes: [
                    Raw {
                     content: "ids",
-                    position: (183, 32),
+                    position: (191, 32),
                    },
                    Raw {
                     content: "gids",
-                    position: (183, 36),
+                    position: (191, 36),
                    },
                    Raw {
                     content: "cockroachdb",
-                    position: (183, 41),
+                    position: (191, 41),
                    },
                   ],
                  },
@@ -2278,7 +2341,7 @@ Function {
                ),
               ],
               recursive: false,
-              position: (182, 63),
+              position: (190, 63),
              },
             ],
            },
@@ -2288,15 +2351,15 @@ Function {
             attributes: [
              Raw {
               content: "networking",
-              position: (186, 5),
+              position: (194, 5),
              },
              Raw {
               content: "firewall",
-              position: (186, 16),
+              position: (194, 16),
              },
              Raw {
               content: "allowedTCPPorts",
-              position: (186, 25),
+              position: (194, 25),
              },
             ],
            },
@@ -2304,13 +2367,13 @@ Function {
             function: PropertyAccess {
              expression: Variable {
               identifier: "lib",
-              position: (186, 43),
+              position: (194, 43),
              },
              attribute_path: AttributePath {
               attributes: [
                Raw {
                 content: "optionals",
-                position: (186, 47),
+                position: (194, 47),
                },
               ],
              },
@@ -2320,13 +2383,13 @@ Function {
              PropertyAccess {
               expression: Variable {
                identifier: "cfg",
-               position: (186, 57),
+               position: (194, 57),
               },
               attribute_path: AttributePath {
                attributes: [
                 Raw {
                  content: "openPorts",
-                 position: (186, 61),
+                 position: (194, 61),
                 },
                ],
               },
@@ -2337,17 +2400,17 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (187, 9),
+                 position: (195, 9),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "http",
-                   position: (187, 13),
+                   position: (195, 13),
                   },
                   Raw {
                    content: "port",
-                   position: (187, 18),
+                   position: (195, 18),
                   },
                  ],
                 },
@@ -2356,24 +2419,24 @@ Function {
                PropertyAccess {
                 expression: Variable {
                  identifier: "cfg",
-                 position: (187, 23),
+                 position: (195, 23),
                 },
                 attribute_path: AttributePath {
                  attributes: [
                   Raw {
                    content: "listen",
-                   position: (187, 27),
+                   position: (195, 27),
                   },
                   Raw {
                    content: "port",
-                   position: (187, 34),
+                   position: (195, 34),
                   },
                  ],
                 },
                 default: None,
                },
               ],
-              position: (187, 7),
+              position: (195, 7),
              },
             ],
            },
@@ -2383,15 +2446,15 @@ Function {
             attributes: [
              Raw {
               content: "systemd",
-              position: (189, 5),
+              position: (197, 5),
              },
              Raw {
               content: "services",
-              position: (189, 13),
+              position: (197, 13),
              },
              Raw {
               content: "cockroachdb",
-              position: (189, 22),
+              position: (197, 22),
              },
             ],
            },
@@ -2402,7 +2465,7 @@ Function {
                attributes: [
                 Raw {
                  content: "description",
-                 position: (190, 9),
+                 position: (198, 9),
                 },
                ],
               },
@@ -2410,7 +2473,7 @@ Function {
                parts: [
                 Raw {
                  content: "CockroachDB Server",
-                 position: (190, 26),
+                 position: (198, 26),
                 },
                ],
               },
@@ -2420,7 +2483,7 @@ Function {
                attributes: [
                 Raw {
                  content: "documentation",
-                 position: (191, 9),
+                 position: (199, 9),
                 },
                ],
               },
@@ -2430,7 +2493,7 @@ Function {
                  parts: [
                   Raw {
                    content: "man:cockroach(1)",
-                   position: (191, 28),
+                   position: (199, 28),
                   },
                  ],
                 },
@@ -2438,12 +2501,12 @@ Function {
                  parts: [
                   Raw {
                    content: "https://www.cockroachlabs.com",
-                   position: (191, 47),
+                   position: (199, 47),
                   },
                  ],
                 },
                ],
-               position: (191, 25),
+               position: (199, 25),
               },
              ),
              KeyValue(
@@ -2451,7 +2514,7 @@ Function {
                attributes: [
                 Raw {
                  content: "after",
-                 position: (193, 9),
+                 position: (201, 9),
                 },
                ],
               },
@@ -2461,7 +2524,7 @@ Function {
                  parts: [
                   Raw {
                    content: "network.target",
-                   position: (193, 23),
+                   position: (201, 23),
                   },
                  ],
                 },
@@ -2469,12 +2532,12 @@ Function {
                  parts: [
                   Raw {
                    content: "time-sync.target",
-                   position: (193, 40),
+                   position: (201, 40),
                   },
                  ],
                 },
                ],
-               position: (193, 20),
+               position: (201, 20),
               },
              ),
              KeyValue(
@@ -2482,7 +2545,7 @@ Function {
                attributes: [
                 Raw {
                  content: "requires",
-                 position: (194, 9),
+                 position: (202, 9),
                 },
                ],
               },
@@ -2492,12 +2555,12 @@ Function {
                  parts: [
                   Raw {
                    content: "time-sync.target",
-                   position: (194, 23),
+                   position: (202, 23),
                   },
                  ],
                 },
                ],
-               position: (194, 20),
+               position: (202, 20),
               },
              ),
              KeyValue(
@@ -2505,7 +2568,7 @@ Function {
                attributes: [
                 Raw {
                  content: "wantedBy",
-                 position: (195, 9),
+                 position: (203, 9),
                 },
                ],
               },
@@ -2515,12 +2578,12 @@ Function {
                  parts: [
                   Raw {
                    content: "multi-user.target",
-                   position: (195, 23),
+                   position: (203, 23),
                   },
                  ],
                 },
                ],
-               position: (195, 20),
+               position: (203, 20),
               },
              ),
              KeyValue(
@@ -2528,11 +2591,11 @@ Function {
                attributes: [
                 Raw {
                  content: "unitConfig",
-                 position: (197, 9),
+                 position: (205, 9),
                 },
                 Raw {
                  content: "RequiresMountsFor",
-                 position: (197, 20),
+                 position: (205, 20),
                 },
                ],
               },
@@ -2540,7 +2603,7 @@ Function {
                parts: [
                 Raw {
                  content: "/var/lib/cockroachdb",
-                 position: (197, 41),
+                 position: (205, 41),
                 },
                ],
               },
@@ -2550,7 +2613,7 @@ Function {
                attributes: [
                 Raw {
                  content: "serviceConfig",
-                 position: (199, 9),
+                 position: (207, 9),
                 },
                ],
               },
@@ -2561,13 +2624,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "ExecStart",
-                    position: (200, 13),
+                    position: (208, 13),
                    },
                   ],
                  },
                  Variable {
                   identifier: "startupCommand",
-                  position: (200, 25),
+                  position: (208, 25),
                  },
                 ),
                 KeyValue(
@@ -2575,7 +2638,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "Type",
-                    position: (201, 13),
+                    position: (209, 13),
                    },
                   ],
                  },
@@ -2583,7 +2646,7 @@ Function {
                   parts: [
                    Raw {
                     content: "notify",
-                    position: (201, 21),
+                    position: (209, 21),
                    },
                   ],
                  },
@@ -2593,20 +2656,20 @@ Function {
                   attributes: [
                    Raw {
                     content: "User",
-                    position: (202, 13),
+                    position: (210, 13),
                    },
                   ],
                  },
                  PropertyAccess {
                   expression: Variable {
                    identifier: "cfg",
-                   position: (202, 20),
+                   position: (210, 20),
                   },
                   attribute_path: AttributePath {
                    attributes: [
                     Raw {
                      content: "user",
-                     position: (202, 24),
+                     position: (210, 24),
                     },
                    ],
                   },
@@ -2618,7 +2681,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "StateDirectory",
-                    position: (203, 13),
+                    position: (211, 13),
                    },
                   ],
                  },
@@ -2626,7 +2689,7 @@ Function {
                   parts: [
                    Raw {
                     content: "cockroachdb",
-                    position: (203, 31),
+                    position: (211, 31),
                    },
                   ],
                  },
@@ -2636,7 +2699,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "StateDirectoryMode",
-                    position: (204, 13),
+                    position: (212, 13),
                    },
                   ],
                  },
@@ -2644,7 +2707,7 @@ Function {
                   parts: [
                    Raw {
                     content: "0700",
-                    position: (204, 35),
+                    position: (212, 35),
                    },
                   ],
                  },
@@ -2654,7 +2717,7 @@ Function {
                   attributes: [
                    Raw {
                     content: "Restart",
-                    position: (206, 13),
+                    position: (214, 13),
                    },
                   ],
                  },
@@ -2662,7 +2725,7 @@ Function {
                   parts: [
                    Raw {
                     content: "always",
-                    position: (206, 24),
+                    position: (214, 24),
                    },
                   ],
                  },
@@ -2672,13 +2735,13 @@ Function {
                   attributes: [
                    Raw {
                     content: "TimeoutStopSec",
-                    position: (210, 13),
+                    position: (218, 13),
                    },
                   ],
                  },
                  Int {
                   value: 60,
-                  position: (210, 30),
+                  position: (218, 30),
                  },
                 ),
                 KeyValue(
@@ -2686,28 +2749,28 @@ Function {
                   attributes: [
                    Raw {
                     content: "RestartSec",
-                    position: (211, 13),
+                    position: (219, 13),
                    },
                   ],
                  },
                  Int {
                   value: 10,
-                  position: (211, 26),
+                  position: (219, 26),
                  },
                 ),
                ],
                recursive: false,
-               position: (200, 11),
+               position: (208, 11),
               },
              ),
             ],
             recursive: false,
-            position: (190, 7),
+            position: (198, 7),
            },
           ),
          ],
          recursive: false,
-         position: (165, 52),
+         position: (173, 52),
         },
        ],
       },
@@ -2717,11 +2780,11 @@ Function {
        attributes: [
         Raw {
          content: "meta",
-         position: (216, 3),
+         position: (224, 3),
         },
         Raw {
          content: "maintainers",
-         position: (216, 8),
+         position: (224, 8),
         },
        ],
       },
@@ -2729,13 +2792,13 @@ Function {
        expression: PropertyAccess {
         expression: Variable {
          identifier: "lib",
-         position: (216, 27),
+         position: (224, 27),
         },
         attribute_path: AttributePath {
          attributes: [
           Raw {
            content: "maintainers",
-           position: (216, 31),
+           position: (224, 31),
           },
          ],
         },
@@ -2745,17 +2808,17 @@ Function {
         elements: [
          Variable {
           identifier: "thoughtpolice",
-          position: (216, 46),
+          position: (224, 46),
          },
         ],
-        position: (216, 44),
+        position: (224, 44),
        },
-       position: (216, 22),
+       position: (224, 22),
       },
      ),
     ],
     recursive: false,
-    position: (51, 1),
+    position: (49, 1),
    },
    position: (5, 1),
   },

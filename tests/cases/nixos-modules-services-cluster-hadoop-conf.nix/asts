@@ -45,50 +45,83 @@ Function {
        arguments: [],
        ellipsis: false,
       },
-      definition: String {
-       parts: [
-        Raw {
-         content: "<property>\n  <name>",
-         position: (4, 1),
+      definition: FunctionApplication {
+       function: PropertyAccess {
+        expression: Variable {
+         identifier: "lib",
+         position: (3, 30),
         },
-        Expression {
-         expression: Variable {
-          identifier: "name",
-          position: (5, 15),
-         },
+        attribute_path: AttributePath {
+         attributes: [
+          Raw {
+           content: "optionalString",
+           position: (3, 34),
+          },
+         ],
         },
-        Raw {
-         content: "</name>\n  <value>",
-         position: (5, 20),
+        default: None,
+       },
+       arguments: [
+        BinaryOperation {
+         operator: NotEqualTo,
+         operands: [
+          Variable {
+           identifier: "value",
+           position: (3, 50),
+          },
+          Variable {
+           identifier: "null",
+           position: (3, 59),
+          },
+         ],
+         position: (3, 56),
         },
-        Expression {
-         expression: FunctionApplication {
-          function: PropertyAccess {
+        String {
+         parts: [
+          Raw {
+           content: "<property>\n  <name>",
+           position: (4, 1),
+          },
+          Expression {
            expression: Variable {
-            identifier: "builtins",
-            position: (6, 16),
+            identifier: "name",
+            position: (5, 15),
            },
-           attribute_path: AttributePath {
-            attributes: [
-             Raw {
-              content: "toString",
-              position: (6, 25),
+          },
+          Raw {
+           content: "</name>\n  <value>",
+           position: (5, 20),
+          },
+          Expression {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "builtins",
+              position: (6, 16),
+             },
+             attribute_path: AttributePath {
+              attributes: [
+               Raw {
+                content: "toString",
+                position: (6, 25),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "value",
+              position: (6, 34),
              },
             ],
            },
-           default: None,
           },
-          arguments: [
-           Variable {
-            identifier: "value",
-            position: (6, 34),
-           },
-          ],
-         },
-        },
-        Raw {
-         content: "</value>\n</property>\n",
-         position: (6, 40),
+          Raw {
+           content: "</value>\n</property>\n",
+           position: (6, 40),
+          },
+         ],
         },
        ],
       },
@@ -486,406 +519,385 @@ Function {
      recursive: false,
      position: (32, 31),
     },
-    String {
-     parts: [
-      Raw {
-       content: "mkdir -p $out/\ncp ",
-       position: (33, 1),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "siteXml",
-         position: (34, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "core-site.xml",
-            position: (34, 17),
-           },
-          ],
+    With {
+     expression: Variable {
+      identifier: "cfg",
+      position: (32, 40),
+     },
+     target: String {
+      parts: [
+       Raw {
+        content: "mkdir -p $out/\ncp ",
+        position: (33, 1),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "siteXml",
+          position: (34, 8),
          },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (34, 32),
-          },
-          attribute_path: AttributePath {
-           attributes: [
+         arguments: [
+          String {
+           parts: [
             Raw {
-             content: "coreSite",
-             position: (34, 36),
+             content: "core-site.xml",
+             position: (34, 17),
             },
            ],
           },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (34, 45),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "siteXml",
-         position: (35, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "hdfs-site.xml",
-            position: (35, 17),
-           },
-          ],
-         },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (35, 32),
-          },
-          attribute_path: AttributePath {
-           attributes: [
-            Raw {
-             content: "hdfsSite",
-             position: (35, 36),
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "coreSite",
+             position: (34, 33),
+            },
+            Variable {
+             identifier: "coreSiteInternal",
+             position: (34, 45),
             },
            ],
-          },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (35, 45),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "siteXml",
-         position: (36, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "mapred-site.xml",
-            position: (36, 17),
-           },
-          ],
-         },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (36, 34),
-          },
-          attribute_path: AttributePath {
-           attributes: [
-            Raw {
-             content: "mapredSite",
-             position: (36, 38),
-            },
-           ],
-          },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (36, 49),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "siteXml",
-         position: (37, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "yarn-site.xml",
-            position: (37, 17),
-           },
-          ],
-         },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (37, 32),
-          },
-          attribute_path: AttributePath {
-           attributes: [
-            Raw {
-             content: "yarnSite",
-             position: (37, 36),
-            },
-           ],
-          },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (37, 45),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "siteXml",
-         position: (38, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "httpfs-site.xml",
-            position: (38, 17),
-           },
-          ],
-         },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (38, 34),
-          },
-          attribute_path: AttributePath {
-           attributes: [
-            Raw {
-             content: "httpfsSite",
-             position: (38, 38),
-            },
-           ],
-          },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (38, 49),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: Variable {
-         identifier: "cfgFile",
-         position: (39, 8),
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "container-executor.cfg",
-            position: (39, 17),
-           },
-          ],
-         },
-         PropertyAccess {
-          expression: Variable {
-           identifier: "cfg",
-           position: (39, 41),
-          },
-          attribute_path: AttributePath {
-           attributes: [
-            Raw {
-             content: "containerExecutorCfg",
-             position: (39, 45),
-            },
-           ],
-          },
-          default: None,
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (39, 66),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "pkgs",
-          position: (40, 8),
-         },
-         attribute_path: AttributePath {
-          attributes: [
-           Raw {
-            content: "writeTextDir",
-            position: (40, 13),
-           },
-          ],
-         },
-         default: None,
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "hadoop-user-functions.sh",
-            position: (40, 27),
-           },
-          ],
-         },
-         Variable {
-          identifier: "userFunctions",
-          position: (40, 53),
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (40, 67),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "pkgs",
-          position: (41, 8),
-         },
-         attribute_path: AttributePath {
-          attributes: [
-           Raw {
-            content: "writeTextDir",
-            position: (41, 13),
-           },
-          ],
-         },
-         default: None,
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "hadoop-env.sh",
-            position: (41, 27),
-           },
-          ],
-         },
-         Variable {
-          identifier: "hadoopEnv",
-          position: (41, 42),
-         },
-        ],
-       },
-      },
-      Raw {
-       content: "/* $out/\ncp ",
-       position: (41, 52),
-      },
-      Expression {
-       expression: PropertyAccess {
-        expression: Variable {
-         identifier: "cfg",
-         position: (42, 8),
-        },
-        attribute_path: AttributePath {
-         attributes: [
-          Raw {
-           content: "log4jProperties",
-           position: (42, 12),
+           position: (34, 42),
           },
          ],
         },
-        default: None,
        },
-      },
-      Raw {
-       content: " $out/log4j.properties\n",
-       position: (42, 28),
-      },
-      Expression {
-       expression: FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "lib",
-          position: (43, 5),
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (34, 63),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "siteXml",
+          position: (35, 8),
          },
-         attribute_path: AttributePath {
-          attributes: [
-           Raw {
-            content: "concatMapStringsSep",
-            position: (43, 9),
-           },
-          ],
-         },
-         default: None,
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "\n",
-            position: (43, 30),
-           },
-          ],
-         },
-         Function {
-          argument: Some(
-           "dir",
-          ),
-          arguments: FunctionArguments {
-           arguments: [],
-           ellipsis: false,
-          },
-          definition: String {
+         arguments: [
+          String {
            parts: [
             Raw {
-             content: "cp -r ",
-             position: (43, 41),
-            },
-            Expression {
-             expression: Variable {
-              identifier: "dir",
-              position: (43, 49),
-             },
-            },
-            Raw {
-             content: "/* $out/",
-             position: (43, 53),
+             content: "hdfs-site.xml",
+             position: (35, 17),
             },
            ],
           },
-          position: (43, 35),
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "hdfsSiteDefault",
+             position: (35, 33),
+            },
+            BinaryOperation {
+             operator: Update,
+             operands: [
+              Variable {
+               identifier: "hdfsSite",
+               position: (35, 52),
+              },
+              Variable {
+               identifier: "hdfsSiteInternal",
+               position: (35, 64),
+              },
+             ],
+             position: (35, 61),
+            },
+           ],
+           position: (35, 49),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (35, 82),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "siteXml",
+          position: (36, 8),
          },
-         PropertyAccess {
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "mapred-site.xml",
+             position: (36, 17),
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "mapredSiteDefault",
+             position: (36, 35),
+            },
+            Variable {
+             identifier: "mapredSite",
+             position: (36, 56),
+            },
+           ],
+           position: (36, 53),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (36, 68),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "siteXml",
+          position: (37, 8),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "yarn-site.xml",
+             position: (37, 17),
+            },
+           ],
+          },
+          BinaryOperation {
+           operator: Update,
+           operands: [
+            Variable {
+             identifier: "yarnSiteDefault",
+             position: (37, 33),
+            },
+            BinaryOperation {
+             operator: Update,
+             operands: [
+              Variable {
+               identifier: "yarnSite",
+               position: (37, 52),
+              },
+              Variable {
+               identifier: "yarnSiteInternal",
+               position: (37, 64),
+              },
+             ],
+             position: (37, 61),
+            },
+           ],
+           position: (37, 49),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (37, 82),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "siteXml",
+          position: (38, 8),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "httpfs-site.xml",
+             position: (38, 17),
+            },
+           ],
+          },
+          Variable {
+           identifier: "httpfsSite",
+           position: (38, 34),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (38, 45),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "cfgFile",
+          position: (39, 8),
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "container-executor.cfg",
+             position: (39, 17),
+            },
+           ],
+          },
+          Variable {
+           identifier: "containerExecutorCfg",
+           position: (39, 41),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (39, 62),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: PropertyAccess {
           expression: Variable {
-           identifier: "cfg",
-           position: (43, 64),
+           identifier: "pkgs",
+           position: (40, 8),
           },
           attribute_path: AttributePath {
            attributes: [
             Raw {
-             content: "extraConfDirs",
-             position: (43, 68),
+             content: "writeTextDir",
+             position: (40, 13),
             },
            ],
           },
           default: None,
          },
-        ],
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "hadoop-user-functions.sh",
+             position: (40, 27),
+            },
+           ],
+          },
+          Variable {
+           identifier: "userFunctions",
+           position: (40, 53),
+          },
+         ],
+        },
        },
-      },
-      Raw {
-       content: "\n",
-       position: (43, 82),
-      },
-     ],
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (40, 67),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (41, 8),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "writeTextDir",
+             position: (41, 13),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "hadoop-env.sh",
+             position: (41, 27),
+            },
+           ],
+          },
+          Variable {
+           identifier: "hadoopEnv",
+           position: (41, 42),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "/* $out/\ncp ",
+        position: (41, 52),
+       },
+       Expression {
+        expression: Variable {
+         identifier: "log4jProperties",
+         position: (42, 8),
+        },
+       },
+       Raw {
+        content: " $out/log4j.properties\n",
+        position: (42, 24),
+       },
+       Expression {
+        expression: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "lib",
+           position: (43, 5),
+          },
+          attribute_path: AttributePath {
+           attributes: [
+            Raw {
+             content: "concatMapStringsSep",
+             position: (43, 9),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "\n",
+             position: (43, 30),
+            },
+           ],
+          },
+          Function {
+           argument: Some(
+            "dir",
+           ),
+           arguments: FunctionArguments {
+            arguments: [],
+            ellipsis: false,
+           },
+           definition: String {
+            parts: [
+             Raw {
+              content: "cp -r ",
+              position: (43, 41),
+             },
+             Expression {
+              expression: Variable {
+               identifier: "dir",
+               position: (43, 49),
+              },
+             },
+             Raw {
+              content: "/* $out/",
+              position: (43, 53),
+             },
+            ],
+           },
+           position: (43, 35),
+          },
+          Variable {
+           identifier: "extraConfDirs",
+           position: (43, 64),
+          },
+         ],
+        },
+       },
+       Raw {
+        content: "\n",
+        position: (43, 78),
+       },
+      ],
+     },
+     position: (32, 35),
     },
    ],
   },
