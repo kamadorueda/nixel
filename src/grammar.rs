@@ -400,7 +400,14 @@ pub fn grammar() -> Grammar<AST> {
             => |mut asts| match asts.swap_remove(0) {
                 AST::__Lexeme(lexeme) => {
                     AST::Int {
-                        value: str::parse::<isize>(&lexeme.raw).unwrap(),
+                        value: match str::parse::<i64>(&lexeme.raw) {
+                            Ok(value) => value,
+                            Err(_) => {
+                                panic!("\n\n\
+                                    The maximum supported integer is: 9223372036854775807\n\
+                                    But yours is: {}\n\n", &lexeme.raw);
+                            },
+                        },
                         position: lexeme.position.clone(),
                     }
                 },

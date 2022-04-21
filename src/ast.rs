@@ -48,7 +48,7 @@ pub enum AST {
         position:  Position,
     },
     Int {
-        value:    isize,
+        value:    i64,
         position: Position,
     },
     LetIn {
