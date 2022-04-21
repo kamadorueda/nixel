@@ -100,9 +100,9 @@ LetIn {
                 parts: [
                     Raw {
                         content: "Hello World!",
-                        position: (2, 15),
                     },
                 ],
+                position: (2, 14),
             },
         ),
     ],
