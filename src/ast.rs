@@ -10,7 +10,7 @@ use santiago::lexer::Position;
 
 /// Main type of an Abstract Syntax Tree.
 #[allow(clippy::manual_non_exhaustive)]
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum AST {
     Assert {
         expression: Box<AST>,
@@ -157,24 +157,24 @@ impl AST {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Attribute {
     Raw { content: String, position: Position },
     Expression { expression: Box<AST> },
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct AttributePath {
     pub attributes: LinkedList<Attribute>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Binding {
     KeyValue(AttributePath, Box<AST>),
     Inherit(Option<Box<AST>>, LinkedList<Attribute>),
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum BinaryOperator {
     Addition,
     Concatenation,
@@ -193,25 +193,25 @@ pub enum BinaryOperator {
     Update,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct FunctionArgument {
     pub identifier: String,
     pub default:    Option<Box<AST>>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct FunctionArguments {
     pub arguments: LinkedList<FunctionArgument>,
     pub ellipsis:  bool,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum StringPart {
     Raw { content: String },
     Expression { expression: Box<AST> },
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum UnaryOperator {
     Not,
     Negate,
