@@ -171,7 +171,7 @@ pub struct AttributePath {
 #[derive(Clone, Debug, PartialEq)]
 pub enum Binding {
     KeyValue(AttributePath, Box<AST>),
-    Inherit(Option<Box<AST>>, LinkedList<Attribute>),
+    Inherit { from: Option<Box<AST>>, attributes: LinkedList<Attribute> },
 }
 
 #[derive(Clone, Debug, PartialEq)]

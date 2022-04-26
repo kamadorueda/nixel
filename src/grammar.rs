@@ -689,10 +689,10 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__Bindings(bindings) => {
                         match asts.swap_remove(2) {
                             AST::__Attributes(attributes) => {
-                                bindings.push_back(Binding::Inherit(
-                                    None,
+                                bindings.push_back(Binding::Inherit {
+                                    from: None,
                                     attributes,
-                                ));
+                                });
                             },
                             _ => unreachable!(),
                         }
@@ -710,10 +710,10 @@ pub fn grammar() -> Grammar<AST> {
                     AST::__Bindings(bindings) => {
                         match asts.swap_remove(5) {
                             AST::__Attributes(attributes) => {
-                                bindings.push_back(Binding::Inherit(
-                                    Some(Box::new(asts.swap_remove(3))),
+                                bindings.push_back(Binding::Inherit {
+                                    from: Some(Box::new(asts.swap_remove(3))),
                                     attributes,
-                                ));
+                                });
                             },
                             _ => unreachable!(),
                         }
