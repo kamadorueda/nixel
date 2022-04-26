@@ -838,7 +838,16 @@ pub fn grammar() -> Grammar<AST> {
 
         "string_attr" => rules "\"" "string_parts" "\""
             => |mut asts| AST::__Attribute(Attribute::Expression {
-                expression: Box::new(asts.swap_remove(1)),
+                expression: Box::new(match asts.swap_remove(1) {
+                    AST::__StringParts(parts) => AST::String {
+                        parts,
+                        position: match asts.swap_remove(0) {
+                            AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                            _ => unreachable!(),
+                        },
+                    },
+                    _ => unreachable!(),
+                }),
             });
         "string_attr" => rules "DOLLAR_CURLY" "expr" "}"
             => |mut asts| AST::__Attribute(Attribute::Expression {
