@@ -27,8 +27,7 @@ pub enum AST {
         position: Position,
     },
     Function {
-        argument:   Option<String>,
-        arguments:  FunctionArguments,
+        argument:   FunctionArgument,
         definition: Box<AST>,
         position:   Position,
     },
@@ -103,8 +102,6 @@ pub enum AST {
 
     // Temporary containers
     #[doc(hidden)]
-    __,
-    #[doc(hidden)]
     __Attribute(Attribute),
     #[doc(hidden)]
     __Attributes(LinkedList<Attribute>),
@@ -113,9 +110,9 @@ pub enum AST {
     #[doc(hidden)]
     __Bindings(LinkedList<Binding>),
     #[doc(hidden)]
-    __FunctionArgument(FunctionArgument),
+    __DestructuredArgument(DestructuredArgument),
     #[doc(hidden)]
-    __FunctionArguments(FunctionArguments),
+    __DestructuredArguments(DestructuredArguments),
     #[doc(hidden)]
     __StringParts(LinkedList<StringPart>),
     #[doc(hidden)]
@@ -144,13 +141,12 @@ impl AST {
             AST::Uri { position, .. } => position.clone(),
             AST::Variable { position, .. } => position.clone(),
             AST::With { position, .. } => position.clone(),
-            AST::__ => unreachable!(),
             AST::__Attribute(_) => unreachable!(),
             AST::__Attributes(_) => unreachable!(),
             AST::__AttributePath(_) => unreachable!(),
             AST::__Bindings(_) => unreachable!(),
-            AST::__FunctionArgument(_) => unreachable!(),
-            AST::__FunctionArguments(_) => unreachable!(),
+            AST::__DestructuredArgument { .. } => unreachable!(),
+            AST::__DestructuredArguments { .. } => unreachable!(),
             AST::__StringParts(_) => unreachable!(),
             AST::__Lexeme(_) => unreachable!(),
         }
@@ -194,15 +190,34 @@ pub enum BinaryOperator {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct FunctionArgument {
+pub enum DestructuredIdentifier {
+    None,
+    LeftAt(String),
+    RightAt(String),
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct DestructuredArgument {
     pub identifier: String,
     pub default:    Option<Box<AST>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct FunctionArguments {
-    pub arguments: LinkedList<FunctionArgument>,
+pub struct DestructuredArguments {
+    pub arguments: LinkedList<DestructuredArgument>,
     pub ellipsis:  bool,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum FunctionArgument {
+    Destructured {
+        identifier: DestructuredIdentifier,
+        arguments:  LinkedList<DestructuredArgument>,
+        ellipsis:   bool,
+    },
+    Simple {
+        identifier: String,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq)]

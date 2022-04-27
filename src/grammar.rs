@@ -12,8 +12,10 @@ use crate::ast::Attribute;
 use crate::ast::AttributePath;
 use crate::ast::BinaryOperator;
 use crate::ast::Binding;
+use crate::ast::DestructuredArgument;
+use crate::ast::DestructuredArguments;
+use crate::ast::DestructuredIdentifier;
 use crate::ast::FunctionArgument;
-use crate::ast::FunctionArguments;
 use crate::ast::StringPart;
 use crate::ast::UnaryOperator;
 use crate::ast::AST;
@@ -25,10 +27,8 @@ pub fn grammar() -> Grammar<AST> {
         "expr_function" => rules "ID" ":" "expr_function"
             => |mut asts| match asts.swap_remove(0) {
                 AST::__Lexeme(lexeme) => AST::Function {
-                    argument: Some(lexeme.raw.clone()),
-                    arguments: FunctionArguments {
-                        arguments: LinkedList::new(),
-                        ellipsis: false,
+                    argument: FunctionArgument::Simple {
+                        identifier: lexeme.raw.clone(),
                     },
                     definition: Box::new(asts.swap_remove(0)),
                     position: lexeme.position.clone(),
@@ -38,10 +38,17 @@ pub fn grammar() -> Grammar<AST> {
         "expr_function" => rules "{" "formals" "}" ":" "expr_function"
             => |mut asts| match asts.swap_remove(0) {
                 AST::__Lexeme(lexeme) => AST::Function {
-                    argument: None,
-                    arguments: match asts.swap_remove(1) {
-                        AST::__FunctionArguments(function_arguments) => function_arguments,
-                        _ => unreachable!(),
+                    argument: {
+                        let formals = match asts.swap_remove(1) {
+                            AST::__DestructuredArguments(formals) => formals,
+                            _ => unreachable!(),
+                        };
+
+                        FunctionArgument::Destructured {
+                            identifier: DestructuredIdentifier::None,
+                            arguments: formals.arguments,
+                            ellipsis: formals.ellipsis,
+                        }
                     },
                     definition: Box::new(asts.swap_remove(0)),
                     position: lexeme.position.clone(),
@@ -51,13 +58,23 @@ pub fn grammar() -> Grammar<AST> {
         "expr_function" => rules "{" "formals" "}" "@" "ID" ":" "expr_function"
             => |mut asts| match asts.swap_remove(0) {
                 AST::__Lexeme(lexeme) => AST::Function {
-                    argument: Some(match asts.swap_remove(4) {
-                        AST::__Lexeme(lexeme) => lexeme.raw.clone(),
-                        _ => unreachable!(),
-                    }),
-                    arguments: match asts.swap_remove(1) {
-                        AST::__FunctionArguments(function_arguments) => function_arguments,
-                        _ => unreachable!(),
+                    argument: {
+                        let formals = match asts.swap_remove(1) {
+                            AST::__DestructuredArguments(formals) => formals,
+                            _ => unreachable!(),
+                        };
+                        let identifier = match asts.swap_remove(4) {
+                            AST::__Lexeme(lexeme) => DestructuredIdentifier::RightAt(
+                                lexeme.raw.clone()
+                            ),
+                            _ => unreachable!(),
+                        };
+
+                        FunctionArgument::Destructured {
+                            identifier,
+                            arguments: formals.arguments,
+                            ellipsis: formals.ellipsis,
+                        }
                     },
                     definition: Box::new(asts.swap_remove(0)),
                     position: lexeme.position.clone(),
@@ -67,10 +84,20 @@ pub fn grammar() -> Grammar<AST> {
         "expr_function" => rules "ID" "@" "{" "formals" "}" ":" "expr_function"
             => |mut asts| match asts.swap_remove(0) {
                 AST::__Lexeme(lexeme) => AST::Function {
-                    argument: Some(lexeme.raw.clone()),
-                    arguments: match asts.swap_remove(3) {
-                        AST::__FunctionArguments(function_arguments) => function_arguments,
-                        _ => unreachable!(),
+                    argument: {
+                        let formals = match asts.swap_remove(3) {
+                            AST::__DestructuredArguments(formals) => formals,
+                            _ => unreachable!(),
+                        };
+                        let identifier = DestructuredIdentifier::LeftAt(
+                            lexeme.raw.clone()
+                        );
+
+                        FunctionArgument::Destructured {
+                            identifier,
+                            arguments: formals.arguments,
+                            ellipsis: formals.ellipsis,
+                        }
                     },
                     definition: Box::new(asts.swap_remove(0)),
                     position: lexeme.position.clone(),
@@ -880,13 +907,13 @@ pub fn grammar() -> Grammar<AST> {
             => |mut asts| {
                 let mut formals = asts.swap_remove(2);
                 let formal = match asts.swap_remove(0) {
-                    AST::__FunctionArgument(function_argument) => function_argument,
+                    AST::__DestructuredArgument(formal) => formal,
                     _ => unreachable!(),
                 };
 
                 match &mut formals {
-                    AST::__FunctionArguments(function_arguments) => {
-                        function_arguments.arguments.push_back(formal);
+                    AST::__DestructuredArguments(formals) => {
+                        formals.arguments.push_back(formal);
                     },
                     _ => unreachable!(),
                 }
@@ -896,25 +923,31 @@ pub fn grammar() -> Grammar<AST> {
         "formals" => rules "formal"
             => |mut asts| {
                 let formal = match asts.swap_remove(0) {
-                    AST::__FunctionArgument(function_argument) => function_argument,
+                    AST::__DestructuredArgument(formal) => formal,
                     _ => unreachable!(),
                 };
 
-                AST::__FunctionArguments(FunctionArguments {
-                    arguments: LinkedList::from([formal]),
-                    ellipsis: false,
-                })
+                AST::__DestructuredArguments(
+                    DestructuredArguments {
+                        arguments: LinkedList::from([formal]),
+                        ellipsis: false,
+                    },
+                )
             };
         "formals" => rules "ELLIPSIS"
-            => |_| AST::__FunctionArguments(FunctionArguments {
-                arguments: LinkedList::new(),
-                ellipsis: true,
-            });
+            => |_| AST::__DestructuredArguments(
+                DestructuredArguments {
+                    arguments: LinkedList::new(),
+                    ellipsis: true,
+                },
+            );
         "formals" => empty
-            => |_| AST::__FunctionArguments(FunctionArguments {
-                arguments: LinkedList::new(),
-                ellipsis: false,
-            });
+            => |_| AST::__DestructuredArguments(
+                DestructuredArguments {
+                    arguments: LinkedList::new(),
+                    ellipsis: false,
+                },
+            );
 
         "formal" => rules "ID"
             => |mut asts| {
@@ -923,7 +956,7 @@ pub fn grammar() -> Grammar<AST> {
                     _ => unreachable!(),
                 };
 
-                AST::__FunctionArgument(FunctionArgument {
+                AST::__DestructuredArgument(DestructuredArgument {
                     identifier: id.raw.clone(),
                     default: None,
                 })
@@ -935,7 +968,7 @@ pub fn grammar() -> Grammar<AST> {
                     _ => unreachable!(),
                 };
 
-                AST::__FunctionArgument(FunctionArgument {
+                AST::__DestructuredArgument(DestructuredArgument {
                     identifier: id.raw.clone(),
                     default: Some(Box::new(asts.swap_remove(0))),
                 })
