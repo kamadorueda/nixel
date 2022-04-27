@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2022 Kevin Amado <kamadorueda@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-only
-
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -10,7 +9,7 @@
   outputs = inputs: let
     commit = inputs.self.shortRev or "dirty";
     date = inputs.self.lastModifiedDate or inputs.self.lastModified or "19700101";
-    version = "1.0.1+${builtins.substring 0 8 date}.${commit}";
+    version = "2.1.0+${builtins.substring 0 8 date}.${commit}";
 
     nixpkgsForHost = host:
       import inputs.nixpkgs {
@@ -58,14 +57,12 @@
         ];
       };
 
-    apps."x86_64-linux".dev = with nixpkgs."x86_64-linux"; {
+    apps."x86_64-linux".doc = with nixpkgs."x86_64-linux"; {
       type = "app";
       program =
         (writeShellScript "license" ''
           git ls-files | entr sh -euc '
-            UPDATE=1 cargo test
             cargo doc
-            cargo tarpaulin -o html
           '
         '')
         .outPath;

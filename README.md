@@ -130,24 +130,248 @@ LetIn {
 }
 ```
 
-<!--
 Or generate a Concrete Syntax Tree
 preserving comments and metadata:
 
 ```rust
-``` -->
+Root {
+ node: Node {
+  kind: LetIn,
+  leaves: [
+   Leaf {
+    trivia: [],
+    lexeme: Lexeme {
+     kind: "LET",
+     raw: "let",
+     position: (1, 1),
+    },
+   },
+   Node {
+    kind: Binding__Binding,
+    leaves: [
+     Node {
+      kind: AttributePath,
+      leaves: [
+       Node {
+        kind: Part__Raw,
+        leaves: [
+         Leaf {
+          trivia: [
+           Lexeme {
+            kind: "WS",
+            raw: "\n  ",
+            position: (1, 4),
+           },
+           Lexeme {
+            kind: "COMMENT",
+            raw: "# https://en.wikipedia.org/wiki/John_Doe",
+            position: (2, 3),
+           },
+           Lexeme {
+            kind: "WS",
+            raw: "\n  ",
+            position: (2, 43),
+           },
+          ],
+          lexeme: Lexeme {
+           kind: "ID",
+           raw: "name",
+           position: (3, 3),
+          },
+         },
+        ],
+       },
+      ],
+     },
+     Leaf {
+      trivia: [
+       Lexeme {
+        kind: "WS",
+        raw: " ",
+        position: (3, 7),
+       },
+      ],
+      lexeme: Lexeme {
+       kind: "=",
+       raw: "=",
+       position: (3, 8),
+      },
+     },
+     Node {
+      kind: String,
+      leaves: [
+       Leaf {
+        trivia: [
+         Lexeme {
+          kind: "WS",
+          raw: " ",
+          position: (3, 9),
+         },
+        ],
+        lexeme: Lexeme {
+         kind: "\"",
+         raw: "\"",
+         position: (3, 10),
+        },
+       },
+       Node {
+        kind: Part__Raw,
+        leaves: [
+         Leaf {
+          trivia: [],
+          lexeme: Lexeme {
+           kind: "STR",
+           raw: "John Doe",
+           position: (3, 11),
+          },
+         },
+        ],
+       },
+       Leaf {
+        trivia: [],
+        lexeme: Lexeme {
+         kind: "\"",
+         raw: "\"",
+         position: (3, 19),
+        },
+       },
+      ],
+     },
+     Leaf {
+      trivia: [],
+      lexeme: Lexeme {
+       kind: ";",
+       raw: ";",
+       position: (3, 20),
+      },
+     },
+    ],
+   },
+   Leaf {
+    trivia: [
+     Lexeme {
+      kind: "WS",
+      raw: "\n",
+      position: (3, 21),
+     },
+    ],
+    lexeme: Lexeme {
+     kind: "IN",
+     raw: "in",
+     position: (4, 1),
+    },
+   },
+   Node {
+    kind: String,
+    leaves: [
+     Leaf {
+      trivia: [
+       Lexeme {
+        kind: "WS",
+        raw: " ",
+        position: (4, 3),
+       },
+      ],
+      lexeme: Lexeme {
+       kind: "\"",
+       raw: "\"",
+       position: (4, 4),
+      },
+     },
+     Node {
+      kind: Part__Raw,
+      leaves: [
+       Leaf {
+        trivia: [],
+        lexeme: Lexeme {
+         kind: "STR",
+         raw: "Hello, ",
+         position: (4, 5),
+        },
+       },
+      ],
+     },
+     Node {
+      kind: Part__Expression,
+      leaves: [
+       Leaf {
+        trivia: [],
+        lexeme: Lexeme {
+         kind: "DOLLAR_CURLY",
+         raw: "${",
+         position: (4, 12),
+        },
+       },
+       Node {
+        kind: Variable,
+        leaves: [
+         Leaf {
+          trivia: [],
+          lexeme: Lexeme {
+           kind: "ID",
+           raw: "name",
+           position: (4, 14),
+          },
+         },
+        ],
+       },
+       Leaf {
+        trivia: [],
+        lexeme: Lexeme {
+         kind: "}",
+         raw: "}",
+         position: (4, 18),
+        },
+       },
+      ],
+     },
+     Node {
+      kind: Part__Raw,
+      leaves: [
+       Leaf {
+        trivia: [],
+        lexeme: Lexeme {
+         kind: "STR",
+         raw: "!",
+         position: (4, 19),
+        },
+       },
+      ],
+     },
+     Leaf {
+      trivia: [],
+      lexeme: Lexeme {
+       kind: "\"",
+       raw: "\"",
+       position: (4, 20),
+      },
+     },
+    ],
+   },
+  ],
+ },
+ trivia_after_node: [],
+}
+```
 
 Or perform Lexical Analysis:
 
 ```rust
 LET "let" (1, 1)
+WS "\n  " (1, 4)
+COMMENT "# https://en.wikipedia.org/wiki/John_Doe" (2, 3)
+WS "\n  " (2, 43)
 ID "name" (3, 3)
+WS " " (3, 7)
 = "=" (3, 8)
+WS " " (3, 9)
 " "\"" (3, 10)
 STR "John Doe" (3, 11)
 " "\"" (3, 19)
 ; ";" (3, 20)
+WS "\n" (3, 21)
 IN "in" (4, 1)
+WS " " (4, 3)
 " "\"" (4, 4)
 STR "Hello, " (4, 5)
 DOLLAR_CURLY "${" (4, 12)

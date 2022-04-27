@@ -3,6 +3,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use std::io::Read;
+use std::rc::Rc;
+
+use clap::ArgGroup;
+use nixel::cst::build_concrete_syntax_tree;
+use santiago::lexer::Lexeme;
 
 fn main() -> Result<(), ()> {
     // Get CLI arguments
@@ -13,10 +18,6 @@ fn main() -> Result<(), ()> {
         Ok(input) => input,
         Err(error) => return error,
     };
-
-    // HashSet with the names of the outputs we want to print
-    let outputs: std::collections::HashSet<&str> =
-        args.values_of("outputs").unwrap().collect();
 
     // Perform lexical analysis
     let lexing_rules = nixel::lexer::lexer_rules();
@@ -29,8 +30,14 @@ fn main() -> Result<(), ()> {
             return Err(());
         }
     };
+    let lexeme_no_trivia: Vec<Rc<Lexeme>> = lexemes
+        .iter()
+        .filter(|lexeme| &lexeme.kind != "COMMENT")
+        .filter(|lexeme| &lexeme.kind != "WS")
+        .cloned()
+        .collect();
 
-    if outputs.contains("lexemes") {
+    if args.is_present("lexemes") {
         println!("Lexemes:");
         for lexeme in &lexemes {
             println!("  {lexeme}");
@@ -39,7 +46,8 @@ fn main() -> Result<(), ()> {
 
     // Perform parsing of the input
     let grammar = nixel::grammar::grammar();
-    let parse_tree = match santiago::parser::parse(&grammar, &lexemes) {
+    let parse_tree = match santiago::parser::parse(&grammar, &lexeme_no_trivia)
+    {
         Ok(mut parse_trees) => {
             if parse_trees.len() == 1 {
                 parse_trees.swap_remove(0)
@@ -56,7 +64,7 @@ fn main() -> Result<(), ()> {
         }
     };
 
-    if outputs.contains("parse-tree") {
+    if args.is_present("parse-tree") {
         println!("Parse Tree:");
         println!("{parse_tree}");
     }
@@ -64,9 +72,17 @@ fn main() -> Result<(), ()> {
     // Generate the Abstract Syntax Tree
     let ast = parse_tree.as_abstract_syntax_tree();
 
-    if outputs.contains("ast") {
+    if args.is_present("ast") {
         println!("Abstract Syntax Tree:");
         println!("{ast:#?}");
+    }
+
+    // Generate the Concrete Syntax Tree
+    let cst = build_concrete_syntax_tree(&ast, &lexemes);
+
+    if args.is_present("cst") {
+        println!("Concrete Syntax Tree:");
+        println!("{cst:#?}");
     }
 
     Ok(())
@@ -97,22 +113,46 @@ fn cli() -> clap::ArgMatches {
     clap::Command::new("NixEL")
         .about(
             "Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for \
-             the Nix Expressions Language.",
+             the Nix Expressions Language",
         )
-        .version("1.0.1")
+        .version("2.1.0")
         .arg(
             clap::Arg::new("path")
-                .help("File to process, or leave empty to process stdin."),
+                .help("File to process, or leave empty to process stdin"),
         )
         .arg(
-            clap::Arg::new("outputs")
-                .default_value("ast")
-                .help("What to print to stdout.")
-                .multiple_values(false)
-                .multiple_occurrences(true)
-                .possible_values(&["lexemes", "parse-tree", "ast"])
-                .short('o')
-                .takes_value(true),
+            clap::Arg::new("lexemes")
+                .help("Print the Lexemes to stdout")
+                .long("lexemes")
+                .required(false)
+                .takes_value(false),
+        )
+        .arg(
+            clap::Arg::new("parse-tree")
+                .help("Print the Parse Tree to stdout")
+                .long("parse-tree")
+                .required(false)
+                .takes_value(false),
+        )
+        .arg(
+            clap::Arg::new("ast")
+                .help("Print the Abstract Syntax Tree to stdout")
+                .long("ast")
+                .required(false)
+                .takes_value(false),
+        )
+        .arg(
+            clap::Arg::new("cst")
+                .help("Print the Concrete Syntax Tree to stdout")
+                .long("cst")
+                .required(false)
+                .takes_value(false),
+        )
+        .group(
+            ArgGroup::new("outputs")
+                .args(&["lexemes", "parse-tree", "ast", "cst"])
+                .required(true)
+                .multiple(true),
         )
         .term_width(80)
         .get_matches()

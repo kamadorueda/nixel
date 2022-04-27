@@ -210,11 +210,11 @@ pub fn lexer_rules() -> LexerRules {
             };
         "DEFAULT" | "URI" = pattern URI!();
         "DEFAULT" | "WS" = pattern r"[ \t\r\n]+"
-            => |lexer| lexer.skip();
+            => |lexer| lexer.take();
         "DEFAULT" | "COMMENT" = pattern r"\#[^\r\n]*"
-            => |lexer| lexer.skip();
+            => |lexer| lexer.take();
         "DEFAULT" | "COMMENT" = pattern r"/\*([^*]|\*+[^*/])*\*+/"
-            => |lexer| lexer.skip();
+            => |lexer| lexer.take();
         //
         "DEFAULT" | "*" = string "*";
         "DEFAULT" | ":" = string ":";
