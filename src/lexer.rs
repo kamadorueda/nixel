@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-//! Lexical Analysis facilities.
+//! Lexer of the Nix expressions language.
+
 use santiago::lexer::LexerRules;
 
 santiago::def!(ANY, r"(?:.|\n)");

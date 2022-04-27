@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+//! Grammar of the Nix expressions language.
+
 use std::collections::LinkedList;
 
 use santiago::grammar::Associativity;

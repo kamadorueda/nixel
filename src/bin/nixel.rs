@@ -7,7 +7,7 @@ use std::rc::Rc;
 
 use clap::ArgGroup;
 use nixel::cst::build_concrete_syntax_tree;
-use santiago::lexer::Lexeme;
+use nixel::deps::santiago::lexer::Lexeme;
 
 fn main() -> Result<(), ()> {
     // Get CLI arguments
@@ -21,7 +21,6 @@ fn main() -> Result<(), ()> {
 
     // Perform lexical analysis
     let lexing_rules = nixel::lexer::lexer_rules();
-
     let lexemes = match santiago::lexer::lex(&lexing_rules, &input) {
         Ok(lexemes) => lexemes,
         Err(error) => {
@@ -37,7 +36,8 @@ fn main() -> Result<(), ()> {
         .cloned()
         .collect();
 
-    if args.is_present("lexemes") {
+    // Print lexical analysis results
+    if args.is_present("lex") {
         println!("Lexemes:");
         for lexeme in &lexemes {
             println!("  {lexeme}");
@@ -64,7 +64,8 @@ fn main() -> Result<(), ()> {
         }
     };
 
-    if args.is_present("parse-tree") {
+    // Print parsing results
+    if args.is_present("parse") {
         println!("Parse Tree:");
         println!("{parse_tree}");
     }
@@ -72,6 +73,7 @@ fn main() -> Result<(), ()> {
     // Generate the Abstract Syntax Tree
     let ast = parse_tree.as_abstract_syntax_tree();
 
+    // Print the Abstract Syntax Tree
     if args.is_present("ast") {
         println!("Abstract Syntax Tree:");
         println!("{ast:#?}");
@@ -80,6 +82,7 @@ fn main() -> Result<(), ()> {
     // Generate the Concrete Syntax Tree
     let cst = build_concrete_syntax_tree(&ast, &lexemes);
 
+    // Print the Concrete Syntax Tree
     if args.is_present("cst") {
         println!("Concrete Syntax Tree:");
         println!("{cst:#?}");
@@ -121,36 +124,36 @@ fn cli() -> clap::ArgMatches {
                 .help("File to process, or leave empty to process stdin"),
         )
         .arg(
-            clap::Arg::new("lexemes")
-                .help("Print the Lexemes to stdout")
-                .long("lexemes")
+            clap::Arg::new("lex")
+                .help("Print lexical analysis results to stdout")
+                .long("lex")
                 .required(false)
                 .takes_value(false),
         )
         .arg(
-            clap::Arg::new("parse-tree")
-                .help("Print the Parse Tree to stdout")
-                .long("parse-tree")
+            clap::Arg::new("parse")
+                .help("Print parsing results to stdout")
+                .long("parse")
                 .required(false)
                 .takes_value(false),
         )
         .arg(
             clap::Arg::new("ast")
-                .help("Print the Abstract Syntax Tree to stdout")
+                .help("Build and print the Abstract Syntax Tree to stdout")
                 .long("ast")
                 .required(false)
                 .takes_value(false),
         )
         .arg(
             clap::Arg::new("cst")
-                .help("Print the Concrete Syntax Tree to stdout")
+                .help("Build and print the Concrete Syntax Tree to stdout")
                 .long("cst")
                 .required(false)
                 .takes_value(false),
         )
         .group(
             ArgGroup::new("outputs")
-                .args(&["lexemes", "parse-tree", "ast", "cst"])
+                .args(&["lex", "parse", "ast", "cst"])
                 .required(true)
                 .multiple(true),
         )

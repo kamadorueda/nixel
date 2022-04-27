@@ -2,6 +2,10 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+//! Concrete Syntax Tree of the Nix expressions language.
+//!
+//! You most likely want to read the [CST] type first.
+
 use std::rc::Rc;
 
 use santiago::lexer::Lexeme;
@@ -13,6 +17,7 @@ use crate::ast::FunctionArgument;
 use crate::ast::Part;
 use crate::ast::AST;
 
+/// Main type of a Concrete Syntax Tree.
 #[derive(Clone, Debug)]
 pub enum CST {
     Leaf { trivia: Vec<Rc<Lexeme>>, lexeme: Rc<Lexeme> },
@@ -53,6 +58,7 @@ pub enum CSTNodeKind {
     With,
 }
 
+/// Build a [CST].
 pub fn build_concrete_syntax_tree(ast: &AST, lexemes: &[Rc<Lexeme>]) -> CST {
     let mut lexeme_index = 0;
 

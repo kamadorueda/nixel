@@ -2,6 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
+//! Abstract Syntax Tree of the Nix expressions language.
+//!
+//! You most likely want to read the [AST] type first.
 use std::collections::LinkedList;
 use std::rc::Rc;
 
