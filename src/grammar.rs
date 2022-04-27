@@ -766,9 +766,9 @@ pub fn grammar() -> Grammar<AST> {
 
         "attrs" => rules "attrs" "attr"
             => |mut asts| {
-                let mut attrpath = asts.swap_remove(0);
+                let mut attrs = asts.swap_remove(0);
 
-                match &mut attrpath {
+                match &mut attrs {
                     AST::__Attributes(attributes) => {
                         attributes.push_back(match asts.swap_remove(0) {
                             AST::__Part(attribute) => attribute,
@@ -778,13 +778,13 @@ pub fn grammar() -> Grammar<AST> {
                     _ => unreachable!(),
                 }
 
-                attrpath
+                attrs
             };
         "attrs" => rules "attrs" "string_attr"
             => |mut asts| {
-                let mut attrpath = asts.swap_remove(0);
+                let mut attrs = asts.swap_remove(0);
 
-                match &mut attrpath {
+                match &mut attrs {
                     AST::__Attributes(attributes) => {
                         attributes.push_back(match asts.swap_remove(0) {
                             AST::__Part(attribute) => attribute,
@@ -794,7 +794,7 @@ pub fn grammar() -> Grammar<AST> {
                     _ => unreachable!(),
                 }
 
-                attrpath
+                attrs
             };
         "attrs" => empty
             => |_| AST::__Attributes(LinkedList::new());
@@ -924,7 +924,7 @@ pub fn grammar() -> Grammar<AST> {
 
                 match &mut formals {
                     AST::__DestructuredArguments(formals) => {
-                        formals.arguments.push_back(formal);
+                        formals.arguments.push_front(formal);
                     },
                     _ => unreachable!(),
                 }
