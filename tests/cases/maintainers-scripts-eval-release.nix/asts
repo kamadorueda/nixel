@@ -87,21 +87,24 @@ With {
       },
       default: None,
      },
-     else_: Function {
-      argument: Simple {
-       identifier: "x",
-      },
-      definition: Function {
+     else_: Parentheses {
+      expression: Function {
        argument: Simple {
-        identifier: "y",
+        identifier: "x",
        },
-       definition: Variable {
-        identifier: "y",
-        position: (7, 79),
+       definition: Function {
+        argument: Simple {
+         identifier: "y",
+        },
+        definition: Variable {
+         identifier: "y",
+         position: (7, 79),
+        },
+        position: (7, 76),
        },
-       position: (7, 76),
+       position: (7, 73),
       },
-      position: (7, 73),
+      position: (7, 72),
      },
      position: (7, 11),
     },
@@ -121,27 +124,30 @@ With {
       position: (9, 9),
      },
      arguments: [
-      FunctionApplication {
-       function: Variable {
-        identifier: "import",
-        position: (9, 22),
+      Parentheses {
+       expression: FunctionApplication {
+        function: Variable {
+         identifier: "import",
+         position: (9, 22),
+        },
+        arguments: [
+         Path {
+          parts: [
+           Raw {
+            content: "../../pkgs/top-level/release.nix",
+            position: (9, 29),
+           },
+          ],
+          position: (9, 29),
+         },
+         Map {
+          bindings: [],
+          recursive: false,
+          position: (9, 62),
+         },
+        ],
        },
-       arguments: [
-        Path {
-         parts: [
-          Raw {
-           content: "../../pkgs/top-level/release.nix",
-           position: (9, 29),
-          },
-         ],
-         position: (9, 29),
-        },
-        Map {
-         bindings: [],
-         recursive: false,
-         position: (9, 62),
-        },
-       ],
+       position: (9, 21),
       },
       List {
        elements: [
@@ -197,28 +203,31 @@ With {
       },
       definition: IfThenElse {
        predicate: PropertyAccess {
-        expression: FunctionApplication {
-         function: PropertyAccess {
-          expression: Variable {
-           identifier: "builtins",
-           position: (14, 9),
+        expression: Parentheses {
+         expression: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "builtins",
+            position: (14, 9),
+           },
+           attribute_path: AttributePath {
+            parts: [
+             Raw {
+              content: "tryEval",
+              position: (14, 18),
+             },
+            ],
+           },
+           default: None,
           },
-          attribute_path: AttributePath {
-           parts: [
-            Raw {
-             content: "tryEval",
-             position: (14, 18),
-            },
-           ],
-          },
-          default: None,
+          arguments: [
+           Variable {
+            identifier: "attrs",
+            position: (14, 26),
+           },
+          ],
          },
-         arguments: [
-          Variable {
-           identifier: "attrs",
-           position: (14, 26),
-          },
-         ],
+         position: (14, 8),
         },
         attribute_path: AttributePath {
          parts: [
@@ -245,39 +254,42 @@ With {
         },
         then: IfThenElse {
          predicate: PropertyAccess {
-          expression: FunctionApplication {
-           function: PropertyAccess {
-            expression: Variable {
-             identifier: "builtins",
-             position: (17, 13),
-            },
-            attribute_path: AttributePath {
-             parts: [
-              Raw {
-               content: "tryEval",
-               position: (17, 22),
-              },
-             ],
-            },
-            default: None,
-           },
-           arguments: [
-            PropertyAccess {
+          expression: Parentheses {
+           expression: FunctionApplication {
+            function: PropertyAccess {
              expression: Variable {
-              identifier: "attrs",
-              position: (17, 30),
+              identifier: "builtins",
+              position: (17, 13),
              },
              attribute_path: AttributePath {
               parts: [
                Raw {
-                content: "drvPath",
-                position: (17, 36),
+                content: "tryEval",
+                position: (17, 22),
                },
               ],
              },
              default: None,
             },
-           ],
+            arguments: [
+             PropertyAccess {
+              expression: Variable {
+               identifier: "attrs",
+               position: (17, 30),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "drvPath",
+                 position: (17, 36),
+                },
+               ],
+              },
+              default: None,
+             },
+            ],
+           },
+           position: (17, 12),
           },
           attribute_path: AttributePath {
            parts: [
@@ -364,79 +376,85 @@ With {
             position: (21, 12),
            },
            arguments: [
-            Function {
-             argument: Simple {
-              identifier: "n",
-             },
-             definition: Function {
+            Parentheses {
+             expression: Function {
               argument: Simple {
-               identifier: "v",
+               identifier: "n",
               },
-              definition: LetIn {
-               bindings: [
-                Binding {
-                 from: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "path'",
-                    position: (21, 32),
-                   },
-                  ],
-                 },
-                 to: BinaryOperation {
-                  operator: Concatenation,
-                  operands: [
-                   Variable {
-                    identifier: "path",
-                    position: (21, 40),
-                   },
-                   List {
-                    elements: [
-                     Variable {
-                      identifier: "n",
-                      position: (21, 49),
-                     },
-                    ],
-                    position: (21, 48),
-                   },
-                  ],
-                  position: (21, 45),
-                 },
-                },
-               ],
-               target: FunctionApplication {
-                function: Variable {
-                 identifier: "trace",
-                 position: (21, 56),
-                },
-                arguments: [
-                 Variable {
-                  identifier: "path'",
-                  position: (21, 62),
-                 },
-                 FunctionApplication {
-                  function: Variable {
-                   identifier: "recurse",
-                   position: (21, 69),
+              definition: Function {
+               argument: Simple {
+                identifier: "v",
+               },
+               definition: LetIn {
+                bindings: [
+                 Binding {
+                  from: AttributePath {
+                   parts: [
+                    Raw {
+                     content: "path'",
+                     position: (21, 32),
+                    },
+                   ],
                   },
-                  arguments: [
-                   Variable {
-                    identifier: "path'",
-                    position: (21, 77),
-                   },
-                   Variable {
-                    identifier: "v",
-                    position: (21, 83),
-                   },
-                  ],
+                  to: BinaryOperation {
+                   operator: Concatenation,
+                   operands: [
+                    Variable {
+                     identifier: "path",
+                     position: (21, 40),
+                    },
+                    List {
+                     elements: [
+                      Variable {
+                       identifier: "n",
+                       position: (21, 49),
+                      },
+                     ],
+                     position: (21, 48),
+                    },
+                   ],
+                   position: (21, 45),
+                  },
                  },
                 ],
+                target: FunctionApplication {
+                 function: Variable {
+                  identifier: "trace",
+                  position: (21, 56),
+                 },
+                 arguments: [
+                  Variable {
+                   identifier: "path'",
+                   position: (21, 62),
+                  },
+                  Parentheses {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "recurse",
+                     position: (21, 69),
+                    },
+                    arguments: [
+                     Variable {
+                      identifier: "path'",
+                      position: (21, 77),
+                     },
+                     Variable {
+                      identifier: "v",
+                      position: (21, 83),
+                     },
+                    ],
+                   },
+                   position: (21, 68),
+                  },
+                 ],
+                },
+                position: (21, 28),
                },
-               position: (21, 28),
+               position: (21, 25),
               },
-              position: (21, 25),
+              position: (21, 22),
              },
-             position: (21, 22),
+             position: (21, 21),
             },
             Variable {
              identifier: "attrs",

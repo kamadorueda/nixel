@@ -510,7 +510,13 @@ pub fn grammar() -> Grammar<AST> {
                 _ => unreachable!(),
             };
         "expr_simple" => rules "(" "expr" ")"
-            => |mut asts| asts.swap_remove(1);
+            => |mut asts| AST::Parentheses {
+                expression: Box::new(asts.swap_remove(1)),
+                position: match asts.swap_remove(0) {
+                    AST::__Lexeme(lexeme) => lexeme.position.clone(),
+                    _ => unreachable!(),
+                },
+            };
         // "expr_simple" => rules "LET" "{" "binds" "}"
         "expr_simple" => rules "REC" "{" "binds" "}"
             => |mut asts| {

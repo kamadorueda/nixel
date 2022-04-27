@@ -492,55 +492,61 @@ Function {
          },
         ],
        },
-       then: FunctionApplication {
-        function: Variable {
-         identifier: "shellCmdsForEventScript",
-         position: (46, 71),
-        },
-        arguments: [
-         Variable {
-          identifier: "event",
-          position: (46, 95),
+       then: Parentheses {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "shellCmdsForEventScript",
+          position: (46, 71),
          },
-         FunctionApplication {
-          function: PropertyAccess {
-           expression: Variable {
-            identifier: "builtins",
-            position: (46, 102),
-           },
-           attribute_path: AttributePath {
-            parts: [
-             Raw {
-              content: "getAttr",
-              position: (46, 111),
+         arguments: [
+          Variable {
+           identifier: "event",
+           position: (46, 95),
+          },
+          Parentheses {
+           expression: FunctionApplication {
+            function: PropertyAccess {
+             expression: Variable {
+              identifier: "builtins",
+              position: (46, 102),
+             },
+             attribute_path: AttributePath {
+              parts: [
+               Raw {
+                content: "getAttr",
+                position: (46, 111),
+               },
+              ],
+             },
+             default: None,
+            },
+            arguments: [
+             Variable {
+              identifier: "event",
+              position: (46, 119),
+             },
+             PropertyAccess {
+              expression: Variable {
+               identifier: "cfg",
+               position: (46, 125),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "hooks",
+                 position: (46, 129),
+                },
+               ],
+              },
+              default: None,
              },
             ],
            },
-           default: None,
+           position: (46, 101),
           },
-          arguments: [
-           Variable {
-            identifier: "event",
-            position: (46, 119),
-           },
-           PropertyAccess {
-            expression: Variable {
-             identifier: "cfg",
-             position: (46, 125),
-            },
-            attribute_path: AttributePath {
-             parts: [
-              Raw {
-               content: "hooks",
-               position: (46, 129),
-              },
-             ],
-            },
-            default: None,
-           },
-          ],
-         },
-        ],
+         ],
+        },
+        position: (46, 70),
        },
        else_: String {
         parts: [],
@@ -606,74 +612,80 @@ Function {
         recursive: false,
         position: (48, 51),
        },
-       BinaryOperation {
-        operator: Addition,
-        operands: [
-         String {
-          parts: [
-           Raw {
-            content: "mkdir \"$out\"\n# Copy SCRIPTDIR from apcupsd package\ncp -r ",
-            position: (49, 1),
-           },
-           Expression {
-            expression: PropertyAccess {
-             expression: Variable {
-              identifier: "pkgs",
-              position: (51, 13),
+       Parentheses {
+        expression: BinaryOperation {
+         operator: Addition,
+         operands: [
+          String {
+           parts: [
+            Raw {
+             content: "mkdir \"$out\"\n# Copy SCRIPTDIR from apcupsd package\ncp -r ",
+             position: (49, 1),
+            },
+            Expression {
+             expression: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (51, 13),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "apcupsd",
+                 position: (51, 18),
+                },
+               ],
+              },
+              default: None,
              },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "apcupsd",
-                position: (51, 18),
+            },
+            Raw {
+             content: "/etc/apcupsd/* \"$out\"/\n# Make the files writeable (nix will unset the write bits afterwards)\nchmod u+w \"$out\"/*\n# Remove the sample event notification scripts, because they don't work\n# anyways (they try to send mail to \"root\" with the \"mail\" command)\n(cd \"$out\" && rm changeme commok commfailure onbattery offbattery)\n# Remove the sample apcupsd.conf file (we're generating our own)\nrm \"$out/apcupsd.conf\"\n# Set the SCRIPTDIR= line in apccontrol to the dir we're creating now\nsed -i -e \"s|^SCRIPTDIR=.*|SCRIPTDIR=$out|\" \"$out/apccontrol\"\n",
+             position: (51, 26),
+            },
+           ],
+           position: (48, 81),
+          },
+          FunctionApplication {
+           function: Variable {
+            identifier: "concatStringsSep",
+            position: (61, 10),
+           },
+           arguments: [
+            String {
+             parts: [
+              Raw {
+               content: "\n",
+               position: (61, 28),
+              },
+             ],
+             position: (61, 27),
+            },
+            Parentheses {
+             expression: FunctionApplication {
+              function: Variable {
+               identifier: "map",
+               position: (61, 33),
+              },
+              arguments: [
+               Variable {
+                identifier: "eventToShellCmds",
+                position: (61, 37),
+               },
+               Variable {
+                identifier: "eventList",
+                position: (61, 54),
                },
               ],
              },
-             default: None,
+             position: (61, 32),
             },
-           },
-           Raw {
-            content: "/etc/apcupsd/* \"$out\"/\n# Make the files writeable (nix will unset the write bits afterwards)\nchmod u+w \"$out\"/*\n# Remove the sample event notification scripts, because they don't work\n# anyways (they try to send mail to \"root\" with the \"mail\" command)\n(cd \"$out\" && rm changeme commok commfailure onbattery offbattery)\n# Remove the sample apcupsd.conf file (we're generating our own)\nrm \"$out/apcupsd.conf\"\n# Set the SCRIPTDIR= line in apccontrol to the dir we're creating now\nsed -i -e \"s|^SCRIPTDIR=.*|SCRIPTDIR=$out|\" \"$out/apccontrol\"\n",
-            position: (51, 26),
-           },
-          ],
-          position: (48, 81),
-         },
-         FunctionApplication {
-          function: Variable {
-           identifier: "concatStringsSep",
-           position: (61, 10),
+           ],
           },
-          arguments: [
-           String {
-            parts: [
-             Raw {
-              content: "\n",
-              position: (61, 28),
-             },
-            ],
-            position: (61, 27),
-           },
-           FunctionApplication {
-            function: Variable {
-             identifier: "map",
-             position: (61, 33),
-            },
-            arguments: [
-             Variable {
-              identifier: "eventToShellCmds",
-              position: (61, 37),
-             },
-             Variable {
-              identifier: "eventList",
-              position: (61, 54),
-             },
-            ],
-           },
-          ],
-         },
-        ],
-        position: (61, 8),
+         ],
+         position: (61, 8),
+        },
+        position: (48, 80),
        },
       ],
      },
@@ -1130,27 +1142,30 @@ Function {
                    position: (132, 68),
                   },
                   arguments: [
-                   Function {
-                    argument: Simple {
-                     identifier: "x",
-                    },
-                    definition: FunctionApplication {
-                     function: Variable {
-                      identifier: "elem",
-                      position: (132, 76),
+                   Parentheses {
+                    expression: Function {
+                     argument: Simple {
+                      identifier: "x",
                      },
-                     arguments: [
-                      Variable {
-                       identifier: "x",
-                       position: (132, 81),
+                     definition: FunctionApplication {
+                      function: Variable {
+                       identifier: "elem",
+                       position: (132, 76),
                       },
-                      Variable {
-                       identifier: "eventList",
-                       position: (132, 83),
-                      },
-                     ],
+                      arguments: [
+                       Variable {
+                        identifier: "x",
+                        position: (132, 81),
+                       },
+                       Variable {
+                        identifier: "eventList",
+                        position: (132, 83),
+                       },
+                      ],
+                     },
+                     position: (132, 73),
                     },
-                    position: (132, 73),
+                    position: (132, 72),
                    },
                    Variable {
                     identifier: "hooknames",
@@ -1183,39 +1198,42 @@ Function {
                      position: (135, 36),
                     },
                     arguments: [
-                     FunctionApplication {
-                      function: PropertyAccess {
-                       expression: Variable {
-                        identifier: "builtins",
-                        position: (135, 46),
-                       },
-                       attribute_path: AttributePath {
-                        parts: [
-                         Raw {
-                          content: "attrNames",
-                          position: (135, 55),
-                         },
-                        ],
-                       },
-                       default: None,
-                      },
-                      arguments: [
-                       PropertyAccess {
+                     Parentheses {
+                      expression: FunctionApplication {
+                       function: PropertyAccess {
                         expression: Variable {
-                         identifier: "cfg",
-                         position: (135, 65),
+                         identifier: "builtins",
+                         position: (135, 46),
                         },
                         attribute_path: AttributePath {
                          parts: [
                           Raw {
-                           content: "hooks",
-                           position: (135, 69),
+                           content: "attrNames",
+                           position: (135, 55),
                           },
                          ],
                         },
                         default: None,
                        },
-                      ],
+                       arguments: [
+                        PropertyAccess {
+                         expression: Variable {
+                          identifier: "cfg",
+                          position: (135, 65),
+                         },
+                         attribute_path: AttributePath {
+                          parts: [
+                           Raw {
+                            content: "hooks",
+                            position: (135, 69),
+                           },
+                          ],
+                         },
+                         default: None,
+                        },
+                       ],
+                      },
+                      position: (135, 45),
                      },
                     ],
                    },

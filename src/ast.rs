@@ -63,6 +63,10 @@ pub enum AST {
         recursive: bool,
         position:  Position,
     },
+    Parentheses {
+        expression: Box<AST>,
+        position:   Position,
+    },
     Path {
         parts:    LinkedList<Part>,
         position: Position,
@@ -132,6 +136,7 @@ impl AST {
             AST::LetIn { position, .. } => position.clone(),
             AST::List { position, .. } => position.clone(),
             AST::Map { position, .. } => position.clone(),
+            AST::Parentheses { position, .. } => position.clone(),
             AST::Path { position, .. } => position.clone(),
             AST::PropertyAccess { expression, .. } => expression.position(),
             AST::SearchNixPath { position, .. } => position.clone(),

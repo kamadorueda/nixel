@@ -49,19 +49,22 @@ Function {
          default: None,
         },
         arguments: [
-         BinaryOperation {
-          operator: LessThan,
-          operands: [
-           Variable {
-            identifier: "n",
-            position: (6, 25),
-           },
-           Int {
-            value: 16,
-            position: (6, 29),
-           },
-          ],
-          position: (6, 27),
+         Parentheses {
+          expression: BinaryOperation {
+           operator: LessThan,
+           operands: [
+            Variable {
+             identifier: "n",
+             position: (6, 25),
+            },
+            Int {
+             value: 16,
+             position: (6, 29),
+            },
+           ],
+           position: (6, 27),
+          },
+          position: (6, 24),
          },
          String {
           parts: [
@@ -74,62 +77,65 @@ Function {
          },
         ],
        },
-       IfThenElse {
-        predicate: BinaryOperation {
-         operator: GreaterThan,
-         operands: [
-          Variable {
-           identifier: "n",
-           position: (7, 11),
-          },
-          Int {
-           value: 255,
-           position: (7, 15),
-          },
-         ],
-         position: (7, 13),
-        },
-        then: FunctionApplication {
-         function: Variable {
-          identifier: "throw",
-          position: (8, 13),
+       Parentheses {
+        expression: IfThenElse {
+         predicate: BinaryOperation {
+          operator: GreaterThan,
+          operands: [
+           Variable {
+            identifier: "n",
+            position: (7, 11),
+           },
+           Int {
+            value: 255,
+            position: (7, 15),
+           },
+          ],
+          position: (7, 13),
          },
-         arguments: [
-          String {
-           parts: [
-            Raw {
-             content: "Can't have more than 255 nets or nodes!",
-             position: (8, 20),
-            },
-           ],
-           position: (8, 19),
+         then: FunctionApplication {
+          function: Variable {
+           identifier: "throw",
+           position: (8, 13),
           },
-         ],
-        },
-        else_: FunctionApplication {
-         function: PropertyAccess {
-          expression: Variable {
-           identifier: "lib",
-           position: (9, 13),
-          },
-          attribute_path: AttributePath {
-           parts: [
-            Raw {
-             content: "toHexString",
-             position: (9, 17),
-            },
-           ],
-          },
-          default: None,
+          arguments: [
+           String {
+            parts: [
+             Raw {
+              content: "Can't have more than 255 nets or nodes!",
+              position: (8, 20),
+             },
+            ],
+            position: (8, 19),
+           },
+          ],
          },
-         arguments: [
-          Variable {
-           identifier: "n",
-           position: (9, 29),
+         else_: FunctionApplication {
+          function: PropertyAccess {
+           expression: Variable {
+            identifier: "lib",
+            position: (9, 13),
+           },
+           attribute_path: AttributePath {
+            parts: [
+             Raw {
+              content: "toHexString",
+              position: (9, 17),
+             },
+            ],
+           },
+           default: None,
           },
-         ],
+          arguments: [
+           Variable {
+            identifier: "n",
+            position: (9, 29),
+           },
+          ],
+         },
+         position: (7, 8),
         },
-        position: (7, 8),
+        position: (7, 7),
        },
       ],
       position: (6, 37),
@@ -398,51 +404,54 @@ Function {
        position: (20, 97),
       },
       else_: IfThenElse {
-       predicate: With {
-        expression: PropertyAccess {
-         expression: Variable {
-          identifier: "pkgs",
-          position: (21, 23),
-         },
-         attribute_path: AttributePath {
-          parts: [
-           Raw {
-            content: "stdenv",
-            position: (21, 28),
-           },
-           Raw {
-            content: "hostPlatform",
-            position: (21, 35),
-           },
-          ],
-         },
-         default: None,
-        },
-        target: BinaryOperation {
-         operator: LogicalOr,
-         operands: [
-          BinaryOperation {
-           operator: LogicalOr,
-           operands: [
-            Variable {
-             identifier: "isAarch32",
-             position: (21, 49),
+       predicate: Parentheses {
+        expression: With {
+         expression: PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (21, 23),
+          },
+          attribute_path: AttributePath {
+           parts: [
+            Raw {
+             content: "stdenv",
+             position: (21, 28),
             },
-            Variable {
-             identifier: "isAarch64",
-             position: (21, 62),
+            Raw {
+             content: "hostPlatform",
+             position: (21, 35),
             },
            ],
-           position: (21, 59),
           },
-          Variable {
-           identifier: "isPower",
-           position: (21, 75),
-          },
-         ],
-         position: (21, 72),
+          default: None,
+         },
+         target: BinaryOperation {
+          operator: LogicalOr,
+          operands: [
+           BinaryOperation {
+            operator: LogicalOr,
+            operands: [
+             Variable {
+              identifier: "isAarch32",
+              position: (21, 49),
+             },
+             Variable {
+              identifier: "isAarch64",
+              position: (21, 62),
+             },
+            ],
+            position: (21, 59),
+           },
+           Variable {
+            identifier: "isPower",
+            position: (21, 75),
+           },
+          ],
+          position: (21, 72),
+         },
+         position: (21, 18),
         },
-        position: (21, 18),
+        position: (21, 17),
        },
        then: String {
         parts: [

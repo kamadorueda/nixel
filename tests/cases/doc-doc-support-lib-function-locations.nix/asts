@@ -16,27 +16,30 @@ Function {
    DestructuredArgument {
     identifier: "pkgs",
     default: Some(
-     FunctionApplication {
-      function: Variable {
-       identifier: "import",
-       position: (1, 11),
+     Parentheses {
+      expression: FunctionApplication {
+       function: Variable {
+        identifier: "import",
+        position: (1, 11),
+       },
+       arguments: [
+        Path {
+         parts: [
+          Raw {
+           content: "./..",
+           position: (1, 18),
+          },
+         ],
+         position: (1, 18),
+        },
+        Map {
+         bindings: [],
+         recursive: false,
+         position: (1, 23),
+        },
+       ],
       },
-      arguments: [
-       Path {
-        parts: [
-         Raw {
-          content: "./..",
-          position: (1, 18),
-         },
-        ],
-        position: (1, 18),
-       },
-       Map {
-        bindings: [],
-        recursive: false,
-        position: (1, 23),
-       },
-      ],
+      position: (1, 10),
      },
     ),
    },
@@ -79,30 +82,33 @@ Function {
       default: None,
      },
      arguments: [
-      PropertyAccess {
-       expression: Variable {
-        identifier: "nixpkgs",
-        position: (3, 52),
-       },
-       attribute_path: AttributePath {
-        parts: [
-         Raw {
-          content: "revision",
-          position: (3, 60),
-         },
-        ],
-       },
-       default: Some(
-        String {
+      Parentheses {
+       expression: PropertyAccess {
+        expression: Variable {
+         identifier: "nixpkgs",
+         position: (3, 52),
+        },
+        attribute_path: AttributePath {
          parts: [
           Raw {
-           content: "master",
-           position: (3, 73),
+           content: "revision",
+           position: (3, 60),
           },
          ],
-         position: (3, 72),
         },
-       ),
+        default: Some(
+         String {
+          parts: [
+           Raw {
+            content: "master",
+            position: (3, 73),
+           },
+          ],
+          position: (3, 72),
+         },
+        ),
+       },
+       position: (3, 51),
       },
      ],
     },
@@ -137,91 +143,97 @@ Function {
        default: None,
       },
       arguments: [
-       Function {
-        argument: Simple {
-         identifier: "name",
-        },
-        definition: Map {
-         bindings: [
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "name",
-              position: (8, 9),
-             },
-            ],
-           },
-           to: Variable {
-            identifier: "name",
-            position: (8, 16),
-           },
-          },
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "location",
-              position: (9, 9),
-             },
-            ],
-           },
-           to: FunctionApplication {
-            function: PropertyAccess {
-             expression: Variable {
-              identifier: "builtins",
-              position: (9, 20),
-             },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "unsafeGetAttrPos",
-                position: (9, 29),
-               },
-              ],
-             },
-             default: None,
-            },
-            arguments: [
-             Variable {
-              identifier: "name",
-              position: (9, 46),
-             },
-             Variable {
-              identifier: "set",
-              position: (9, 51),
-             },
-            ],
-           },
-          },
-         ],
-         recursive: false,
-         position: (7, 14),
-        },
-        position: (7, 8),
-       },
-       FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "builtins",
-          position: (11, 8),
+       Parentheses {
+        expression: Function {
+         argument: Simple {
+          identifier: "name",
          },
-         attribute_path: AttributePath {
-          parts: [
-           Raw {
-            content: "attrNames",
-            position: (11, 17),
+         definition: Map {
+          bindings: [
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "name",
+               position: (8, 9),
+              },
+             ],
+            },
+            to: Variable {
+             identifier: "name",
+             position: (8, 16),
+            },
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "location",
+               position: (9, 9),
+              },
+             ],
+            },
+            to: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (9, 20),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "unsafeGetAttrPos",
+                 position: (9, 29),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              Variable {
+               identifier: "name",
+               position: (9, 46),
+              },
+              Variable {
+               identifier: "set",
+               position: (9, 51),
+              },
+             ],
+            },
            },
           ],
+          recursive: false,
+          position: (7, 14),
          },
-         default: None,
+         position: (7, 8),
         },
-        arguments: [
-         Variable {
-          identifier: "set",
-          position: (11, 27),
+        position: (7, 7),
+       },
+       Parentheses {
+        expression: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (11, 8),
+          },
+          attribute_path: AttributePath {
+           parts: [
+            Raw {
+             content: "attrNames",
+             position: (11, 17),
+            },
+           ],
+          },
+          default: None,
          },
-        ],
+         arguments: [
+          Variable {
+           identifier: "set",
+           position: (11, 27),
+          },
+         ],
+        },
+        position: (11, 7),
        },
       ],
      },
@@ -258,150 +270,162 @@ Function {
        default: None,
       },
       arguments: [
-       Function {
-        argument: Simple {
-         identifier: "subsetname",
-        },
-        definition: Map {
-         bindings: [
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "subsetname",
-              position: (16, 9),
-             },
-            ],
-           },
-           to: Variable {
-            identifier: "subsetname",
-            position: (16, 22),
-           },
-          },
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "functions",
-              position: (17, 9),
-             },
-            ],
-           },
-           to: FunctionApplication {
-            function: Variable {
-             identifier: "libDefPos",
-             position: (17, 21),
+       Parentheses {
+        expression: Function {
+         argument: Simple {
+          identifier: "subsetname",
+         },
+         definition: Map {
+          bindings: [
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "subsetname",
+               position: (16, 9),
+              },
+             ],
             },
-            arguments: [
-             PropertyAccess {
+            to: Variable {
+             identifier: "subsetname",
+             position: (16, 22),
+            },
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "functions",
+               position: (17, 9),
+              },
+             ],
+            },
+            to: FunctionApplication {
+             function: Variable {
+              identifier: "libDefPos",
+              position: (17, 21),
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "toplib",
+                position: (17, 31),
+               },
+               attribute_path: AttributePath {
+                parts: [
+                 Expression {
+                  expression: Variable {
+                   identifier: "subsetname",
+                   position: (17, 40),
+                  },
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           },
+          ],
+          recursive: false,
+          position: (15, 20),
+         },
+         position: (15, 8),
+        },
+        position: (15, 7),
+       },
+       Parentheses {
+        expression: FunctionApplication {
+         function: PropertyAccess {
+          expression: Variable {
+           identifier: "builtins",
+           position: (19, 8),
+          },
+          attribute_path: AttributePath {
+           parts: [
+            Raw {
+             content: "filter",
+             position: (19, 17),
+            },
+           ],
+          },
+          default: None,
+         },
+         arguments: [
+          Parentheses {
+           expression: Function {
+            argument: Simple {
+             identifier: "name",
+            },
+            definition: FunctionApplication {
+             function: PropertyAccess {
               expression: Variable {
-               identifier: "toplib",
-               position: (17, 31),
+               identifier: "builtins",
+               position: (20, 16),
               },
               attribute_path: AttributePath {
                parts: [
-                Expression {
-                 expression: Variable {
-                  identifier: "subsetname",
-                  position: (17, 40),
-                 },
+                Raw {
+                 content: "isAttrs",
+                 position: (20, 25),
                 },
                ],
               },
               default: None,
              },
-            ],
-           },
-          },
-         ],
-         recursive: false,
-         position: (15, 20),
-        },
-        position: (15, 8),
-       },
-       FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "builtins",
-          position: (19, 8),
-         },
-         attribute_path: AttributePath {
-          parts: [
-           Raw {
-            content: "filter",
-            position: (19, 17),
-           },
-          ],
-         },
-         default: None,
-        },
-        arguments: [
-         Function {
-          argument: Simple {
-           identifier: "name",
-          },
-          definition: FunctionApplication {
-           function: PropertyAccess {
-            expression: Variable {
-             identifier: "builtins",
-             position: (20, 16),
-            },
-            attribute_path: AttributePath {
-             parts: [
-              Raw {
-               content: "isAttrs",
-               position: (20, 25),
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "toplib",
+                position: (20, 33),
+               },
+               attribute_path: AttributePath {
+                parts: [
+                 Expression {
+                  expression: Variable {
+                   identifier: "name",
+                   position: (20, 42),
+                  },
+                 },
+                ],
+               },
+               default: None,
               },
              ],
             },
-            default: None,
+            position: (20, 10),
            },
-           arguments: [
-            PropertyAccess {
+           position: (20, 9),
+          },
+          Parentheses {
+           expression: FunctionApplication {
+            function: PropertyAccess {
              expression: Variable {
-              identifier: "toplib",
-              position: (20, 33),
+              identifier: "builtins",
+              position: (21, 10),
              },
              attribute_path: AttributePath {
               parts: [
-               Expression {
-                expression: Variable {
-                 identifier: "name",
-                 position: (20, 42),
-                },
+               Raw {
+                content: "attrNames",
+                position: (21, 19),
                },
               ],
              },
              default: None,
             },
-           ],
-          },
-          position: (20, 10),
-         },
-         FunctionApplication {
-          function: PropertyAccess {
-           expression: Variable {
-            identifier: "builtins",
-            position: (21, 10),
-           },
-           attribute_path: AttributePath {
-            parts: [
-             Raw {
-              content: "attrNames",
-              position: (21, 19),
+            arguments: [
+             Variable {
+              identifier: "toplib",
+              position: (21, 29),
              },
             ],
            },
-           default: None,
+           position: (21, 9),
           },
-          arguments: [
-           Variable {
-            identifier: "toplib",
-            position: (21, 29),
-           },
-          ],
-         },
-        ],
+         ],
+        },
+        position: (19, 7),
        },
       ],
      },
@@ -474,88 +498,91 @@ Function {
        default: None,
       },
       arguments: [
-       Function {
-        argument: Simple {
-         identifier: "fn",
-        },
-        definition: Map {
-         bindings: [
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "name",
-              position: (28, 7),
-             },
-            ],
-           },
-           to: String {
-            parts: [
-             Raw {
-              content: "lib.",
-              position: (28, 15),
-             },
-             Expression {
-              expression: Variable {
-               identifier: "subsetname",
-               position: (28, 21),
-              },
-             },
-             Raw {
-              content: ".",
-              position: (28, 32),
-             },
-             Expression {
-              expression: PropertyAccess {
-               expression: Variable {
-                identifier: "fn",
-                position: (28, 35),
-               },
-               attribute_path: AttributePath {
-                parts: [
-                 Raw {
-                  content: "name",
-                  position: (28, 38),
-                 },
-                ],
-               },
-               default: None,
-              },
-             },
-            ],
-            position: (28, 14),
-           },
-          },
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "value",
-              position: (29, 7),
-             },
-            ],
-           },
-           to: PropertyAccess {
-            expression: Variable {
-             identifier: "fn",
-             position: (29, 15),
-            },
-            attribute_path: AttributePath {
+       Parentheses {
+        expression: Function {
+         argument: Simple {
+          identifier: "fn",
+         },
+         definition: Map {
+          bindings: [
+           Binding {
+            from: AttributePath {
              parts: [
               Raw {
-               content: "location",
-               position: (29, 18),
+               content: "name",
+               position: (28, 7),
               },
              ],
             },
-            default: None,
+            to: String {
+             parts: [
+              Raw {
+               content: "lib.",
+               position: (28, 15),
+              },
+              Expression {
+               expression: Variable {
+                identifier: "subsetname",
+                position: (28, 21),
+               },
+              },
+              Raw {
+               content: ".",
+               position: (28, 32),
+              },
+              Expression {
+               expression: PropertyAccess {
+                expression: Variable {
+                 identifier: "fn",
+                 position: (28, 35),
+                },
+                attribute_path: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "name",
+                   position: (28, 38),
+                  },
+                 ],
+                },
+                default: None,
+               },
+              },
+             ],
+             position: (28, 14),
+            },
            },
-          },
-         ],
-         recursive: false,
-         position: (27, 10),
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "value",
+               position: (29, 7),
+              },
+             ],
+            },
+            to: PropertyAccess {
+             expression: Variable {
+              identifier: "fn",
+              position: (29, 15),
+             },
+             attribute_path: AttributePath {
+              parts: [
+               Raw {
+                content: "location",
+                position: (29, 18),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+          ],
+          recursive: false,
+          position: (27, 10),
+         },
+         position: (27, 6),
         },
-        position: (27, 6),
+        position: (27, 5),
        },
        Variable {
         identifier: "functions",
@@ -600,17 +627,20 @@ Function {
         identifier: "flattenedLibSubset",
         position: (33, 39),
        },
-       FunctionApplication {
-        function: Variable {
-         identifier: "libset",
-         position: (33, 59),
-        },
-        arguments: [
-         Variable {
-          identifier: "libs",
-          position: (33, 66),
+       Parentheses {
+        expression: FunctionApplication {
+         function: Variable {
+          identifier: "libset",
+          position: (33, 59),
          },
-        ],
+         arguments: [
+          Variable {
+           identifier: "libs",
+           position: (33, 66),
+          },
+         ],
+        },
+        position: (33, 58),
        },
       ],
      },
@@ -648,28 +678,31 @@ Function {
          to: BinaryOperation {
           operator: Addition,
           operands: [
-           FunctionApplication {
-            function: PropertyAccess {
-             expression: Variable {
-              identifier: "builtins",
-              position: (36, 18),
+           Parentheses {
+            expression: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (36, 18),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "stringLength",
+                 position: (36, 27),
+                },
+               ],
+              },
+              default: None,
              },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "stringLength",
-                position: (36, 27),
-               },
-              ],
-             },
-             default: None,
+             arguments: [
+              Variable {
+               identifier: "prefix",
+               position: (36, 40),
+              },
+             ],
             },
-            arguments: [
-             Variable {
-              identifier: "prefix",
-              position: (36, 40),
-             },
-            ],
+            position: (36, 17),
            },
            Int {
             value: 1,
@@ -780,39 +813,42 @@ Function {
       position: (41, 19),
      },
      arguments: [
-      FunctionApplication {
-       function: PropertyAccess {
-        expression: Variable {
-         identifier: "builtins",
-         position: (41, 41),
-        },
-        attribute_path: AttributePath {
-         parts: [
-          Raw {
-           content: "toString",
-           position: (41, 50),
-          },
-         ],
-        },
-        default: None,
-       },
-       arguments: [
-        PropertyAccess {
+      Parentheses {
+       expression: FunctionApplication {
+        function: PropertyAccess {
          expression: Variable {
-          identifier: "pkgs",
-          position: (41, 59),
+          identifier: "builtins",
+          position: (41, 41),
          },
          attribute_path: AttributePath {
           parts: [
            Raw {
-            content: "path",
-            position: (41, 64),
+            content: "toString",
+            position: (41, 50),
            },
           ],
          },
          default: None,
         },
-       ],
+        arguments: [
+         PropertyAccess {
+          expression: Variable {
+           identifier: "pkgs",
+           position: (41, 59),
+          },
+          attribute_path: AttributePath {
+           parts: [
+            Raw {
+             content: "path",
+             position: (41, 64),
+            },
+           ],
+          },
+          default: None,
+         },
+        ],
+       },
+       position: (41, 40),
       },
      ],
     },
@@ -843,71 +879,80 @@ Function {
       default: None,
      },
      arguments: [
-      Function {
-       argument: Simple {
-        identifier: "elem",
-       },
-       definition: BinaryOperation {
-        operator: NotEqualTo,
-        operands: [
-         PropertyAccess {
-          expression: Variable {
-           identifier: "elem",
-           position: (45, 14),
+      Parentheses {
+       expression: Function {
+        argument: Simple {
+         identifier: "elem",
+        },
+        definition: BinaryOperation {
+         operator: NotEqualTo,
+         operands: [
+          PropertyAccess {
+           expression: Variable {
+            identifier: "elem",
+            position: (45, 14),
+           },
+           attribute_path: AttributePath {
+            parts: [
+             Raw {
+              content: "value",
+              position: (45, 19),
+             },
+            ],
+           },
+           default: None,
           },
-          attribute_path: AttributePath {
-           parts: [
-            Raw {
-             content: "value",
-             position: (45, 19),
+          Variable {
+           identifier: "null",
+           position: (45, 28),
+          },
+         ],
+         position: (45, 25),
+        },
+        position: (45, 8),
+       },
+       position: (45, 7),
+      },
+      Parentheses {
+       expression: FunctionApplication {
+        function: PropertyAccess {
+         expression: Variable {
+          identifier: "nixpkgsLib",
+          position: (46, 8),
+         },
+         attribute_path: AttributePath {
+          parts: [
+           Raw {
+            content: "lists",
+            position: (46, 19),
+           },
+           Raw {
+            content: "flatten",
+            position: (46, 25),
+           },
+          ],
+         },
+         default: None,
+        },
+        arguments: [
+         Parentheses {
+          expression: FunctionApplication {
+           function: Variable {
+            identifier: "locatedlibsets",
+            position: (47, 10),
+           },
+           arguments: [
+            Variable {
+             identifier: "nixpkgsLib",
+             position: (47, 25),
             },
            ],
           },
-          default: None,
-         },
-         Variable {
-          identifier: "null",
-          position: (45, 28),
+          position: (47, 9),
          },
         ],
-        position: (45, 25),
        },
-       position: (45, 8),
-      },
-      FunctionApplication {
-       function: PropertyAccess {
-        expression: Variable {
-         identifier: "nixpkgsLib",
-         position: (46, 8),
-        },
-        attribute_path: AttributePath {
-         parts: [
-          Raw {
-           content: "lists",
-           position: (46, 19),
-          },
-          Raw {
-           content: "flatten",
-           position: (46, 25),
-          },
-         ],
-        },
-        default: None,
-       },
-       arguments: [
-        FunctionApplication {
-         function: Variable {
-          identifier: "locatedlibsets",
-          position: (47, 10),
-         },
-         arguments: [
-          Variable {
-           identifier: "nixpkgsLib",
-           position: (47, 25),
-          },
-         ],
-        },
-       ],
+       position: (46, 7),
       },
      ],
     },
@@ -1022,32 +1067,35 @@ Function {
       },
      ],
     },
-    to: FunctionApplication {
-     function: PropertyAccess {
-      expression: Variable {
-       identifier: "builtins",
-       position: (55, 19),
+    to: Parentheses {
+     expression: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "builtins",
+        position: (55, 19),
+       },
+       attribute_path: AttributePath {
+        parts: [
+         Raw {
+          content: "map",
+          position: (55, 28),
+         },
+        ],
+       },
+       default: None,
       },
-      attribute_path: AttributePath {
-       parts: [
-        Raw {
-         content: "map",
-         position: (55, 28),
-        },
-       ],
-      },
-      default: None,
+      arguments: [
+       Variable {
+        identifier: "fnLocationRelative",
+        position: (55, 32),
+       },
+       Variable {
+        identifier: "liblocations",
+        position: (55, 51),
+       },
+      ],
      },
-     arguments: [
-      Variable {
-       identifier: "fnLocationRelative",
-       position: (55, 32),
-      },
-      Variable {
-       identifier: "liblocations",
-       position: (55, 51),
-      },
-     ],
+     position: (55, 18),
     },
    },
    Binding {
@@ -1141,218 +1189,224 @@ Function {
       },
      ],
     },
-    to: FunctionApplication {
-     function: PropertyAccess {
-      expression: Variable {
-       identifier: "nixpkgsLib",
-       position: (61, 17),
-      },
-      attribute_path: AttributePath {
-       parts: [
-        Raw {
-         content: "strings",
-         position: (61, 28),
-        },
-        Raw {
-         content: "concatMapStrings",
-         position: (61, 36),
-        },
-       ],
-      },
-      default: None,
-     },
-     arguments: [
-      Function {
-       argument: Destructured {
-        identifier: None,
-        arguments: [
-         DestructuredArgument {
-          identifier: "value",
-          default: None,
-         },
-         DestructuredArgument {
-          identifier: "name",
-          default: None,
-         },
-        ],
-        ellipsis: false,
+    to: Parentheses {
+     expression: FunctionApplication {
+      function: PropertyAccess {
+       expression: Variable {
+        identifier: "nixpkgsLib",
+        position: (61, 17),
        },
-       definition: String {
+       attribute_path: AttributePath {
         parts: [
          Raw {
-          content: "<section><title>",
-          position: (64, 1),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "name",
-           position: (64, 25),
-          },
+          content: "strings",
+          position: (61, 28),
          },
          Raw {
-          content: "</title>\n  <para xml:id=\"",
-          position: (64, 30),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: Variable {
-            identifier: "sanitizeId",
-            position: (65, 25),
-           },
-           arguments: [
-            Variable {
-             identifier: "name",
-             position: (65, 36),
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "\">\n  Located at\n  <link\n    xlink:href=\"",
-          position: (65, 41),
-         },
-         Expression {
-          expression: Variable {
-           identifier: "urlPrefix",
-           position: (68, 25),
-          },
-         },
-         Raw {
-          content: "/",
-          position: (68, 35),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "value",
-            position: (68, 38),
-           },
-           attribute_path: AttributePath {
-            parts: [
-             Raw {
-              content: "file",
-              position: (68, 44),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: "#L",
-          position: (68, 49),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: PropertyAccess {
-            expression: Variable {
-             identifier: "builtins",
-             position: (68, 53),
-            },
-            attribute_path: AttributePath {
-             parts: [
-              Raw {
-               content: "toString",
-               position: (68, 62),
-              },
-             ],
-            },
-            default: None,
-           },
-           arguments: [
-            PropertyAccess {
-             expression: Variable {
-              identifier: "value",
-              position: (68, 71),
-             },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "line",
-                position: (68, 77),
-               },
-              ],
-             },
-             default: None,
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "\">",
-          position: (68, 82),
-         },
-         Expression {
-          expression: PropertyAccess {
-           expression: Variable {
-            identifier: "value",
-            position: (68, 86),
-           },
-           attribute_path: AttributePath {
-            parts: [
-             Raw {
-              content: "file",
-              position: (68, 92),
-             },
-            ],
-           },
-           default: None,
-          },
-         },
-         Raw {
-          content: ":",
-          position: (68, 97),
-         },
-         Expression {
-          expression: FunctionApplication {
-           function: PropertyAccess {
-            expression: Variable {
-             identifier: "builtins",
-             position: (68, 100),
-            },
-            attribute_path: AttributePath {
-             parts: [
-              Raw {
-               content: "toString",
-               position: (68, 109),
-              },
-             ],
-            },
-            default: None,
-           },
-           arguments: [
-            PropertyAccess {
-             expression: Variable {
-              identifier: "value",
-              position: (68, 118),
-             },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "line",
-                position: (68, 124),
-               },
-              ],
-             },
-             default: None,
-            },
-           ],
-          },
-         },
-         Raw {
-          content: "</link>\n  in  <literal>&lt;nixpkgs&gt;</literal>.\n  </para>\n  </section>\n",
-          position: (68, 129),
+          content: "concatMapStrings",
+          position: (61, 36),
          },
         ],
-        position: (63, 7),
        },
-       position: (62, 8),
+       default: None,
       },
-      Variable {
-       identifier: "relativeLocs",
-       position: (73, 7),
-      },
-     ],
+      arguments: [
+       Parentheses {
+        expression: Function {
+         argument: Destructured {
+          identifier: None,
+          arguments: [
+           DestructuredArgument {
+            identifier: "value",
+            default: None,
+           },
+           DestructuredArgument {
+            identifier: "name",
+            default: None,
+           },
+          ],
+          ellipsis: false,
+         },
+         definition: String {
+          parts: [
+           Raw {
+            content: "<section><title>",
+            position: (64, 1),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "name",
+             position: (64, 25),
+            },
+           },
+           Raw {
+            content: "</title>\n  <para xml:id=\"",
+            position: (64, 30),
+           },
+           Expression {
+            expression: FunctionApplication {
+             function: Variable {
+              identifier: "sanitizeId",
+              position: (65, 25),
+             },
+             arguments: [
+              Variable {
+               identifier: "name",
+               position: (65, 36),
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "\">\n  Located at\n  <link\n    xlink:href=\"",
+            position: (65, 41),
+           },
+           Expression {
+            expression: Variable {
+             identifier: "urlPrefix",
+             position: (68, 25),
+            },
+           },
+           Raw {
+            content: "/",
+            position: (68, 35),
+           },
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "value",
+              position: (68, 38),
+             },
+             attribute_path: AttributePath {
+              parts: [
+               Raw {
+                content: "file",
+                position: (68, 44),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: "#L",
+            position: (68, 49),
+           },
+           Expression {
+            expression: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (68, 53),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "toString",
+                 position: (68, 62),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "value",
+                position: (68, 71),
+               },
+               attribute_path: AttributePath {
+                parts: [
+                 Raw {
+                  content: "line",
+                  position: (68, 77),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "\">",
+            position: (68, 82),
+           },
+           Expression {
+            expression: PropertyAccess {
+             expression: Variable {
+              identifier: "value",
+              position: (68, 86),
+             },
+             attribute_path: AttributePath {
+              parts: [
+               Raw {
+                content: "file",
+                position: (68, 92),
+               },
+              ],
+             },
+             default: None,
+            },
+           },
+           Raw {
+            content: ":",
+            position: (68, 97),
+           },
+           Expression {
+            expression: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "builtins",
+               position: (68, 100),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "toString",
+                 position: (68, 109),
+                },
+               ],
+              },
+              default: None,
+             },
+             arguments: [
+              PropertyAccess {
+               expression: Variable {
+                identifier: "value",
+                position: (68, 118),
+               },
+               attribute_path: AttributePath {
+                parts: [
+                 Raw {
+                  content: "line",
+                  position: (68, 124),
+                 },
+                ],
+               },
+               default: None,
+              },
+             ],
+            },
+           },
+           Raw {
+            content: "</link>\n  in  <literal>&lt;nixpkgs&gt;</literal>.\n  </para>\n  </section>\n",
+            position: (68, 129),
+           },
+          ],
+          position: (63, 7),
+         },
+         position: (62, 8),
+        },
+        position: (62, 7),
+       },
+       Variable {
+        identifier: "relativeLocs",
+        position: (73, 7),
+       },
+      ],
+     },
+     position: (61, 16),
     },
    },
   ],

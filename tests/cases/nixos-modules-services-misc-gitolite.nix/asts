@@ -66,48 +66,51 @@ Function {
      to: BinaryOperation {
       operator: Addition,
       operands: [
-       FunctionApplication {
-        function: PropertyAccess {
-         expression: Variable {
-          identifier: "pkgs",
-          position: (8, 17),
-         },
-         attribute_path: AttributePath {
-          parts: [
-           Raw {
-            content: "writeTextDir",
-            position: (8, 22),
-           },
-          ],
-         },
-         default: None,
-        },
-        arguments: [
-         String {
-          parts: [
-           Raw {
-            content: "gitolite-admin.pub",
-            position: (8, 36),
-           },
-          ],
-          position: (8, 35),
-         },
-         PropertyAccess {
+       Parentheses {
+        expression: FunctionApplication {
+         function: PropertyAccess {
           expression: Variable {
-           identifier: "cfg",
-           position: (8, 56),
+           identifier: "pkgs",
+           position: (8, 17),
           },
           attribute_path: AttributePath {
            parts: [
             Raw {
-             content: "adminPubkey",
-             position: (8, 60),
+             content: "writeTextDir",
+             position: (8, 22),
             },
            ],
           },
           default: None,
          },
-        ],
+         arguments: [
+          String {
+           parts: [
+            Raw {
+             content: "gitolite-admin.pub",
+             position: (8, 36),
+            },
+           ],
+           position: (8, 35),
+          },
+          PropertyAccess {
+           expression: Variable {
+            identifier: "cfg",
+            position: (8, 56),
+           },
+           attribute_path: AttributePath {
+            parts: [
+             Raw {
+              content: "adminPubkey",
+              position: (8, 60),
+             },
+            ],
+           },
+           default: None,
+          },
+         ],
+        },
+        position: (8, 16),
        },
        String {
         parts: [
@@ -148,26 +151,29 @@ Function {
        default: None,
       },
       arguments: [
-       Function {
-        argument: Simple {
-         identifier: "hook",
-        },
-        definition: String {
-         parts: [
-          Expression {
-           expression: Variable {
-            identifier: "hook",
-            position: (9, 42),
+       Parentheses {
+        expression: Function {
+         argument: Simple {
+          identifier: "hook",
+         },
+         definition: String {
+          parts: [
+           Expression {
+            expression: Variable {
+             identifier: "hook",
+             position: (9, 42),
+            },
            },
-          },
-          Raw {
-           content: " ",
-           position: (9, 47),
-          },
-         ],
-         position: (9, 39),
+           Raw {
+            content: " ",
+            position: (9, 47),
+           },
+          ],
+          position: (9, 39),
+         },
+         position: (9, 33),
         },
-        position: (9, 33),
+        position: (9, 32),
        },
        PropertyAccess {
         expression: Variable {
@@ -975,907 +981,1226 @@ Function {
          },
          default: None,
         },
-        LetIn {
-         bindings: [
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "manageGitoliteRc",
-              position: (117, 5),
-             },
-            ],
-           },
-           to: BinaryOperation {
-            operator: NotEqualTo,
-            operands: [
-             PropertyAccess {
-              expression: Variable {
-               identifier: "cfg",
-               position: (117, 24),
-              },
-              attribute_path: AttributePath {
-               parts: [
-                Raw {
-                 content: "extraGitoliteRc",
-                 position: (117, 28),
-                },
-               ],
-              },
-              default: None,
-             },
-             String {
-              parts: [],
-              position: (117, 47),
-             },
-            ],
-            position: (117, 44),
-           },
-          },
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "rcDir",
-              position: (118, 5),
-             },
-            ],
-           },
-           to: FunctionApplication {
-            function: PropertyAccess {
-             expression: Variable {
-              identifier: "pkgs",
-              position: (118, 13),
-             },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "runCommand",
-                position: (118, 18),
-               },
-              ],
-             },
-             default: None,
-            },
-            arguments: [
-             String {
-              parts: [
-               Raw {
-                content: "gitolite-rc",
-                position: (118, 30),
-               },
-              ],
-              position: (118, 29),
-             },
-             Map {
-              bindings: [
-               Binding {
-                from: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "preferLocalBuild",
-                   position: (118, 45),
-                  },
-                 ],
-                },
-                to: Variable {
-                 identifier: "true",
-                 position: (118, 64),
-                },
-               },
-              ],
-              recursive: false,
-              position: (118, 43),
-             },
-             Variable {
-              identifier: "rcDirScript",
-              position: (118, 72),
-             },
-            ],
-           },
-          },
-          Binding {
-           from: AttributePath {
-            parts: [
-             Raw {
-              content: "rcDirScript",
-              position: (119, 5),
-             },
-            ],
-           },
-           to: BinaryOperation {
-            operator: Addition,
-            operands: [
-             String {
-              parts: [
-               Raw {
-                content: "mkdir \"$out\"\nexport HOME=temp-home\nmkdir -p \"$HOME/.gitolite/logs\" # gitolite can't run without it\n",
-                position: (121, 1),
-               },
-               Raw {
-                content: "'",
-                position: (124, 9),
-               },
-               Expression {
-                expression: PropertyAccess {
-                 expression: Variable {
-                  identifier: "pkgs",
-                  position: (124, 12),
-                 },
-                 attribute_path: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "gitolite",
-                    position: (124, 17),
-                   },
-                  ],
-                 },
-                 default: None,
-                },
-               },
-               Raw {
-                content: "'/bin/gitolite print-default-rc >>\"$out/gitolite.rc.default\"\ncat <<END >>\"$out/gitolite.rc\"\n# This file is managed by NixOS.\n# Use services.gitolite options to control it.\n\nEND\ncat \"$out/gitolite.rc.default\" >>\"$out/gitolite.rc\"\n",
-                position: (124, 26),
-               },
-              ],
-              position: (120, 7),
-             },
-             FunctionApplication {
-              function: Variable {
-               identifier: "optionalString",
-               position: (132, 7),
-              },
-              arguments: [
-               BinaryOperation {
-                operator: NotEqualTo,
-                operands: [
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "cfg",
-                   position: (132, 23),
-                  },
-                  attribute_path: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "extraGitoliteRc",
-                     position: (132, 27),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                 String {
-                  parts: [],
-                  position: (132, 46),
-                 },
-                ],
-                position: (132, 43),
-               },
-               String {
-                parts: [
-                 Raw {
-                  content: "echo -n ",
-                  position: (133, 1),
-                 },
-                 Expression {
-                  expression: FunctionApplication {
-                   function: Variable {
-                    identifier: "escapeShellArg",
-                    position: (133, 19),
-                   },
-                   arguments: [
-                    String {
-                     parts: [
-                      Raw {
-                       content: "\n# Added by NixOS:\n",
-                       position: (134, 1),
-                      },
-                      Expression {
-                       expression: FunctionApplication {
-                        function: Variable {
-                         identifier: "removeSuffix",
-                         position: (136, 13),
-                        },
-                        arguments: [
-                         String {
-                          parts: [
-                           Raw {
-                            content: "\n",
-                            position: (136, 27),
-                           },
-                          ],
-                          position: (136, 26),
-                         },
-                         PropertyAccess {
-                          expression: Variable {
-                           identifier: "cfg",
-                           position: (136, 31),
-                          },
-                          attribute_path: AttributePath {
-                           parts: [
-                            Raw {
-                             content: "extraGitoliteRc",
-                             position: (136, 35),
-                            },
-                           ],
-                          },
-                          default: None,
-                         },
-                        ],
-                       },
-                      },
-                      Raw {
-                       content: "\n\n# per perl rules, this should be the last line in such a file:\n1;\n",
-                       position: (136, 51),
-                      },
-                     ],
-                     position: (133, 34),
-                    },
-                   ],
-                  },
-                 },
-                 Raw {
-                  content: " >>\"$out/gitolite.rc\"\n",
-                  position: (140, 12),
-                 },
-                ],
-                position: (132, 50),
-               },
-              ],
-             },
-            ],
-            position: (131, 10),
-           },
-          },
-         ],
-         target: Map {
+        Parentheses {
+         expression: LetIn {
           bindings: [
            Binding {
             from: AttributePath {
              parts: [
               Raw {
-               content: "services",
-               position: (143, 5),
-              },
-              Raw {
-               content: "gitolite",
-               position: (143, 14),
-              },
-              Raw {
-               content: "extraGitoliteRc",
-               position: (143, 23),
+               content: "manageGitoliteRc",
+               position: (117, 5),
               },
              ],
             },
-            to: FunctionApplication {
-             function: Variable {
-              identifier: "optionalString",
-              position: (143, 41),
-             },
-             arguments: [
+            to: BinaryOperation {
+             operator: NotEqualTo,
+             operands: [
               PropertyAccess {
                expression: Variable {
                 identifier: "cfg",
-                position: (143, 56),
+                position: (117, 24),
                },
                attribute_path: AttributePath {
                 parts: [
                  Raw {
-                  content: "enableGitAnnex",
-                  position: (143, 60),
+                  content: "extraGitoliteRc",
+                  position: (117, 28),
                  },
                 ],
                },
                default: None,
               },
               String {
+               parts: [],
+               position: (117, 47),
+              },
+             ],
+             position: (117, 44),
+            },
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "rcDir",
+               position: (118, 5),
+              },
+             ],
+            },
+            to: FunctionApplication {
+             function: PropertyAccess {
+              expression: Variable {
+               identifier: "pkgs",
+               position: (118, 13),
+              },
+              attribute_path: AttributePath {
                parts: [
                 Raw {
-                 content: "# Enable git-annex support:\npush( @{$RC{ENABLE}}, 'git-annex-shell ua');\n",
-                 position: (144, 1),
+                 content: "runCommand",
+                 position: (118, 18),
                 },
                ],
-               position: (143, 75),
               },
-             ],
-            },
-           },
-           Binding {
-            from: AttributePath {
-             parts: [
-              Raw {
-               content: "users",
-               position: (148, 5),
-              },
-              Raw {
-               content: "users",
-               position: (148, 11),
-              },
-              Expression {
-               expression: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (148, 19),
-                },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "user",
-                   position: (148, 23),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-             ],
-            },
-            to: Map {
-             bindings: [
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "description",
-                  position: (149, 7),
-                 },
-                ],
-               },
-               to: String {
-                parts: [
-                 Raw {
-                  content: "Gitolite user",
-                  position: (149, 26),
-                 },
-                ],
-                position: (149, 25),
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "home",
-                  position: (150, 7),
-                 },
-                ],
-               },
-               to: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (150, 25),
-                },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "dataDir",
-                   position: (150, 29),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "uid",
-                  position: (151, 7),
-                 },
-                ],
-               },
-               to: PropertyAccess {
-                expression: Variable {
-                 identifier: "config",
-                 position: (151, 25),
-                },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "ids",
-                   position: (151, 32),
-                  },
-                  Raw {
-                   content: "uids",
-                   position: (151, 36),
-                  },
-                  Raw {
-                   content: "gitolite",
-                   position: (151, 41),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "group",
-                  position: (152, 7),
-                 },
-                ],
-               },
-               to: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (152, 25),
-                },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "group",
-                   position: (152, 29),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "useDefaultShell",
-                  position: (153, 7),
-                 },
-                ],
-               },
-               to: Variable {
-                identifier: "true",
-                position: (153, 25),
-               },
-              },
-             ],
-             recursive: false,
-             position: (148, 31),
-            },
-           },
-           Binding {
-            from: AttributePath {
-             parts: [
-              Raw {
-               content: "users",
-               position: (155, 5),
-              },
-              Raw {
-               content: "groups",
-               position: (155, 11),
-              },
-              Expression {
-               expression: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (155, 20),
-                },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "group",
-                   position: (155, 24),
-                  },
-                 ],
-                },
-                default: None,
-               },
-              },
-              Raw {
-               content: "gid",
-               position: (155, 31),
-              },
-             ],
-            },
-            to: PropertyAccess {
-             expression: Variable {
-              identifier: "config",
-              position: (155, 37),
+              default: None,
              },
-             attribute_path: AttributePath {
-              parts: [
-               Raw {
-                content: "ids",
-                position: (155, 44),
-               },
-               Raw {
-                content: "gids",
-                position: (155, 48),
-               },
-               Raw {
-                content: "gitolite",
-                position: (155, 53),
-               },
-              ],
-             },
-             default: None,
-            },
-           },
-           Binding {
-            from: AttributePath {
-             parts: [
-              Raw {
-               content: "systemd",
-               position: (157, 5),
+             arguments: [
+              String {
+               parts: [
+                Raw {
+                 content: "gitolite-rc",
+                 position: (118, 30),
+                },
+               ],
+               position: (118, 29),
               },
-              Raw {
-               content: "services",
-               position: (157, 13),
-              },
-              Raw {
-               content: "gitolite-init",
-               position: (157, 22),
-              },
-             ],
-            },
-            to: Map {
-             bindings: [
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "description",
-                  position: (158, 7),
-                 },
-                ],
-               },
-               to: String {
-                parts: [
-                 Raw {
-                  content: "Gitolite initialization",
-                  position: (158, 22),
-                 },
-                ],
-                position: (158, 21),
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "wantedBy",
-                  position: (159, 7),
-                 },
-                ],
-               },
-               to: List {
-                elements: [
-                 String {
+              Map {
+               bindings: [
+                Binding {
+                 from: AttributePath {
                   parts: [
                    Raw {
-                    content: "multi-user.target",
-                    position: (159, 24),
+                    content: "preferLocalBuild",
+                    position: (118, 45),
                    },
                   ],
-                  position: (159, 23),
                  },
-                ],
-                position: (159, 21),
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "unitConfig",
-                  position: (160, 7),
+                 to: Variable {
+                  identifier: "true",
+                  position: (118, 64),
                  },
-                 Raw {
-                  content: "RequiresMountsFor",
-                  position: (160, 18),
-                 },
-                ],
-               },
-               to: PropertyAccess {
-                expression: Variable {
-                 identifier: "cfg",
-                 position: (160, 38),
                 },
-                attribute_path: AttributePath {
-                 parts: [
-                  Raw {
-                   content: "dataDir",
-                   position: (160, 42),
-                  },
-                 ],
+               ],
+               recursive: false,
+               position: (118, 43),
+              },
+              Variable {
+               identifier: "rcDirScript",
+               position: (118, 72),
+              },
+             ],
+            },
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
+              Raw {
+               content: "rcDirScript",
+               position: (119, 5),
+              },
+             ],
+            },
+            to: BinaryOperation {
+             operator: Addition,
+             operands: [
+              String {
+               parts: [
+                Raw {
+                 content: "mkdir \"$out\"\nexport HOME=temp-home\nmkdir -p \"$HOME/.gitolite/logs\" # gitolite can't run without it\n",
+                 position: (121, 1),
                 },
-                default: None,
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "environment",
-                  position: (162, 7),
-                 },
-                ],
-               },
-               to: Map {
-                bindings: [
-                 Binding {
-                  from: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "GITOLITE_RC",
-                     position: (163, 9),
-                    },
-                   ],
-                  },
-                  to: String {
-                   parts: [
-                    Raw {
-                     content: ".gitolite.rc",
-                     position: (163, 24),
-                    },
-                   ],
-                   position: (163, 23),
-                  },
-                 },
-                 Binding {
-                  from: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "GITOLITE_RC_DEFAULT",
-                     position: (164, 9),
-                    },
-                   ],
-                  },
-                  to: String {
-                   parts: [
-                    Expression {
-                     expression: Variable {
-                      identifier: "rcDir",
-                      position: (164, 34),
-                     },
-                    },
-                    Raw {
-                     content: "/gitolite.rc.default",
-                     position: (164, 40),
-                    },
-                   ],
-                   position: (164, 31),
-                  },
-                 },
-                ],
-                recursive: false,
-                position: (162, 21),
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "serviceConfig",
-                  position: (167, 7),
-                 },
-                ],
-               },
-               to: FunctionApplication {
-                function: Variable {
-                 identifier: "mkMerge",
-                 position: (167, 23),
+                Raw {
+                 content: "'",
+                 position: (124, 9),
                 },
-                arguments: [
-                 List {
-                  elements: [
-                   FunctionApplication {
-                    function: Variable {
-                     identifier: "mkIf",
-                     position: (168, 10),
-                    },
-                    arguments: [
-                     BinaryOperation {
-                      operator: EqualTo,
-                      operands: [
-                       PropertyAccess {
-                        expression: Variable {
-                         identifier: "cfg",
-                         position: (168, 16),
-                        },
-                        attribute_path: AttributePath {
-                         parts: [
-                          Raw {
-                           content: "dataDir",
-                           position: (168, 20),
-                          },
-                         ],
-                        },
-                        default: None,
-                       },
-                       String {
-                        parts: [
-                         Raw {
-                          content: "/var/lib/gitolite",
-                          position: (168, 32),
-                         },
-                        ],
-                        position: (168, 31),
-                       },
-                      ],
-                      position: (168, 28),
-                     },
-                     Map {
-                      bindings: [
-                       Binding {
-                        from: AttributePath {
-                         parts: [
-                          Raw {
-                           content: "StateDirectory",
-                           position: (169, 11),
-                          },
-                         ],
-                        },
-                        to: String {
-                         parts: [
-                          Raw {
-                           content: "gitolite gitolite/.gitolite gitolite/.gitolite/logs",
-                           position: (169, 29),
-                          },
-                         ],
-                         position: (169, 28),
-                        },
-                       },
-                       Binding {
-                        from: AttributePath {
-                         parts: [
-                          Raw {
-                           content: "StateDirectoryMode",
-                           position: (170, 11),
-                          },
-                         ],
-                        },
-                        to: String {
-                         parts: [
-                          Raw {
-                           content: "0750",
-                           position: (170, 33),
-                          },
-                         ],
-                         position: (170, 32),
-                        },
-                       },
-                      ],
-                      recursive: false,
-                      position: (168, 52),
-                     },
-                    ],
-                   },
-                   Map {
-                    bindings: [
-                     Binding {
-                      from: AttributePath {
-                       parts: [
-                        Raw {
-                         content: "Type",
-                         position: (173, 11),
-                        },
-                       ],
-                      },
-                      to: String {
-                       parts: [
-                        Raw {
-                         content: "oneshot",
-                         position: (173, 19),
-                        },
-                       ],
-                       position: (173, 18),
-                      },
-                     },
-                     Binding {
-                      from: AttributePath {
-                       parts: [
-                        Raw {
-                         content: "User",
-                         position: (174, 11),
-                        },
-                       ],
-                      },
-                      to: PropertyAccess {
-                       expression: Variable {
-                        identifier: "cfg",
-                        position: (174, 18),
-                       },
-                       attribute_path: AttributePath {
-                        parts: [
-                         Raw {
-                          content: "user",
-                          position: (174, 22),
-                         },
-                        ],
-                       },
-                       default: None,
-                      },
-                     },
-                     Binding {
-                      from: AttributePath {
-                       parts: [
-                        Raw {
-                         content: "Group",
-                         position: (175, 11),
-                        },
-                       ],
-                      },
-                      to: PropertyAccess {
-                       expression: Variable {
-                        identifier: "cfg",
-                        position: (175, 19),
-                       },
-                       attribute_path: AttributePath {
-                        parts: [
-                         Raw {
-                          content: "group",
-                          position: (175, 23),
-                         },
-                        ],
-                       },
-                       default: None,
-                      },
-                     },
-                     Binding {
-                      from: AttributePath {
-                       parts: [
-                        Raw {
-                         content: "WorkingDirectory",
-                         position: (176, 11),
-                        },
-                       ],
-                      },
-                      to: String {
-                       parts: [
-                        Raw {
-                         content: "~",
-                         position: (176, 31),
-                        },
-                       ],
-                       position: (176, 30),
-                      },
-                     },
-                     Binding {
-                      from: AttributePath {
-                       parts: [
-                        Raw {
-                         content: "RemainAfterExit",
-                         position: (177, 11),
-                        },
-                       ],
-                      },
-                      to: Variable {
-                       identifier: "true",
-                       position: (177, 29),
-                      },
-                     },
-                    ],
-                    recursive: false,
-                    position: (172, 9),
-                   },
-                  ],
-                  position: (167, 31),
-                 },
-                ],
-               },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "path",
-                  position: (181, 7),
-                 },
-                ],
-               },
-               to: List {
-                elements: [
-                 PropertyAccess {
+                Expression {
+                 expression: PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
-                   position: (181, 16),
+                   position: (124, 12),
                   },
                   attribute_path: AttributePath {
                    parts: [
                     Raw {
                      content: "gitolite",
-                     position: (181, 21),
+                     position: (124, 17),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                },
+                Raw {
+                 content: "'/bin/gitolite print-default-rc >>\"$out/gitolite.rc.default\"\ncat <<END >>\"$out/gitolite.rc\"\n# This file is managed by NixOS.\n# Use services.gitolite options to control it.\n\nEND\ncat \"$out/gitolite.rc.default\" >>\"$out/gitolite.rc\"\n",
+                 position: (124, 26),
+                },
+               ],
+               position: (120, 7),
+              },
+              FunctionApplication {
+               function: Variable {
+                identifier: "optionalString",
+                position: (132, 7),
+               },
+               arguments: [
+                Parentheses {
+                 expression: BinaryOperation {
+                  operator: NotEqualTo,
+                  operands: [
+                   PropertyAccess {
+                    expression: Variable {
+                     identifier: "cfg",
+                     position: (132, 23),
+                    },
+                    attribute_path: AttributePath {
+                     parts: [
+                      Raw {
+                       content: "extraGitoliteRc",
+                       position: (132, 27),
+                      },
+                     ],
+                    },
+                    default: None,
+                   },
+                   String {
+                    parts: [],
+                    position: (132, 46),
+                   },
+                  ],
+                  position: (132, 43),
+                 },
+                 position: (132, 22),
+                },
+                String {
+                 parts: [
+                  Raw {
+                   content: "echo -n ",
+                   position: (133, 1),
+                  },
+                  Expression {
+                   expression: FunctionApplication {
+                    function: Variable {
+                     identifier: "escapeShellArg",
+                     position: (133, 19),
+                    },
+                    arguments: [
+                     String {
+                      parts: [
+                       Raw {
+                        content: "\n# Added by NixOS:\n",
+                        position: (134, 1),
+                       },
+                       Expression {
+                        expression: FunctionApplication {
+                         function: Variable {
+                          identifier: "removeSuffix",
+                          position: (136, 13),
+                         },
+                         arguments: [
+                          String {
+                           parts: [
+                            Raw {
+                             content: "\n",
+                             position: (136, 27),
+                            },
+                           ],
+                           position: (136, 26),
+                          },
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (136, 31),
+                           },
+                           attribute_path: AttributePath {
+                            parts: [
+                             Raw {
+                              content: "extraGitoliteRc",
+                              position: (136, 35),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                         ],
+                        },
+                       },
+                       Raw {
+                        content: "\n\n# per perl rules, this should be the last line in such a file:\n1;\n",
+                        position: (136, 51),
+                       },
+                      ],
+                      position: (133, 34),
+                     },
+                    ],
+                   },
+                  },
+                  Raw {
+                   content: " >>\"$out/gitolite.rc\"\n",
+                   position: (140, 12),
+                  },
+                 ],
+                 position: (132, 50),
+                },
+               ],
+              },
+             ],
+             position: (131, 10),
+            },
+           },
+          ],
+          target: Map {
+           bindings: [
+            Binding {
+             from: AttributePath {
+              parts: [
+               Raw {
+                content: "services",
+                position: (143, 5),
+               },
+               Raw {
+                content: "gitolite",
+                position: (143, 14),
+               },
+               Raw {
+                content: "extraGitoliteRc",
+                position: (143, 23),
+               },
+              ],
+             },
+             to: FunctionApplication {
+              function: Variable {
+               identifier: "optionalString",
+               position: (143, 41),
+              },
+              arguments: [
+               PropertyAccess {
+                expression: Variable {
+                 identifier: "cfg",
+                 position: (143, 56),
+                },
+                attribute_path: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "enableGitAnnex",
+                   position: (143, 60),
+                  },
+                 ],
+                },
+                default: None,
+               },
+               String {
+                parts: [
+                 Raw {
+                  content: "# Enable git-annex support:\npush( @{$RC{ENABLE}}, 'git-annex-shell ua');\n",
+                  position: (144, 1),
+                 },
+                ],
+                position: (143, 75),
+               },
+              ],
+             },
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
+               Raw {
+                content: "users",
+                position: (148, 5),
+               },
+               Raw {
+                content: "users",
+                position: (148, 11),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (148, 19),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "user",
+                    position: (148, 23),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+              ],
+             },
+             to: Map {
+              bindings: [
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "description",
+                   position: (149, 7),
+                  },
+                 ],
+                },
+                to: String {
+                 parts: [
+                  Raw {
+                   content: "Gitolite user",
+                   position: (149, 26),
+                  },
+                 ],
+                 position: (149, 25),
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "home",
+                   position: (150, 7),
+                  },
+                 ],
+                },
+                to: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (150, 25),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "dataDir",
+                    position: (150, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "uid",
+                   position: (151, 7),
+                  },
+                 ],
+                },
+                to: PropertyAccess {
+                 expression: Variable {
+                  identifier: "config",
+                  position: (151, 25),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "ids",
+                    position: (151, 32),
+                   },
+                   Raw {
+                    content: "uids",
+                    position: (151, 36),
+                   },
+                   Raw {
+                    content: "gitolite",
+                    position: (151, 41),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "group",
+                   position: (152, 7),
+                  },
+                 ],
+                },
+                to: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (152, 25),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "group",
+                    position: (152, 29),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "useDefaultShell",
+                   position: (153, 7),
+                  },
+                 ],
+                },
+                to: Variable {
+                 identifier: "true",
+                 position: (153, 25),
+                },
+               },
+              ],
+              recursive: false,
+              position: (148, 31),
+             },
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
+               Raw {
+                content: "users",
+                position: (155, 5),
+               },
+               Raw {
+                content: "groups",
+                position: (155, 11),
+               },
+               Expression {
+                expression: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (155, 20),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "group",
+                    position: (155, 24),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Raw {
+                content: "gid",
+                position: (155, 31),
+               },
+              ],
+             },
+             to: PropertyAccess {
+              expression: Variable {
+               identifier: "config",
+               position: (155, 37),
+              },
+              attribute_path: AttributePath {
+               parts: [
+                Raw {
+                 content: "ids",
+                 position: (155, 44),
+                },
+                Raw {
+                 content: "gids",
+                 position: (155, 48),
+                },
+                Raw {
+                 content: "gitolite",
+                 position: (155, 53),
+                },
+               ],
+              },
+              default: None,
+             },
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
+               Raw {
+                content: "systemd",
+                position: (157, 5),
+               },
+               Raw {
+                content: "services",
+                position: (157, 13),
+               },
+               Raw {
+                content: "gitolite-init",
+                position: (157, 22),
+               },
+              ],
+             },
+             to: Map {
+              bindings: [
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "description",
+                   position: (158, 7),
+                  },
+                 ],
+                },
+                to: String {
+                 parts: [
+                  Raw {
+                   content: "Gitolite initialization",
+                   position: (158, 22),
+                  },
+                 ],
+                 position: (158, 21),
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "wantedBy",
+                   position: (159, 7),
+                  },
+                 ],
+                },
+                to: List {
+                 elements: [
+                  String {
+                   parts: [
+                    Raw {
+                     content: "multi-user.target",
+                     position: (159, 24),
+                    },
+                   ],
+                   position: (159, 23),
+                  },
+                 ],
+                 position: (159, 21),
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "unitConfig",
+                   position: (160, 7),
+                  },
+                  Raw {
+                   content: "RequiresMountsFor",
+                   position: (160, 18),
+                  },
+                 ],
+                },
+                to: PropertyAccess {
+                 expression: Variable {
+                  identifier: "cfg",
+                  position: (160, 38),
+                 },
+                 attribute_path: AttributePath {
+                  parts: [
+                   Raw {
+                    content: "dataDir",
+                    position: (160, 42),
+                   },
+                  ],
+                 },
+                 default: None,
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "environment",
+                   position: (162, 7),
+                  },
+                 ],
+                },
+                to: Map {
+                 bindings: [
+                  Binding {
+                   from: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "GITOLITE_RC",
+                      position: (163, 9),
+                     },
+                    ],
+                   },
+                   to: String {
+                    parts: [
+                     Raw {
+                      content: ".gitolite.rc",
+                      position: (163, 24),
+                     },
+                    ],
+                    position: (163, 23),
+                   },
+                  },
+                  Binding {
+                   from: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "GITOLITE_RC_DEFAULT",
+                      position: (164, 9),
+                     },
+                    ],
+                   },
+                   to: String {
+                    parts: [
+                     Expression {
+                      expression: Variable {
+                       identifier: "rcDir",
+                       position: (164, 34),
+                      },
+                     },
+                     Raw {
+                      content: "/gitolite.rc.default",
+                      position: (164, 40),
+                     },
+                    ],
+                    position: (164, 31),
+                   },
+                  },
+                 ],
+                 recursive: false,
+                 position: (162, 21),
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "serviceConfig",
+                   position: (167, 7),
+                  },
+                 ],
+                },
+                to: FunctionApplication {
+                 function: Variable {
+                  identifier: "mkMerge",
+                  position: (167, 23),
+                 },
+                 arguments: [
+                  List {
+                   elements: [
+                    Parentheses {
+                     expression: FunctionApplication {
+                      function: Variable {
+                       identifier: "mkIf",
+                       position: (168, 10),
+                      },
+                      arguments: [
+                       Parentheses {
+                        expression: BinaryOperation {
+                         operator: EqualTo,
+                         operands: [
+                          PropertyAccess {
+                           expression: Variable {
+                            identifier: "cfg",
+                            position: (168, 16),
+                           },
+                           attribute_path: AttributePath {
+                            parts: [
+                             Raw {
+                              content: "dataDir",
+                              position: (168, 20),
+                             },
+                            ],
+                           },
+                           default: None,
+                          },
+                          String {
+                           parts: [
+                            Raw {
+                             content: "/var/lib/gitolite",
+                             position: (168, 32),
+                            },
+                           ],
+                           position: (168, 31),
+                          },
+                         ],
+                         position: (168, 28),
+                        },
+                        position: (168, 15),
+                       },
+                       Map {
+                        bindings: [
+                         Binding {
+                          from: AttributePath {
+                           parts: [
+                            Raw {
+                             content: "StateDirectory",
+                             position: (169, 11),
+                            },
+                           ],
+                          },
+                          to: String {
+                           parts: [
+                            Raw {
+                             content: "gitolite gitolite/.gitolite gitolite/.gitolite/logs",
+                             position: (169, 29),
+                            },
+                           ],
+                           position: (169, 28),
+                          },
+                         },
+                         Binding {
+                          from: AttributePath {
+                           parts: [
+                            Raw {
+                             content: "StateDirectoryMode",
+                             position: (170, 11),
+                            },
+                           ],
+                          },
+                          to: String {
+                           parts: [
+                            Raw {
+                             content: "0750",
+                             position: (170, 33),
+                            },
+                           ],
+                           position: (170, 32),
+                          },
+                         },
+                        ],
+                        recursive: false,
+                        position: (168, 52),
+                       },
+                      ],
+                     },
+                     position: (168, 9),
+                    },
+                    Map {
+                     bindings: [
+                      Binding {
+                       from: AttributePath {
+                        parts: [
+                         Raw {
+                          content: "Type",
+                          position: (173, 11),
+                         },
+                        ],
+                       },
+                       to: String {
+                        parts: [
+                         Raw {
+                          content: "oneshot",
+                          position: (173, 19),
+                         },
+                        ],
+                        position: (173, 18),
+                       },
+                      },
+                      Binding {
+                       from: AttributePath {
+                        parts: [
+                         Raw {
+                          content: "User",
+                          position: (174, 11),
+                         },
+                        ],
+                       },
+                       to: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (174, 18),
+                        },
+                        attribute_path: AttributePath {
+                         parts: [
+                          Raw {
+                           content: "user",
+                           position: (174, 22),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Binding {
+                       from: AttributePath {
+                        parts: [
+                         Raw {
+                          content: "Group",
+                          position: (175, 11),
+                         },
+                        ],
+                       },
+                       to: PropertyAccess {
+                        expression: Variable {
+                         identifier: "cfg",
+                         position: (175, 19),
+                        },
+                        attribute_path: AttributePath {
+                         parts: [
+                          Raw {
+                           content: "group",
+                           position: (175, 23),
+                          },
+                         ],
+                        },
+                        default: None,
+                       },
+                      },
+                      Binding {
+                       from: AttributePath {
+                        parts: [
+                         Raw {
+                          content: "WorkingDirectory",
+                          position: (176, 11),
+                         },
+                        ],
+                       },
+                       to: String {
+                        parts: [
+                         Raw {
+                          content: "~",
+                          position: (176, 31),
+                         },
+                        ],
+                        position: (176, 30),
+                       },
+                      },
+                      Binding {
+                       from: AttributePath {
+                        parts: [
+                         Raw {
+                          content: "RemainAfterExit",
+                          position: (177, 11),
+                         },
+                        ],
+                       },
+                       to: Variable {
+                        identifier: "true",
+                        position: (177, 29),
+                       },
+                      },
+                     ],
+                     recursive: false,
+                     position: (172, 9),
+                    },
+                   ],
+                   position: (167, 31),
+                  },
+                 ],
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "path",
+                   position: (181, 7),
+                  },
+                 ],
+                },
+                to: List {
+                 elements: [
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (181, 16),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "gitolite",
+                      position: (181, 21),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (181, 30),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "git",
+                      position: (181, 35),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (181, 39),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "perl",
+                      position: (181, 44),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (181, 49),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "bash",
+                      position: (181, 54),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "pkgs",
+                    position: (181, 59),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "diffutils",
+                      position: (181, 64),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                  PropertyAccess {
+                   expression: Variable {
+                    identifier: "config",
+                    position: (181, 74),
+                   },
+                   attribute_path: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "programs",
+                      position: (181, 81),
+                     },
+                     Raw {
+                      content: "ssh",
+                      position: (181, 90),
+                     },
+                     Raw {
+                      content: "package",
+                      position: (181, 94),
+                     },
+                    ],
+                   },
+                   default: None,
+                  },
+                 ],
+                 position: (181, 14),
+                },
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
+                  Raw {
+                   content: "script",
+                   position: (182, 7),
+                  },
+                 ],
+                },
+                to: LetIn {
+                 bindings: [
+                  Binding {
+                   from: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "rcSetupScriptIfCustomFile",
+                      position: (184, 9),
+                     },
+                    ],
+                   },
+                   to: IfThenElse {
+                    predicate: Variable {
+                     identifier: "manageGitoliteRc",
+                     position: (185, 14),
+                    },
+                    then: String {
+                     parts: [
+                      Raw {
+                       content: "cat <<END\n<3>ERROR: NixOS can't apply declarative configuration\n<3>to your .gitolite.rc file, because it seems to be\n<3>already customized manually.\n<3>See the services.gitolite.extraGitoliteRc option\n<3>in \"man configuration.nix\" for more information.\nEND\n# Not sure if the line below addresses the issue directly or just\n# adds a delay, but without it our error message often doesn't\n# show up in `systemctl status gitolite-init`.\njournalctl --flush\nexit 1\n",
+                       position: (186, 1),
+                      },
+                     ],
+                     position: (185, 36),
+                    },
+                    else_: String {
+                     parts: [
+                      Raw {
+                       content: ":\n",
+                       position: (199, 1),
+                      },
+                     ],
+                     position: (198, 19),
+                    },
+                    position: (185, 11),
+                   },
+                  },
+                  Binding {
+                   from: AttributePath {
+                    parts: [
+                     Raw {
+                      content: "rcSetupScriptIfDefaultFileOrStoreSymlink",
+                      position: (201, 9),
+                     },
+                    ],
+                   },
+                   to: IfThenElse {
+                    predicate: Variable {
+                     identifier: "manageGitoliteRc",
+                     position: (202, 14),
+                    },
+                    then: String {
+                     parts: [
+                      Raw {
+                       content: "ln -sf \"",
+                       position: (203, 1),
+                      },
+                      Expression {
+                       expression: Variable {
+                        identifier: "rcDir",
+                        position: (203, 23),
+                       },
+                      },
+                      Raw {
+                       content: "/gitolite.rc\" \"$GITOLITE_RC\"\n",
+                       position: (203, 29),
+                      },
+                     ],
+                     position: (202, 36),
+                    },
+                    else_: String {
+                     parts: [
+                      Raw {
+                       content: "[[ -L \"$GITOLITE_RC\" ]] && rm -f \"$GITOLITE_RC\"\n",
+                       position: (205, 1),
+                      },
+                     ],
+                     position: (204, 19),
+                    },
+                    position: (202, 11),
+                   },
+                  },
+                 ],
+                 target: BinaryOperation {
+                  operator: Addition,
+                  operands: [
+                   BinaryOperation {
+                    operator: Addition,
+                    operands: [
+                     BinaryOperation {
+                      operator: Addition,
+                      operands: [
+                       BinaryOperation {
+                        operator: Addition,
+                        operands: [
+                         String {
+                          parts: [
+                           Raw {
+                            content: "if ( [[ ! -e \"$GITOLITE_RC\" ]] && [[ ! -L \"$GITOLITE_RC\" ]] ) ||\n   ( [[ -f \"$GITOLITE_RC\" ]] && diff -q \"$GITOLITE_RC\" \"$GITOLITE_RC_DEFAULT\" >/dev/null ) ||\n   ( [[ -L \"$GITOLITE_RC\" ]] && [[ \"$(readlink \"$GITOLITE_RC\")\" =~ ^/nix/store/ ]] )\nthen\n",
+                            position: (209, 1),
+                           },
+                          ],
+                          position: (208, 9),
+                         },
+                         Variable {
+                          identifier: "rcSetupScriptIfDefaultFileOrStoreSymlink",
+                          position: (213, 14),
+                         },
+                        ],
+                        position: (213, 12),
+                       },
+                       String {
+                        parts: [
+                         Raw {
+                          content: "else\n",
+                          position: (215, 1),
+                         },
+                        ],
+                        position: (214, 9),
+                       },
+                      ],
+                      position: (213, 55),
+                     },
+                     Variable {
+                      identifier: "rcSetupScriptIfCustomFile",
+                      position: (216, 14),
+                     },
+                    ],
+                    position: (216, 12),
+                   },
+                   String {
+                    parts: [
+                     Raw {
+                      content: "fi\n\nif [ ! -d repositories ]; then\n  gitolite setup -pk ",
+                      position: (218, 1),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "pubkeyFile",
+                       position: (221, 34),
+                      },
+                     },
+                     Raw {
+                      content: "\nfi\nif [ -n \"",
+                      position: (221, 45),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "hooks",
+                       position: (223, 22),
+                      },
+                     },
+                     Raw {
+                      content: "\" ]; then\n  cp -f ",
+                      position: (223, 28),
+                     },
+                     Expression {
+                      expression: Variable {
+                       identifier: "hooks",
+                       position: (224, 21),
+                      },
+                     },
+                     Raw {
+                      content: " .gitolite/hooks/common/\n  chmod +x .gitolite/hooks/common/*\nfi\ngitolite setup # Upgrade if needed\n",
+                      position: (224, 27),
+                     },
+                    ],
+                    position: (217, 9),
+                   },
+                  ],
+                  position: (216, 40),
+                 },
+                 position: (183, 7),
+                },
+               },
+              ],
+              recursive: false,
+              position: (157, 38),
+             },
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
+               Raw {
+                content: "environment",
+                position: (231, 5),
+               },
+               Raw {
+                content: "systemPackages",
+                position: (231, 17),
+               },
+              ],
+             },
+             to: BinaryOperation {
+              operator: Concatenation,
+              operands: [
+               List {
+                elements: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "pkgs",
+                   position: (231, 36),
+                  },
+                  attribute_path: AttributePath {
+                   parts: [
+                    Raw {
+                     content: "gitolite",
+                     position: (231, 41),
                     },
                    ],
                   },
@@ -1884,13 +2209,37 @@ Function {
                  PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
-                   position: (181, 30),
+                   position: (231, 50),
                   },
                   attribute_path: AttributePath {
                    parts: [
                     Raw {
                      content: "git",
-                     position: (181, 35),
+                     position: (231, 55),
+                    },
+                   ],
+                  },
+                  default: None,
+                 },
+                ],
+                position: (231, 34),
+               },
+               FunctionApplication {
+                function: Variable {
+                 identifier: "optional",
+                 position: (232, 12),
+                },
+                arguments: [
+                 PropertyAccess {
+                  expression: Variable {
+                   identifier: "cfg",
+                   position: (232, 21),
+                  },
+                  attribute_path: AttributePath {
+                   parts: [
+                    Raw {
+                     content: "enableGitAnnex",
+                     position: (232, 25),
                     },
                    ],
                   },
@@ -1899,362 +2248,31 @@ Function {
                  PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
-                   position: (181, 39),
+                   position: (232, 40),
                   },
                   attribute_path: AttributePath {
                    parts: [
                     Raw {
-                     content: "perl",
-                     position: (181, 44),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "pkgs",
-                   position: (181, 49),
-                  },
-                  attribute_path: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "bash",
-                     position: (181, 54),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "pkgs",
-                   position: (181, 59),
-                  },
-                  attribute_path: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "diffutils",
-                     position: (181, 64),
-                    },
-                   ],
-                  },
-                  default: None,
-                 },
-                 PropertyAccess {
-                  expression: Variable {
-                   identifier: "config",
-                   position: (181, 74),
-                  },
-                  attribute_path: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "programs",
-                     position: (181, 81),
-                    },
-                    Raw {
-                     content: "ssh",
-                     position: (181, 90),
-                    },
-                    Raw {
-                     content: "package",
-                     position: (181, 94),
+                     content: "git-annex",
+                     position: (232, 45),
                     },
                    ],
                   },
                   default: None,
                  },
                 ],
-                position: (181, 14),
                },
-              },
-              Binding {
-               from: AttributePath {
-                parts: [
-                 Raw {
-                  content: "script",
-                  position: (182, 7),
-                 },
-                ],
-               },
-               to: LetIn {
-                bindings: [
-                 Binding {
-                  from: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "rcSetupScriptIfCustomFile",
-                     position: (184, 9),
-                    },
-                   ],
-                  },
-                  to: IfThenElse {
-                   predicate: Variable {
-                    identifier: "manageGitoliteRc",
-                    position: (185, 14),
-                   },
-                   then: String {
-                    parts: [
-                     Raw {
-                      content: "cat <<END\n<3>ERROR: NixOS can't apply declarative configuration\n<3>to your .gitolite.rc file, because it seems to be\n<3>already customized manually.\n<3>See the services.gitolite.extraGitoliteRc option\n<3>in \"man configuration.nix\" for more information.\nEND\n# Not sure if the line below addresses the issue directly or just\n# adds a delay, but without it our error message often doesn't\n# show up in `systemctl status gitolite-init`.\njournalctl --flush\nexit 1\n",
-                      position: (186, 1),
-                     },
-                    ],
-                    position: (185, 36),
-                   },
-                   else_: String {
-                    parts: [
-                     Raw {
-                      content: ":\n",
-                      position: (199, 1),
-                     },
-                    ],
-                    position: (198, 19),
-                   },
-                   position: (185, 11),
-                  },
-                 },
-                 Binding {
-                  from: AttributePath {
-                   parts: [
-                    Raw {
-                     content: "rcSetupScriptIfDefaultFileOrStoreSymlink",
-                     position: (201, 9),
-                    },
-                   ],
-                  },
-                  to: IfThenElse {
-                   predicate: Variable {
-                    identifier: "manageGitoliteRc",
-                    position: (202, 14),
-                   },
-                   then: String {
-                    parts: [
-                     Raw {
-                      content: "ln -sf \"",
-                      position: (203, 1),
-                     },
-                     Expression {
-                      expression: Variable {
-                       identifier: "rcDir",
-                       position: (203, 23),
-                      },
-                     },
-                     Raw {
-                      content: "/gitolite.rc\" \"$GITOLITE_RC\"\n",
-                      position: (203, 29),
-                     },
-                    ],
-                    position: (202, 36),
-                   },
-                   else_: String {
-                    parts: [
-                     Raw {
-                      content: "[[ -L \"$GITOLITE_RC\" ]] && rm -f \"$GITOLITE_RC\"\n",
-                      position: (205, 1),
-                     },
-                    ],
-                    position: (204, 19),
-                   },
-                   position: (202, 11),
-                  },
-                 },
-                ],
-                target: BinaryOperation {
-                 operator: Addition,
-                 operands: [
-                  BinaryOperation {
-                   operator: Addition,
-                   operands: [
-                    BinaryOperation {
-                     operator: Addition,
-                     operands: [
-                      BinaryOperation {
-                       operator: Addition,
-                       operands: [
-                        String {
-                         parts: [
-                          Raw {
-                           content: "if ( [[ ! -e \"$GITOLITE_RC\" ]] && [[ ! -L \"$GITOLITE_RC\" ]] ) ||\n   ( [[ -f \"$GITOLITE_RC\" ]] && diff -q \"$GITOLITE_RC\" \"$GITOLITE_RC_DEFAULT\" >/dev/null ) ||\n   ( [[ -L \"$GITOLITE_RC\" ]] && [[ \"$(readlink \"$GITOLITE_RC\")\" =~ ^/nix/store/ ]] )\nthen\n",
-                           position: (209, 1),
-                          },
-                         ],
-                         position: (208, 9),
-                        },
-                        Variable {
-                         identifier: "rcSetupScriptIfDefaultFileOrStoreSymlink",
-                         position: (213, 14),
-                        },
-                       ],
-                       position: (213, 12),
-                      },
-                      String {
-                       parts: [
-                        Raw {
-                         content: "else\n",
-                         position: (215, 1),
-                        },
-                       ],
-                       position: (214, 9),
-                      },
-                     ],
-                     position: (213, 55),
-                    },
-                    Variable {
-                     identifier: "rcSetupScriptIfCustomFile",
-                     position: (216, 14),
-                    },
-                   ],
-                   position: (216, 12),
-                  },
-                  String {
-                   parts: [
-                    Raw {
-                     content: "fi\n\nif [ ! -d repositories ]; then\n  gitolite setup -pk ",
-                     position: (218, 1),
-                    },
-                    Expression {
-                     expression: Variable {
-                      identifier: "pubkeyFile",
-                      position: (221, 34),
-                     },
-                    },
-                    Raw {
-                     content: "\nfi\nif [ -n \"",
-                     position: (221, 45),
-                    },
-                    Expression {
-                     expression: Variable {
-                      identifier: "hooks",
-                      position: (223, 22),
-                     },
-                    },
-                    Raw {
-                     content: "\" ]; then\n  cp -f ",
-                     position: (223, 28),
-                    },
-                    Expression {
-                     expression: Variable {
-                      identifier: "hooks",
-                      position: (224, 21),
-                     },
-                    },
-                    Raw {
-                     content: " .gitolite/hooks/common/\n  chmod +x .gitolite/hooks/common/*\nfi\ngitolite setup # Upgrade if needed\n",
-                     position: (224, 27),
-                    },
-                   ],
-                   position: (217, 9),
-                  },
-                 ],
-                 position: (216, 40),
-                },
-                position: (183, 7),
-               },
-              },
-             ],
-             recursive: false,
-             position: (157, 38),
+              ],
+              position: (232, 9),
+             },
             },
-           },
-           Binding {
-            from: AttributePath {
-             parts: [
-              Raw {
-               content: "environment",
-               position: (231, 5),
-              },
-              Raw {
-               content: "systemPackages",
-               position: (231, 17),
-              },
-             ],
-            },
-            to: BinaryOperation {
-             operator: Concatenation,
-             operands: [
-              List {
-               elements: [
-                PropertyAccess {
-                 expression: Variable {
-                  identifier: "pkgs",
-                  position: (231, 36),
-                 },
-                 attribute_path: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "gitolite",
-                    position: (231, 41),
-                   },
-                  ],
-                 },
-                 default: None,
-                },
-                PropertyAccess {
-                 expression: Variable {
-                  identifier: "pkgs",
-                  position: (231, 50),
-                 },
-                 attribute_path: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "git",
-                    position: (231, 55),
-                   },
-                  ],
-                 },
-                 default: None,
-                },
-               ],
-               position: (231, 34),
-              },
-              FunctionApplication {
-               function: Variable {
-                identifier: "optional",
-                position: (232, 12),
-               },
-               arguments: [
-                PropertyAccess {
-                 expression: Variable {
-                  identifier: "cfg",
-                  position: (232, 21),
-                 },
-                 attribute_path: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "enableGitAnnex",
-                    position: (232, 25),
-                   },
-                  ],
-                 },
-                 default: None,
-                },
-                PropertyAccess {
-                 expression: Variable {
-                  identifier: "pkgs",
-                  position: (232, 40),
-                 },
-                 attribute_path: AttributePath {
-                  parts: [
-                   Raw {
-                    content: "git-annex",
-                    position: (232, 45),
-                   },
-                  ],
-                 },
-                 default: None,
-                },
-               ],
-              },
-             ],
-             position: (232, 9),
-            },
-           },
-          ],
-          recursive: false,
-          position: (142, 6),
+           ],
+           recursive: false,
+           position: (142, 6),
+          },
+          position: (116, 3),
          },
-         position: (116, 3),
+         position: (115, 28),
         },
        ],
       },
