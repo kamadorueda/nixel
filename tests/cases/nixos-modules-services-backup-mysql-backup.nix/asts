@@ -43,22 +43,22 @@ Function {
       },
      ],
     },
-    KeyValue(
-     AttributePath {
-      attributes: [
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "cfg",
         position: (9, 3),
        },
       ],
      },
-     PropertyAccess {
+     to: PropertyAccess {
       expression: Variable {
        identifier: "config",
        position: (9, 9),
       },
       attribute_path: AttributePath {
-       attributes: [
+       parts: [
         Raw {
          content: "services",
          position: (9, 16),
@@ -71,38 +71,40 @@ Function {
       },
       default: None,
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "defaultUser",
         position: (10, 3),
        },
       ],
      },
-     String {
+     to: String {
       parts: [
        Raw {
         content: "mysqlbackup",
+        position: (10, 18),
        },
       ],
       position: (10, 17),
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "backupScript",
         position: (12, 3),
        },
       ],
      },
-     String {
+     to: String {
       parts: [
        Raw {
         content: "set -o pipefail\nfailed=\"\"\n",
+        position: (13, 1),
        },
        Expression {
         expression: FunctionApplication {
@@ -115,6 +117,7 @@ Function {
            parts: [
             Raw {
              content: "\n",
+             position: (15, 28),
             },
            ],
            position: (15, 27),
@@ -129,7 +132,7 @@ Function {
             position: (15, 53),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "databases",
               position: (15, 57),
@@ -143,21 +146,22 @@ Function {
        },
        Raw {
         content: "\nif [ -n \"$failed\" ]; then\n  echo \"Backup of database(s) failed:$failed\"\n  exit 1\nfi\n",
+        position: (15, 67),
        },
       ],
       position: (12, 18),
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "backupDatabaseScript",
         position: (21, 3),
        },
       ],
      },
-     Function {
+     to: Function {
       argument: Simple {
        identifier: "db",
       },
@@ -165,6 +169,7 @@ Function {
        parts: [
         Raw {
          content: "dest=\"",
+         position: (22, 1),
         },
         Expression {
          expression: PropertyAccess {
@@ -173,7 +178,7 @@ Function {
            position: (22, 13),
           },
           attribute_path: AttributePath {
-           attributes: [
+           parts: [
             Raw {
              content: "location",
              position: (22, 17),
@@ -185,6 +190,7 @@ Function {
         },
         Raw {
          content: "/",
+         position: (22, 26),
         },
         Expression {
          expression: Variable {
@@ -194,6 +200,7 @@ Function {
         },
         Raw {
          content: ".gz\"\nif ",
+         position: (22, 32),
         },
         Expression {
          expression: Variable {
@@ -203,6 +210,7 @@ Function {
         },
         Raw {
          content: "/bin/mysqldump ",
+         position: (23, 18),
         },
         Expression {
          expression: IfThenElse {
@@ -212,7 +220,7 @@ Function {
             position: (23, 38),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "singleTransaction",
               position: (23, 42),
@@ -225,6 +233,7 @@ Function {
            parts: [
             Raw {
              content: "--single-transaction",
+             position: (23, 66),
             },
            ],
            position: (23, 65),
@@ -238,6 +247,7 @@ Function {
         },
         Raw {
          content: " ",
+         position: (23, 96),
         },
         Expression {
          expression: Variable {
@@ -247,6 +257,7 @@ Function {
         },
         Raw {
          content: " | ",
+         position: (23, 102),
         },
         Expression {
          expression: Variable {
@@ -256,6 +267,7 @@ Function {
         },
         Raw {
          content: "/bin/gzip -c > $dest.tmp; then\n  mv $dest.tmp $dest\n  echo \"Backed up to $dest\"\nelse\n  echo \"Failed to back up to $dest\"\n  rm -f $dest.tmp\n  failed=\"$failed ",
+         position: (23, 112),
         },
         Expression {
          expression: Variable {
@@ -265,30 +277,31 @@ Function {
         },
         Raw {
          content: "\"\nfi\n",
+         position: (29, 28),
         },
        ],
        position: (21, 30),
       },
       position: (21, 26),
      },
-    ),
+    },
    ],
    target: Map {
     bindings: [
-     KeyValue(
-      AttributePath {
-       attributes: [
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "options",
          position: (36, 3),
         },
        ],
       },
-      Map {
+      to: Map {
        bindings: [
-        KeyValue(
-         AttributePath {
-          attributes: [
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "services",
             position: (38, 5),
@@ -299,18 +312,18 @@ Function {
            },
           ],
          },
-         Map {
+         to: Map {
           bindings: [
-           KeyValue(
-            AttributePath {
-             attributes: [
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "enable",
                position: (40, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkEnableOption",
               position: (40, 16),
@@ -320,23 +333,24 @@ Function {
                parts: [
                 Raw {
                  content: "MySQL backups",
+                 position: (40, 32),
                 },
                ],
                position: (40, 31),
               },
              ],
             },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "calendar",
                position: (42, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkOption",
               position: (42, 18),
@@ -344,22 +358,22 @@ Function {
              arguments: [
               Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "type",
                     position: (43, 9),
                    },
                   ],
                  },
-                 PropertyAccess {
+                 to: PropertyAccess {
                   expression: Variable {
                    identifier: "types",
                    position: (43, 16),
                   },
                   attribute_path: AttributePath {
-                   attributes: [
+                   parts: [
                     Raw {
                      content: "str",
                      position: (43, 22),
@@ -368,60 +382,62 @@ Function {
                   },
                   default: None,
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "default",
                     position: (44, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "01:15:00",
+                    position: (44, 20),
                    },
                   ],
                   position: (44, 19),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (45, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "Configured when to run the backup service systemd unit (DayOfWeek Year-Month-Day Hour:Minute:Second).\n",
+                    position: (46, 1),
                    },
                   ],
                   position: (45, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (42, 27),
               },
              ],
             },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "user",
                position: (50, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkOption",
               position: (50, 14),
@@ -429,22 +445,22 @@ Function {
              arguments: [
               Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "type",
                     position: (51, 9),
                    },
                   ],
                  },
-                 PropertyAccess {
+                 to: PropertyAccess {
                   expression: Variable {
                    identifier: "types",
                    position: (51, 16),
                   },
                   attribute_path: AttributePath {
-                   attributes: [
+                   parts: [
                     Raw {
                      content: "str",
                      position: (51, 22),
@@ -453,56 +469,57 @@ Function {
                   },
                   default: None,
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "default",
                     position: (52, 9),
                    },
                   ],
                  },
-                 Variable {
+                 to: Variable {
                   identifier: "defaultUser",
                   position: (52, 19),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (53, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "User to be used to perform backup.\n",
+                    position: (54, 1),
                    },
                   ],
                   position: (53, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (50, 23),
               },
              ],
             },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "databases",
                position: (58, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkOption",
               position: (58, 19),
@@ -510,37 +527,37 @@ Function {
              arguments: [
               Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "default",
                     position: (59, 9),
                    },
                   ],
                  },
-                 List {
+                 to: List {
                   elements: [],
                   position: (59, 19),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "type",
                     position: (60, 9),
                    },
                   ],
                  },
-                 FunctionApplication {
+                 to: FunctionApplication {
                   function: PropertyAccess {
                    expression: Variable {
                     identifier: "types",
                     position: (60, 16),
                    },
                    attribute_path: AttributePath {
-                    attributes: [
+                    parts: [
                      Raw {
                       content: "listOf",
                       position: (60, 22),
@@ -556,7 +573,7 @@ Function {
                      position: (60, 29),
                     },
                     attribute_path: AttributePath {
-                     attributes: [
+                     parts: [
                       Raw {
                        content: "str",
                        position: (60, 35),
@@ -567,42 +584,43 @@ Function {
                    },
                   ],
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (61, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "List of database names to dump.\n",
+                    position: (62, 1),
                    },
                   ],
                   position: (61, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (58, 28),
               },
              ],
             },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "location",
                position: (66, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkOption",
               position: (66, 18),
@@ -610,22 +628,22 @@ Function {
              arguments: [
               Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "type",
                     position: (67, 9),
                    },
                   ],
                  },
-                 PropertyAccess {
+                 to: PropertyAccess {
                   expression: Variable {
                    identifier: "types",
                    position: (67, 16),
                   },
                   attribute_path: AttributePath {
-                   attributes: [
+                   parts: [
                     Raw {
                      content: "path",
                      position: (67, 22),
@@ -634,60 +652,62 @@ Function {
                   },
                   default: None,
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "default",
                     position: (68, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "/var/backup/mysql",
+                    position: (68, 20),
                    },
                   ],
                   position: (68, 19),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (69, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "Location to put the gzipped MySQL database dumps.\n",
+                    position: (70, 1),
                    },
                   ],
                   position: (69, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (66, 27),
               },
              ],
             },
-           ),
-           KeyValue(
-            AttributePath {
-             attributes: [
+           },
+           Binding {
+            from: AttributePath {
+             parts: [
               Raw {
                content: "singleTransaction",
                position: (74, 7),
               },
              ],
             },
-            FunctionApplication {
+            to: FunctionApplication {
              function: Variable {
               identifier: "mkOption",
               position: (74, 27),
@@ -695,36 +715,36 @@ Function {
              arguments: [
               Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "default",
                     position: (75, 9),
                    },
                   ],
                  },
-                 Variable {
+                 to: Variable {
                   identifier: "false",
                   position: (75, 19),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "type",
                     position: (76, 9),
                    },
                   ],
                  },
-                 PropertyAccess {
+                 to: PropertyAccess {
                   expression: Variable {
                    identifier: "types",
                    position: (76, 16),
                   },
                   attribute_path: AttributePath {
-                   attributes: [
+                   parts: [
                     Raw {
                      content: "bool",
                      position: (76, 22),
@@ -733,52 +753,53 @@ Function {
                   },
                   default: None,
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (77, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "Whether to create database dump in a single transaction\n",
+                    position: (78, 1),
                    },
                   ],
                   position: (77, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (74, 36),
               },
              ],
             },
-           ),
+           },
           ],
           recursive: false,
           position: (38, 28),
          },
-        ),
+        },
        ],
        recursive: false,
        position: (36, 13),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
+     },
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "config",
          position: (85, 3),
         },
        ],
       },
-      FunctionApplication {
+      to: FunctionApplication {
        function: Variable {
         identifier: "mkIf",
         position: (85, 12),
@@ -790,7 +811,7 @@ Function {
           position: (85, 17),
          },
          attribute_path: AttributePath {
-          attributes: [
+          parts: [
            Raw {
             content: "enable",
             position: (85, 21),
@@ -801,9 +822,9 @@ Function {
         },
         Map {
          bindings: [
-          KeyValue(
-           AttributePath {
-            attributes: [
+          Binding {
+           from: AttributePath {
+            parts: [
              Raw {
               content: "users",
               position: (86, 5),
@@ -814,7 +835,7 @@ Function {
              },
             ],
            },
-           FunctionApplication {
+           to: FunctionApplication {
             function: Variable {
              identifier: "optionalAttrs",
              position: (86, 19),
@@ -829,7 +850,7 @@ Function {
                  position: (86, 34),
                 },
                 attribute_path: AttributePath {
-                 attributes: [
+                 parts: [
                   Raw {
                    content: "user",
                    position: (86, 38),
@@ -847,9 +868,9 @@ Function {
              },
              Map {
               bindings: [
-               KeyValue(
-                AttributePath {
-                 attributes: [
+               Binding {
+                from: AttributePath {
+                 parts: [
                   Expression {
                    expression: Variable {
                     identifier: "defaultUser",
@@ -858,52 +879,52 @@ Function {
                   },
                  ],
                 },
-                Map {
+                to: Map {
                  bindings: [
-                  KeyValue(
-                   AttributePath {
-                    attributes: [
+                  Binding {
+                   from: AttributePath {
+                    parts: [
                      Raw {
                       content: "isSystemUser",
                       position: (88, 9),
                      },
                     ],
                    },
-                   Variable {
+                   to: Variable {
                     identifier: "true",
                     position: (88, 24),
                    },
-                  ),
-                  KeyValue(
-                   AttributePath {
-                    attributes: [
+                  },
+                  Binding {
+                   from: AttributePath {
+                    parts: [
                      Raw {
                       content: "createHome",
                       position: (89, 9),
                      },
                     ],
                    },
-                   Variable {
+                   to: Variable {
                     identifier: "false",
                     position: (89, 22),
                    },
-                  ),
-                  KeyValue(
-                   AttributePath {
-                    attributes: [
+                  },
+                  Binding {
+                   from: AttributePath {
+                    parts: [
                      Raw {
                       content: "home",
                       position: (90, 9),
                      },
                     ],
                    },
-                   PropertyAccess {
+                   to: PropertyAccess {
                     expression: Variable {
                      identifier: "cfg",
                      position: (90, 16),
                     },
                     attribute_path: AttributePath {
-                     attributes: [
+                     parts: [
                       Raw {
                        content: "location",
                        position: (90, 20),
@@ -912,40 +933,41 @@ Function {
                     },
                     default: None,
                    },
-                  ),
-                  KeyValue(
-                   AttributePath {
-                    attributes: [
+                  },
+                  Binding {
+                   from: AttributePath {
+                    parts: [
                      Raw {
                       content: "group",
                       position: (91, 9),
                      },
                     ],
                    },
-                   String {
+                   to: String {
                     parts: [
                      Raw {
                       content: "nogroup",
+                      position: (91, 18),
                      },
                     ],
                     position: (91, 17),
                    },
-                  ),
+                  },
                  ],
                  recursive: false,
                  position: (87, 24),
                 },
-               ),
+               },
               ],
               recursive: false,
               position: (86, 59),
              },
             ],
            },
-          ),
-          KeyValue(
-           AttributePath {
-            attributes: [
+          },
+          Binding {
+           from: AttributePath {
+            parts: [
              Raw {
               content: "services",
               position: (95, 5),
@@ -960,26 +982,26 @@ Function {
              },
             ],
            },
-           List {
+           to: List {
             elements: [
              Map {
               bindings: [
-               KeyValue(
-                AttributePath {
-                 attributes: [
+               Binding {
+                from: AttributePath {
+                 parts: [
                   Raw {
                    content: "name",
                    position: (96, 7),
                   },
                  ],
                 },
-                PropertyAccess {
+                to: PropertyAccess {
                  expression: Variable {
                   identifier: "cfg",
                   position: (96, 14),
                  },
                  attribute_path: AttributePath {
-                  attributes: [
+                  parts: [
                    Raw {
                     content: "user",
                     position: (96, 18),
@@ -988,51 +1010,52 @@ Function {
                  },
                  default: None,
                 },
-               ),
-               KeyValue(
-                AttributePath {
-                 attributes: [
+               },
+               Binding {
+                from: AttributePath {
+                 parts: [
                   Raw {
                    content: "ensurePermissions",
                    position: (97, 7),
                   },
                  ],
                 },
-                With {
+                to: With {
                  expression: Variable {
                   identifier: "lib",
                   position: (97, 32),
                  },
                  target: LetIn {
                   bindings: [
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "privs",
                        position: (99, 11),
                       },
                      ],
                     },
-                    String {
+                    to: String {
                      parts: [
                       Raw {
                        content: "SELECT, SHOW VIEW, TRIGGER, LOCK TABLES",
+                       position: (99, 20),
                       },
                      ],
                      position: (99, 19),
                     },
-                   ),
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   },
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "grant",
                        position: (100, 11),
                       },
                      ],
                     },
-                    Function {
+                    to: Function {
                      argument: Simple {
                       identifier: "db",
                      },
@@ -1052,6 +1075,7 @@ Function {
                          },
                          Raw {
                           content: ".*",
+                          position: (100, 43),
                          },
                         ],
                         position: (100, 37),
@@ -1064,7 +1088,7 @@ Function {
                      },
                      position: (100, 19),
                     },
-                   ),
+                   },
                   ],
                   target: FunctionApplication {
                    function: Variable {
@@ -1088,7 +1112,7 @@ Function {
                         position: (102, 34),
                        },
                        attribute_path: AttributePath {
-                        attributes: [
+                        parts: [
                          Raw {
                           content: "databases",
                           position: (102, 38),
@@ -1105,7 +1129,7 @@ Function {
                  },
                  position: (97, 27),
                 },
-               ),
+               },
               ],
               recursive: false,
               position: (95, 35),
@@ -1113,21 +1137,21 @@ Function {
             ],
             position: (95, 34),
            },
-          ),
-          KeyValue(
-           AttributePath {
-            attributes: [
+          },
+          Binding {
+           from: AttributePath {
+            parts: [
              Raw {
               content: "systemd",
               position: (105, 5),
              },
             ],
            },
-           Map {
+           to: Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "timers",
                  position: (106, 7),
@@ -1138,41 +1162,43 @@ Function {
                 },
                ],
               },
-              Map {
+              to: Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (107, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "Mysql backup timer",
+                    position: (107, 24),
                    },
                   ],
                   position: (107, 23),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "wantedBy",
                     position: (108, 9),
                    },
                   ],
                  },
-                 List {
+                 to: List {
                   elements: [
                    String {
                     parts: [
                      Raw {
                       content: "timers.target",
+                      position: (108, 23),
                      },
                     ],
                     position: (108, 22),
@@ -1180,34 +1206,34 @@ Function {
                   ],
                   position: (108, 20),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "timerConfig",
                     position: (109, 9),
                    },
                   ],
                  },
-                 Map {
+                 to: Map {
                   bindings: [
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "OnCalendar",
                        position: (110, 11),
                       },
                      ],
                     },
-                    PropertyAccess {
+                    to: PropertyAccess {
                      expression: Variable {
                       identifier: "cfg",
                       position: (110, 24),
                      },
                      attribute_path: AttributePath {
-                      attributes: [
+                      parts: [
                        Raw {
                         content: "calendar",
                         position: (110, 28),
@@ -1216,56 +1242,58 @@ Function {
                      },
                      default: None,
                     },
-                   ),
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   },
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "AccuracySec",
                        position: (111, 11),
                       },
                      ],
                     },
-                    String {
+                    to: String {
                      parts: [
                       Raw {
                        content: "5m",
+                       position: (111, 26),
                       },
                      ],
                      position: (111, 25),
                     },
-                   ),
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   },
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "Unit",
                        position: (112, 11),
                       },
                      ],
                     },
-                    String {
+                    to: String {
                      parts: [
                       Raw {
                        content: "mysql-backup.service",
+                       position: (112, 19),
                       },
                      ],
                      position: (112, 18),
                     },
-                   ),
+                   },
                   ],
                   recursive: false,
                   position: (109, 23),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (106, 29),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "services",
                  position: (115, 7),
@@ -1276,85 +1304,87 @@ Function {
                 },
                ],
               },
-              Map {
+              to: Map {
                bindings: [
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "description",
                     position: (116, 9),
                    },
                   ],
                  },
-                 String {
+                 to: String {
                   parts: [
                    Raw {
                     content: "MySQL backup service",
+                    position: (116, 24),
                    },
                   ],
                   position: (116, 23),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "enable",
                     position: (117, 9),
                    },
                   ],
                  },
-                 Variable {
+                 to: Variable {
                   identifier: "true",
                   position: (117, 18),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "serviceConfig",
                     position: (118, 9),
                    },
                   ],
                  },
-                 Map {
+                 to: Map {
                   bindings: [
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "Type",
                        position: (119, 11),
                       },
                      ],
                     },
-                    String {
+                    to: String {
                      parts: [
                       Raw {
                        content: "oneshot",
+                       position: (119, 19),
                       },
                      ],
                      position: (119, 18),
                     },
-                   ),
-                   KeyValue(
-                    AttributePath {
-                     attributes: [
+                   },
+                   Binding {
+                    from: AttributePath {
+                     parts: [
                       Raw {
                        content: "User",
                        position: (120, 11),
                       },
                      ],
                     },
-                    PropertyAccess {
+                    to: PropertyAccess {
                      expression: Variable {
                       identifier: "cfg",
                       position: (120, 18),
                      },
                      attribute_path: AttributePath {
-                      attributes: [
+                      parts: [
                        Raw {
                         content: "user",
                         position: (120, 22),
@@ -1363,34 +1393,34 @@ Function {
                      },
                      default: None,
                     },
-                   ),
+                   },
                   ],
                   recursive: false,
                   position: (118, 25),
                  },
-                ),
-                KeyValue(
-                 AttributePath {
-                  attributes: [
+                },
+                Binding {
+                 from: AttributePath {
+                  parts: [
                    Raw {
                     content: "script",
                     position: (122, 9),
                    },
                   ],
                  },
-                 Variable {
+                 to: Variable {
                   identifier: "backupScript",
                   position: (122, 18),
                  },
-                ),
+                },
                ],
                recursive: false,
                position: (115, 31),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "tmpfiles",
                  position: (124, 7),
@@ -1401,12 +1431,13 @@ Function {
                 },
                ],
               },
-              List {
+              to: List {
                elements: [
                 String {
                  parts: [
                   Raw {
                    content: "d ",
+                   position: (125, 10),
                   },
                   Expression {
                    expression: PropertyAccess {
@@ -1415,7 +1446,7 @@ Function {
                      position: (125, 14),
                     },
                     attribute_path: AttributePath {
-                     attributes: [
+                     parts: [
                       Raw {
                        content: "location",
                        position: (125, 18),
@@ -1427,6 +1458,7 @@ Function {
                   },
                   Raw {
                    content: " 0700 ",
+                   position: (125, 27),
                   },
                   Expression {
                    expression: PropertyAccess {
@@ -1435,7 +1467,7 @@ Function {
                      position: (125, 35),
                     },
                     attribute_path: AttributePath {
-                     attributes: [
+                     parts: [
                       Raw {
                        content: "user",
                        position: (125, 39),
@@ -1447,6 +1479,7 @@ Function {
                   },
                   Raw {
                    content: " - - -",
+                   position: (125, 44),
                   },
                  ],
                  position: (125, 9),
@@ -1454,19 +1487,19 @@ Function {
                ],
                position: (124, 24),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (105, 15),
            },
-          ),
+          },
          ],
          recursive: false,
          position: (85, 28),
         },
        ],
       },
-     ),
+     },
     ],
     recursive: false,
     position: (35, 1),

@@ -20,21 +20,22 @@ Function {
  },
  definition: LetIn {
   bindings: [
-   KeyValue(
-    AttributePath {
-     attributes: [
+   Binding {
+    from: AttributePath {
+     parts: [
       Raw {
        content: "path",
        position: (3, 3),
       },
      ],
     },
-    List {
+    to: List {
      elements: [
       String {
        parts: [
         Raw {
          content: "deployment",
+         position: (3, 13),
         },
        ],
        position: (3, 12),
@@ -43,6 +44,7 @@ Function {
        parts: [
         Raw {
          content: "autoLuks",
+         position: (3, 26),
         },
        ],
        position: (3, 25),
@@ -50,17 +52,17 @@ Function {
      ],
      position: (3, 10),
     },
-   ),
-   KeyValue(
-    AttributePath {
-     attributes: [
+   },
+   Binding {
+    from: AttributePath {
+     parts: [
       Raw {
        content: "hasAutoLuksConfig",
        position: (4, 3),
       },
      ],
     },
-    BinaryOperation {
+    to: BinaryOperation {
      operator: LogicalAnd,
      operands: [
       FunctionApplication {
@@ -70,7 +72,7 @@ Function {
          position: (4, 23),
         },
         attribute_path: AttributePath {
-         attributes: [
+         parts: [
           Raw {
            content: "hasAttrByPath",
            position: (4, 27),
@@ -100,7 +102,7 @@ Function {
            position: (4, 57),
           },
           attribute_path: AttributePath {
-           attributes: [
+           parts: [
             Raw {
              content: "attrByPath",
              position: (4, 61),
@@ -136,7 +138,7 @@ Function {
      ],
      position: (4, 53),
     },
-   ),
+   },
    Inherit {
     from: Some(
      PropertyAccess {
@@ -145,7 +147,7 @@ Function {
        position: (6, 12),
       },
       attribute_path: AttributePath {
-       attributes: [
+       parts: [
         Raw {
          content: "nixops",
          position: (6, 19),
@@ -165,9 +167,9 @@ Function {
   ],
   target: Map {
    bindings: [
-    KeyValue(
-     AttributePath {
-      attributes: [
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "options",
         position: (8, 3),
@@ -182,14 +184,14 @@ Function {
        },
       ],
      },
-     FunctionApplication {
+     to: FunctionApplication {
       function: PropertyAccess {
        expression: Variable {
         identifier: "lib",
         position: (8, 45),
        },
        attribute_path: AttributePath {
-        attributes: [
+        parts: [
          Raw {
           content: "mkEnableOption",
           position: (8, 49),
@@ -203,47 +205,48 @@ Function {
         parts: [
          Raw {
           content: "Enable the deprecated NixOps AutoLuks module",
+          position: (8, 65),
          },
         ],
         position: (8, 64),
        },
       ],
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "config",
         position: (10, 3),
        },
       ],
      },
-     Map {
+     to: Map {
       bindings: [
-       KeyValue(
-        AttributePath {
-         attributes: [
+       Binding {
+        from: AttributePath {
+         parts: [
           Raw {
            content: "assertions",
            position: (11, 5),
           },
          ],
         },
-        List {
+        to: List {
          elements: [
           Map {
            bindings: [
-            KeyValue(
-             AttributePath {
-              attributes: [
+            Binding {
+             from: AttributePath {
+              parts: [
                Raw {
                 content: "assertion",
                 position: (13, 9),
                },
               ],
              },
-             IfThenElse {
+             to: IfThenElse {
               predicate: Variable {
                identifier: "hasAutoLuksConfig",
                position: (13, 24),
@@ -268,25 +271,26 @@ Function {
               },
               position: (13, 21),
              },
-            ),
-            KeyValue(
-             AttributePath {
-              attributes: [
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
                Raw {
                 content: "message",
                 position: (14, 9),
                },
               ],
              },
-             String {
+             to: String {
               parts: [
                Raw {
                 content: "⚠\u{fe0f}  !!! WARNING !!! ⚠\u{fe0f}\n\n  NixOps autoLuks is deprecated. The feature was never widely used and the maintenance did outgrow the benefit.\n  If you still want to use the module:\n    a) Please raise your voice in the issue tracking usage of the module:\n       https://github.com/NixOS/nixpkgs/issues/62211\n    b) make sure you set the `_netdev` option for each of the file\n       systems referring to block devices provided by the autoLuks module.\n\n       ⚠\u{fe0f} If you do not set the option your system will not boot anymore! ⚠\u{fe0f}\n\n        {\n          fileSystems.\"/secret\" = { options = [ \"_netdev\" ]; };\n        }\n\n    b) set the option >nixops.enableDeprecatedAutoLuks = true< to remove this error.\n\n\n  For more details read through the following resources:\n    - https://github.com/NixOS/nixops/pull/1156\n    - https://github.com/NixOS/nixpkgs/issues/47550\n    - https://github.com/NixOS/nixpkgs/issues/62211\n    - https://github.com/NixOS/nixpkgs/pull/61321\n",
+                position: (15, 1),
                },
               ],
               position: (14, 19),
              },
-            ),
+            },
            ],
            recursive: false,
            position: (12, 7),
@@ -294,12 +298,12 @@ Function {
          ],
          position: (11, 18),
         },
-       ),
+       },
       ],
       recursive: false,
       position: (10, 12),
      },
-    ),
+    },
    ],
    recursive: false,
    position: (7, 4),

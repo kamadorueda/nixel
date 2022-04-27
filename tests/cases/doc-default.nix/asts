@@ -26,6 +26,7 @@ Function {
         parts: [
          Raw {
           content: "./..",
+          position: (1, 18),
          },
         ],
         position: (1, 18),
@@ -44,22 +45,22 @@ Function {
  },
  definition: LetIn {
   bindings: [
-   KeyValue(
-    AttributePath {
-     attributes: [
+   Binding {
+    from: AttributePath {
+     parts: [
       Raw {
        content: "lib",
        position: (3, 3),
       },
      ],
     },
-    PropertyAccess {
+    to: PropertyAccess {
      expression: Variable {
       identifier: "pkgs",
       position: (3, 9),
      },
      attribute_path: AttributePath {
-      attributes: [
+      parts: [
        Raw {
         content: "lib",
         position: (3, 14),
@@ -68,17 +69,17 @@ Function {
      },
      default: None,
     },
-   ),
-   KeyValue(
-    AttributePath {
-     attributes: [
+   },
+   Binding {
+    from: AttributePath {
+     parts: [
       Raw {
        content: "doc-support",
        position: (4, 3),
       },
      ],
     },
-    FunctionApplication {
+    to: FunctionApplication {
      function: Variable {
       identifier: "import",
       position: (4, 17),
@@ -88,6 +89,7 @@ Function {
        parts: [
         Raw {
          content: "./doc-support",
+         position: (4, 24),
         },
        ],
        position: (4, 24),
@@ -113,7 +115,7 @@ Function {
       },
      ],
     },
-   ),
+   },
   ],
   target: FunctionApplication {
    function: PropertyAccess {
@@ -122,7 +124,7 @@ Function {
      position: (5, 4),
     },
     attribute_path: AttributePath {
-     attributes: [
+     parts: [
       Raw {
        content: "stdenv",
        position: (5, 9),
@@ -138,34 +140,35 @@ Function {
    arguments: [
     Map {
      bindings: [
-      KeyValue(
-       AttributePath {
-        attributes: [
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "name",
           position: (6, 3),
          },
         ],
        },
-       String {
+       to: String {
         parts: [
          Raw {
           content: "nixpkgs-manual",
+          position: (6, 11),
          },
         ],
         position: (6, 10),
        },
-      ),
-      KeyValue(
-       AttributePath {
-        attributes: [
+      },
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "nativeBuildInputs",
           position: (8, 3),
          },
         ],
        },
-       With {
+       to: With {
         expression: Variable {
          identifier: "pkgs",
          position: (8, 28),
@@ -205,24 +208,24 @@ Function {
         },
         position: (8, 23),
        },
-      ),
-      KeyValue(
-       AttributePath {
-        attributes: [
+      },
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "src",
           position: (18, 3),
          },
         ],
        },
-       FunctionApplication {
+       to: FunctionApplication {
         function: PropertyAccess {
          expression: Variable {
           identifier: "lib",
           position: (18, 9),
          },
          attribute_path: AttributePath {
-          attributes: [
+          parts: [
            Raw {
             content: "cleanSource",
             position: (18, 13),
@@ -236,26 +239,28 @@ Function {
           parts: [
            Raw {
             content: "./.",
+            position: (18, 25),
            },
           ],
           position: (18, 25),
          },
         ],
        },
-      ),
-      KeyValue(
-       AttributePath {
-        attributes: [
+      },
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "postPatch",
           position: (20, 3),
          },
         ],
        },
-       String {
+       to: String {
         parts: [
          Raw {
           content: "ln -s ",
+          position: (21, 1),
          },
          Expression {
           expression: Variable {
@@ -265,39 +270,41 @@ Function {
          },
          Raw {
           content: " ./doc-support/result\n",
+          position: (21, 25),
          },
         ],
         position: (20, 15),
        },
-      ),
-      KeyValue(
-       AttributePath {
-        attributes: [
+      },
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "installPhase",
           position: (24, 3),
          },
         ],
        },
-       String {
+       to: String {
         parts: [
          Raw {
           content: "dest=\"$out/share/doc/nixpkgs\"\nmkdir -p \"$(dirname \"$dest\")\"\nmv out/html \"$dest\"\nmv \"$dest/index.html\" \"$dest/manual.html\"\n\nmv out/epub/manual.epub \"$dest/nixpkgs-manual.epub\"\n\nmkdir -p $out/nix-support/\necho \"doc manual $dest manual.html\" >> $out/nix-support/hydra-build-products\necho \"doc manual $dest nixpkgs-manual.epub\" >> $out/nix-support/hydra-build-products\n",
+          position: (25, 1),
          },
         ],
         position: (24, 18),
        },
-      ),
-      KeyValue(
-       AttributePath {
-        attributes: [
+      },
+      Binding {
+       from: AttributePath {
+        parts: [
          Raw {
           content: "PANDOC_LUA_FILTERS_DIR",
           position: (38, 3),
          },
         ],
        },
-       String {
+       to: String {
         parts: [
          Expression {
           expression: PropertyAccess {
@@ -306,7 +313,7 @@ Function {
             position: (38, 31),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "pandoc-lua-filters",
               position: (38, 36),
@@ -318,11 +325,12 @@ Function {
          },
          Raw {
           content: "/share/pandoc/filters",
+          position: (38, 55),
          },
         ],
         position: (38, 28),
        },
-      ),
+      },
      ],
      recursive: false,
      position: (5, 29),

@@ -29,40 +29,41 @@ Function {
   },
   target: LetIn {
    bindings: [
-    KeyValue(
-     AttributePath {
-      attributes: [
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "logPrefix",
         position: (6, 3),
        },
       ],
      },
-     String {
+     to: String {
       parts: [
        Raw {
         content: "services.prometheus.exporter.blackbox",
+        position: (6, 16),
        },
       ],
       position: (6, 15),
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "cfg",
         position: (7, 3),
        },
       ],
      },
-     PropertyAccess {
+     to: PropertyAccess {
       expression: Variable {
        identifier: "config",
        position: (7, 9),
       },
       attribute_path: AttributePath {
-       attributes: [
+       parts: [
         Raw {
          content: "services",
          position: (7, 16),
@@ -83,17 +84,17 @@ Function {
       },
       default: None,
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "coerceConfigFile",
         position: (11, 3),
        },
       ],
      },
-     Function {
+     to: Function {
       argument: Simple {
        identifier: "file",
       },
@@ -108,7 +109,7 @@ Function {
             position: (12, 9),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "isPath",
               position: (12, 18),
@@ -131,7 +132,7 @@ Function {
             position: (12, 35),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "isStorePath",
               position: (12, 39),
@@ -164,7 +165,7 @@ Function {
             position: (15, 8),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "warn",
               position: (15, 12),
@@ -178,6 +179,7 @@ Function {
             parts: [
              Raw {
               content: "",
+              position: (16, 1),
              },
              Expression {
               expression: Variable {
@@ -187,6 +189,7 @@ Function {
              },
              Raw {
               content: ": configuration file \"",
+              position: (16, 21),
              },
              Expression {
               expression: Variable {
@@ -196,6 +199,7 @@ Function {
              },
              Raw {
               content: "\" is being copied to the nix-store.\nIf you would like to avoid that, please set enableConfigCheck to false.\n",
+              position: (16, 50),
              },
             ],
             position: (15, 17),
@@ -204,6 +208,7 @@ Function {
             parts: [
              Raw {
               content: "/.",
+              position: (18, 10),
              },
             ],
             position: (18, 10),
@@ -221,17 +226,17 @@ Function {
       },
       position: (11, 22),
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "checkConfigLocation",
         position: (19, 3),
        },
       ],
      },
-     Function {
+     to: Function {
       argument: Simple {
        identifier: "file",
       },
@@ -243,7 +248,7 @@ Function {
           position: (20, 8),
          },
          attribute_path: AttributePath {
-          attributes: [
+          parts: [
            Raw {
             content: "hasPrefix",
             position: (20, 12),
@@ -257,6 +262,7 @@ Function {
           parts: [
            Raw {
             content: "/tmp/",
+            position: (20, 23),
            },
           ],
           position: (20, 22),
@@ -283,6 +289,7 @@ Function {
            },
            Raw {
             content: ": configuration file must not reside within /tmp - it won't be visible to the systemd service.",
+            position: (22, 20),
            },
           ],
           position: (22, 7),
@@ -297,17 +304,17 @@ Function {
       },
       position: (19, 25),
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "checkConfig",
         position: (25, 3),
        },
       ],
      },
-     Function {
+     to: Function {
       argument: Simple {
        identifier: "file",
       },
@@ -318,7 +325,7 @@ Function {
          position: (26, 5),
         },
         attribute_path: AttributePath {
-         attributes: [
+         parts: [
           Raw {
            content: "runCommand",
            position: (26, 10),
@@ -332,36 +339,37 @@ Function {
          parts: [
           Raw {
            content: "checked-blackbox-exporter.conf",
+           position: (26, 22),
           },
          ],
          position: (26, 21),
         },
         Map {
          bindings: [
-          KeyValue(
-           AttributePath {
-            attributes: [
+          Binding {
+           from: AttributePath {
+            parts: [
              Raw {
               content: "preferLocalBuild",
               position: (27, 7),
              },
             ],
            },
-           Variable {
+           to: Variable {
             identifier: "true",
             position: (27, 26),
            },
-          ),
-          KeyValue(
-           AttributePath {
-            attributes: [
+          },
+          Binding {
+           from: AttributePath {
+            parts: [
              Raw {
               content: "buildInputs",
               position: (28, 7),
              },
             ],
            },
-           List {
+           to: List {
             elements: [
              PropertyAccess {
               expression: Variable {
@@ -369,7 +377,7 @@ Function {
                position: (28, 23),
               },
               attribute_path: AttributePath {
-               attributes: [
+               parts: [
                 Raw {
                  content: "buildPackages",
                  position: (28, 28),
@@ -385,7 +393,7 @@ Function {
             ],
             position: (28, 21),
            },
-          ),
+          },
          ],
          recursive: false,
          position: (26, 54),
@@ -394,6 +402,7 @@ Function {
          parts: [
           Raw {
            content: "ln -s ",
+           position: (30, 1),
           },
           Expression {
            expression: FunctionApplication {
@@ -411,6 +420,7 @@ Function {
           },
           Raw {
            content: " $out\nblackbox_exporter --config.check --config.file $out\n",
+           position: (30, 37),
           },
          ],
          position: (29, 7),
@@ -419,45 +429,45 @@ Function {
       },
       position: (25, 17),
      },
-    ),
+    },
    ],
    target: Map {
     bindings: [
-     KeyValue(
-      AttributePath {
-       attributes: [
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "port",
          position: (34, 3),
         },
        ],
       },
-      Int {
+      to: Int {
        value: 9115,
        position: (34, 10),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
+     },
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "extraOpts",
          position: (35, 3),
         },
        ],
       },
-      Map {
+      to: Map {
        bindings: [
-        KeyValue(
-         AttributePath {
-          attributes: [
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "configFile",
             position: (36, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (36, 18),
@@ -465,22 +475,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (37, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (37, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "path",
                   position: (37, 20),
@@ -489,42 +499,43 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (38, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Path to configuration file.\n",
+                 position: (39, 1),
                 },
                ],
                position: (38, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (36, 27),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "enableConfigCheck",
             position: (42, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (42, 25),
@@ -532,22 +543,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (43, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (43, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "bool",
                   position: (43, 20),
@@ -556,79 +567,80 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (44, 7),
                 },
                ],
               },
-              Variable {
+              to: Variable {
                identifier: "true",
                position: (44, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (45, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Whether to run a correctness check for the configuration file. This depends\non the configuration file residing in the nix-store. Paths passed as string will\nbe copied to the store.\n",
+                 position: (46, 1),
                 },
                ],
                position: (45, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (42, 34),
            },
           ],
          },
-        ),
+        },
        ],
        recursive: false,
        position: (35, 15),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
+     },
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "serviceOpts",
          position: (53, 3),
         },
        ],
       },
-      LetIn {
+      to: LetIn {
        bindings: [
-        KeyValue(
-         AttributePath {
-          attributes: [
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "adjustedConfigFile",
             position: (54, 5),
            },
           ],
          },
-         IfThenElse {
+         to: IfThenElse {
           predicate: PropertyAccess {
            expression: Variable {
             identifier: "cfg",
             position: (54, 29),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "enableConfigCheck",
               position: (54, 33),
@@ -649,7 +661,7 @@ Function {
               position: (55, 19),
              },
              attribute_path: AttributePath {
-              attributes: [
+              parts: [
                Raw {
                 content: "configFile",
                 position: (55, 23),
@@ -672,7 +684,7 @@ Function {
               position: (57, 27),
              },
              attribute_path: AttributePath {
-              attributes: [
+              parts: [
                Raw {
                 content: "configFile",
                 position: (57, 31),
@@ -685,36 +697,37 @@ Function {
           },
           position: (54, 26),
          },
-        ),
+        },
        ],
        target: Map {
         bindings: [
-         KeyValue(
-          AttributePath {
-           attributes: [
+         Binding {
+          from: AttributePath {
+           parts: [
             Raw {
              content: "serviceConfig",
              position: (59, 5),
             },
            ],
           },
-          Map {
+          to: Map {
            bindings: [
-            KeyValue(
-             AttributePath {
-              attributes: [
+            Binding {
+             from: AttributePath {
+              parts: [
                Raw {
                 content: "AmbientCapabilities",
                 position: (60, 7),
                },
               ],
              },
-             List {
+             to: List {
               elements: [
                String {
                 parts: [
                  Raw {
                   content: "CAP_NET_RAW",
+                  position: (60, 32),
                  },
                 ],
                 position: (60, 31),
@@ -722,20 +735,21 @@ Function {
               ],
               position: (60, 29),
              },
-            ),
-            KeyValue(
-             AttributePath {
-              attributes: [
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
                Raw {
                 content: "ExecStart",
                 position: (61, 7),
                },
               ],
              },
-             String {
+             to: String {
               parts: [
                Raw {
                 content: "",
+                position: (62, 1),
                },
                Expression {
                 expression: PropertyAccess {
@@ -744,7 +758,7 @@ Function {
                   position: (62, 11),
                  },
                  attribute_path: AttributePath {
-                  attributes: [
+                  parts: [
                    Raw {
                     content: "prometheus-blackbox-exporter",
                     position: (62, 16),
@@ -756,6 +770,7 @@ Function {
                },
                Raw {
                 content: "/bin/blackbox_exporter \\\n  --web.listen-address ",
+                position: (62, 45),
                },
                Expression {
                 expression: PropertyAccess {
@@ -764,7 +779,7 @@ Function {
                   position: (63, 34),
                  },
                  attribute_path: AttributePath {
-                  attributes: [
+                  parts: [
                    Raw {
                     content: "listenAddress",
                     position: (63, 38),
@@ -776,6 +791,7 @@ Function {
                },
                Raw {
                 content: ":",
+                position: (63, 52),
                },
                Expression {
                 expression: FunctionApplication {
@@ -790,7 +806,7 @@ Function {
                     position: (63, 64),
                    },
                    attribute_path: AttributePath {
-                    attributes: [
+                    parts: [
                      Raw {
                       content: "port",
                       position: (63, 68),
@@ -804,6 +820,7 @@ Function {
                },
                Raw {
                 content: " \\\n  --config.file ",
+                position: (63, 73),
                },
                Expression {
                 expression: FunctionApplication {
@@ -821,6 +838,7 @@ Function {
                },
                Raw {
                 content: " \\\n  ",
+                position: (64, 61),
                },
                Expression {
                 expression: FunctionApplication {
@@ -833,6 +851,7 @@ Function {
                    parts: [
                     Raw {
                      content: " \\\n  ",
+                     position: (65, 31),
                     },
                    ],
                    position: (65, 30),
@@ -843,7 +862,7 @@ Function {
                     position: (65, 40),
                    },
                    attribute_path: AttributePath {
-                    attributes: [
+                    parts: [
                      Raw {
                       content: "extraFlags",
                       position: (65, 44),
@@ -857,21 +876,22 @@ Function {
                },
                Raw {
                 content: "\n",
+                position: (65, 55),
                },
               ],
               position: (61, 19),
              },
-            ),
-            KeyValue(
-             AttributePath {
-              attributes: [
+            },
+            Binding {
+             from: AttributePath {
+              parts: [
                Raw {
                 content: "ExecReload",
                 position: (67, 7),
                },
               ],
              },
-             String {
+             to: String {
               parts: [
                Expression {
                 expression: PropertyAccess {
@@ -880,7 +900,7 @@ Function {
                   position: (67, 23),
                  },
                  attribute_path: AttributePath {
-                  attributes: [
+                  parts: [
                    Raw {
                     content: "coreutils",
                     position: (67, 28),
@@ -892,23 +912,24 @@ Function {
                },
                Raw {
                 content: "/bin/kill -HUP $MAINPID",
+                position: (67, 38),
                },
               ],
               position: (67, 20),
              },
-            ),
+            },
            ],
            recursive: false,
            position: (59, 21),
           },
-         ),
+         },
         ],
         recursive: false,
         position: (58, 6),
        },
        position: (53, 17),
       },
-     ),
+     },
     ],
     recursive: false,
     position: (33, 4),

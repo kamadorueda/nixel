@@ -9,7 +9,6 @@ use santiago::lexer::Lexeme;
 use santiago::lexer::Position;
 
 /// Main type of an Abstract Syntax Tree.
-#[allow(clippy::manual_non_exhaustive)]
 #[derive(Clone, Debug, PartialEq)]
 pub enum AST {
     Assert {
@@ -65,7 +64,7 @@ pub enum AST {
         position:  Position,
     },
     Path {
-        parts:    LinkedList<StringPart>,
+        parts:    LinkedList<Part>,
         position: Position,
     },
     PropertyAccess {
@@ -78,7 +77,7 @@ pub enum AST {
         position: Position,
     },
     String {
-        parts:    LinkedList<StringPart>,
+        parts:    LinkedList<Part>,
         position: Position,
     },
     UnaryOperation {
@@ -102,9 +101,7 @@ pub enum AST {
 
     // Temporary containers
     #[doc(hidden)]
-    __Attribute(Attribute),
-    #[doc(hidden)]
-    __Attributes(LinkedList<Attribute>),
+    __Attributes(LinkedList<Part>),
     #[doc(hidden)]
     __AttributePath(AttributePath),
     #[doc(hidden)]
@@ -114,9 +111,11 @@ pub enum AST {
     #[doc(hidden)]
     __DestructuredArguments(DestructuredArguments),
     #[doc(hidden)]
-    __StringParts(LinkedList<StringPart>),
-    #[doc(hidden)]
     __Lexeme(Rc<Lexeme>),
+    #[doc(hidden)]
+    __Part(Part),
+    #[doc(hidden)]
+    __Parts(LinkedList<Part>),
 }
 
 impl AST {
@@ -141,33 +140,33 @@ impl AST {
             AST::Uri { position, .. } => position.clone(),
             AST::Variable { position, .. } => position.clone(),
             AST::With { position, .. } => position.clone(),
-            AST::__Attribute(_) => unreachable!(),
             AST::__Attributes(_) => unreachable!(),
             AST::__AttributePath(_) => unreachable!(),
             AST::__Bindings(_) => unreachable!(),
             AST::__DestructuredArgument { .. } => unreachable!(),
             AST::__DestructuredArguments { .. } => unreachable!(),
-            AST::__StringParts(_) => unreachable!(),
             AST::__Lexeme(_) => unreachable!(),
+            AST::__Part(_) => unreachable!(),
+            AST::__Parts(_) => unreachable!(),
         }
     }
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub enum Attribute {
+pub enum Part {
     Raw { content: String, position: Position },
     Expression { expression: Box<AST> },
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct AttributePath {
-    pub attributes: LinkedList<Attribute>,
+    pub parts: LinkedList<Part>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Binding {
-    KeyValue(AttributePath, Box<AST>),
-    Inherit { from: Option<Box<AST>>, attributes: LinkedList<Attribute> },
+    Binding { from: AttributePath, to: Box<AST> },
+    Inherit { from: Option<Box<AST>>, attributes: LinkedList<Part> },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -218,12 +217,6 @@ pub enum FunctionArgument {
     Simple {
         identifier: String,
     },
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum StringPart {
-    Raw { content: String },
-    Expression { expression: Box<AST> },
 }
 
 #[derive(Clone, Debug, PartialEq)]

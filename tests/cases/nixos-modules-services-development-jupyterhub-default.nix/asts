@@ -25,22 +25,22 @@ Function {
   },
   target: LetIn {
    bindings: [
-    KeyValue(
-     AttributePath {
-      attributes: [
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "cfg",
         position: (7, 3),
        },
       ],
      },
-     PropertyAccess {
+     to: PropertyAccess {
       expression: Variable {
        identifier: "config",
        position: (7, 9),
       },
       attribute_path: AttributePath {
-       attributes: [
+       parts: [
         Raw {
          content: "services",
          position: (7, 16),
@@ -53,24 +53,24 @@ Function {
       },
       default: None,
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "kernels",
         position: (9, 3),
        },
       ],
      },
-     FunctionApplication {
+     to: FunctionApplication {
       function: PropertyAccess {
        expression: Variable {
         identifier: "pkgs",
         position: (9, 14),
        },
        attribute_path: AttributePath {
-        attributes: [
+        parts: [
          Raw {
           content: "jupyter-kernel",
           position: (9, 19),
@@ -86,16 +86,16 @@ Function {
       arguments: [
        Map {
         bindings: [
-         KeyValue(
-          AttributePath {
-           attributes: [
+         Binding {
+          from: AttributePath {
+           parts: [
             Raw {
              content: "definitions",
              position: (10, 5),
             },
            ],
           },
-          IfThenElse {
+          to: IfThenElse {
            predicate: BinaryOperation {
             operator: NotEqualTo,
             operands: [
@@ -105,7 +105,7 @@ Function {
                position: (10, 22),
               },
               attribute_path: AttributePath {
-               attributes: [
+               parts: [
                 Raw {
                  content: "kernels",
                  position: (10, 26),
@@ -127,7 +127,7 @@ Function {
              position: (11, 12),
             },
             attribute_path: AttributePath {
-             attributes: [
+             parts: [
               Raw {
                content: "kernels",
                position: (11, 16),
@@ -142,7 +142,7 @@ Function {
              position: (12, 13),
             },
             attribute_path: AttributePath {
-             attributes: [
+             parts: [
               Raw {
                content: "jupyter-kernel",
                position: (12, 18),
@@ -157,31 +157,31 @@ Function {
            },
            position: (10, 19),
           },
-         ),
+         },
         ],
         recursive: false,
         position: (9, 42),
        },
       ],
      },
-    ),
-    KeyValue(
-     AttributePath {
-      attributes: [
+    },
+    Binding {
+     from: AttributePath {
+      parts: [
        Raw {
         content: "jupyterhubConfig",
         position: (15, 3),
        },
       ],
      },
-     FunctionApplication {
+     to: FunctionApplication {
       function: PropertyAccess {
        expression: Variable {
         identifier: "pkgs",
         position: (15, 22),
        },
        attribute_path: AttributePath {
-        attributes: [
+        parts: [
          Raw {
           content: "writeText",
           position: (15, 27),
@@ -195,6 +195,7 @@ Function {
         parts: [
          Raw {
           content: "jupyterhub_config.py",
+          position: (15, 38),
          },
         ],
         position: (15, 37),
@@ -203,6 +204,7 @@ Function {
         parts: [
          Raw {
           content: "c.JupyterHub.bind_url = \"http://",
+          position: (16, 1),
          },
          Expression {
           expression: PropertyAccess {
@@ -211,7 +213,7 @@ Function {
             position: (16, 39),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "host",
               position: (16, 43),
@@ -223,6 +225,7 @@ Function {
          },
          Raw {
           content: ":",
+          position: (16, 48),
          },
          Expression {
           expression: FunctionApplication {
@@ -237,7 +240,7 @@ Function {
               position: (16, 60),
              },
              attribute_path: AttributePath {
-              attributes: [
+              parts: [
                Raw {
                 content: "port",
                 position: (16, 64),
@@ -251,6 +254,7 @@ Function {
          },
          Raw {
           content: "\"\n\nc.JupyterHub.authenticator_class = \"",
+          position: (16, 69),
          },
          Expression {
           expression: PropertyAccess {
@@ -259,7 +263,7 @@ Function {
             position: (18, 43),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "authentication",
               position: (18, 47),
@@ -271,6 +275,7 @@ Function {
          },
          Raw {
           content: "\"\nc.JupyterHub.spawner_class = \"",
+          position: (18, 62),
          },
          Expression {
           expression: PropertyAccess {
@@ -279,7 +284,7 @@ Function {
             position: (19, 37),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "spawner",
               position: (19, 41),
@@ -291,6 +296,7 @@ Function {
          },
          Raw {
           content: "\"\n\nc.SystemdSpawner.default_url = '/lab'\nc.SystemdSpawner.cmd = \"",
+          position: (19, 49),
          },
          Expression {
           expression: PropertyAccess {
@@ -299,7 +305,7 @@ Function {
             position: (22, 31),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "jupyterlabEnv",
               position: (22, 35),
@@ -311,9 +317,11 @@ Function {
          },
          Raw {
           content: "/bin/jupyterhub-singleuser\"\nc.SystemdSpawner.environment = {\n  'JUPYTER_PATH': ",
+          position: (22, 49),
          },
          Raw {
           content: "'",
+          position: (24, 23),
          },
          Expression {
           expression: Variable {
@@ -323,6 +331,7 @@ Function {
          },
          Raw {
           content: "'\n}\n\n",
+          position: (24, 34),
          },
          Expression {
           expression: PropertyAccess {
@@ -331,7 +340,7 @@ Function {
             position: (27, 7),
            },
            attribute_path: AttributePath {
-            attributes: [
+            parts: [
              Raw {
               content: "extraConfig",
               position: (27, 11),
@@ -343,19 +352,20 @@ Function {
          },
          Raw {
           content: "\n",
+          position: (27, 23),
          },
         ],
         position: (15, 60),
        },
       ],
      },
-    ),
+    },
    ],
    target: Map {
     bindings: [
-     KeyValue(
-      AttributePath {
-       attributes: [
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "meta",
          position: (30, 3),
@@ -366,7 +376,7 @@ Function {
         },
        ],
       },
-      With {
+      to: With {
        expression: Variable {
         identifier: "maintainers",
         position: (30, 27),
@@ -382,10 +392,10 @@ Function {
        },
        position: (30, 22),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
+     },
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "options",
          position: (32, 3),
@@ -400,18 +410,18 @@ Function {
         },
        ],
       },
-      Map {
+      to: Map {
        bindings: [
-        KeyValue(
-         AttributePath {
-          attributes: [
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "enable",
             position: (33, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkEnableOption",
            position: (33, 14),
@@ -421,23 +431,24 @@ Function {
             parts: [
              Raw {
               content: "Jupyterhub development server",
+              position: (33, 30),
              },
             ],
             position: (33, 29),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "authentication",
             position: (35, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (35, 22),
@@ -445,22 +456,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (36, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (36, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "str",
                   position: (36, 20),
@@ -469,60 +480,62 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (37, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "jupyterhub.auth.PAMAuthenticator",
+                 position: (37, 18),
                 },
                ],
                position: (37, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (38, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Jupyterhub authentication to use\n\nThere are many authenticators available including: oauth, pam,\nldap, kerberos, etc.\n",
+                 position: (39, 1),
                 },
                ],
                position: (38, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (35, 31),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "spawner",
             position: (46, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (46, 15),
@@ -530,22 +543,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (47, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (47, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "str",
                   position: (47, 20),
@@ -554,60 +567,62 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (48, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "systemdspawner.SystemdSpawner",
+                 position: (48, 18),
                 },
                ],
                position: (48, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (49, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Jupyterhub spawner to use\n\nThere are many spawners available including: local process,\nsystemd, docker, kubernetes, yarn, batch, etc.\n",
+                 position: (50, 1),
                 },
                ],
                position: (49, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (46, 24),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "extraConfig",
             position: (57, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (57, 19),
@@ -615,22 +630,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (58, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (58, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "lines",
                   position: (58, 20),
@@ -639,74 +654,76 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (59, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [],
                position: (59, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (60, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Extra contents appended to the jupyterhub configuration\n\nJupyterhub configuration is a normal python file using\nTraitlets. https://jupyterhub.readthedocs.io/en/stable/getting-started/config-basics.html. The\nbase configuration of this module was designed to have sane\ndefaults for configuration but you can override anything since\nthis is a python file.\n",
+                 position: (61, 1),
                 },
                ],
                position: (60, 21),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "example",
                  position: (69, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "c.SystemdSpawner.mem_limit = '8G'\nc.SystemdSpawner.cpu_limit = 2.0\n",
+                 position: (70, 1),
                 },
                ],
                position: (69, 17),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (57, 28),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "jupyterhubEnv",
             position: (75, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (75, 21),
@@ -714,22 +731,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (76, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (76, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "package",
                   position: (76, 20),
@@ -738,24 +755,24 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (77, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: PropertyAccess {
                 expression: Variable {
                  identifier: "pkgs",
                  position: (77, 17),
                 },
                 attribute_path: AttributePath {
-                 attributes: [
+                 parts: [
                   Raw {
                    content: "python3",
                    position: (77, 22),
@@ -797,17 +814,17 @@ Function {
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "defaultText",
                  position: (81, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: Variable {
                 identifier: "literalExpression",
                 position: (81, 21),
@@ -817,48 +834,50 @@ Function {
                  parts: [
                   Raw {
                    content: "pkgs.python3.withPackages (p: with p; [\n  jupyterhub\n  jupyterhub-systemdspawner\n])\n",
+                   position: (82, 1),
                   },
                  ],
                  position: (81, 39),
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (87, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Python environment to run jupyterhub\n\nCustomizing will affect the packages available in the hub and\nproxy. This will allow packages to be available for the\nextraConfig that you may need. This will not normally need to\nbe changed.\n",
+                 position: (88, 1),
                 },
                ],
                position: (87, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (75, 30),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "jupyterlabEnv",
             position: (97, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (97, 21),
@@ -866,22 +885,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (98, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (98, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "package",
                   position: (98, 20),
@@ -890,24 +909,24 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (99, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: PropertyAccess {
                 expression: Variable {
                  identifier: "pkgs",
                  position: (99, 17),
                 },
                 attribute_path: AttributePath {
-                 attributes: [
+                 parts: [
                   Raw {
                    content: "python3",
                    position: (99, 22),
@@ -949,17 +968,17 @@ Function {
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "defaultText",
                  position: (103, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: Variable {
                 identifier: "literalExpression",
                 position: (103, 21),
@@ -969,48 +988,50 @@ Function {
                  parts: [
                   Raw {
                    content: "pkgs.python3.withPackages (p: with p; [\n  jupyterhub\n  jupyterlab\n])\n",
+                   position: (104, 1),
                   },
                  ],
                  position: (103, 39),
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (109, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Python environment to run jupyterlab\n\nCustomizing will affect the packages available in the\njupyterlab server and the default kernel provided. This is the\nway to customize the jupyterlab extensions and jupyter\nnotebook extensions. This will not normally need to\nbe changed.\n",
+                 position: (110, 1),
                 },
                ],
                position: (109, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (97, 30),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "kernels",
             position: (120, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (120, 15),
@@ -1018,23 +1039,23 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (121, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: PropertyAccess {
                 expression: Variable {
                  identifier: "types",
                  position: (121, 14),
                 },
                 attribute_path: AttributePath {
-                 attributes: [
+                 parts: [
                   Raw {
                    content: "nullOr",
                    position: (121, 20),
@@ -1051,7 +1072,7 @@ Function {
                    position: (121, 28),
                   },
                   attribute_path: AttributePath {
-                   attributes: [
+                   parts: [
                     Raw {
                      content: "attrsOf",
                      position: (121, 34),
@@ -1068,7 +1089,7 @@ Function {
                      position: (121, 42),
                     },
                     attribute_path: AttributePath {
-                     attributes: [
+                     parts: [
                       Raw {
                        content: "submodule",
                        position: (121, 48),
@@ -1088,6 +1109,7 @@ Function {
                        parts: [
                         Raw {
                          content: "../jupyter/kernel-options.nix",
+                         position: (121, 66),
                         },
                        ],
                        position: (121, 66),
@@ -1115,31 +1137,31 @@ Function {
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (125, 7),
                 },
                ],
               },
-              Variable {
+              to: Variable {
                identifier: "null",
                position: (125, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "example",
                  position: (126, 7),
                 },
                ],
               },
-              FunctionApplication {
+              to: FunctionApplication {
                function: Variable {
                 identifier: "literalExpression",
                 position: (126, 17),
@@ -1149,78 +1171,90 @@ Function {
                  parts: [
                   Raw {
                    content: "{\n  python3 = let\n    env = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [\n            ipykernel\n            pandas\n            scikit-learn\n          ]));\n  in {\n    displayName = \"Python 3 for machine learning\";\n    argv = [\n      \"",
+                   position: (127, 1),
                   },
                   Raw {
                    content: "$",
+                   position: (137, 16),
                   },
                   Raw {
                    content: "{env.interpreter}\"\n      \"-m\"\n      \"ipykernel_launcher\"\n      \"-f\"\n      \"{connection_file}\"\n    ];\n    language = \"python\";\n    logo32 = \"",
+                   position: (137, 19),
                   },
                   Raw {
                    content: "$",
+                   position: (144, 23),
                   },
                   Raw {
                    content: "{env}/",
+                   position: (144, 26),
                   },
                   Raw {
                    content: "$",
+                   position: (144, 32),
                   },
                   Raw {
                    content: "{env.sitePackages}/ipykernel/resources/logo-32x32.png\";\n    logo64 = \"",
+                   position: (144, 35),
                   },
                   Raw {
                    content: "$",
+                   position: (145, 23),
                   },
                   Raw {
                    content: "{env}/",
+                   position: (145, 26),
                   },
                   Raw {
                    content: "$",
+                   position: (145, 32),
                   },
                   Raw {
                    content: "{env.sitePackages}/ipykernel/resources/logo-64x64.png\";\n  };\n}\n",
+                   position: (145, 35),
                   },
                  ],
                  position: (126, 35),
                 },
                ],
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (149, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Declarative kernel config\n\nKernels can be declared in any language that supports and has\nthe required dependencies to communicate with a jupyter server.\nIn python's case, it means that ipykernel package must always be\nincluded in the list of packages of the targeted environment.\n",
+                 position: (150, 1),
                 },
                ],
                position: (149, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (120, 24),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "port",
             position: (159, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (159, 12),
@@ -1228,22 +1262,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (160, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (160, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "port",
                   position: (160, 20),
@@ -1252,56 +1286,57 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (161, 7),
                 },
                ],
               },
-              Int {
+              to: Int {
                value: 8000,
                position: (161, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (162, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Port number Jupyterhub will be listening on\n",
+                 position: (163, 1),
                 },
                ],
                position: (162, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (159, 21),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "host",
             position: (167, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (167, 12),
@@ -1309,22 +1344,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (168, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (168, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "str",
                   position: (168, 20),
@@ -1333,60 +1368,62 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (169, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "0.0.0.0",
+                 position: (169, 18),
                 },
                ],
                position: (169, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (170, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Bind IP JupyterHub will be listening on\n",
+                 position: (171, 1),
                 },
                ],
                position: (170, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (167, 21),
            },
           ],
          },
-        ),
-        KeyValue(
-         AttributePath {
-          attributes: [
+        },
+        Binding {
+         from: AttributePath {
+          parts: [
            Raw {
             content: "stateDirectory",
             position: (175, 5),
            },
           ],
          },
-         FunctionApplication {
+         to: FunctionApplication {
           function: Variable {
            identifier: "mkOption",
            position: (175, 22),
@@ -1394,22 +1431,22 @@ Function {
           arguments: [
            Map {
             bindings: [
-             KeyValue(
-              AttributePath {
-               attributes: [
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "type",
                  position: (176, 7),
                 },
                ],
               },
-              PropertyAccess {
+              to: PropertyAccess {
                expression: Variable {
                 identifier: "types",
                 position: (176, 14),
                },
                attribute_path: AttributePath {
-                attributes: [
+                parts: [
                  Raw {
                   content: "str",
                   position: (176, 20),
@@ -1418,65 +1455,67 @@ Function {
                },
                default: None,
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "default",
                  position: (177, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "jupyterhub",
+                 position: (177, 18),
                 },
                ],
                position: (177, 17),
               },
-             ),
-             KeyValue(
-              AttributePath {
-               attributes: [
+             },
+             Binding {
+              from: AttributePath {
+               parts: [
                 Raw {
                  content: "description",
                  position: (178, 7),
                 },
                ],
               },
-              String {
+              to: String {
                parts: [
                 Raw {
                  content: "Directory for jupyterhub state (token + database)\n",
+                 position: (179, 1),
                 },
                ],
                position: (178, 21),
               },
-             ),
+             },
             ],
             recursive: false,
             position: (175, 31),
            },
           ],
          },
-        ),
+        },
        ],
        recursive: false,
        position: (32, 33),
       },
-     ),
-     KeyValue(
-      AttributePath {
-       attributes: [
+     },
+     Binding {
+      from: AttributePath {
+       parts: [
         Raw {
          content: "config",
          position: (184, 3),
         },
        ],
       },
-      FunctionApplication {
+      to: FunctionApplication {
        function: Variable {
         identifier: "mkMerge",
         position: (184, 12),
@@ -1496,7 +1535,7 @@ Function {
               position: (185, 11),
              },
              attribute_path: AttributePath {
-              attributes: [
+              parts: [
                Raw {
                 content: "enable",
                 position: (185, 15),
@@ -1507,9 +1546,9 @@ Function {
             },
             Map {
              bindings: [
-              KeyValue(
-               AttributePath {
-                attributes: [
+              Binding {
+               from: AttributePath {
+                parts: [
                  Raw {
                   content: "systemd",
                   position: (186, 7),
@@ -1524,41 +1563,43 @@ Function {
                  },
                 ],
                },
-               Map {
+               to: Map {
                 bindings: [
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
+                 Binding {
+                  from: AttributePath {
+                   parts: [
                     Raw {
                      content: "description",
                      position: (187, 9),
                     },
                    ],
                   },
-                  String {
+                  to: String {
                    parts: [
                     Raw {
                      content: "Jupyterhub development server",
+                     position: (187, 24),
                     },
                    ],
                    position: (187, 23),
                   },
-                 ),
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
+                 },
+                 Binding {
+                  from: AttributePath {
+                   parts: [
                     Raw {
                      content: "after",
                      position: (189, 9),
                     },
                    ],
                   },
-                  List {
+                  to: List {
                    elements: [
                     String {
                      parts: [
                       Raw {
                        content: "network.target",
+                       position: (189, 20),
                       },
                      ],
                      position: (189, 19),
@@ -1566,22 +1607,23 @@ Function {
                    ],
                    position: (189, 17),
                   },
-                 ),
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
+                 },
+                 Binding {
+                  from: AttributePath {
+                   parts: [
                     Raw {
                      content: "wantedBy",
                      position: (190, 9),
                     },
                    ],
                   },
-                  List {
+                  to: List {
                    elements: [
                     String {
                      parts: [
                       Raw {
                        content: "multi-user.target",
+                       position: (190, 23),
                       },
                      ],
                      position: (190, 22),
@@ -1589,46 +1631,47 @@ Function {
                    ],
                    position: (190, 20),
                   },
-                 ),
-                 KeyValue(
-                  AttributePath {
-                   attributes: [
+                 },
+                 Binding {
+                  from: AttributePath {
+                   parts: [
                     Raw {
                      content: "serviceConfig",
                      position: (192, 9),
                     },
                    ],
                   },
-                  Map {
+                  to: Map {
                    bindings: [
-                    KeyValue(
-                     AttributePath {
-                      attributes: [
+                    Binding {
+                     from: AttributePath {
+                      parts: [
                        Raw {
                         content: "Restart",
                         position: (193, 11),
                        },
                       ],
                      },
-                     String {
+                     to: String {
                       parts: [
                        Raw {
                         content: "always",
+                        position: (193, 22),
                        },
                       ],
                       position: (193, 21),
                      },
-                    ),
-                    KeyValue(
-                     AttributePath {
-                      attributes: [
+                    },
+                    Binding {
+                     from: AttributePath {
+                      parts: [
                        Raw {
                         content: "ExecStart",
                         position: (194, 11),
                        },
                       ],
                      },
-                     String {
+                     to: String {
                       parts: [
                        Expression {
                         expression: PropertyAccess {
@@ -1637,7 +1680,7 @@ Function {
                           position: (194, 26),
                          },
                          attribute_path: AttributePath {
-                          attributes: [
+                          parts: [
                            Raw {
                             content: "jupyterhubEnv",
                             position: (194, 30),
@@ -1649,6 +1692,7 @@ Function {
                        },
                        Raw {
                         content: "/bin/jupyterhub --config ",
+                        position: (194, 44),
                        },
                        Expression {
                         expression: Variable {
@@ -1659,41 +1703,42 @@ Function {
                       ],
                       position: (194, 23),
                      },
-                    ),
-                    KeyValue(
-                     AttributePath {
-                      attributes: [
+                    },
+                    Binding {
+                     from: AttributePath {
+                      parts: [
                        Raw {
                         content: "User",
                         position: (195, 11),
                        },
                       ],
                      },
-                     String {
+                     to: String {
                       parts: [
                        Raw {
                         content: "root",
+                        position: (195, 19),
                        },
                       ],
                       position: (195, 18),
                      },
-                    ),
-                    KeyValue(
-                     AttributePath {
-                      attributes: [
+                    },
+                    Binding {
+                     from: AttributePath {
+                      parts: [
                        Raw {
                         content: "StateDirectory",
                         position: (196, 11),
                        },
                       ],
                      },
-                     PropertyAccess {
+                     to: PropertyAccess {
                       expression: Variable {
                        identifier: "cfg",
                        position: (196, 28),
                       },
                       attribute_path: AttributePath {
-                       attributes: [
+                       parts: [
                         Raw {
                          content: "stateDirectory",
                          position: (196, 32),
@@ -1702,20 +1747,21 @@ Function {
                       },
                       default: None,
                      },
-                    ),
-                    KeyValue(
-                     AttributePath {
-                      attributes: [
+                    },
+                    Binding {
+                     from: AttributePath {
+                      parts: [
                        Raw {
                         content: "WorkingDirectory",
                         position: (197, 11),
                        },
                       ],
                      },
-                     String {
+                     to: String {
                       parts: [
                        Raw {
                         content: "/var/lib/",
+                        position: (197, 31),
                        },
                        Expression {
                         expression: PropertyAccess {
@@ -1724,7 +1770,7 @@ Function {
                           position: (197, 42),
                          },
                          attribute_path: AttributePath {
-                          attributes: [
+                          parts: [
                            Raw {
                             content: "stateDirectory",
                             position: (197, 46),
@@ -1737,17 +1783,17 @@ Function {
                       ],
                       position: (197, 30),
                      },
-                    ),
+                    },
                    ],
                    recursive: false,
                    position: (192, 25),
                   },
-                 ),
+                 },
                 ],
                 recursive: false,
                 position: (186, 37),
                },
-              ),
+              },
              ],
              recursive: false,
              position: (185, 23),
@@ -1759,7 +1805,7 @@ Function {
         },
        ],
       },
-     ),
+     },
     ],
     recursive: false,
     position: (29, 4),
