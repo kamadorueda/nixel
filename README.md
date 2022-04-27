@@ -77,55 +77,84 @@ For example, given some code:
 
 ```nix
 let
-  greeting = "Hello World!";
-in
-  greeting
+  # https://en.wikipedia.org/wiki/John_Doe
+  name = "John Doe";
+in "Hello, ${name}!"
 ```
 
 NixEL can generate an Abstract Syntax Tree for you:
 
 ```rust
 LetIn {
-    bindings: [
-        KeyValue(
-            AttributePath {
-                attributes: [
-                    Raw {
-                        content: "greeting",
-                        position: (2, 3),
-                    },
-                ],
-            },
-            String {
-                parts: [
-                    Raw {
-                        content: "Hello World!",
-                    },
-                ],
-                position: (2, 14),
-            },
-        ),
+ bindings: [
+  Binding {
+   from: AttributePath {
+    parts: [
+     Raw {
+      content: "name",
+      position: (3, 3),
+     },
     ],
-    target: Variable {
-        identifier: "greeting",
-        position: (4, 3),
+   },
+   to: String {
+    parts: [
+     Raw {
+      content: "John Doe",
+      position: (3, 11),
+     },
+    ],
+    position: (3, 10),
+   },
+  },
+ ],
+ target: String {
+  parts: [
+   Raw {
+    content: "Hello, ",
+    position: (4, 5),
+   },
+   Expression {
+    expression: Variable {
+     identifier: "name",
+     position: (4, 14),
     },
-    position: (1, 1),
+   },
+   Raw {
+    content: "!",
+    position: (4, 19),
+   },
+  ],
+  position: (4, 4),
+ },
+ position: (1, 1),
 }
 ```
+
+<!--
+Or generate a Concrete Syntax Tree
+preserving comments and metadata:
+
+```rust
+``` -->
 
 Or perform Lexical Analysis:
 
 ```rust
 LET "let" (1, 1)
-ID "greeting" (2, 3)
-= "=" (2, 12)
-" "\"" (2, 14)
-STR "Hello World!" (2, 15)
-" "\"" (2, 27)
-; ";" (2, 28)
-IN "in" (3, 1)
-ID "greeting" (4, 3)
+ID "name" (3, 3)
+= "=" (3, 8)
+" "\"" (3, 10)
+STR "John Doe" (3, 11)
+" "\"" (3, 19)
+; ";" (3, 20)
+IN "in" (4, 1)
+" "\"" (4, 4)
+STR "Hello, " (4, 5)
+DOLLAR_CURLY "${" (4, 12)
+ID "name" (4, 14)
+} "}" (4, 18)
+STR "!" (4, 19)
+" "\"" (4, 20)
 ```
 
 And produce a Parse Tree:
@@ -141,9 +170,9 @@ And produce a Parse Tree:
         attrpath := rules "attr"
           attr := rules "ID"
             ID := lexemes "ID"
-              ID "greeting" (2, 3)
+              ID "name" (3, 3)
         = := lexemes "="
-          = "=" (2, 12)
+          = "=" (3, 8)
         expr := rules "expr_function"
           expr_function := rules "expr_if"
             expr_if := rules "expr_op"
@@ -152,24 +181,46 @@ And produce a Parse Tree:
                   expr_select := rules "expr_simple"
                     expr_simple := rules "\"" "string_parts" "\""
                       " := lexemes "\""
-                        " "\"" (2, 14)
+                        " "\"" (3, 10)
                       string_parts := rules "STR"
                         STR := lexemes "STR"
-                          STR "Hello World!" (2, 15)
+                          STR "John Doe" (3, 11)
                       " := lexemes "\""
-                        " "\"" (2, 27)
+                        " "\"" (3, 19)
         ; := lexemes ";"
-          ; ";" (2, 28)
+          ; ";" (3, 20)
       IN := lexemes "IN"
-        IN "in" (3, 1)
+        IN "in" (4, 1)
       expr_function := rules "expr_if"
         expr_if := rules "expr_op"
           expr_op := rules "expr_app"
             expr_app := rules "expr_select"
               expr_select := rules "expr_simple"
-                expr_simple := rules "ID"
-                  ID := lexemes "ID"
-                    ID "greeting" (4, 3)
+                expr_simple := rules "\"" "string_parts" "\""
+                  " := lexemes "\""
+                    " "\"" (4, 4)
+                  string_parts := rules "string_parts_interpolated"
+                    string_parts_interpolated := rules "string_parts_interpolated" "STR"
+                      string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                        STR := lexemes "STR"
+                          STR "Hello, " (4, 5)
+                        DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                          DOLLAR_CURLY "${" (4, 12)
+                        expr := rules "expr_function"
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_select"
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "ID"
+                                      ID := lexemes "ID"
+                                        ID "name" (4, 14)
+                        } := lexemes "}"
+                          } "}" (4, 18)
+                      STR := lexemes "STR"
+                        STR "!" (4, 19)
+                  " := lexemes "\""
+                    " "\"" (4, 20)
 ```
 
 This library is based on [Santiago](https://github.com/kamadorueda/santiago)

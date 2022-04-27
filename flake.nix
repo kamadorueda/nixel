@@ -88,6 +88,7 @@
             Cargo.lock \
             flake.lock \
             tests/cases/*/* \
+            tests/inputs/manual/* \
 
           git ls-files | xargs reuse addheader \
             --copyright="$copyright" \

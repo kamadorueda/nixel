@@ -12,11 +12,11 @@ fn run() {
     let lexer_rules = nixel::lexer::lexer_rules();
     let grammar = nixel::grammar::grammar();
 
-    let nixpkgs_dir = "tests/nixpkgs";
+    let test_inputs = "tests/inputs";
     let cases_dir = "tests/cases";
 
-    for path_input in &nix_files(nixpkgs_dir)[0..1000] {
-        let case = path_input.strip_prefix(nixpkgs_dir).unwrap()[1..]
+    for path_input in &nix_files(test_inputs)[0..1000] {
+        let case = path_input.strip_prefix(test_inputs).unwrap()[1..]
             .replace('/', "-");
 
         dbg!(&case);
@@ -24,6 +24,8 @@ fn run() {
         std::fs::create_dir_all(format!("{cases_dir}/{case}")).unwrap();
 
         let path_asts = format!("{cases_dir}/{case}/asts");
+        let path_lexemes = format!("{cases_dir}/{case}/lexemes");
+        let path_parse_tree = format!("{cases_dir}/{case}/parse-tree");
 
         let input = std::fs::read_to_string(&path_input)
             .unwrap()
@@ -31,7 +33,29 @@ fn run() {
             .to_string();
 
         let lexemes = santiago::lexer::lex(&lexer_rules, &input).unwrap();
+        let lexemes_str: String =
+            lexemes.iter().map(|lexeme| format!("{lexeme}\n")).collect();
+
+        if case.starts_with("manual-") {
+            std::fs::File::create(&path_lexemes)
+                .unwrap()
+                .write_all(lexemes_str.as_bytes())
+                .unwrap();
+        }
+
         let parse_trees = santiago::parser::parse(&grammar, &lexemes).unwrap();
+        let parse_trees_str: String = parse_trees
+            .iter()
+            .map(|parse_trees| format!("---\n{parse_trees}"))
+            .collect();
+
+        if case.starts_with("manual-") {
+            std::fs::File::create(&path_parse_tree)
+                .unwrap()
+                .write_all(parse_trees_str.as_bytes())
+                .unwrap();
+        }
+
         let ast: Vec<AST> = parse_trees
             .iter()
             .map(|parse_tree| parse_tree.as_abstract_syntax_tree())
@@ -66,7 +90,16 @@ fn run() {
                 .write_all(ast_str.as_bytes())
                 .unwrap();
         }
-
+        if case.starts_with("manual-") {
+            assert_eq!(
+                lexemes_str,
+                std::fs::read_to_string(&path_lexemes).unwrap()
+            );
+            assert_eq!(
+                parse_trees_str,
+                std::fs::read_to_string(&path_parse_tree).unwrap()
+            );
+        }
         assert_eq!(ast_str, std::fs::read_to_string(&path_asts).unwrap());
     }
 }

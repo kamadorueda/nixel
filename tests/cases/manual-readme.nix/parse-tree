@@ -1,0 +1,62 @@
+---
+Γ := rules "expr"
+  expr := rules "expr_function"
+    expr_function := rules "LET" "binds" "IN" "expr_function"
+      LET := lexemes "LET"
+        LET "let" (1, 1)
+      binds := rules "binds" "attrpath" "=" "expr" ";"
+        binds := rules 
+        attrpath := rules "attr"
+          attr := rules "ID"
+            ID := lexemes "ID"
+              ID "name" (3, 3)
+        = := lexemes "="
+          = "=" (3, 8)
+        expr := rules "expr_function"
+          expr_function := rules "expr_if"
+            expr_if := rules "expr_op"
+              expr_op := rules "expr_app"
+                expr_app := rules "expr_select"
+                  expr_select := rules "expr_simple"
+                    expr_simple := rules "\"" "string_parts" "\""
+                      " := lexemes "\""
+                        " "\"" (3, 10)
+                      string_parts := rules "STR"
+                        STR := lexemes "STR"
+                          STR "John Doe" (3, 11)
+                      " := lexemes "\""
+                        " "\"" (3, 19)
+        ; := lexemes ";"
+          ; ";" (3, 20)
+      IN := lexemes "IN"
+        IN "in" (4, 1)
+      expr_function := rules "expr_if"
+        expr_if := rules "expr_op"
+          expr_op := rules "expr_app"
+            expr_app := rules "expr_select"
+              expr_select := rules "expr_simple"
+                expr_simple := rules "\"" "string_parts" "\""
+                  " := lexemes "\""
+                    " "\"" (4, 4)
+                  string_parts := rules "string_parts_interpolated"
+                    string_parts_interpolated := rules "string_parts_interpolated" "STR"
+                      string_parts_interpolated := rules "STR" "DOLLAR_CURLY" "expr" "}"
+                        STR := lexemes "STR"
+                          STR "Hello, " (4, 5)
+                        DOLLAR_CURLY := lexemes "DOLLAR_CURLY"
+                          DOLLAR_CURLY "${" (4, 12)
+                        expr := rules "expr_function"
+                          expr_function := rules "expr_if"
+                            expr_if := rules "expr_op"
+                              expr_op := rules "expr_app"
+                                expr_app := rules "expr_select"
+                                  expr_select := rules "expr_simple"
+                                    expr_simple := rules "ID"
+                                      ID := lexemes "ID"
+                                        ID "name" (4, 14)
+                        } := lexemes "}"
+                          } "}" (4, 18)
+                      STR := lexemes "STR"
+                        STR "!" (4, 19)
+                  " := lexemes "\""
+                    " "\"" (4, 20)
