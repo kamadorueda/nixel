@@ -18,14 +18,36 @@ use crate::ast::Part;
 use crate::ast::AST;
 
 /// Main type of a Concrete Syntax Tree.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum CST {
-    Leaf { trivia: Vec<Rc<Lexeme>>, lexeme: Rc<Lexeme> },
-    Node { kind: CSTNodeKind, leaves: Vec<CST> },
-    Root { node: Box<CST>, trivia_after_node: Vec<Rc<Lexeme>> },
+    Leaf {
+        lexeme:       Rc<Lexeme>,
+        trivia_after: Vec<Rc<Lexeme>>,
+    },
+    Node {
+        kind:   CSTNodeKind,
+        leaves: Vec<CST>,
+    },
+
+    Parentheses {
+        open:              Rc<Lexeme>,
+        open_trivia:       Vec<Rc<Lexeme>>,
+        expression:        Box<CST>,
+        expression_trivia: Vec<Rc<Lexeme>>,
+        close:             Rc<Lexeme>,
+        close_trivia:      Vec<Rc<Lexeme>>,
+    },
+    Root {
+        trivia_before: Vec<Rc<Lexeme>>,
+        node:          Box<CST>,
+    },
+    Variable {
+        lexeme:       Rc<Lexeme>,
+        trivia_after: Vec<Rc<Lexeme>>,
+    },
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum CSTNodeKind {
     Assert,
     AttributePath,
@@ -43,7 +65,6 @@ pub enum CSTNodeKind {
     LetIn,
     List,
     Map,
-    Parentheses,
     #[allow(non_camel_case_types)]
     Part__Expression,
     #[allow(non_camel_case_types)]
@@ -54,7 +75,6 @@ pub enum CSTNodeKind {
     String,
     UnaryOperation,
     Uri,
-    Variable,
     With,
 }
 
@@ -63,15 +83,15 @@ pub fn build_concrete_syntax_tree(ast: &AST, lexemes: &[Rc<Lexeme>]) -> CST {
     let mut lexeme_index = 0;
 
     let cst = CST::Root {
-        node:              Box::new(_ast(ast, lexemes, &mut lexeme_index)),
-        trivia_after_node: _trivia(lexemes, &mut lexeme_index),
+        trivia_before: _trivia(lexemes, &mut lexeme_index),
+        node:          Box::new(_ast(ast, lexemes, &mut lexeme_index)),
     };
 
     let lexemes_len = lexemes.len();
 
     if lexeme_index != lexemes_len {
         dbg!(&cst);
-        unreachable!(
+        panic!(
             "Not all lexemes were consumed: {lexeme_index} != {lexemes_len}, \
              this is a bug on NixEL, please report it to: \
              github.com/kamadorueda/nixel",
@@ -90,9 +110,9 @@ pub(crate) fn _ast(
         AST::Assert { expression, target, .. } => CST::Node {
             kind:   CSTNodeKind::Assert,
             leaves: vec![
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*expression, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*target, lexemes, lexeme_index),
             ],
         },
@@ -100,20 +120,20 @@ pub(crate) fn _ast(
             kind:   CSTNodeKind::BinaryOperation,
             leaves: vec![
                 _ast(&operands[0], lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&operands[1], lexemes, lexeme_index),
             ],
         },
         AST::Float { .. } => CST::Node {
             kind:   CSTNodeKind::Float,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
         AST::Function { argument, definition, .. } => CST::Node {
             kind:   CSTNodeKind::Function,
             leaves: match argument {
                 FunctionArgument::Simple { .. } => vec![
-                    _lexeme(lexemes, lexeme_index),
-                    _lexeme(lexemes, lexeme_index),
+                    _leaf(lexemes, lexeme_index),
+                    _leaf(lexemes, lexeme_index),
                     _ast(&*definition, lexemes, lexeme_index),
                 ],
                 FunctionArgument::Destructured {
@@ -127,18 +147,18 @@ pub(crate) fn _ast(
 
                     if let DestructuredIdentifier::LeftAt(_) = identifier {
                         leaves.reserve(2);
-                        leaves.push(_lexeme(lexemes, lexeme_index));
-                        leaves.push(_lexeme(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
                     }
 
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
 
                     for argument in arguments {
-                        leaves.push(_lexeme(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
 
                         if let Some(default) = &argument.default {
                             leaves.reserve(2);
-                            leaves.push(_lexeme(lexemes, lexeme_index));
+                            leaves.push(_leaf(lexemes, lexeme_index));
                             leaves.push(_ast(&*default, lexemes, lexeme_index));
                         }
 
@@ -150,23 +170,23 @@ pub(crate) fn _ast(
                             .next()
                             .is_some()
                         {
-                            leaves.push(_lexeme(lexemes, lexeme_index));
+                            leaves.push(_leaf(lexemes, lexeme_index));
                         }
                     }
 
                     if *ellipsis {
-                        leaves.push(_lexeme(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
                     }
 
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
 
                     if let DestructuredIdentifier::RightAt(_) = identifier {
                         leaves.reserve(2);
-                        leaves.push(_lexeme(lexemes, lexeme_index));
-                        leaves.push(_lexeme(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
                     }
 
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
                     leaves.push(_ast(&*definition, lexemes, lexeme_index));
 
                     leaves
@@ -191,37 +211,37 @@ pub(crate) fn _ast(
             kind:   CSTNodeKind::HasProperty,
             leaves: vec![
                 _ast(&*expression, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _attribute_path(&*attribute_path, lexemes, lexeme_index),
             ],
         },
         AST::IfThenElse { predicate, then, else_, .. } => CST::Node {
             kind:   CSTNodeKind::IfThenElse,
             leaves: vec![
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*predicate, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*then, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*else_, lexemes, lexeme_index),
             ],
         },
         AST::Int { .. } => CST::Node {
             kind:   CSTNodeKind::Int,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
         AST::LetIn { bindings, target, .. } => CST::Node {
             kind:   CSTNodeKind::LetIn,
             leaves: {
                 let mut leaves = Vec::with_capacity(3 + bindings.len());
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 for binding in bindings {
                     leaves.push(_binding(binding, lexemes, lexeme_index));
                 }
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
                 leaves.push(_ast(&*target, lexemes, lexeme_index));
 
                 leaves
@@ -232,13 +252,13 @@ pub(crate) fn _ast(
             leaves: {
                 let mut leaves = Vec::with_capacity(2 + elements.len());
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 for element in elements {
                     leaves.push(_ast(element, lexemes, lexeme_index));
                 }
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 leaves
             },
@@ -249,26 +269,32 @@ pub(crate) fn _ast(
                 let mut leaves = Vec::with_capacity(3 + bindings.len());
 
                 if *recursive {
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
                 }
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 for binding in bindings {
                     leaves.push(_binding(binding, lexemes, lexeme_index));
                 }
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 leaves
             },
         },
-        AST::Parentheses { expression, .. } => CST::Node {
-            kind:   CSTNodeKind::Parentheses,
-            leaves: vec![
-                _lexeme(lexemes, lexeme_index),
-                _ast(&*expression, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
-            ],
+        AST::Parentheses { expression, .. } => CST::Parentheses {
+            open:        _lexeme(lexemes, lexeme_index),
+            open_trivia: _trivia(lexemes, lexeme_index),
+
+            expression:        Box::new(_ast(
+                &*expression,
+                lexemes,
+                lexeme_index,
+            )),
+            expression_trivia: _trivia(lexemes, lexeme_index),
+
+            close:        _lexeme(lexemes, lexeme_index),
+            close_trivia: _trivia(lexemes, lexeme_index),
         },
         AST::Path { parts, .. } => CST::Node {
             kind:   CSTNodeKind::Path,
@@ -280,7 +306,7 @@ pub(crate) fn _ast(
                 }
 
                 // PATH_END
-                _lexeme(lexemes, lexeme_index);
+                _leaf(lexemes, lexeme_index);
 
                 leaves
             },
@@ -294,7 +320,7 @@ pub(crate) fn _ast(
                     );
 
                     leaves.push(_ast(&*expression, lexemes, lexeme_index));
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
                     leaves.push(_attribute_path(
                         &*attribute_path,
                         lexemes,
@@ -302,7 +328,7 @@ pub(crate) fn _ast(
                     ));
 
                     if let Some(default) = default {
-                        leaves.push(_lexeme(lexemes, lexeme_index));
+                        leaves.push(_leaf(lexemes, lexeme_index));
                         leaves.push(_ast(&*default, lexemes, lexeme_index));
                     }
 
@@ -312,20 +338,20 @@ pub(crate) fn _ast(
         }
         AST::SearchNixPath { .. } => CST::Node {
             kind:   CSTNodeKind::SearchNixPath,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
         AST::String { parts, .. } => CST::Node {
             kind:   CSTNodeKind::String,
             leaves: {
                 let mut leaves = Vec::with_capacity(2 + parts.len());
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 for part in parts {
                     leaves.push(_part(part, lexemes, lexeme_index));
                 }
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 leaves
             },
@@ -334,23 +360,23 @@ pub(crate) fn _ast(
             kind:   CSTNodeKind::UnaryOperation,
             leaves: vec![
                 _ast(operand, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
             ],
         },
         AST::Uri { .. } => CST::Node {
             kind:   CSTNodeKind::Uri,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
-        AST::Variable { .. } => CST::Node {
-            kind:   CSTNodeKind::Variable,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+        AST::Variable { .. } => CST::Variable {
+            lexeme:       _lexeme(lexemes, lexeme_index),
+            trivia_after: _trivia(lexemes, lexeme_index),
         },
         AST::With { expression, target, .. } => CST::Node {
             kind:   CSTNodeKind::With,
             leaves: vec![
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*expression, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*target, lexemes, lexeme_index),
             ],
         },
@@ -376,7 +402,7 @@ fn _attribute_path(
         leaves.push(_part(part, lexemes, lexeme_index));
 
         if index + 1 != attribute_path.parts.len() {
-            leaves.push(_lexeme(lexemes, lexeme_index));
+            leaves.push(_leaf(lexemes, lexeme_index));
         }
     }
 
@@ -393,9 +419,9 @@ fn _binding(
             kind:   CSTNodeKind::Binding__Binding,
             leaves: vec![
                 _attribute_path(from, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
                 _ast(&*to, lexemes, lexeme_index),
-                _lexeme(lexemes, lexeme_index),
+                _leaf(lexemes, lexeme_index),
             ],
         },
         Binding::Inherit { from, attributes, .. } => CST::Node {
@@ -405,19 +431,19 @@ fn _binding(
                     2 + attributes.len() + if from.is_some() { 3 } else { 0 },
                 );
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 if let Some(from) = from {
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
                     leaves.push(_ast(&*from, lexemes, lexeme_index));
-                    leaves.push(_lexeme(lexemes, lexeme_index));
+                    leaves.push(_leaf(lexemes, lexeme_index));
                 }
 
                 for attribute in attributes {
                     leaves.push(_part(&*attribute, lexemes, lexeme_index));
                 }
 
-                leaves.push(_lexeme(lexemes, lexeme_index));
+                leaves.push(_leaf(lexemes, lexeme_index));
 
                 leaves
             },
@@ -425,22 +451,27 @@ fn _binding(
     }
 }
 
-fn _lexeme(lexemes: &[Rc<Lexeme>], lexeme_index: &mut usize) -> CST {
-    let trivia = _trivia(lexemes, lexeme_index);
-    let lexeme = lexemes[*lexeme_index].clone();
-
-    let cst = CST::Leaf { lexeme, trivia };
-
-    *lexeme_index += 1;
+fn _leaf(lexemes: &[Rc<Lexeme>], lexeme_index: &mut usize) -> CST {
+    let cst = CST::Leaf {
+        lexeme:       _lexeme(lexemes, lexeme_index),
+        trivia_after: _trivia(lexemes, lexeme_index),
+    };
 
     cst
+}
+
+fn _lexeme(lexemes: &[Rc<Lexeme>], lexeme_index: &mut usize) -> Rc<Lexeme> {
+    let lexeme = lexemes[*lexeme_index].clone();
+    *lexeme_index += 1;
+
+    lexeme
 }
 
 fn _part(part: &Part, lexemes: &[Rc<Lexeme>], lexeme_index: &mut usize) -> CST {
     match part {
         Part::Raw { .. } => CST::Node {
             kind:   CSTNodeKind::Part__Raw,
-            leaves: vec![_lexeme(lexemes, lexeme_index)],
+            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
         Part::Expression { expression } => CST::Node {
             kind:   CSTNodeKind::Part__Expression,
@@ -449,9 +480,9 @@ fn _part(part: &Part, lexemes: &[Rc<Lexeme>], lexeme_index: &mut usize) -> CST {
                     vec![_ast(&*expression, lexemes, lexeme_index)]
                 }
                 _ => vec![
-                    _lexeme(lexemes, lexeme_index),
+                    _leaf(lexemes, lexeme_index),
                     _ast(&*expression, lexemes, lexeme_index),
-                    _lexeme(lexemes, lexeme_index),
+                    _leaf(lexemes, lexeme_index),
                 ],
             },
         },
