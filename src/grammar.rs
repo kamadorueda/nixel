@@ -503,14 +503,6 @@ pub fn grammar() -> Grammar<AST> {
                 },
                 _ => unreachable!(),
             };
-        "expr_simple" => rules "URI"
-            => |mut asts| match asts.swap_remove(0) {
-                AST::__Lexeme(lexeme) => AST::Uri {
-                    uri: lexeme.raw.clone(),
-                    position: lexeme.position.clone(),
-                },
-                _ => unreachable!(),
-            };
         "expr_simple" => rules "(" "expr" ")"
             => |mut asts| AST::Parentheses {
                 expression: Box::new(asts.swap_remove(1)),
@@ -1087,8 +1079,6 @@ pub fn grammar() -> Grammar<AST> {
         "THEN" => lexemes "THEN"
             => |lexemes| AST::__Lexeme(lexemes[0].clone());
         "UPDATE" => lexemes "UPDATE"
-            => |lexemes| AST::__Lexeme(lexemes[0].clone());
-        "URI" => lexemes "URI"
             => |lexemes| AST::__Lexeme(lexemes[0].clone());
         "WITH" => lexemes "WITH"
             => |lexemes| AST::__Lexeme(lexemes[0].clone());

@@ -22,10 +22,6 @@ santiago::def!(
     SPATH,
     concat!(r"<", PATH_CHAR!(), r"+(/", PATH_CHAR!(), r"+)*>")
 );
-santiago::def!(
-    URI,
-    r"[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%/\?:@\&=\+\$,\-_\.!\~\*']+"
-);
 
 pub fn lexer_rules() -> LexerRules {
     santiago::lexer_rules!(
@@ -209,7 +205,6 @@ pub fn lexer_rules() -> LexerRules {
             => |lexer| {
                 lexer.take_and_map(|matched| matched[1..matched.len() - 1].to_string())
             };
-        "DEFAULT" | "URI" = pattern URI!();
         "DEFAULT" | "WS" = pattern r"[ \t\r\n]+"
             => |lexer| lexer.take();
         "DEFAULT" | "COMMENT" = pattern r"\#[^\r\n]*"

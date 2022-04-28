@@ -92,10 +92,6 @@ pub enum AST {
         operand:  Box<AST>,
         position: Position,
     },
-    Uri {
-        uri:      String,
-        position: Position,
-    },
     Variable {
         identifier: String,
         position:   Position,

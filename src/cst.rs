@@ -74,7 +74,6 @@ pub enum CSTNodeKind {
     SearchNixPath,
     String,
     UnaryOperation,
-    Uri,
     With,
 }
 
@@ -362,10 +361,6 @@ pub(crate) fn _ast(
                 _ast(operand, lexemes, lexeme_index),
                 _leaf(lexemes, lexeme_index),
             ],
-        },
-        AST::Uri { .. } => CST::Node {
-            kind:   CSTNodeKind::Uri,
-            leaves: vec![_leaf(lexemes, lexeme_index)],
         },
         AST::Variable { .. } => CST::Variable {
             lexeme:       _lexeme(lexemes, lexeme_index),
