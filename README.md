@@ -75,6 +75,8 @@ and pretty-prints the results.
 
 For example, given some code:
 
+<!-- clip tests/inputs/manual/readme.nix -->
+
 ```nix
 let
   # https://en.wikipedia.org/wiki/John_Doe
@@ -84,7 +86,10 @@ in "Hello, ${name}!"
 
 NixEL can generate an Abstract Syntax Tree for you:
 
+<!-- clip tests/cases/manual-readme.nix/asts -->
+
 ```rust
+---
 LetIn {
  bindings: [
   Binding {
@@ -133,226 +138,176 @@ LetIn {
 Or generate a Concrete Syntax Tree
 preserving comments and metadata:
 
+<!-- clip tests/cases/manual-readme.nix/csts -->
+
 ```rust
+---
 Root {
- node: Node {
-  kind: LetIn,
-  leaves: [
-   Leaf {
-    trivia: [],
-    lexeme: Lexeme {
-     kind: "LET",
-     raw: "let",
-     position: (1, 1),
+ trivia_before: [],
+ expression: LetIn {
+  let_: Lexeme {
+   kind: "LET",
+   raw: "let",
+   position: (1, 1),
+  },
+  let_trivia: [
+   Lexeme {
+    kind: "WS",
+    raw: "\n  ",
+    position: (1, 4),
+   },
+   Lexeme {
+    kind: "COMMENT",
+    raw: "# https://en.wikipedia.org/wiki/John_Doe",
+    position: (2, 3),
+   },
+   Lexeme {
+    kind: "WS",
+    raw: "\n  ",
+    position: (2, 43),
+   },
+  ],
+  bindings: [
+   Binding {
+    binding: Binding {
+     from: AttributePath {
+      parts: [
+       AttributePathPart {
+        part: PartRaw {
+         lexeme: Lexeme {
+          kind: "ID",
+          raw: "name",
+          position: (3, 3),
+         },
+        },
+        part_trivia: [],
+        dot: None,
+       },
+      ],
+     },
+     from_trivia: [
+      Lexeme {
+       kind: "WS",
+       raw: " ",
+       position: (3, 7),
+      },
+     ],
+     equal: Lexeme {
+      kind: "=",
+      raw: "=",
+      position: (3, 8),
+     },
+     equal_trivia: [
+      Lexeme {
+       kind: "WS",
+       raw: " ",
+       position: (3, 9),
+      },
+     ],
+     to: String {
+      open: Lexeme {
+       kind: "\"",
+       raw: "\"",
+       position: (3, 10),
+      },
+      parts: [
+       PartRaw {
+        lexeme: Lexeme {
+         kind: "STR",
+         raw: "John Doe",
+         position: (3, 11),
+        },
+       },
+      ],
+      close: Lexeme {
+       kind: "\"",
+       raw: "\"",
+       position: (3, 19),
+      },
+     },
+     to_trivia: [],
+     semicolon: Lexeme {
+      kind: ";",
+      raw: ";",
+      position: (3, 20),
+     },
     },
-   },
-   Node {
-    kind: Binding__Binding,
-    leaves: [
-     Node {
-      kind: AttributePath,
-      leaves: [
-       Node {
-        kind: Part__Raw,
-        leaves: [
-         Leaf {
-          trivia: [
-           Lexeme {
-            kind: "WS",
-            raw: "\n  ",
-            position: (1, 4),
-           },
-           Lexeme {
-            kind: "COMMENT",
-            raw: "# https://en.wikipedia.org/wiki/John_Doe",
-            position: (2, 3),
-           },
-           Lexeme {
-            kind: "WS",
-            raw: "\n  ",
-            position: (2, 43),
-           },
-          ],
-          lexeme: Lexeme {
-           kind: "ID",
-           raw: "name",
-           position: (3, 3),
-          },
-         },
-        ],
-       },
-      ],
-     },
-     Leaf {
-      trivia: [
-       Lexeme {
-        kind: "WS",
-        raw: " ",
-        position: (3, 7),
-       },
-      ],
-      lexeme: Lexeme {
-       kind: "=",
-       raw: "=",
-       position: (3, 8),
-      },
-     },
-     Node {
-      kind: String,
-      leaves: [
-       Leaf {
-        trivia: [
-         Lexeme {
-          kind: "WS",
-          raw: " ",
-          position: (3, 9),
-         },
-        ],
-        lexeme: Lexeme {
-         kind: "\"",
-         raw: "\"",
-         position: (3, 10),
-        },
-       },
-       Node {
-        kind: Part__Raw,
-        leaves: [
-         Leaf {
-          trivia: [],
-          lexeme: Lexeme {
-           kind: "STR",
-           raw: "John Doe",
-           position: (3, 11),
-          },
-         },
-        ],
-       },
-       Leaf {
-        trivia: [],
-        lexeme: Lexeme {
-         kind: "\"",
-         raw: "\"",
-         position: (3, 19),
-        },
-       },
-      ],
-     },
-     Leaf {
-      trivia: [],
-      lexeme: Lexeme {
-       kind: ";",
-       raw: ";",
-       position: (3, 20),
-      },
-     },
-    ],
-   },
-   Leaf {
-    trivia: [
+    binding_trivia: [
      Lexeme {
       kind: "WS",
       raw: "\n",
       position: (3, 21),
      },
     ],
-    lexeme: Lexeme {
-     kind: "IN",
-     raw: "in",
-     position: (4, 1),
-    },
-   },
-   Node {
-    kind: String,
-    leaves: [
-     Leaf {
-      trivia: [
-       Lexeme {
-        kind: "WS",
-        raw: " ",
-        position: (4, 3),
-       },
-      ],
-      lexeme: Lexeme {
-       kind: "\"",
-       raw: "\"",
-       position: (4, 4),
-      },
-     },
-     Node {
-      kind: Part__Raw,
-      leaves: [
-       Leaf {
-        trivia: [],
-        lexeme: Lexeme {
-         kind: "STR",
-         raw: "Hello, ",
-         position: (4, 5),
-        },
-       },
-      ],
-     },
-     Node {
-      kind: Part__Expression,
-      leaves: [
-       Leaf {
-        trivia: [],
-        lexeme: Lexeme {
-         kind: "DOLLAR_CURLY",
-         raw: "${",
-         position: (4, 12),
-        },
-       },
-       Node {
-        kind: Variable,
-        leaves: [
-         Leaf {
-          trivia: [],
-          lexeme: Lexeme {
-           kind: "ID",
-           raw: "name",
-           position: (4, 14),
-          },
-         },
-        ],
-       },
-       Leaf {
-        trivia: [],
-        lexeme: Lexeme {
-         kind: "}",
-         raw: "}",
-         position: (4, 18),
-        },
-       },
-      ],
-     },
-     Node {
-      kind: Part__Raw,
-      leaves: [
-       Leaf {
-        trivia: [],
-        lexeme: Lexeme {
-         kind: "STR",
-         raw: "!",
-         position: (4, 19),
-        },
-       },
-      ],
-     },
-     Leaf {
-      trivia: [],
-      lexeme: Lexeme {
-       kind: "\"",
-       raw: "\"",
-       position: (4, 20),
-      },
-     },
-    ],
    },
   ],
+  in_: Lexeme {
+   kind: "IN",
+   raw: "in",
+   position: (4, 1),
+  },
+  in_trivia: [
+   Lexeme {
+    kind: "WS",
+    raw: " ",
+    position: (4, 3),
+   },
+  ],
+  target: String {
+   open: Lexeme {
+    kind: "\"",
+    raw: "\"",
+    position: (4, 4),
+   },
+   parts: [
+    PartRaw {
+     lexeme: Lexeme {
+      kind: "STR",
+      raw: "Hello, ",
+      position: (4, 5),
+     },
+    },
+    PartExpressionInterpolation {
+     open: Lexeme {
+      kind: "DOLLAR_CURLY",
+      raw: "${",
+      position: (4, 12),
+     },
+     open_trivia: [],
+     expression: Variable {
+      lexeme: Lexeme {
+       kind: "ID",
+       raw: "name",
+       position: (4, 14),
+      },
+     },
+     expression_trivia: [],
+     close: Lexeme {
+      kind: "}",
+      raw: "}",
+      position: (4, 18),
+     },
+    },
+    PartRaw {
+     lexeme: Lexeme {
+      kind: "STR",
+      raw: "!",
+      position: (4, 19),
+     },
+    },
+   ],
+   close: Lexeme {
+    kind: "\"",
+    raw: "\"",
+    position: (4, 20),
+   },
+  },
  },
- trivia_after_node: [],
+ trivia_after: [],
 }
 ```
+
+<!-- clip tests/cases/manual-readme.nix/lexemes -->
 
 Or perform Lexical Analysis:
 
@@ -381,9 +336,12 @@ STR "!" (4, 19)
 " "\"" (4, 20)
 ```
 
+<!-- clip tests/cases/manual-readme.nix/parse-tree -->
+
 And produce a Parse Tree:
 
 ```rust
+---
 Γ := rules "expr"
   expr := rules "expr_function"
     expr_function := rules "LET" "binds" "IN" "expr_function"
