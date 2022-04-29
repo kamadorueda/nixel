@@ -143,18 +143,15 @@ pub enum CST {
         expression_trivia: Vec<Rc<Lexeme>>,
         close: Rc<Lexeme>,
     },
-    PartRaw {
-        lexeme: Rc<Lexeme>,
-    },
-    PartExpressionString {
-        expression: Box<CST>,
-    },
-    PartExpressionInterpolation {
+    PartInterpolation {
         open: Rc<Lexeme>,
         open_trivia: Vec<Rc<Lexeme>>,
         expression: Box<CST>,
         expression_trivia: Vec<Rc<Lexeme>>,
         close: Rc<Lexeme>,
+    },
+    PartRaw {
+        lexeme: Rc<Lexeme>,
     },
     Path {
         parts: Vec<CST>,
@@ -781,7 +778,7 @@ fn _part(part: &Part, lexemes: &[Rc<Lexeme>], index: &mut usize) -> CST {
     match part {
         Part::Expression { ast } => *_ast(ast, lexemes, index),
         Part::Interpolation { expression } => {
-            CST::PartExpressionInterpolation {
+            CST::PartInterpolation {
                 open: _lexeme(lexemes, index),
                 open_trivia: _trivia(lexemes, index),
                 expression: _ast(&*expression, lexemes, index),

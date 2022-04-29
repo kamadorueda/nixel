@@ -267,7 +267,7 @@ Root {
       position: (4, 5),
      },
     },
-    PartExpressionInterpolation {
+    PartInterpolation {
      open: Lexeme {
       kind: "DOLLAR_CURLY",
       raw: "${",
