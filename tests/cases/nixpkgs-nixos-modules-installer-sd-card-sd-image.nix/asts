@@ -396,7 +396,7 @@ Function {
               },
               to: String {
                parts: [
-                Expression {
+                Interpolation {
                  expression: PropertyAccess {
                   expression: Variable {
                    identifier: "config",
@@ -421,7 +421,7 @@ Function {
                  content: "-",
                  position: (37, 49),
                 },
-                Expression {
+                Interpolation {
                  expression: PropertyAccess {
                   expression: Variable {
                    identifier: "config",
@@ -450,7 +450,7 @@ Function {
                  content: "-",
                  position: (37, 78),
                 },
-                Expression {
+                Interpolation {
                  expression: PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
@@ -1547,7 +1547,7 @@ Function {
             from: AttributePath {
              parts: [
               Expression {
-               expression: String {
+               ast: String {
                 parts: [
                  Raw {
                   content: "/boot/firmware",
@@ -1576,7 +1576,7 @@ Function {
                   content: "/dev/disk/by-label/",
                   position: (158, 19),
                  },
-                 Expression {
+                 Interpolation {
                   expression: PropertyAccess {
                    expression: Variable {
                     identifier: "config",
@@ -1662,7 +1662,7 @@ Function {
             from: AttributePath {
              parts: [
               Expression {
-               expression: String {
+               ast: String {
                 parts: [
                  Raw {
                   content: "/",
@@ -1967,7 +1967,7 @@ Function {
                      content: "mkdir -p $out/nix-support $out/sd-image\nexport img=$out/sd-image/",
                      position: (182, 1),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -1992,7 +1992,7 @@ Function {
                      content: "\n\necho \"",
                      position: (183, 61),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "pkgs",
@@ -2021,7 +2021,7 @@ Function {
                      content: "\" > $out/nix-support/system\nif test -n \"$compressImage\"; then\n  echo \"file sd-image $img.zst\" >> $out/nix-support/hydra-build-products\nelse\n  echo \"file sd-image $img\" >> $out/nix-support/hydra-build-products\nfi\n\necho \"Decompressing rootfs image\"\nzstd -d --no-progress \"",
                      position: (185, 50),
                     },
-                    Expression {
+                    Interpolation {
                      expression: Variable {
                       identifier: "rootfsImage",
                       position: (193, 34),
@@ -2031,7 +2031,7 @@ Function {
                      content: "\" -o ./root-fs.img\n\n# Gap in front of the first partition, in MiB\ngap=",
                      position: (193, 46),
                     },
-                    Expression {
+                    Interpolation {
                      expression: FunctionApplication {
                       function: Variable {
                        identifier: "toString",
@@ -2064,7 +2064,7 @@ Function {
                      content: "\n\n# Create the image file sized to fit /boot/firmware and /, plus slack for the gap.\nrootSizeBlocks=$(du -B 512 --apparent-size ./root-fs.img | awk '{ print $1 }')\nfirmwareSizeBlocks=$((",
                      position: (196, 63),
                     },
-                    Expression {
+                    Interpolation {
                      expression: FunctionApplication {
                       function: Variable {
                        identifier: "toString",
@@ -2097,7 +2097,7 @@ Function {
                      content: " * 1024 * 1024 / 512))\nimageSize=$((rootSizeBlocks * 512 + firmwareSizeBlocks * 512 + gap * 1024 * 1024))\ntruncate -s $imageSize $img\n\n# type=b is 'W95 FAT32', type=83 is 'Linux'.\n# The \"bootable\" partition is where u-boot will look file for the bootloader\n# information (dtbs, extlinux.conf file).\nsfdisk $img <<EOF\n    label: dos\n    label-id: ",
                      position: (200, 70),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -2130,7 +2130,7 @@ Function {
                      content: "{gap}M, size=$firmwareSizeBlocks, type=b\n    start=$((gap + ",
                      position: (211, 22),
                     },
-                    Expression {
+                    Interpolation {
                      expression: FunctionApplication {
                       function: Variable {
                        identifier: "toString",
@@ -2163,7 +2163,7 @@ Function {
                      content: "))M, type=83, bootable\nEOF\n\n# Copy the rootfs into the SD image\neval $(partx $img -o START,SECTORS --nr 2 --pairs)\ndd conv=notrunc if=./root-fs.img of=$img seek=$START count=$SECTORS\n\n# Create a FAT32 /boot/firmware partition of suitable size into firmware_part.img\neval $(partx $img -o START,SECTORS --nr 1 --pairs)\ntruncate -s $((SECTORS * 512)) firmware_part.img\nfaketime \"1970-01-01 00:00:00\" mkfs.vfat -i ",
                      position: (212, 67),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -2188,7 +2188,7 @@ Function {
                      content: " -n ",
                      position: (222, 90),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -2213,7 +2213,7 @@ Function {
                      content: " firmware_part.img\n\n# Populate the files intended for /boot/firmware\nmkdir firmware\n",
                      position: (222, 133),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -2238,7 +2238,7 @@ Function {
                      content: "\n\n# Copy the populated /boot/firmware into the SD image\n(cd firmware; mcopy -psvm -i ../firmware_part.img ./* ::)\n# Verify the FAT partition before copying it.\nfsck.vfat -vn firmware_part.img\ndd conv=notrunc if=firmware_part.img of=$img seek=$START count=$SECTORS\n\n",
                      position: (226, 51),
                     },
-                    Expression {
+                    Interpolation {
                      expression: PropertyAccess {
                       expression: Variable {
                        identifier: "config",
@@ -2340,7 +2340,7 @@ Function {
               content: "# On the first boot do some maintenance tasks\nif [ -f /nix-path-registration ]; then\n  set -euo pipefail\n  set -x\n  # Figure out device names for the boot device and root filesystem.\n  rootPart=$(",
               position: (243, 1),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "pkgs",
@@ -2361,7 +2361,7 @@ Function {
               content: "/bin/findmnt -n -o SOURCE /)\n  bootDevice=$(lsblk -npo PKNAME $rootPart)\n  partNum=$(lsblk -npo MAJ:MIN $rootPart | ",
               position: (248, 38),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "pkgs",
@@ -2382,7 +2382,7 @@ Function {
               content: "/bin/awk -F: '{print $2}')\n\n  # Resize the root partition and the filesystem to fit the disk\n  echo \",+,\" | sfdisk -N$partNum --no-reread $bootDevice\n  ",
               position: (250, 62),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "pkgs",
@@ -2403,7 +2403,7 @@ Function {
               content: "/bin/partprobe\n  ",
               position: (254, 23),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "pkgs",
@@ -2424,7 +2424,7 @@ Function {
               content: "/bin/resize2fs $rootPart\n\n  # Register the contents of the initial Nix store\n  ",
               position: (255, 26),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",
@@ -2453,7 +2453,7 @@ Function {
               content: "/bin/nix-store --load-db < /nix-path-registration\n\n  # nixos-rebuild also requires a \"system\" profile and an /etc/NIXOS tag.\n  touch /etc/NIXOS\n  ",
               position: (258, 34),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",

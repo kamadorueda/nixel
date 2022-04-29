@@ -421,7 +421,7 @@ Function {
           content: "mkdir -p $out\nshopt -s nullglob\nset +o pipefail\n\n# Set a reasonable $PATH for programs called by udev rules.\necho 'ENV{PATH}=\"",
           position: (39, 1),
          },
-         Expression {
+         Interpolation {
           expression: Variable {
            identifier: "udevPath",
            position: (44, 26),
@@ -431,7 +431,7 @@ Function {
           content: "/bin:",
           position: (44, 35),
          },
-         Expression {
+         Interpolation {
           expression: Variable {
            identifier: "udevPath",
            position: (44, 42),
@@ -441,7 +441,7 @@ Function {
           content: "/sbin\"' > $out/00-path.rules\n\n# Add the udev rules from other packages.\nfor i in $packages; do\n  echo \"Adding rules for package $i\"\n  for j in $i/{etc,lib}/udev/rules.d/*; do\n    echo \"Copying $j to $out/$(basename $j)\"\n    cat $j > $out/$(basename $j)\n  done\ndone\n\n# Fix some paths in the standard udev rules.  Hacky.\nfor i in $out/*.rules; do\n  substituteInPlace $i \\\n    --replace \\\"/sbin/modprobe \\\"",
           position: (44, 51),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -462,7 +462,7 @@ Function {
           content: "/bin/modprobe \\\n    --replace \\\"/sbin/mdadm \\\"",
           position: (58, 52),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -483,7 +483,7 @@ Function {
           content: "/sbin/mdadm \\\n    --replace \\\"/sbin/blkid \\\"",
           position: (59, 50),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -504,7 +504,7 @@ Function {
           content: "/sbin/blkid \\\n    --replace \\\"/bin/mount \\\"",
           position: (60, 55),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -525,7 +525,7 @@ Function {
           content: "/bin/mount \\\n    --replace /usr/bin/readlink ",
           position: (61, 54),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -546,7 +546,7 @@ Function {
           content: "/bin/readlink \\\n    --replace /usr/bin/basename ",
           position: (62, 56),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -567,7 +567,7 @@ Function {
           content: "/bin/basename\ndone\n\necho -n \"Checking that all programs called by relative paths in udev rules exist in ",
           position: (63, 56),
          },
-         Expression {
+         Interpolation {
           expression: Variable {
            identifier: "udev",
            position: (66, 93),
@@ -577,7 +577,7 @@ Function {
           content: "/lib/udev... \"\nimport_progs=$(grep 'IMPORT{program}=\"[^/$]' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"[^/$]' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  if [[ ! -x ",
           position: (66, 98),
          },
-         Expression {
+         Interpolation {
           expression: Variable {
            identifier: "udev",
            position: (72, 22),
@@ -587,7 +587,7 @@ Function {
           content: "/lib/udev/$i && ! $i =~ socket:.* ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but not installed by udev\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\necho -n \"Checking that all programs called by absolute paths in udev rules exist... \"\nimport_progs=$(grep 'IMPORT{program}=\"\\/' $out/* |\n  sed -e 's/.*IMPORT{program}=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nrun_progs=$(grep -v '^[[:space:]]*#' $out/* | grep 'RUN+=\"/' |\n  sed -e 's/.*RUN+=\"\\([^ \"]*\\)[ \"].*/\\1/' | uniq)\nfor i in $import_progs $run_progs; do\n  # if the path refers to /run/current-system/systemd, replace with config.systemd.package\n  if [[ $i == /run/current-system/systemd* ]]; then\n    i=\"",
           position: (72, 27),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "config",
@@ -620,7 +620,7 @@ Function {
           content: "{i#/run/current-system/systemd/}\"\n  fi\n  if [[ ! -x $i ]]; then\n    echo \"FAIL\"\n    echo \"$i is called in udev rules but is not executable or does not exist\"\n    exit 1\n  fi\ndone\necho \"OK\"\n\nfilesToFixup=\"$(for i in \"$out\"/*; do\n  grep -l '\\B\\(/usr\\)\\?/s\\?bin' \"$i\" || :\ndone)\"\n\nif [ -n \"$filesToFixup\" ]; then\n  echo \"Consider fixing the following udev rules:\"\n  echo \"$filesToFixup\" | while read localFile; do\n    remoteFile=\"origin unknown\"\n    for i in ",
           position: (88, 43),
          },
-         Expression {
+         Interpolation {
           expression: FunctionApplication {
            function: Variable {
             identifier: "toString",
@@ -657,7 +657,7 @@ Function {
           content: "{s/\\n/ and /;br};s/\\n/, /g;br'\n    )\"\n    echo \"$localFile ($remoteFile) contains references to $refs.\"\n  done\n  exit 1\nfi\n\n# If auto-configuration is disabled, then remove\n# udev's 80-drivers.rules file, which contains rules for\n# automatically calling modprobe.\n",
           position: (116, 33),
          },
-         Expression {
+         Interpolation {
           expression: FunctionApplication {
            function: Variable {
             identifier: "optionalString",
@@ -853,7 +853,7 @@ Function {
           content: "mkdir -p etc/udev/hwdb.d\nfor i in $packages; do\n  echo \"Adding hwdb files for package $i\"\n  for j in $i/{etc,lib}/udev/hwdb.d/*; do\n    ln -s $j etc/udev/hwdb.d/$(basename $j)\n  done\ndone\n\necho \"Generating hwdb database...\"\n# hwdb --update doesn't return error code even on errors!\nres=\"$(",
           position: (137, 1),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -2267,7 +2267,7 @@ Function {
                 content: "cat <<'EOF' > $out/99-local.rules\n",
                 position: (303, 1),
                },
-               Expression {
+               Interpolation {
                 expression: PropertyAccess {
                  expression: Variable {
                   identifier: "cfg",
@@ -2313,7 +2313,7 @@ Function {
               from: AttributePath {
                parts: [
                 Expression {
-                 expression: String {
+                 ast: String {
                   parts: [
                    Raw {
                     content: "udev/rules.d",
@@ -2338,7 +2338,7 @@ Function {
               from: AttributePath {
                parts: [
                 Expression {
-                 expression: String {
+                 ast: String {
                   parts: [
                    Raw {
                     content: "udev/hwdb.bin",
@@ -2477,7 +2477,7 @@ Function {
               position: (321, 17),
              },
              Expression {
-              expression: String {
+              ast: String {
                parts: [
                 Raw {
                  content: "modprobe.d/firmware.conf",
@@ -2499,7 +2499,7 @@ Function {
               content: "options firmware_class path=",
               position: (321, 56),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",
@@ -2551,7 +2551,7 @@ Function {
               content: "# The deprecated hotplug uevent helper is not used anymore\nif [ -e /proc/sys/kernel/hotplug ]; then\n  echo \"\" > /proc/sys/kernel/hotplug\nfi\n\n# Allow the kernel to find our firmware.\nif [ -e /sys/module/firmware_class/parameters/path ]; then\n  echo -n \"",
               position: (325, 1),
              },
-             Expression {
+             Interpolation {
               expression: PropertyAccess {
                expression: Variable {
                 identifier: "config",

@@ -244,7 +244,7 @@ Function {
              content: "'\\0' themedir\ndo\n\n  # In order to build the cache, the theme dir should be\n  # writable. When the theme dir is a symbolic link to somewhere\n  # in the nix store it is not writable and it means that only\n  # one package is contributing to the theme. If it already has\n  # a cache, no rebuild is needed. Otherwise a cache has to be\n  # built, and to be able to do that we first remove the\n  # symbolic link and make a directory, and then make symbolic\n  # links from the original directory into the new one.\n\n  if [ ! -w \"$themedir\" -a -L \"$themedir\" -a ! -r \"$themedir\"/icon-theme.cache ]; then\n    name=$(basename \"$themedir\")\n    path=$(readlink -f \"$themedir\")\n    rm \"$themedir\"\n    mkdir -p \"$themedir\"\n    ln -s \"$path\"/* \"$themedir\"/\n  fi\n\n  # (Re)build the cache if the theme dir is writable, replacing any\n  # existing cache for the theme\n\n  if [ -w \"$themedir\" ]; then\n    rm -f \"$themedir\"/icon-theme.cache\n    ",
              position: (56, 78),
             },
-            Expression {
+            Interpolation {
              expression: PropertyAccess {
               expression: Variable {
                identifier: "pkgs",

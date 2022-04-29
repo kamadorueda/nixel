@@ -768,7 +768,7 @@ Function {
              },
              attribute_path: AttributePath {
               parts: [
-               Expression {
+               Interpolation {
                 expression: Variable {
                  identifier: "format",
                  position: (106, 7),
@@ -822,7 +822,7 @@ Function {
               from: AttributePath {
                parts: [
                 Expression {
-                 expression: String {
+                 ast: String {
                   parts: [
                    Raw {
                     content: "legacy+gpt",
@@ -888,7 +888,7 @@ Function {
            },
            attribute_path: AttributePath {
             parts: [
-             Expression {
+             Interpolation {
               expression: Variable {
                identifier: "partitionTableType",
                position: (113, 7),
@@ -934,7 +934,7 @@ Function {
               from: AttributePath {
                parts: [
                 Expression {
-                 expression: String {
+                 ast: String {
                   parts: [
                    Raw {
                     content: "legacy+gpt",
@@ -971,7 +971,7 @@ Function {
                  content: "parted --script $diskImage -- \\\n  mklabel gpt \\\n  mkpart ESP fat32 8MiB ",
                  position: (132, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "bootSize",
                   position: (134, 33),
@@ -981,7 +981,7 @@ Function {
                  content: " \\\n  set 1 boot on \\\n  mkpart primary ext4 ",
                  position: (134, 42),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "bootSize",
                   position: (136, 31),
@@ -1010,7 +1010,7 @@ Function {
                  content: "parted --script $diskImage -- \\\n  mklabel gpt \\\n  mkpart ESP fat32 8MiB ",
                  position: (139, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "bootSize",
                   position: (141, 33),
@@ -1020,7 +1020,7 @@ Function {
                  content: " \\\n  set 1 boot on \\\n  mkpart no-fs 0 1024KiB \\\n  set 2 bios_grub on \\\n  mkpart primary ext4 ",
                  position: (141, 42),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "bootSize",
                   position: (145, 31),
@@ -1054,7 +1054,7 @@ Function {
            },
            attribute_path: AttributePath {
             parts: [
-             Expression {
+             Interpolation {
               expression: Variable {
                identifier: "partitionTableType",
                position: (148, 7),
@@ -1130,7 +1130,7 @@ Function {
                content: "nixos-",
                position: (153, 37),
               },
-              Expression {
+              Interpolation {
                expression: PropertyAccess {
                 expression: Variable {
                  identifier: "config",
@@ -1169,7 +1169,7 @@ Function {
                content: "mkdir -p $out\ncp -prd ",
                position: (154, 1),
               },
-              Expression {
+              Interpolation {
                expression: PropertyAccess {
                 expression: Variable {
                  identifier: "nixpkgs",
@@ -1190,7 +1190,7 @@ Function {
                content: " $out/nixos\nchmod -R u+w $out/nixos\nif [ ! -e $out/nixos/nixpkgs ]; then\n  ln -s . $out/nixos/nixpkgs\nfi\nrm -rf $out/nixos/.git\necho -n ",
                position: (155, 31),
               },
-              Expression {
+              Interpolation {
                expression: PropertyAccess {
                 expression: Variable {
                  identifier: "config",
@@ -1819,7 +1819,7 @@ Function {
              content: "export PATH=",
              position: (197, 1),
             },
-            Expression {
+            Interpolation {
              expression: Variable {
               identifier: "binPath",
               position: (197, 19),
@@ -1829,7 +1829,7 @@ Function {
              content: "\n\n# Yes, mkfs.ext4 takes different units in different contexts. Fun.\nsectorsToKilobytes() {\n  echo $(( ( \"$1\" * 512 ) / 1024 ))\n}\n\nsectorsToBytes() {\n  echo $(( \"$1\" * 512  ))\n}\n\n# Given lines of numbers, adds them together\nsum_lines() {\n  local acc=0\n  while read -r number; do\n    acc=$((acc+number))\n  done\n  echo \"$acc\"\n}\n\nmebibyte=$(( 1024 * 1024 ))\n\n# Approximative percentage of reserved space in an ext4 fs over 512MiB.\n# 0.05208587646484375\n#  × 1000, integer part: 52\ncompute_fudge() {\n  echo $(( $1 * 52 / 1000 ))\n}\n\nmkdir $out\n\nroot=\"$PWD/root\"\nmkdir -p $root\n\n# Copy arbitrary other files into the image\n# Semi-shamelessly copied from make-etc.sh. I (@copumpkin) shall factor this stuff out as part of\n# https://github.com/NixOS/nixpkgs/issues/23052.\nset -f\nsources_=(",
              position: (197, 27),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "concatStringsSep",
@@ -1856,7 +1856,7 @@ Function {
              content: ")\ntargets_=(",
              position: (235, 46),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "concatStringsSep",
@@ -1883,7 +1883,7 @@ Function {
              content: ")\nmodes_=(",
              position: (236, 46),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "concatStringsSep",
@@ -1942,7 +1942,7 @@ Function {
              content: "{modes_[$i]}\"\n\n  if [ -n \"$mode\" ]; then\n    rsync_chmod_flags=\"--chmod=$mode\"\n  else\n    rsync_chmod_flags=\"\"\n  fi\n  # Unfortunately cptofs only supports modes, not ownership, so we can't use\n  # rsync's --chown option. Instead, we change the ownerships in the\n  # VM script with chown.\n  rsync_flags=\"-a --no-o --no-g $rsync_chmod_flags\"\n  if [[ \"$source\" =~ '*' ]]; then\n    # If the source name contains '*', perform globbing.\n    mkdir -p $root/$target\n    for fn in $source; do\n      rsync $rsync_flags \"$fn\" $root/$target/\n    done\n  else\n    mkdir -p $root/$(dirname $target)\n    if ! [ -e $root/$target ]; then\n      rsync $rsync_flags $source $root/$target\n    else\n      echo \"duplicate entry $target -> $source\"\n      exit 1\n    fi\n  fi\ndone\n\nexport HOME=$TMPDIR\n\n# Provide a Nix database so that nixos-install can copy closures.\nexport NIX_STATE_DIR=$TMPDIR/state\nnix-store --load-db < ",
              position: (243, 16),
             },
-            Expression {
+            Interpolation {
              expression: Variable {
               identifier: "closureInfo",
               position: (275, 29),
@@ -1952,7 +1952,7 @@ Function {
              content: "/registration\n\nchmod 755 \"$TMPDIR\"\necho \"running nixos-install...\"\nnixos-install --root $root --no-bootloader --no-root-passwd \\\n  --system ",
              position: (275, 41),
             },
-            Expression {
+            Interpolation {
              expression: PropertyAccess {
               expression: Variable {
                identifier: "config",
@@ -1981,7 +1981,7 @@ Function {
              content: " \\\n  ",
              position: (280, 47),
             },
-            Expression {
+            Interpolation {
              expression: IfThenElse {
               predicate: Variable {
                identifier: "copyChannel",
@@ -1993,7 +1993,7 @@ Function {
                  content: "--channel ",
                  position: (281, 30),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "channelSources",
                   position: (281, 42),
@@ -2018,7 +2018,7 @@ Function {
              content: " \\\n  --substituters \"\"\n\n",
              position: (281, 84),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "optionalString",
@@ -2048,7 +2048,7 @@ Function {
                   content: "nix --extra-experimental-features nix-command copy --to $root --no-check-sigs ",
                   position: (285, 1),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "concatStringsSep",
@@ -2085,7 +2085,7 @@ Function {
              content: "\n\ndiskImage=nixos.raw\n\n",
              position: (286, 8),
             },
-            Expression {
+            Interpolation {
              expression: IfThenElse {
               predicate: BinaryOperation {
                operator: EqualTo,
@@ -2112,7 +2112,7 @@ Function {
                  content: "",
                  position: (291, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: IfThenElse {
                   predicate: BinaryOperation {
                    operator: LogicalOr,
@@ -2168,7 +2168,7 @@ Function {
                      content: "'",
                      position: (298, 58),
                     },
-                    Expression {
+                    Interpolation {
                      expression: Variable {
                       identifier: "bootSize",
                       position: (298, 61),
@@ -2263,7 +2263,7 @@ Function {
                  content: "'",
                  position: (310, 47),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "additionalSpace",
                   position: (310, 50),
@@ -2273,7 +2273,7 @@ Function {
                  content: "') + reservedSpace ))\n\n# Compute required space in filesystem blocks\ndiskUsage=$(find . ! -type d -print0 | du --files0-from=- --apparent-size --block-size \"",
                  position: (310, 66),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "blockSize",
                   position: (313, 97),
@@ -2283,7 +2283,7 @@ Function {
                  content: "\" | cut -f1 | sum_lines)\n# Each inode takes space!\nnumInodes=$(find . | wc -l)\n# Convert to bytes, inodes take two blocks each!\ndiskUsage=$(( (diskUsage + 2 * numInodes) * ",
                  position: (313, 107),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "blockSize",
                   position: (317, 53),
@@ -2302,7 +2302,7 @@ Function {
                  content: "truncate -s ",
                  position: (340, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: FunctionApplication {
                   function: Variable {
                    identifier: "toString",
@@ -2330,7 +2330,7 @@ Function {
              content: "\n\n",
              position: (341, 8),
             },
-            Expression {
+            Interpolation {
              expression: Variable {
               identifier: "partitionDiskScript",
               position: (343, 7),
@@ -2340,7 +2340,7 @@ Function {
              content: "\n\n",
              position: (343, 27),
             },
-            Expression {
+            Interpolation {
              expression: IfThenElse {
               predicate: BinaryOperation {
                operator: NotEqualTo,
@@ -2367,7 +2367,7 @@ Function {
                  content: "# Get start & length of the root partition in sectors to $START and $SECTORS.\neval $(partx $diskImage -o START,SECTORS --nr ",
                  position: (346, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "rootPartition",
                   position: (347, 55),
@@ -2377,7 +2377,7 @@ Function {
                  content: " --pairs)\n\nmkfs.",
                  position: (347, 69),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "fsType",
                   position: (349, 14),
@@ -2387,7 +2387,7 @@ Function {
                  content: " -b ",
                  position: (349, 21),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "blockSize",
                   position: (349, 27),
@@ -2397,7 +2397,7 @@ Function {
                  content: " -F -L ",
                  position: (349, 37),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "label",
                   position: (349, 46),
@@ -2416,7 +2416,7 @@ Function {
                  content: "mkfs.",
                  position: (351, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "fsType",
                   position: (351, 14),
@@ -2426,7 +2426,7 @@ Function {
                  content: " -b ",
                  position: (351, 21),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "blockSize",
                   position: (351, 27),
@@ -2436,7 +2436,7 @@ Function {
                  content: " -F -L ",
                  position: (351, 37),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "label",
                   position: (351, 46),
@@ -2456,7 +2456,7 @@ Function {
              content: "\n\necho \"copying staging root to image...\"\ncptofs -p ",
              position: (352, 8),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "optionalString",
@@ -2491,7 +2491,7 @@ Function {
                   content: "-P ",
                   position: (355, 64),
                  },
-                 Expression {
+                 Interpolation {
                   expression: Variable {
                    identifier: "rootPartition",
                    position: (355, 69),
@@ -2507,7 +2507,7 @@ Function {
              content: " \\\n       -t ",
              position: (355, 85),
             },
-            Expression {
+            Interpolation {
              expression: Variable {
               identifier: "fsType",
               position: (356, 17),
@@ -2517,7 +2517,7 @@ Function {
              content: " \\\n       -i $diskImage \\\n       $root",
              position: (356, 24),
             },
-            Expression {
+            Interpolation {
              expression: FunctionApplication {
               function: Variable {
                identifier: "optionalString",
@@ -2569,7 +2569,7 @@ Function {
              content: "",
              position: (363, 1),
             },
-            Expression {
+            Interpolation {
              expression: IfThenElse {
               predicate: BinaryOperation {
                operator: EqualTo,
@@ -2596,7 +2596,7 @@ Function {
                  content: "mv $diskImage $out/",
                  position: (364, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "filename",
                   position: (364, 28),
@@ -2615,7 +2615,7 @@ Function {
                  content: "",
                  position: (366, 1),
                 },
-                Expression {
+                Interpolation {
                  expression: PropertyAccess {
                   expression: Variable {
                    identifier: "pkgs",
@@ -2636,7 +2636,7 @@ Function {
                  content: "/bin/qemu-img convert -f raw -O ",
                  position: (366, 19),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "format",
                   position: (366, 53),
@@ -2646,7 +2646,7 @@ Function {
                  content: " ",
                  position: (366, 60),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "compress",
                   position: (366, 63),
@@ -2656,7 +2656,7 @@ Function {
                  content: " $diskImage $out/",
                  position: (366, 72),
                 },
-                Expression {
+                Interpolation {
                  expression: Variable {
                   identifier: "filename",
                   position: (366, 91),
@@ -2676,7 +2676,7 @@ Function {
              content: "\ndiskImage=$out/",
              position: (367, 8),
             },
-            Expression {
+            Interpolation {
              expression: Variable {
               identifier: "filename",
               position: (368, 22),
@@ -2840,7 +2840,7 @@ Function {
                   content: "export PATH=",
                   position: (378, 1),
                  },
-                 Expression {
+                 Interpolation {
                   expression: Variable {
                    identifier: "binPath",
                    position: (378, 21),
@@ -2850,7 +2850,7 @@ Function {
                   content: ":$PATH\n\nrootDisk=",
                   position: (378, 29),
                  },
-                 Expression {
+                 Interpolation {
                   expression: IfThenElse {
                    predicate: BinaryOperation {
                     operator: NotEqualTo,
@@ -2877,7 +2877,7 @@ Function {
                       content: "/dev/vda",
                       position: (380, 56),
                      },
-                     Expression {
+                     Interpolation {
                       expression: Variable {
                        identifier: "rootPartition",
                        position: (380, 66),
@@ -2902,7 +2902,7 @@ Function {
                   content: "\n\n# Some tools assume these exist\nln -s vda /dev/xvda\nln -s vda /dev/sda\n# make systemd-boot find ESP without udev\nmkdir /dev/block\nln -s /dev/vda1 /dev/block/254:1\n\nmountPoint=/mnt\nmkdir $mountPoint\nmount $rootDisk $mountPoint\n\n# Create the ESP and mount it. Unlike e2fsprogs, mkfs.vfat doesn't support an\n# '-E offset=X' option, so we can't do this outside the VM.\n",
                   position: (380, 98),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "optionalString",
@@ -2972,7 +2972,7 @@ Function {
                   content: "\n\n# Install a configuration.nix\nmkdir -p /mnt/etc/nixos\n",
                   position: (399, 10),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "optionalString",
@@ -3002,7 +3002,7 @@ Function {
                        content: "cp ",
                        position: (404, 1),
                       },
-                      Expression {
+                      Interpolation {
                        expression: Variable {
                         identifier: "configFile",
                         position: (404, 14),
@@ -3022,7 +3022,7 @@ Function {
                   content: "\n\n",
                   position: (405, 10),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: PropertyAccess {
                     expression: Variable {
@@ -3060,7 +3060,7 @@ Function {
                   content: "\n\n# Set the ownerships of the contents. The modes are set in preVM.\n# No globbing on targets, so no need to set -f\ntargets_=(",
                   position: (413, 10),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "concatStringsSep",
@@ -3087,7 +3087,7 @@ Function {
                   content: ")\nusers_=(",
                   position: (417, 48),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "concatStringsSep",
@@ -3114,7 +3114,7 @@ Function {
                   content: ")\ngroups_=(",
                   position: (418, 44),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "concatStringsSep",
@@ -3173,7 +3173,7 @@ Function {
                   content: "{groups_[$i]}\"\n  if [ -n \"$user$group\" ]; then\n    # We have to nixos-enter since we need to use the user and group of the VM\n    nixos-enter --root $mountPoint -- chown -R \"$user:$group\" \"$target\"\n  fi\ndone\n\numount -R /mnt\n\n# Make sure resize2fs works. Note that resize2fs has stricter criteria for resizing than a normal\n# mount, so the `-c 0` and `-i 0` don't affect it. Setting it to `now` doesn't produce deterministic\n# output, of course, but we can fix that when/if we start making images deterministic.\n",
                   position: (423, 19),
                  },
-                 Expression {
+                 Interpolation {
                   expression: FunctionApplication {
                    function: Variable {
                     identifier: "optionalString",

@@ -16,8 +16,8 @@ use santiago::lexer::Position;
 pub enum AST {
     Assert {
         expression: Box<AST>,
-        target:     Box<AST>,
-        position:   Position,
+        target: Box<AST>,
+        position: Position,
     },
     BinaryOperation {
         operator: BinaryOperator,
@@ -25,36 +25,36 @@ pub enum AST {
         position: Position,
     },
     Float {
-        value:    f64,
+        value: f64,
         position: Position,
     },
     Function {
-        argument:   FunctionArgument,
+        argument: FunctionArgument,
         definition: Box<AST>,
-        position:   Position,
+        position: Position,
     },
     FunctionApplication {
-        function:  Box<AST>,
+        function: Box<AST>,
         arguments: LinkedList<AST>,
     },
     HasProperty {
-        expression:     Box<AST>,
+        expression: Box<AST>,
         attribute_path: AttributePath,
-        position:       Position,
+        position: Position,
     },
     IfThenElse {
         predicate: Box<AST>,
-        then:      Box<AST>,
-        else_:     Box<AST>,
-        position:  Position,
+        then: Box<AST>,
+        else_: Box<AST>,
+        position: Position,
     },
     Int {
-        value:    i64,
+        value: i64,
         position: Position,
     },
     LetIn {
         bindings: LinkedList<Binding>,
-        target:   Box<AST>,
+        target: Box<AST>,
         position: Position,
     },
     List {
@@ -62,44 +62,44 @@ pub enum AST {
         position: Position,
     },
     Map {
-        bindings:  LinkedList<Binding>,
+        bindings: LinkedList<Binding>,
         recursive: bool,
-        position:  Position,
+        position: Position,
     },
     Parentheses {
         expression: Box<AST>,
-        position:   Position,
+        position: Position,
     },
     Path {
-        parts:    LinkedList<Part>,
+        parts: LinkedList<Part>,
         position: Position,
     },
     PropertyAccess {
-        expression:     Box<AST>,
+        expression: Box<AST>,
         attribute_path: AttributePath,
-        default:        Option<Box<AST>>,
+        default: Option<Box<AST>>,
     },
     SearchNixPath {
-        path:     String,
+        path: String,
         position: Position,
     },
     String {
-        parts:    LinkedList<Part>,
+        parts: LinkedList<Part>,
         position: Position,
     },
     UnaryOperation {
         operator: UnaryOperator,
-        operand:  Box<AST>,
+        operand: Box<AST>,
         position: Position,
     },
     Variable {
         identifier: String,
-        position:   Position,
+        position: Position,
     },
     With {
         expression: Box<AST>,
-        target:     Box<AST>,
-        position:   Position,
+        target: Box<AST>,
+        position: Position,
     },
 
     // Temporary containers
@@ -123,8 +123,9 @@ pub enum AST {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Part {
+    Expression { ast: Box<AST> },
+    Interpolation { expression: Box<AST> },
     Raw { content: String, position: Position },
-    Expression { expression: Box<AST> },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -167,21 +168,21 @@ pub enum DestructuredIdentifier {
 #[derive(Clone, Debug, PartialEq)]
 pub struct DestructuredArgument {
     pub identifier: String,
-    pub default:    Option<Box<AST>>,
+    pub default: Option<Box<AST>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct DestructuredArguments {
     pub arguments: LinkedList<DestructuredArgument>,
-    pub ellipsis:  bool,
+    pub ellipsis: bool,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum FunctionArgument {
     Destructured {
         identifier: DestructuredIdentifier,
-        arguments:  LinkedList<DestructuredArgument>,
-        ellipsis:   bool,
+        arguments: LinkedList<DestructuredArgument>,
+        ellipsis: bool,
     },
     Simple {
         identifier: String,

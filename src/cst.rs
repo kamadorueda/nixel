@@ -779,25 +779,17 @@ fn _lexeme(lexemes: &[Rc<Lexeme>], index: &mut usize) -> Rc<Lexeme> {
 
 fn _part(part: &Part, lexemes: &[Rc<Lexeme>], index: &mut usize) -> CST {
     match part {
-        Part::Raw { .. } => CST::PartRaw { lexeme: _lexeme(lexemes, index) },
-        Part::Expression { expression } => {
-            match &**expression {
-                AST::String { .. } => {
-                    CST::PartExpressionString {
-                        expression: _ast(&*expression, lexemes, index),
-                    }
-                },
-                _ => {
-                    CST::PartExpressionInterpolation {
-                        open: _lexeme(lexemes, index),
-                        open_trivia: _trivia(lexemes, index),
-                        expression: _ast(&*expression, lexemes, index),
-                        expression_trivia: _trivia(lexemes, index),
-                        close: _lexeme(lexemes, index),
-                    }
-                },
+        Part::Expression { ast } => *_ast(ast, lexemes, index),
+        Part::Interpolation { expression } => {
+            CST::PartExpressionInterpolation {
+                open: _lexeme(lexemes, index),
+                open_trivia: _trivia(lexemes, index),
+                expression: _ast(&*expression, lexemes, index),
+                expression_trivia: _trivia(lexemes, index),
+                close: _lexeme(lexemes, index),
             }
         },
+        Part::Raw { .. } => CST::PartRaw { lexeme: _lexeme(lexemes, index) },
     }
 }
 

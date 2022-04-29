@@ -603,7 +603,7 @@ pub fn grammar() -> Grammar<AST> {
 
                 match &mut string_parts_interpolated {
                     AST::__Parts(parts) => {
-                        parts.push_back(Part::Expression {
+                        parts.push_back(Part::Interpolation {
                             expression: Box::new(asts.swap_remove(2)),
                         });
                     }
@@ -614,7 +614,7 @@ pub fn grammar() -> Grammar<AST> {
             };
         "string_parts_interpolated" => rules "DOLLAR_CURLY" "expr" "}"
             => |mut asts| AST::__Parts(LinkedList::from([
-                Part::Expression {
+                Part::Interpolation {
                     expression: Box::new(asts.swap_remove(1)),
                 }
             ]));
@@ -627,7 +627,7 @@ pub fn grammar() -> Grammar<AST> {
                     },
                     _ => unreachable!(),
                 },
-                Part::Expression {
+                Part::Interpolation {
                     expression: Box::new(asts.swap_remove(2)),
                 },
             ]));
@@ -683,7 +683,7 @@ pub fn grammar() -> Grammar<AST> {
 
                 match &mut ind_string_parts {
                     AST::__Parts(parts) => {
-                        parts.push_back(Part::Expression {
+                        parts.push_back(Part::Interpolation {
                             expression: Box::new(asts.swap_remove(2)),
                         });
                     }
@@ -869,20 +869,20 @@ pub fn grammar() -> Grammar<AST> {
             };
 
         "string_attr" => rules "\"" "string_parts" "\""
-            => |mut asts| AST::__Part(Part::Expression {
-                expression: Box::new(match asts.swap_remove(1) {
-                    AST::__Parts(parts) => AST::String {
+            => |mut asts| match asts.swap_remove(1) {
+                AST::__Parts(parts) => AST::__Part(Part::Expression {
+                    ast: Box::new(AST::String {
                         parts,
                         position: match asts.swap_remove(0) {
                             AST::__Lexeme(lexeme) => lexeme.position.clone(),
                             _ => unreachable!(),
                         },
-                    },
-                    _ => unreachable!(),
+                    }),
                 }),
-            });
+                _ => unreachable!(),
+            };
         "string_attr" => rules "DOLLAR_CURLY" "expr" "}"
-            => |mut asts| AST::__Part(Part::Expression {
+            => |mut asts| AST::__Part(Part::Interpolation {
                 expression: Box::new(asts.swap_remove(1)),
             });
 
@@ -1117,16 +1117,16 @@ fn strip_indentation(mut parts: LinkedList<Part>) -> LinkedList<Part> {
                     match char {
                         ' ' => {
                             cur_indent += 1;
-                        }
+                        },
                         '\n' => {
                             cur_indent = 0;
-                        }
+                        },
                         _ => {
                             at_start_of_line = false;
                             if cur_indent < min_indent {
                                 min_indent = cur_indent;
                             }
-                        }
+                        },
                     }
                 } else if char == '\n' {
                     at_start_of_line = true;
@@ -1150,16 +1150,16 @@ fn strip_indentation(mut parts: LinkedList<Part>) -> LinkedList<Part> {
                                 ' ' => {
                                     cur_dropped += 1;
                                     cur_dropped > min_indent
-                                }
+                                },
                                 '\n' => {
                                     cur_dropped = 0;
                                     true
-                                }
+                                },
                                 _ => {
                                     at_start_of_line = false;
                                     cur_dropped = 0;
                                     true
-                                }
+                                },
                             }
                         } else {
                             if *char == '\n' {
@@ -1180,11 +1180,11 @@ fn strip_indentation(mut parts: LinkedList<Part>) -> LinkedList<Part> {
                         }
                     }
                 }
-            }
-            Part::Expression { .. } => {
+            },
+            _ => {
                 at_start_of_line = false;
                 cur_dropped = 0;
-            }
+            },
         }
     }
 

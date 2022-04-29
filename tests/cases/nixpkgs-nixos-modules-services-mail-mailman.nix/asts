@@ -701,7 +701,7 @@ Function {
           content: "[postfix]\npostmap_command: ",
           position: (42, 1),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "pkgs",
@@ -822,7 +822,7 @@ Function {
           content: "[general]\n# This is your HyperKitty installation, preferably on the localhost. This\n# address will be used by Mailman to forward incoming emails to HyperKitty\n# for archiving. It does not need to be publicly available, in fact it's\n# better if it is not.\nbase_url: ",
           position: (50, 1),
          },
-         Expression {
+         Interpolation {
           expression: PropertyAccess {
            expression: Variable {
             identifier: "cfg",
@@ -2253,7 +2253,7 @@ Function {
                 from: AttributePath {
                  parts: [
                   Expression {
-                   expression: String {
+                   ast: String {
                     parts: [
                      Raw {
                       content: "paths.fhs",
@@ -2278,7 +2278,7 @@ Function {
                    },
                    to: String {
                     parts: [
-                     Expression {
+                     Interpolation {
                       expression: PropertyAccess {
                        expression: Variable {
                         identifier: "pkgs",
@@ -2513,7 +2513,7 @@ Function {
                     },
                     then: String {
                      parts: [
-                      Expression {
+                      Interpolation {
                        expression: Variable {
                         identifier: "postfixMtaConfig",
                         position: (199, 71),
@@ -2550,7 +2550,7 @@ Function {
                 from: AttributePath {
                  parts: [
                   Expression {
-                   expression: String {
+                   ast: String {
                     parts: [
                      Raw {
                       content: "archiver.hyperkitty",
@@ -2838,7 +2838,7 @@ Function {
                         content: "logging.",
                         position: (208, 37),
                        },
-                       Expression {
+                       Interpolation {
                         expression: Variable {
                          identifier: "n",
                          position: (208, 47),
@@ -2999,7 +2999,7 @@ Function {
                        content: "hash:/var/lib/mailman/data/",
                        position: (218, 23),
                       },
-                      Expression {
+                      Interpolation {
                        expression: Variable {
                         identifier: "dataFile",
                         position: (218, 52),
@@ -3122,7 +3122,7 @@ Function {
                         content: "services.postfix.",
                         position: (223, 1),
                        },
-                       Expression {
+                       Interpolation {
                         expression: FunctionApplication {
                          function: Variable {
                           identifier: "concatStringsSep",
@@ -3149,7 +3149,7 @@ Function {
                         content: " must contain\n\"",
                         position: (223, 66),
                        },
-                       Expression {
+                       Interpolation {
                         expression: Variable {
                          identifier: "expected",
                          position: (224, 18),
@@ -3631,7 +3631,7 @@ Function {
               position: (257, 17),
              },
              Expression {
-              expression: String {
+              ast: String {
                parts: [
                 Raw {
                  content: "mailman.cfg",
@@ -3664,7 +3664,7 @@ Function {
               position: (259, 17),
              },
              Expression {
-              expression: String {
+              ast: String {
                parts: [
                 Raw {
                  content: "mailman3/settings.py",
@@ -3690,7 +3690,7 @@ Function {
               content: "'",
               position: (271, 17),
              },
-             Expression {
+             Interpolation {
               expression: Variable {
                identifier: "webSettingsJSON",
                position: (271, 20),
@@ -3774,9 +3774,9 @@ Function {
                    position: (280, 7),
                   },
                   Expression {
-                   expression: String {
+                   ast: String {
                     parts: [
-                     Expression {
+                     Interpolation {
                       expression: FunctionApplication {
                        function: PropertyAccess {
                         expression: Variable {
@@ -3860,7 +3860,7 @@ Function {
                       from: AttributePath {
                        parts: [
                         Expression {
-                         expression: String {
+                         ast: String {
                           parts: [
                            Raw {
                             content: "/",
@@ -3890,7 +3890,7 @@ Function {
                       from: AttributePath {
                        parts: [
                         Expression {
-                         expression: String {
+                         ast: String {
                           parts: [
                            Raw {
                             content: "/static/",
@@ -4422,7 +4422,7 @@ Function {
                          position: (317, 48),
                         },
                         Expression {
-                         expression: String {
+                         ast: String {
                           parts: [
                            Raw {
                             content: "mailman.cfg",
@@ -4490,7 +4490,7 @@ Function {
                       },
                       to: String {
                        parts: [
-                        Expression {
+                        Interpolation {
                          expression: Variable {
                           identifier: "pythonEnv",
                           position: (320, 26),
@@ -4515,7 +4515,7 @@ Function {
                       },
                       to: String {
                        parts: [
-                        Expression {
+                        Interpolation {
                          expression: Variable {
                           identifier: "pythonEnv",
                           position: (321, 25),
@@ -4849,7 +4849,7 @@ Function {
                       content: "mailmanDir=/var/lib/mailman\nmailmanWebDir=/var/lib/mailman-web\n\nmailmanCfg=$mailmanDir/mailman-hyperkitty.cfg\nmailmanWebCfg=$mailmanWebDir/settings_local.json\n\ninstall -m 0775 -o mailman -g mailman -d /var/lib/mailman-web-static\ninstall -m 0770 -o mailman -g mailman -d $mailmanDir\ninstall -m 0770 -o ",
                       position: (338, 1),
                      },
-                     Expression {
+                     Interpolation {
                       expression: PropertyAccess {
                        expression: Variable {
                         identifier: "cfg",
@@ -4870,7 +4870,7 @@ Function {
                       content: " -g mailman -d $mailmanWebDir\n\nif [ ! -e $mailmanWebCfg ]; then\n    hyperkittyApiKey=$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 64)\n    secretKey=$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 64)\n\n    mailmanWebCfgTmp=$(mktemp)\n    jq -n '.MAILMAN_ARCHIVER_KEY=$archiver_key | .SECRET_KEY=$secret_key' \\\n        --arg archiver_key \"$hyperkittyApiKey\" \\\n        --arg secret_key \"$secretKey\" \\\n        >\"$mailmanWebCfgTmp\"\n    chown root:mailman \"$mailmanWebCfgTmp\"\n    chmod 440 \"$mailmanWebCfgTmp\"\n    mv -n \"$mailmanWebCfgTmp\" \"$mailmanWebCfg\"\nfi\n\nhyperkittyApiKey=\"$(jq -r .MAILMAN_ARCHIVER_KEY \"$mailmanWebCfg\")\"\nmailmanCfgTmp=$(mktemp)\nsed \"s/@API_KEY@/$hyperkittyApiKey/g\" ",
                       position: (346, 44),
                      },
-                     Expression {
+                     Interpolation {
                       expression: Variable {
                        identifier: "mailmanHyperkittyCfg",
                        position: (364, 51),
@@ -4994,7 +4994,7 @@ Function {
                          position: (374, 48),
                         },
                         Expression {
-                         expression: String {
+                         ast: String {
                           parts: [
                            Raw {
                             content: "mailman3/settings.py",
@@ -5031,7 +5031,7 @@ Function {
                       content: "[[ -e \"",
                       position: (376, 1),
                      },
-                     Expression {
+                     Interpolation {
                       expression: PropertyAccess {
                        expression: Variable {
                         identifier: "webSettings",
@@ -5052,7 +5052,7 @@ Function {
                       content: "\" ]] && find \"",
                       position: (376, 44),
                      },
-                     Expression {
+                     Interpolation {
                       expression: PropertyAccess {
                        expression: Variable {
                         identifier: "webSettings",
@@ -5073,7 +5073,7 @@ Function {
                       content: "/\" -mindepth 1 -delete\n",
                       position: (376, 84),
                      },
-                     Expression {
+                     Interpolation {
                       expression: Variable {
                        identifier: "pythonEnv",
                        position: (377, 13),
@@ -5083,7 +5083,7 @@ Function {
                       content: "/bin/mailman-web migrate\n",
                       position: (377, 23),
                      },
-                     Expression {
+                     Interpolation {
                       expression: Variable {
                        identifier: "pythonEnv",
                        position: (378, 13),
@@ -5093,7 +5093,7 @@ Function {
                       content: "/bin/mailman-web collectstatic\n",
                       position: (378, 23),
                      },
-                     Expression {
+                     Interpolation {
                       expression: Variable {
                        identifier: "pythonEnv",
                        position: (379, 13),
@@ -5513,7 +5513,7 @@ Function {
                              position: (401, 48),
                             },
                             Expression {
-                             expression: String {
+                             ast: String {
                               parts: [
                                Raw {
                                 content: "mailman3/settings.py",
@@ -5557,7 +5557,7 @@ Function {
                           },
                           to: String {
                            parts: [
-                            Expression {
+                            Interpolation {
                              expression: PropertyAccess {
                               expression: Variable {
                                identifier: "pkgs",
@@ -5578,7 +5578,7 @@ Function {
                              content: "/bin/env -C $RUNTIME_DIRECTORY ",
                              position: (406, 41),
                             },
-                            Expression {
+                            Interpolation {
                              expression: FunctionApplication {
                               function: PropertyAccess {
                                expression: Variable {
@@ -5637,7 +5637,7 @@ Function {
                              content: "/bin/uwsgi --json ",
                              position: (406, 121),
                             },
-                            Expression {
+                            Interpolation {
                              expression: Variable {
                               identifier: "uwsgiConfigFile",
                               position: (406, 141),
@@ -5802,7 +5802,7 @@ Function {
                          position: (416, 48),
                         },
                         Expression {
-                         expression: String {
+                         ast: String {
                           parts: [
                            Raw {
                             content: "mailman.cfg",
@@ -5846,7 +5846,7 @@ Function {
                       },
                       to: String {
                        parts: [
-                        Expression {
+                        Interpolation {
                          expression: Variable {
                           identifier: "pythonEnv",
                           position: (418, 26),
@@ -6025,7 +6025,7 @@ Function {
                            position: (427, 48),
                           },
                           Expression {
-                           expression: String {
+                           ast: String {
                             parts: [
                              Raw {
                               content: "mailman3/settings.py",
@@ -6102,7 +6102,7 @@ Function {
                         },
                         to: String {
                          parts: [
-                          Expression {
+                          Interpolation {
                            expression: Variable {
                             identifier: "pythonEnv",
                             position: (430, 26),
@@ -6222,7 +6222,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "minutely",
@@ -6248,7 +6248,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "quarter_hourly",
@@ -6274,7 +6274,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "hourly",
@@ -6300,7 +6300,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "daily",
@@ -6326,7 +6326,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "weekly",
@@ -6352,7 +6352,7 @@ Function {
                   from: AttributePath {
                    parts: [
                     Expression {
-                     expression: String {
+                     ast: String {
                       parts: [
                        Raw {
                         content: "yearly",
@@ -6410,7 +6410,7 @@ Function {
                        content: "hyperkitty-",
                        position: (444, 26),
                       },
-                      Expression {
+                      Interpolation {
                        expression: Variable {
                         identifier: "name",
                         position: (444, 39),
@@ -6473,7 +6473,7 @@ Function {
                              content: "Trigger ",
                              position: (445, 24),
                             },
-                            Expression {
+                            Interpolation {
                              expression: Variable {
                               identifier: "name",
                               position: (445, 34),
@@ -6523,7 +6523,7 @@ Function {
                                 position: (447, 48),
                                },
                                Expression {
-                                expression: String {
+                                ast: String {
                                  parts: [
                                   Raw {
                                    content: "mailman3/settings.py",
@@ -6567,7 +6567,7 @@ Function {
                              },
                              to: String {
                               parts: [
-                               Expression {
+                               Interpolation {
                                 expression: Variable {
                                  identifier: "pythonEnv",
                                  position: (449, 26),
@@ -6577,7 +6577,7 @@ Function {
                                 content: "/bin/mailman-web runjobs ",
                                 position: (449, 36),
                                },
-                               Expression {
+                               Interpolation {
                                 expression: Variable {
                                  identifier: "name",
                                  position: (449, 63),
