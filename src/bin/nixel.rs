@@ -27,7 +27,7 @@ fn main() -> Result<(), ()> {
             eprintln!("Lexing Error:");
             eprintln!("{error}");
             return Err(());
-        }
+        },
     };
     let lexeme_no_trivia: Vec<Rc<Lexeme>> = lexemes
         .iter()
@@ -56,12 +56,12 @@ fn main() -> Result<(), ()> {
                 eprintln!("Found more than 1 possible parse tree.");
                 return Err(());
             }
-        }
+        },
         Err(error) => {
             eprintln!("Parsing Error:");
             eprintln!("{error}");
             return Err(());
-        }
+        },
     };
 
     // Print parsing results
@@ -93,11 +93,13 @@ fn main() -> Result<(), ()> {
 
 fn get_input(args: &clap::ArgMatches) -> Result<String, Result<(), ()>> {
     Ok(match args.value_of("path") {
-        Some(path) => match std::fs::read_to_string(&path) {
-            Ok(data) => data,
-            Err(error) => {
-                eprintln!("{error:#?}");
-                return Err(Err(()));
+        Some(path) => {
+            match std::fs::read_to_string(&path) {
+                Ok(data) => data,
+                Err(error) => {
+                    eprintln!("{error:#?}");
+                    return Err(Err(()));
+                },
             }
         },
         None => {
@@ -108,7 +110,7 @@ fn get_input(args: &clap::ArgMatches) -> Result<String, Result<(), ()>> {
                 return Err(Err(()));
             };
             data
-        }
+        },
     })
 }
 
@@ -118,7 +120,7 @@ fn cli() -> clap::ArgMatches {
             "Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for \
              the Nix Expressions Language",
         )
-        .version("3.0.0")
+        .version("4.0.0")
         .arg(
             clap::Arg::new("path")
                 .help("File to process, or leave empty to process stdin"),
