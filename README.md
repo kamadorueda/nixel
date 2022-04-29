@@ -118,7 +118,7 @@ LetIn {
     content: "Hello, ",
     position: (4, 5),
    },
-   Expression {
+   Interpolation {
     expression: Variable {
      identifier: "name",
      position: (4, 14),
