@@ -274,8 +274,8 @@ pub struct InheritAttribute {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct ListElement {
-    expression: Box<CST>,
-    expression_trivia: Vec<Rc<Lexeme>>,
+    pub expression: Box<CST>,
+    pub expression_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
