@@ -205,15 +205,15 @@ pub enum CST {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct AttributePathPart {
-    part: Box<CST>,
-    part_trivia: Vec<Rc<Lexeme>>,
-    dot: Option<AttributePathDot>,
+    pub part: Box<CST>,
+    pub part_trivia: Vec<Rc<Lexeme>>,
+    pub dot: Option<AttributePathDot>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct AttributePathDot {
-    dot: Rc<Lexeme>,
-    dot_trivia: Vec<Rc<Lexeme>>,
+    pub dot: Rc<Lexeme>,
+    pub dot_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -236,40 +236,40 @@ pub enum FunctionDestructuredArgument {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct FunctionDestructuredArgumentComma {
-    comma: Rc<Lexeme>,
-    comma_trivia: Vec<Rc<Lexeme>>,
+    pub comma: Rc<Lexeme>,
+    pub comma_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct FunctionDestructuredEllipsis {
-    ellipsis: Rc<Lexeme>,
-    ellipsis_trivia: Vec<Rc<Lexeme>>,
+    pub ellipsis: Rc<Lexeme>,
+    pub ellipsis_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct FunctionDestructuredIdentifier {
-    at: Rc<Lexeme>,
-    at_trivia: Vec<Rc<Lexeme>>,
-    identifier: Rc<Lexeme>,
-    identifier_trivia: Vec<Rc<Lexeme>>,
+    pub at: Rc<Lexeme>,
+    pub at_trivia: Vec<Rc<Lexeme>>,
+    pub identifier: Rc<Lexeme>,
+    pub identifier_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct FunctionApplicationArgument {
-    expression: Box<CST>,
-    expression_trivia: Vec<Rc<Lexeme>>,
+    pub expression: Box<CST>,
+    pub expression_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Binding {
-    binding: CST,
-    binding_trivia: Vec<Rc<Lexeme>>,
+    pub binding: CST,
+    pub binding_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct InheritAttribute {
-    attribute: Rc<Lexeme>,
-    attribute_trivia: Vec<Rc<Lexeme>>,
+    pub attribute: Rc<Lexeme>,
+    pub attribute_trivia: Vec<Rc<Lexeme>>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -280,8 +280,8 @@ pub struct ListElement {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct MapRecursive {
-    rec: Rc<Lexeme>,
-    rec_trivia: Vec<Rc<Lexeme>>,
+    pub rec: Rc<Lexeme>,
+    pub rec_trivia: Vec<Rc<Lexeme>>,
 }
 
 /// Build a [CST].
