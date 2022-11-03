@@ -1,0 +1,4640 @@
+Function(
+ Function {
+  head: Destructured(
+   FunctionHeadDestructured {
+    identifier: None,
+    arguments: [
+     FunctionHeadDestructuredArgument {
+      identifier: "config",
+      default: None,
+     },
+     FunctionHeadDestructuredArgument {
+      identifier: "lib",
+      default: None,
+     },
+     FunctionHeadDestructuredArgument {
+      identifier: "pkgs",
+      default: None,
+     },
+    ],
+    ellipsis: true,
+   },
+  ),
+  body: With(
+   With {
+    expression: Identifier(
+     Identifier {
+      id: "lib",
+      span: Span {
+       start: Position {
+        line: 3,
+        column: 6,
+       },
+       end: Position {
+        line: 3,
+        column: 9,
+       },
+      },
+     },
+    ),
+    target: LetIn(
+     LetIn {
+      bindings: [
+       KeyValue(
+        BindingKeyValue {
+         from: [
+          Raw(
+           PartRaw {
+            content: "name",
+            span: Span {
+             start: Position {
+              line: 7,
+              column: 3,
+             },
+             end: Position {
+              line: 7,
+              column: 7,
+             },
+            },
+           },
+          ),
+         ],
+         to: String(
+          String_ {
+           parts: [
+            Raw(
+             PartRaw {
+              content: "maddy",
+              span: Span {
+               start: Position {
+                line: 7,
+                column: 11,
+               },
+               end: Position {
+                line: 7,
+                column: 16,
+               },
+              },
+             },
+            ),
+           ],
+           span: Span {
+            start: Position {
+             line: 7,
+             column: 10,
+            },
+            end: Position {
+             line: 7,
+             column: 17,
+            },
+           },
+          },
+         ),
+        },
+       ),
+       KeyValue(
+        BindingKeyValue {
+         from: [
+          Raw(
+           PartRaw {
+            content: "cfg",
+            span: Span {
+             start: Position {
+              line: 9,
+              column: 3,
+             },
+             end: Position {
+              line: 9,
+              column: 6,
+             },
+            },
+           },
+          ),
+         ],
+         to: PropertyAccess(
+          PropertyAccess {
+           expression: Identifier(
+            Identifier {
+             id: "config",
+             span: Span {
+              start: Position {
+               line: 9,
+               column: 9,
+              },
+              end: Position {
+               line: 9,
+               column: 15,
+              },
+             },
+            },
+           ),
+           attribute_path: [
+            Raw(
+             PartRaw {
+              content: "services",
+              span: Span {
+               start: Position {
+                line: 9,
+                column: 16,
+               },
+               end: Position {
+                line: 9,
+                column: 24,
+               },
+              },
+             },
+            ),
+            Raw(
+             PartRaw {
+              content: "maddy",
+              span: Span {
+               start: Position {
+                line: 9,
+                column: 25,
+               },
+               end: Position {
+                line: 9,
+                column: 30,
+               },
+              },
+             },
+            ),
+           ],
+           default: None,
+          },
+         ),
+        },
+       ),
+       KeyValue(
+        BindingKeyValue {
+         from: [
+          Raw(
+           PartRaw {
+            content: "defaultConfig",
+            span: Span {
+             start: Position {
+              line: 11,
+              column: 3,
+             },
+             end: Position {
+              line: 11,
+              column: 16,
+             },
+            },
+           },
+          ),
+         ],
+         to: IndentedString(
+          IndentedString {
+           parts: [
+            Raw(
+             PartRaw {
+              content: "# Minimal configuration with TLS disabled, adapted from upstream example\n# configuration here https://github.com/foxcpp/maddy/blob/master/maddy.conf\n# Do not use this in production!\n\ntls off\n\nauth.pass_table local_authdb {\n  table sql_table {\n    driver sqlite3\n    dsn credentials.db\n    table_name passwords\n  }\n}\n\nstorage.imapsql local_mailboxes {\n  driver sqlite3\n  dsn imapsql.db\n}\n\ntable.chain local_rewrites {\n  optional_step regexp \"(.+)\\+(.+)@(.+)\" \"$1@$3\"\n  optional_step static {\n    entry postmaster postmaster@$(primary_domain)\n  }\n  optional_step file /etc/maddy/aliases\n}\nmsgpipeline local_routing {\n  destination postmaster $(local_domains) {\n    modify {\n      replace_rcpt &local_rewrites\n    }\n    deliver_to &local_mailboxes\n  }\n  default_destination {\n    reject 550 5.1.1 \"User doesn't exist\"\n  }\n}\n\nsmtp tcp://0.0.0.0:25 {\n  limits {\n    all rate 20 1s\n    all concurrency 10\n  }\n  dmarc yes\n  check {\n    require_mx_record\n    dkim\n    spf\n  }\n  source $(local_domains) {\n    reject 501 5.1.8 \"Use Submission for outgoing SMTP\"\n  }\n  default_source {\n    destination postmaster $(local_domains) {\n      deliver_to &local_routing\n    }\n    default_destination {\n      reject 550 5.1.1 \"User doesn't exist\"\n    }\n  }\n}\n\nsubmission tcp://0.0.0.0:587 {\n  limits {\n    all rate 50 1s\n  }\n  auth &local_authdb\n  source $(local_domains) {\n    check {\n        authorize_sender {\n            prepare_email &local_rewrites\n            user_to_email identity\n        }\n    }\n    destination postmaster $(local_domains) {\n        deliver_to &local_routing\n    }\n    default_destination {\n        modify {\n            dkim $(primary_domain) $(local_domains) default\n        }\n        deliver_to &remote_queue\n    }\n  }\n  default_source {\n    reject 501 5.1.8 \"Non-local sender domain\"\n  }\n}\n\ntarget.remote outbound_delivery {\n  limits {\n    destination rate 20 1s\n    destination concurrency 10\n  }\n  mx_auth {\n    dane\n    mtasts {\n      cache fs\n      fs_dir mtasts_cache/\n    }\n    local_policy {\n        min_tls_level encrypted\n        min_mx_level none\n    }\n  }\n}\n\ntarget.queue remote_queue {\n  target &outbound_delivery\n  autogenerated_msg_domain $(primary_domain)\n  bounce {\n    destination postmaster $(local_domains) {\n      deliver_to &local_routing\n    }\n    default_destination {\n        reject 550 5.0.0 \"Refusing to send DSNs to non-local addresses\"\n    }\n  }\n}\n\nimap tcp://0.0.0.0:143 {\n  auth &local_authdb\n  storage &local_mailboxes\n}\n",
+              span: Span {
+               start: Position {
+                line: 12,
+                column: 1,
+               },
+               end: Position {
+                line: 136,
+                column: 3,
+               },
+              },
+             },
+            ),
+           ],
+           span: Span {
+            start: Position {
+             line: 11,
+             column: 19,
+            },
+            end: Position {
+             line: 136,
+             column: 5,
+            },
+           },
+          },
+         ),
+        },
+       ),
+      ],
+      target: Map(
+       Map {
+        bindings: [
+         KeyValue(
+          BindingKeyValue {
+           from: [
+            Raw(
+             PartRaw {
+              content: "options",
+              span: Span {
+               start: Position {
+                line: 139,
+                column: 3,
+               },
+               end: Position {
+                line: 139,
+                column: 10,
+               },
+              },
+             },
+            ),
+           ],
+           to: Map(
+            Map {
+             bindings: [
+              KeyValue(
+               BindingKeyValue {
+                from: [
+                 Raw(
+                  PartRaw {
+                   content: "services",
+                   span: Span {
+                    start: Position {
+                     line: 140,
+                     column: 5,
+                    },
+                    end: Position {
+                     line: 140,
+                     column: 13,
+                    },
+                   },
+                  },
+                 ),
+                 Raw(
+                  PartRaw {
+                   content: "maddy",
+                   span: Span {
+                    start: Position {
+                     line: 140,
+                     column: 14,
+                    },
+                    end: Position {
+                     line: 140,
+                     column: 19,
+                    },
+                   },
+                  },
+                 ),
+                ],
+                to: Map(
+                 Map {
+                  bindings: [
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "enable",
+                        span: Span {
+                         start: Position {
+                          line: 142,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 142,
+                          column: 13,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkEnableOption",
+                         span: Span {
+                          start: Position {
+                           line: 142,
+                           column: 16,
+                          },
+                          end: Position {
+                           line: 142,
+                           column: 30,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        FunctionApplication(
+                         FunctionApplication {
+                          function: PropertyAccess(
+                           PropertyAccess {
+                            expression: Identifier(
+                             Identifier {
+                              id: "lib",
+                              span: Span {
+                               start: Position {
+                                line: 142,
+                                column: 32,
+                               },
+                               end: Position {
+                                line: 142,
+                                column: 35,
+                               },
+                              },
+                             },
+                            ),
+                            attribute_path: [
+                             Raw(
+                              PartRaw {
+                               content: "mdDoc",
+                               span: Span {
+                                start: Position {
+                                 line: 142,
+                                 column: 36,
+                                },
+                                end: Position {
+                                 line: 142,
+                                 column: 41,
+                                },
+                               },
+                              },
+                             ),
+                            ],
+                            default: None,
+                           },
+                          ),
+                          arguments: [
+                           String(
+                            String_ {
+                             parts: [
+                              Raw(
+                               PartRaw {
+                                content: "Maddy, a free an open source mail server",
+                                span: Span {
+                                 start: Position {
+                                  line: 142,
+                                  column: 43,
+                                 },
+                                 end: Position {
+                                  line: 142,
+                                  column: 83,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             span: Span {
+                              start: Position {
+                               line: 142,
+                               column: 42,
+                              },
+                              end: Position {
+                               line: 142,
+                               column: 84,
+                              },
+                             },
+                            },
+                           ),
+                          ],
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "user",
+                        span: Span {
+                         start: Position {
+                          line: 144,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 144,
+                          column: 11,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 144,
+                           column: 14,
+                          },
+                          end: Position {
+                           line: 144,
+                           column: 22,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 145,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 145,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: String(
+                              String_ {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "maddy",
+                                  span: Span {
+                                   start: Position {
+                                    line: 145,
+                                    column: 20,
+                                   },
+                                   end: Position {
+                                    line: 145,
+                                    column: 25,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 145,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 145,
+                                 column: 26,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 146,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 146,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 146,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 146,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "uniq",
+                                   span: Span {
+                                    start: Position {
+                                     line: 146,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 146,
+                                     column: 32,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "string",
+                                    span: Span {
+                                     start: Position {
+                                      line: 146,
+                                      column: 33,
+                                     },
+                                     end: Position {
+                                      line: 146,
+                                      column: 39,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 146,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 146,
+                                 column: 39,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 147,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 147,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 147,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 147,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 147,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 147,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "User account under which maddy runs.\n\n::: {.note}\nIf left as the default value this user will automatically be created\non system activation, otherwise the sysadmin is responsible for\nensuring the user exists before the maddy service starts.\n:::\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 148,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 155,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 147,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 155,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 144,
+                            column: 23,
+                           },
+                           end: Position {
+                            line: 156,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "group",
+                        span: Span {
+                         start: Position {
+                          line: 158,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 158,
+                          column: 12,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 158,
+                           column: 15,
+                          },
+                          end: Position {
+                           line: 158,
+                           column: 23,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 159,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 159,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: String(
+                              String_ {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "maddy",
+                                  span: Span {
+                                   start: Position {
+                                    line: 159,
+                                    column: 20,
+                                   },
+                                   end: Position {
+                                    line: 159,
+                                    column: 25,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 159,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 159,
+                                 column: 26,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 160,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 160,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 160,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 160,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "uniq",
+                                   span: Span {
+                                    start: Position {
+                                     line: 160,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 160,
+                                     column: 32,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "string",
+                                    span: Span {
+                                     start: Position {
+                                      line: 160,
+                                      column: 33,
+                                     },
+                                     end: Position {
+                                      line: 160,
+                                      column: 39,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 160,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 160,
+                                 column: 39,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 161,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 161,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 161,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 161,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 161,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 161,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Group account under which maddy runs.\n\n::: {.note}\nIf left as the default value this group will automatically be created\non system activation, otherwise the sysadmin is responsible for\nensuring the group exists before the maddy service starts.\n:::\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 162,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 169,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 161,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 169,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 158,
+                            column: 24,
+                           },
+                           end: Position {
+                            line: 170,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "hostname",
+                        span: Span {
+                         start: Position {
+                          line: 172,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 172,
+                          column: 15,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 172,
+                           column: 18,
+                          },
+                          end: Position {
+                           line: 172,
+                           column: 26,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 173,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 173,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: String(
+                              String_ {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "localhost",
+                                  span: Span {
+                                   start: Position {
+                                    line: 173,
+                                    column: 20,
+                                   },
+                                   end: Position {
+                                    line: 173,
+                                    column: 29,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 173,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 173,
+                                 column: 30,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 174,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 174,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 174,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 174,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "uniq",
+                                   span: Span {
+                                    start: Position {
+                                     line: 174,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 174,
+                                     column: 32,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "string",
+                                    span: Span {
+                                     start: Position {
+                                      line: 174,
+                                      column: 33,
+                                     },
+                                     end: Position {
+                                      line: 174,
+                                      column: 39,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 174,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 174,
+                                 column: 39,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "example",
+                                span: Span {
+                                 start: Position {
+                                  line: 175,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 175,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: IndentedString(
+                              IndentedString {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "example.com",
+                                  span: Span {
+                                   start: Position {
+                                    line: 175,
+                                    column: 21,
+                                   },
+                                   end: Position {
+                                    line: 175,
+                                    column: 32,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 175,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 175,
+                                 column: 34,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 176,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 176,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 176,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 176,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 176,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 176,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Hostname to use. It should be FQDN.\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 177,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 178,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 176,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 178,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 172,
+                            column: 27,
+                           },
+                           end: Position {
+                            line: 179,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "primaryDomain",
+                        span: Span {
+                         start: Position {
+                          line: 181,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 181,
+                          column: 20,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 181,
+                           column: 23,
+                          },
+                          end: Position {
+                           line: 181,
+                           column: 31,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 182,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 182,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: String(
+                              String_ {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "localhost",
+                                  span: Span {
+                                   start: Position {
+                                    line: 182,
+                                    column: 20,
+                                   },
+                                   end: Position {
+                                    line: 182,
+                                    column: 29,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 182,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 182,
+                                 column: 30,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 183,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 183,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 183,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 183,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "uniq",
+                                   span: Span {
+                                    start: Position {
+                                     line: 183,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 183,
+                                     column: 32,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "string",
+                                    span: Span {
+                                     start: Position {
+                                      line: 183,
+                                      column: 33,
+                                     },
+                                     end: Position {
+                                      line: 183,
+                                      column: 39,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 183,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 183,
+                                 column: 39,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "example",
+                                span: Span {
+                                 start: Position {
+                                  line: 184,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 184,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: IndentedString(
+                              IndentedString {
+                               parts: [
+                                Raw(
+                                 PartRaw {
+                                  content: "mail.example.com",
+                                  span: Span {
+                                   start: Position {
+                                    line: 184,
+                                    column: 21,
+                                   },
+                                   end: Position {
+                                    line: 184,
+                                    column: 37,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 184,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 184,
+                                 column: 39,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 185,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 185,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 185,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 185,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 185,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 185,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Primary MX domain to use. It should be FQDN.\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 186,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 187,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 185,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 187,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 181,
+                            column: 32,
+                           },
+                           end: Position {
+                            line: 188,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "localDomains",
+                        span: Span {
+                         start: Position {
+                          line: 190,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 190,
+                          column: 19,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 190,
+                           column: 22,
+                          },
+                          end: Position {
+                           line: 190,
+                           column: 30,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 191,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 191,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 191,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 191,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "listOf",
+                                   span: Span {
+                                    start: Position {
+                                     line: 191,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 191,
+                                     column: 34,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "str",
+                                    span: Span {
+                                     start: Position {
+                                      line: 191,
+                                      column: 35,
+                                     },
+                                     end: Position {
+                                      line: 191,
+                                      column: 38,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 191,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 191,
+                                 column: 38,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 192,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 192,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: List(
+                              List {
+                               elements: [
+                                String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "$(primary_domain)",
+                                     span: Span {
+                                      start: Position {
+                                       line: 192,
+                                       column: 21,
+                                      },
+                                      end: Position {
+                                       line: 192,
+                                       column: 38,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 192,
+                                    column: 20,
+                                   },
+                                   end: Position {
+                                    line: 192,
+                                    column: 39,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 192,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 192,
+                                 column: 40,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "example",
+                                span: Span {
+                                 start: Position {
+                                  line: 193,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 193,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: List(
+                              List {
+                               elements: [
+                                String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "$(primary_domain)",
+                                     span: Span {
+                                      start: Position {
+                                       line: 194,
+                                       column: 12,
+                                      },
+                                      end: Position {
+                                       line: 194,
+                                       column: 29,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 194,
+                                    column: 11,
+                                   },
+                                   end: Position {
+                                    line: 194,
+                                    column: 30,
+                                   },
+                                  },
+                                 },
+                                ),
+                                String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "example.com",
+                                     span: Span {
+                                      start: Position {
+                                       line: 195,
+                                       column: 12,
+                                      },
+                                      end: Position {
+                                       line: 195,
+                                       column: 23,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 195,
+                                    column: 11,
+                                   },
+                                   end: Position {
+                                    line: 195,
+                                    column: 24,
+                                   },
+                                  },
+                                 },
+                                ),
+                                String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "other.example.com",
+                                     span: Span {
+                                      start: Position {
+                                       line: 196,
+                                       column: 12,
+                                      },
+                                      end: Position {
+                                       line: 196,
+                                       column: 29,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 196,
+                                    column: 11,
+                                   },
+                                   end: Position {
+                                    line: 196,
+                                    column: 30,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 193,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 197,
+                                 column: 10,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 198,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 198,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 198,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 198,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 198,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 198,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Define list of allowed domains.\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 199,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 200,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 198,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 200,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 190,
+                            column: 31,
+                           },
+                           end: Position {
+                            line: 201,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "config",
+                        span: Span {
+                         start: Position {
+                          line: 203,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 203,
+                          column: 13,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 203,
+                           column: 16,
+                          },
+                          end: Position {
+                           line: 203,
+                           column: 24,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 204,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 204,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: With(
+                              With {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 204,
+                                   column: 21,
+                                  },
+                                  end: Position {
+                                   line: 204,
+                                   column: 26,
+                                  },
+                                 },
+                                },
+                               ),
+                               target: FunctionApplication(
+                                FunctionApplication {
+                                 function: Identifier(
+                                  Identifier {
+                                   id: "nullOr",
+                                   span: Span {
+                                    start: Position {
+                                     line: 204,
+                                     column: 28,
+                                    },
+                                    end: Position {
+                                     line: 204,
+                                     column: 34,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 arguments: [
+                                  Identifier(
+                                   Identifier {
+                                    id: "lines",
+                                    span: Span {
+                                     start: Position {
+                                      line: 204,
+                                      column: 35,
+                                     },
+                                     end: Position {
+                                      line: 204,
+                                      column: 40,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                },
+                               ),
+                               span: Span {
+                                start: Position {
+                                 line: 204,
+                                 column: 16,
+                                },
+                                end: Position {
+                                 line: 204,
+                                 column: 40,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 205,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 205,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: Identifier(
+                              Identifier {
+                               id: "defaultConfig",
+                               span: Span {
+                                start: Position {
+                                 line: 205,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 205,
+                                 column: 32,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 206,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 206,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 206,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 206,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 206,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 206,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Server configuration, see\n[https://maddy.email](https://maddy.email) for\nmore information. The default configuration of this module will setup\nminimal maddy instance for mail transfer without TLS encryption.\n\n::: {.note}\nThis should not be used in a production environment.\n:::\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 207,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 215,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 206,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 215,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 203,
+                            column: 25,
+                           },
+                           end: Position {
+                            line: 216,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                   KeyValue(
+                    BindingKeyValue {
+                     from: [
+                      Raw(
+                       PartRaw {
+                        content: "openFirewall",
+                        span: Span {
+                         start: Position {
+                          line: 218,
+                          column: 7,
+                         },
+                         end: Position {
+                          line: 218,
+                          column: 19,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                     to: FunctionApplication(
+                      FunctionApplication {
+                       function: Identifier(
+                        Identifier {
+                         id: "mkOption",
+                         span: Span {
+                          start: Position {
+                           line: 218,
+                           column: 22,
+                          },
+                          end: Position {
+                           line: 218,
+                           column: 30,
+                          },
+                         },
+                        },
+                       ),
+                       arguments: [
+                        Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "type",
+                                span: Span {
+                                 start: Position {
+                                  line: 219,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 219,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: PropertyAccess(
+                              PropertyAccess {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "types",
+                                 span: Span {
+                                  start: Position {
+                                   line: 219,
+                                   column: 16,
+                                  },
+                                  end: Position {
+                                   line: 219,
+                                   column: 21,
+                                  },
+                                 },
+                                },
+                               ),
+                               attribute_path: [
+                                Raw(
+                                 PartRaw {
+                                  content: "bool",
+                                  span: Span {
+                                   start: Position {
+                                    line: 219,
+                                    column: 22,
+                                   },
+                                   end: Position {
+                                    line: 219,
+                                    column: 26,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               default: None,
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "default",
+                                span: Span {
+                                 start: Position {
+                                  line: 220,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 220,
+                                  column: 16,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: Identifier(
+                              Identifier {
+                               id: "false",
+                               span: Span {
+                                start: Position {
+                                 line: 220,
+                                 column: 19,
+                                },
+                                end: Position {
+                                 line: 220,
+                                 column: 24,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "description",
+                                span: Span {
+                                 start: Position {
+                                  line: 221,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 221,
+                                  column: 20,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: FunctionApplication(
+                              FunctionApplication {
+                               function: PropertyAccess(
+                                PropertyAccess {
+                                 expression: Identifier(
+                                  Identifier {
+                                   id: "lib",
+                                   span: Span {
+                                    start: Position {
+                                     line: 221,
+                                     column: 23,
+                                    },
+                                    end: Position {
+                                     line: 221,
+                                     column: 26,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                 attribute_path: [
+                                  Raw(
+                                   PartRaw {
+                                    content: "mdDoc",
+                                    span: Span {
+                                     start: Position {
+                                      line: 221,
+                                      column: 27,
+                                     },
+                                     end: Position {
+                                      line: 221,
+                                      column: 32,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 ],
+                                 default: None,
+                                },
+                               ),
+                               arguments: [
+                                IndentedString(
+                                 IndentedString {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Open the configured incoming and outgoing mail server ports.\n",
+                                     span: Span {
+                                      start: Position {
+                                       line: 222,
+                                       column: 1,
+                                      },
+                                      end: Position {
+                                       line: 223,
+                                       column: 9,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 221,
+                                    column: 33,
+                                   },
+                                   end: Position {
+                                    line: 223,
+                                    column: 11,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 218,
+                            column: 31,
+                           },
+                           end: Position {
+                            line: 224,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       ],
+                      },
+                     ),
+                    },
+                   ),
+                  ],
+                  recursive: false,
+                  span: Span {
+                   start: Position {
+                    line: 140,
+                    column: 22,
+                   },
+                   end: Position {
+                    line: 226,
+                    column: 6,
+                   },
+                  },
+                 },
+                ),
+               },
+              ),
+             ],
+             recursive: false,
+             span: Span {
+              start: Position {
+               line: 139,
+               column: 13,
+              },
+              end: Position {
+               line: 227,
+               column: 4,
+              },
+             },
+            },
+           ),
+          },
+         ),
+         KeyValue(
+          BindingKeyValue {
+           from: [
+            Raw(
+             PartRaw {
+              content: "config",
+              span: Span {
+               start: Position {
+                line: 229,
+                column: 3,
+               },
+               end: Position {
+                line: 229,
+                column: 9,
+               },
+              },
+             },
+            ),
+           ],
+           to: FunctionApplication(
+            FunctionApplication {
+             function: Identifier(
+              Identifier {
+               id: "mkIf",
+               span: Span {
+                start: Position {
+                 line: 229,
+                 column: 12,
+                },
+                end: Position {
+                 line: 229,
+                 column: 16,
+                },
+               },
+              },
+             ),
+             arguments: [
+              PropertyAccess(
+               PropertyAccess {
+                expression: Identifier(
+                 Identifier {
+                  id: "cfg",
+                  span: Span {
+                   start: Position {
+                    line: 229,
+                    column: 17,
+                   },
+                   end: Position {
+                    line: 229,
+                    column: 20,
+                   },
+                  },
+                 },
+                ),
+                attribute_path: [
+                 Raw(
+                  PartRaw {
+                   content: "enable",
+                   span: Span {
+                    start: Position {
+                     line: 229,
+                     column: 21,
+                    },
+                    end: Position {
+                     line: 229,
+                     column: 27,
+                    },
+                   },
+                  },
+                 ),
+                ],
+                default: None,
+               },
+              ),
+              Map(
+               Map {
+                bindings: [
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "systemd",
+                      span: Span {
+                       start: Position {
+                        line: 231,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 231,
+                        column: 12,
+                       },
+                      },
+                     },
+                    ),
+                   ],
+                   to: Map(
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       BindingKeyValue {
+                        from: [
+                         Raw(
+                          PartRaw {
+                           content: "packages",
+                           span: Span {
+                            start: Position {
+                             line: 232,
+                             column: 7,
+                            },
+                            end: Position {
+                             line: 232,
+                             column: 15,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        to: List(
+                         List {
+                          elements: [
+                           PropertyAccess(
+                            PropertyAccess {
+                             expression: Identifier(
+                              Identifier {
+                               id: "pkgs",
+                               span: Span {
+                                start: Position {
+                                 line: 232,
+                                 column: 20,
+                                },
+                                end: Position {
+                                 line: 232,
+                                 column: 24,
+                                },
+                               },
+                              },
+                             ),
+                             attribute_path: [
+                              Raw(
+                               PartRaw {
+                                content: "maddy",
+                                span: Span {
+                                 start: Position {
+                                  line: 232,
+                                  column: 25,
+                                 },
+                                 end: Position {
+                                  line: 232,
+                                  column: 30,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             default: None,
+                            },
+                           ),
+                          ],
+                          span: Span {
+                           start: Position {
+                            line: 232,
+                            column: 18,
+                           },
+                           end: Position {
+                            line: 232,
+                            column: 32,
+                           },
+                          },
+                         },
+                        ),
+                       },
+                      ),
+                      KeyValue(
+                       BindingKeyValue {
+                        from: [
+                         Raw(
+                          PartRaw {
+                           content: "services",
+                           span: Span {
+                            start: Position {
+                             line: 233,
+                             column: 7,
+                            },
+                            end: Position {
+                             line: 233,
+                             column: 15,
+                            },
+                           },
+                          },
+                         ),
+                         Raw(
+                          PartRaw {
+                           content: "maddy",
+                           span: Span {
+                            start: Position {
+                             line: 233,
+                             column: 16,
+                            },
+                            end: Position {
+                             line: 233,
+                             column: 21,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        to: Map(
+                         Map {
+                          bindings: [
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "serviceConfig",
+                                span: Span {
+                                 start: Position {
+                                  line: 234,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 234,
+                                  column: 22,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: Map(
+                              Map {
+                               bindings: [
+                                KeyValue(
+                                 BindingKeyValue {
+                                  from: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "User",
+                                     span: Span {
+                                      start: Position {
+                                       line: 235,
+                                       column: 11,
+                                      },
+                                      end: Position {
+                                       line: 235,
+                                       column: 15,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  to: PropertyAccess(
+                                   PropertyAccess {
+                                    expression: Identifier(
+                                     Identifier {
+                                      id: "cfg",
+                                      span: Span {
+                                       start: Position {
+                                        line: 235,
+                                        column: 18,
+                                       },
+                                       end: Position {
+                                        line: 235,
+                                        column: 21,
+                                       },
+                                      },
+                                     },
+                                    ),
+                                    attribute_path: [
+                                     Raw(
+                                      PartRaw {
+                                       content: "user",
+                                       span: Span {
+                                        start: Position {
+                                         line: 235,
+                                         column: 22,
+                                        },
+                                        end: Position {
+                                         line: 235,
+                                         column: 26,
+                                        },
+                                       },
+                                      },
+                                     ),
+                                    ],
+                                    default: None,
+                                   },
+                                  ),
+                                 },
+                                ),
+                                KeyValue(
+                                 BindingKeyValue {
+                                  from: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Group",
+                                     span: Span {
+                                      start: Position {
+                                       line: 236,
+                                       column: 11,
+                                      },
+                                      end: Position {
+                                       line: 236,
+                                       column: 16,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  to: PropertyAccess(
+                                   PropertyAccess {
+                                    expression: Identifier(
+                                     Identifier {
+                                      id: "cfg",
+                                      span: Span {
+                                       start: Position {
+                                        line: 236,
+                                        column: 19,
+                                       },
+                                       end: Position {
+                                        line: 236,
+                                        column: 22,
+                                       },
+                                      },
+                                     },
+                                    ),
+                                    attribute_path: [
+                                     Raw(
+                                      PartRaw {
+                                       content: "group",
+                                       span: Span {
+                                        start: Position {
+                                         line: 236,
+                                         column: 23,
+                                        },
+                                        end: Position {
+                                         line: 236,
+                                         column: 28,
+                                        },
+                                       },
+                                      },
+                                     ),
+                                    ],
+                                    default: None,
+                                   },
+                                  ),
+                                 },
+                                ),
+                                KeyValue(
+                                 BindingKeyValue {
+                                  from: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "StateDirectory",
+                                     span: Span {
+                                      start: Position {
+                                       line: 237,
+                                       column: 11,
+                                      },
+                                      end: Position {
+                                       line: 237,
+                                       column: 25,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  to: List(
+                                   List {
+                                    elements: [
+                                     String(
+                                      String_ {
+                                       parts: [
+                                        Raw(
+                                         PartRaw {
+                                          content: "maddy",
+                                          span: Span {
+                                           start: Position {
+                                            line: 237,
+                                            column: 31,
+                                           },
+                                           end: Position {
+                                            line: 237,
+                                            column: 36,
+                                           },
+                                          },
+                                         },
+                                        ),
+                                       ],
+                                       span: Span {
+                                        start: Position {
+                                         line: 237,
+                                         column: 30,
+                                        },
+                                        end: Position {
+                                         line: 237,
+                                         column: 37,
+                                        },
+                                       },
+                                      },
+                                     ),
+                                    ],
+                                    span: Span {
+                                     start: Position {
+                                      line: 237,
+                                      column: 28,
+                                     },
+                                     end: Position {
+                                      line: 237,
+                                      column: 39,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                 },
+                                ),
+                               ],
+                               recursive: false,
+                               span: Span {
+                                start: Position {
+                                 line: 234,
+                                 column: 25,
+                                },
+                                end: Position {
+                                 line: 238,
+                                 column: 10,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "restartTriggers",
+                                span: Span {
+                                 start: Position {
+                                  line: 239,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 239,
+                                  column: 24,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: List(
+                              List {
+                               elements: [
+                                PropertyAccess(
+                                 PropertyAccess {
+                                  expression: Identifier(
+                                   Identifier {
+                                    id: "config",
+                                    span: Span {
+                                     start: Position {
+                                      line: 239,
+                                      column: 29,
+                                     },
+                                     end: Position {
+                                      line: 239,
+                                      column: 35,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                  attribute_path: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "environment",
+                                     span: Span {
+                                      start: Position {
+                                       line: 239,
+                                       column: 36,
+                                      },
+                                      end: Position {
+                                       line: 239,
+                                       column: 47,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                   Raw(
+                                    PartRaw {
+                                     content: "etc",
+                                     span: Span {
+                                      start: Position {
+                                       line: 239,
+                                       column: 48,
+                                      },
+                                      end: Position {
+                                       line: 239,
+                                       column: 51,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                   Expression(
+                                    PartExpression {
+                                     expression: String(
+                                      String_ {
+                                       parts: [
+                                        Raw(
+                                         PartRaw {
+                                          content: "maddy/maddy.conf",
+                                          span: Span {
+                                           start: Position {
+                                            line: 239,
+                                            column: 53,
+                                           },
+                                           end: Position {
+                                            line: 239,
+                                            column: 69,
+                                           },
+                                          },
+                                         },
+                                        ),
+                                       ],
+                                       span: Span {
+                                        start: Position {
+                                         line: 239,
+                                         column: 52,
+                                        },
+                                        end: Position {
+                                         line: 239,
+                                         column: 70,
+                                        },
+                                       },
+                                      },
+                                     ),
+                                    },
+                                   ),
+                                   Raw(
+                                    PartRaw {
+                                     content: "source",
+                                     span: Span {
+                                      start: Position {
+                                       line: 239,
+                                       column: 71,
+                                      },
+                                      end: Position {
+                                       line: 239,
+                                       column: 77,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  default: None,
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 239,
+                                 column: 27,
+                                },
+                                end: Position {
+                                 line: 239,
+                                 column: 79,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                           KeyValue(
+                            BindingKeyValue {
+                             from: [
+                              Raw(
+                               PartRaw {
+                                content: "wantedBy",
+                                span: Span {
+                                 start: Position {
+                                  line: 240,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 240,
+                                  column: 17,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             to: List(
+                              List {
+                               elements: [
+                                String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "multi-user.target",
+                                     span: Span {
+                                      start: Position {
+                                       line: 240,
+                                       column: 23,
+                                      },
+                                      end: Position {
+                                       line: 240,
+                                       column: 40,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 240,
+                                    column: 22,
+                                   },
+                                   end: Position {
+                                    line: 240,
+                                    column: 41,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               span: Span {
+                                start: Position {
+                                 line: 240,
+                                 column: 20,
+                                },
+                                end: Position {
+                                 line: 240,
+                                 column: 43,
+                                },
+                               },
+                              },
+                             ),
+                            },
+                           ),
+                          ],
+                          recursive: false,
+                          span: Span {
+                           start: Position {
+                            line: 233,
+                            column: 24,
+                           },
+                           end: Position {
+                            line: 241,
+                            column: 8,
+                           },
+                          },
+                         },
+                        ),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                     span: Span {
+                      start: Position {
+                       line: 231,
+                       column: 15,
+                      },
+                      end: Position {
+                       line: 242,
+                       column: 6,
+                      },
+                     },
+                    },
+                   ),
+                  },
+                 ),
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "environment",
+                      span: Span {
+                       start: Position {
+                        line: 244,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 244,
+                        column: 16,
+                       },
+                      },
+                     },
+                    ),
+                    Raw(
+                     PartRaw {
+                      content: "etc",
+                      span: Span {
+                       start: Position {
+                        line: 244,
+                        column: 17,
+                       },
+                       end: Position {
+                        line: 244,
+                        column: 20,
+                       },
+                      },
+                     },
+                    ),
+                    Expression(
+                     PartExpression {
+                      expression: String(
+                       String_ {
+                        parts: [
+                         Raw(
+                          PartRaw {
+                           content: "maddy/maddy.conf",
+                           span: Span {
+                            start: Position {
+                             line: 244,
+                             column: 22,
+                            },
+                            end: Position {
+                             line: 244,
+                             column: 38,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        span: Span {
+                         start: Position {
+                          line: 244,
+                          column: 21,
+                         },
+                         end: Position {
+                          line: 244,
+                          column: 39,
+                         },
+                        },
+                       },
+                      ),
+                     },
+                    ),
+                   ],
+                   to: Map(
+                    Map {
+                     bindings: [
+                      KeyValue(
+                       BindingKeyValue {
+                        from: [
+                         Raw(
+                          PartRaw {
+                           content: "text",
+                           span: Span {
+                            start: Position {
+                             line: 245,
+                             column: 7,
+                            },
+                            end: Position {
+                             line: 245,
+                             column: 11,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        to: IndentedString(
+                         IndentedString {
+                          parts: [
+                           Raw(
+                            PartRaw {
+                             content: "$(hostname) = ",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 246,
+                               column: 23,
+                              },
+                             },
+                            },
+                           ),
+                           Interpolation(
+                            PartInterpolation {
+                             expression: PropertyAccess(
+                              PropertyAccess {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "cfg",
+                                 span: Span {
+                                  start: Position {
+                                   line: 246,
+                                   column: 25,
+                                  },
+                                  end: Position {
+                                   line: 246,
+                                   column: 28,
+                                  },
+                                 },
+                                },
+                               ),
+                               attribute_path: [
+                                Raw(
+                                 PartRaw {
+                                  content: "hostname",
+                                  span: Span {
+                                   start: Position {
+                                    line: 246,
+                                    column: 29,
+                                   },
+                                   end: Position {
+                                    line: 246,
+                                    column: 37,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               default: None,
+                              },
+                             ),
+                            },
+                           ),
+                           Raw(
+                            PartRaw {
+                             content: "\n$(primary_domain) = ",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 247,
+                               column: 29,
+                              },
+                             },
+                            },
+                           ),
+                           Interpolation(
+                            PartInterpolation {
+                             expression: PropertyAccess(
+                              PropertyAccess {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "cfg",
+                                 span: Span {
+                                  start: Position {
+                                   line: 247,
+                                   column: 31,
+                                  },
+                                  end: Position {
+                                   line: 247,
+                                   column: 34,
+                                  },
+                                 },
+                                },
+                               ),
+                               attribute_path: [
+                                Raw(
+                                 PartRaw {
+                                  content: "primaryDomain",
+                                  span: Span {
+                                   start: Position {
+                                    line: 247,
+                                    column: 35,
+                                   },
+                                   end: Position {
+                                    line: 247,
+                                    column: 48,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               default: None,
+                              },
+                             ),
+                            },
+                           ),
+                           Raw(
+                            PartRaw {
+                             content: "\n$(local_domains) = ",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 248,
+                               column: 28,
+                              },
+                             },
+                            },
+                           ),
+                           Interpolation(
+                            PartInterpolation {
+                             expression: FunctionApplication(
+                              FunctionApplication {
+                               function: Identifier(
+                                Identifier {
+                                 id: "toString",
+                                 span: Span {
+                                  start: Position {
+                                   line: 248,
+                                   column: 30,
+                                  },
+                                  end: Position {
+                                   line: 248,
+                                   column: 38,
+                                  },
+                                 },
+                                },
+                               ),
+                               arguments: [
+                                PropertyAccess(
+                                 PropertyAccess {
+                                  expression: Identifier(
+                                   Identifier {
+                                    id: "cfg",
+                                    span: Span {
+                                     start: Position {
+                                      line: 248,
+                                      column: 39,
+                                     },
+                                     end: Position {
+                                      line: 248,
+                                      column: 42,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                  attribute_path: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "localDomains",
+                                     span: Span {
+                                      start: Position {
+                                       line: 248,
+                                       column: 43,
+                                      },
+                                      end: Position {
+                                       line: 248,
+                                       column: 55,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  default: None,
+                                 },
+                                ),
+                               ],
+                              },
+                             ),
+                            },
+                           ),
+                           Raw(
+                            PartRaw {
+                             content: "\nhostname ",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 249,
+                               column: 18,
+                              },
+                             },
+                            },
+                           ),
+                           Interpolation(
+                            PartInterpolation {
+                             expression: PropertyAccess(
+                              PropertyAccess {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "cfg",
+                                 span: Span {
+                                  start: Position {
+                                   line: 249,
+                                   column: 20,
+                                  },
+                                  end: Position {
+                                   line: 249,
+                                   column: 23,
+                                  },
+                                 },
+                                },
+                               ),
+                               attribute_path: [
+                                Raw(
+                                 PartRaw {
+                                  content: "hostname",
+                                  span: Span {
+                                   start: Position {
+                                    line: 249,
+                                    column: 24,
+                                   },
+                                   end: Position {
+                                    line: 249,
+                                    column: 32,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               default: None,
+                              },
+                             ),
+                            },
+                           ),
+                           Raw(
+                            PartRaw {
+                             content: "\n",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 250,
+                               column: 9,
+                              },
+                             },
+                            },
+                           ),
+                           Interpolation(
+                            PartInterpolation {
+                             expression: PropertyAccess(
+                              PropertyAccess {
+                               expression: Identifier(
+                                Identifier {
+                                 id: "cfg",
+                                 span: Span {
+                                  start: Position {
+                                   line: 250,
+                                   column: 11,
+                                  },
+                                  end: Position {
+                                   line: 250,
+                                   column: 14,
+                                  },
+                                 },
+                                },
+                               ),
+                               attribute_path: [
+                                Raw(
+                                 PartRaw {
+                                  content: "config",
+                                  span: Span {
+                                   start: Position {
+                                    line: 250,
+                                    column: 15,
+                                   },
+                                   end: Position {
+                                    line: 250,
+                                    column: 21,
+                                   },
+                                  },
+                                 },
+                                ),
+                               ],
+                               default: None,
+                              },
+                             ),
+                            },
+                           ),
+                           Raw(
+                            PartRaw {
+                             content: "\n",
+                             span: Span {
+                              start: Position {
+                               line: 246,
+                               column: 1,
+                              },
+                              end: Position {
+                               line: 251,
+                               column: 7,
+                              },
+                             },
+                            },
+                           ),
+                          ],
+                          span: Span {
+                           start: Position {
+                            line: 245,
+                            column: 14,
+                           },
+                           end: Position {
+                            line: 251,
+                            column: 9,
+                           },
+                          },
+                         },
+                        ),
+                       },
+                      ),
+                     ],
+                     recursive: false,
+                     span: Span {
+                      start: Position {
+                       line: 244,
+                       column: 42,
+                      },
+                      end: Position {
+                       line: 252,
+                       column: 6,
+                      },
+                     },
+                    },
+                   ),
+                  },
+                 ),
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "users",
+                      span: Span {
+                       start: Position {
+                        line: 254,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 254,
+                        column: 10,
+                       },
+                      },
+                     },
+                    ),
+                    Raw(
+                     PartRaw {
+                      content: "users",
+                      span: Span {
+                       start: Position {
+                        line: 254,
+                        column: 11,
+                       },
+                       end: Position {
+                        line: 254,
+                        column: 16,
+                       },
+                      },
+                     },
+                    ),
+                   ],
+                   to: FunctionApplication(
+                    FunctionApplication {
+                     function: Identifier(
+                      Identifier {
+                       id: "optionalAttrs",
+                       span: Span {
+                        start: Position {
+                         line: 254,
+                         column: 19,
+                        },
+                        end: Position {
+                         line: 254,
+                         column: 32,
+                        },
+                       },
+                      },
+                     ),
+                     arguments: [
+                      BinaryOperation(
+                       BinaryOperation {
+                        left: PropertyAccess(
+                         PropertyAccess {
+                          expression: Identifier(
+                           Identifier {
+                            id: "cfg",
+                            span: Span {
+                             start: Position {
+                              line: 254,
+                              column: 34,
+                             },
+                             end: Position {
+                              line: 254,
+                              column: 37,
+                             },
+                            },
+                           },
+                          ),
+                          attribute_path: [
+                           Raw(
+                            PartRaw {
+                             content: "user",
+                             span: Span {
+                              start: Position {
+                               line: 254,
+                               column: 38,
+                              },
+                              end: Position {
+                               line: 254,
+                               column: 42,
+                              },
+                             },
+                            },
+                           ),
+                          ],
+                          default: None,
+                         },
+                        ),
+                        operator: EqualTo,
+                        right: Identifier(
+                         Identifier {
+                          id: "name",
+                          span: Span {
+                           start: Position {
+                            line: 254,
+                            column: 46,
+                           },
+                           end: Position {
+                            line: 254,
+                            column: 50,
+                           },
+                          },
+                         },
+                        ),
+                       },
+                      ),
+                      Map(
+                       Map {
+                        bindings: [
+                         KeyValue(
+                          BindingKeyValue {
+                           from: [
+                            Interpolation(
+                             PartInterpolation {
+                              expression: Identifier(
+                               Identifier {
+                                id: "name",
+                                span: Span {
+                                 start: Position {
+                                  line: 255,
+                                  column: 9,
+                                 },
+                                 end: Position {
+                                  line: 255,
+                                  column: 13,
+                                 },
+                                },
+                               },
+                              ),
+                             },
+                            ),
+                           ],
+                           to: Map(
+                            Map {
+                             bindings: [
+                              KeyValue(
+                               BindingKeyValue {
+                                from: [
+                                 Raw(
+                                  PartRaw {
+                                   content: "isSystemUser",
+                                   span: Span {
+                                    start: Position {
+                                     line: 256,
+                                     column: 9,
+                                    },
+                                    end: Position {
+                                     line: 256,
+                                     column: 21,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                ],
+                                to: Identifier(
+                                 Identifier {
+                                  id: "true",
+                                  span: Span {
+                                   start: Position {
+                                    line: 256,
+                                    column: 24,
+                                   },
+                                   end: Position {
+                                    line: 256,
+                                    column: 28,
+                                   },
+                                  },
+                                 },
+                                ),
+                               },
+                              ),
+                              KeyValue(
+                               BindingKeyValue {
+                                from: [
+                                 Raw(
+                                  PartRaw {
+                                   content: "group",
+                                   span: Span {
+                                    start: Position {
+                                     line: 257,
+                                     column: 9,
+                                    },
+                                    end: Position {
+                                     line: 257,
+                                     column: 14,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                ],
+                                to: PropertyAccess(
+                                 PropertyAccess {
+                                  expression: Identifier(
+                                   Identifier {
+                                    id: "cfg",
+                                    span: Span {
+                                     start: Position {
+                                      line: 257,
+                                      column: 17,
+                                     },
+                                     end: Position {
+                                      line: 257,
+                                      column: 20,
+                                     },
+                                    },
+                                   },
+                                  ),
+                                  attribute_path: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "group",
+                                     span: Span {
+                                      start: Position {
+                                       line: 257,
+                                       column: 21,
+                                      },
+                                      end: Position {
+                                       line: 257,
+                                       column: 26,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  default: None,
+                                 },
+                                ),
+                               },
+                              ),
+                              KeyValue(
+                               BindingKeyValue {
+                                from: [
+                                 Raw(
+                                  PartRaw {
+                                   content: "description",
+                                   span: Span {
+                                    start: Position {
+                                     line: 258,
+                                     column: 9,
+                                    },
+                                    end: Position {
+                                     line: 258,
+                                     column: 20,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                ],
+                                to: String(
+                                 String_ {
+                                  parts: [
+                                   Raw(
+                                    PartRaw {
+                                     content: "Maddy mail transfer agent user",
+                                     span: Span {
+                                      start: Position {
+                                       line: 258,
+                                       column: 24,
+                                      },
+                                      end: Position {
+                                       line: 258,
+                                       column: 54,
+                                      },
+                                     },
+                                    },
+                                   ),
+                                  ],
+                                  span: Span {
+                                   start: Position {
+                                    line: 258,
+                                    column: 23,
+                                   },
+                                   end: Position {
+                                    line: 258,
+                                    column: 55,
+                                   },
+                                  },
+                                 },
+                                ),
+                               },
+                              ),
+                             ],
+                             recursive: false,
+                             span: Span {
+                              start: Position {
+                               line: 255,
+                               column: 17,
+                              },
+                              end: Position {
+                               line: 259,
+                               column: 8,
+                              },
+                             },
+                            },
+                           ),
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                        span: Span {
+                         start: Position {
+                          line: 254,
+                          column: 52,
+                         },
+                         end: Position {
+                          line: 260,
+                          column: 6,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                    },
+                   ),
+                  },
+                 ),
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "users",
+                      span: Span {
+                       start: Position {
+                        line: 262,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 262,
+                        column: 10,
+                       },
+                      },
+                     },
+                    ),
+                    Raw(
+                     PartRaw {
+                      content: "groups",
+                      span: Span {
+                       start: Position {
+                        line: 262,
+                        column: 11,
+                       },
+                       end: Position {
+                        line: 262,
+                        column: 17,
+                       },
+                      },
+                     },
+                    ),
+                   ],
+                   to: FunctionApplication(
+                    FunctionApplication {
+                     function: Identifier(
+                      Identifier {
+                       id: "optionalAttrs",
+                       span: Span {
+                        start: Position {
+                         line: 262,
+                         column: 20,
+                        },
+                        end: Position {
+                         line: 262,
+                         column: 33,
+                        },
+                       },
+                      },
+                     ),
+                     arguments: [
+                      BinaryOperation(
+                       BinaryOperation {
+                        left: PropertyAccess(
+                         PropertyAccess {
+                          expression: Identifier(
+                           Identifier {
+                            id: "cfg",
+                            span: Span {
+                             start: Position {
+                              line: 262,
+                              column: 35,
+                             },
+                             end: Position {
+                              line: 262,
+                              column: 38,
+                             },
+                            },
+                           },
+                          ),
+                          attribute_path: [
+                           Raw(
+                            PartRaw {
+                             content: "group",
+                             span: Span {
+                              start: Position {
+                               line: 262,
+                               column: 39,
+                              },
+                              end: Position {
+                               line: 262,
+                               column: 44,
+                              },
+                             },
+                            },
+                           ),
+                          ],
+                          default: None,
+                         },
+                        ),
+                        operator: EqualTo,
+                        right: Identifier(
+                         Identifier {
+                          id: "name",
+                          span: Span {
+                           start: Position {
+                            line: 262,
+                            column: 48,
+                           },
+                           end: Position {
+                            line: 262,
+                            column: 52,
+                           },
+                          },
+                         },
+                        ),
+                       },
+                      ),
+                      Map(
+                       Map {
+                        bindings: [
+                         KeyValue(
+                          BindingKeyValue {
+                           from: [
+                            Interpolation(
+                             PartInterpolation {
+                              expression: PropertyAccess(
+                               PropertyAccess {
+                                expression: Identifier(
+                                 Identifier {
+                                  id: "cfg",
+                                  span: Span {
+                                   start: Position {
+                                    line: 263,
+                                    column: 9,
+                                   },
+                                   end: Position {
+                                    line: 263,
+                                    column: 12,
+                                   },
+                                  },
+                                 },
+                                ),
+                                attribute_path: [
+                                 Raw(
+                                  PartRaw {
+                                   content: "group",
+                                   span: Span {
+                                    start: Position {
+                                     line: 263,
+                                     column: 13,
+                                    },
+                                    end: Position {
+                                     line: 263,
+                                     column: 18,
+                                    },
+                                   },
+                                  },
+                                 ),
+                                ],
+                                default: None,
+                               },
+                              ),
+                             },
+                            ),
+                           ],
+                           to: Map(
+                            Map {
+                             bindings: [],
+                             recursive: false,
+                             span: Span {
+                              start: Position {
+                               line: 263,
+                               column: 22,
+                              },
+                              end: Position {
+                               line: 263,
+                               column: 25,
+                              },
+                             },
+                            },
+                           ),
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                        span: Span {
+                         start: Position {
+                          line: 262,
+                          column: 54,
+                         },
+                         end: Position {
+                          line: 264,
+                          column: 6,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                    },
+                   ),
+                  },
+                 ),
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "networking",
+                      span: Span {
+                       start: Position {
+                        line: 266,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 266,
+                        column: 15,
+                       },
+                      },
+                     },
+                    ),
+                    Raw(
+                     PartRaw {
+                      content: "firewall",
+                      span: Span {
+                       start: Position {
+                        line: 266,
+                        column: 16,
+                       },
+                       end: Position {
+                        line: 266,
+                        column: 24,
+                       },
+                      },
+                     },
+                    ),
+                   ],
+                   to: FunctionApplication(
+                    FunctionApplication {
+                     function: Identifier(
+                      Identifier {
+                       id: "mkIf",
+                       span: Span {
+                        start: Position {
+                         line: 266,
+                         column: 27,
+                        },
+                        end: Position {
+                         line: 266,
+                         column: 31,
+                        },
+                       },
+                      },
+                     ),
+                     arguments: [
+                      PropertyAccess(
+                       PropertyAccess {
+                        expression: Identifier(
+                         Identifier {
+                          id: "cfg",
+                          span: Span {
+                           start: Position {
+                            line: 266,
+                            column: 32,
+                           },
+                           end: Position {
+                            line: 266,
+                            column: 35,
+                           },
+                          },
+                         },
+                        ),
+                        attribute_path: [
+                         Raw(
+                          PartRaw {
+                           content: "openFirewall",
+                           span: Span {
+                            start: Position {
+                             line: 266,
+                             column: 36,
+                            },
+                            end: Position {
+                             line: 266,
+                             column: 48,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        default: None,
+                       },
+                      ),
+                      Map(
+                       Map {
+                        bindings: [
+                         KeyValue(
+                          BindingKeyValue {
+                           from: [
+                            Raw(
+                             PartRaw {
+                              content: "allowedTCPPorts",
+                              span: Span {
+                               start: Position {
+                                line: 267,
+                                column: 7,
+                               },
+                               end: Position {
+                                line: 267,
+                                column: 22,
+                               },
+                              },
+                             },
+                            ),
+                           ],
+                           to: List(
+                            List {
+                             elements: [
+                              Integer(
+                               Integer {
+                                value: "25",
+                                span: Span {
+                                 start: Position {
+                                  line: 267,
+                                  column: 27,
+                                 },
+                                 end: Position {
+                                  line: 267,
+                                  column: 29,
+                                 },
+                                },
+                               },
+                              ),
+                              Integer(
+                               Integer {
+                                value: "143",
+                                span: Span {
+                                 start: Position {
+                                  line: 267,
+                                  column: 30,
+                                 },
+                                 end: Position {
+                                  line: 267,
+                                  column: 33,
+                                 },
+                                },
+                               },
+                              ),
+                              Integer(
+                               Integer {
+                                value: "587",
+                                span: Span {
+                                 start: Position {
+                                  line: 267,
+                                  column: 34,
+                                 },
+                                 end: Position {
+                                  line: 267,
+                                  column: 37,
+                                 },
+                                },
+                               },
+                              ),
+                             ],
+                             span: Span {
+                              start: Position {
+                               line: 267,
+                               column: 25,
+                              },
+                              end: Position {
+                               line: 267,
+                               column: 39,
+                              },
+                             },
+                            },
+                           ),
+                          },
+                         ),
+                        ],
+                        recursive: false,
+                        span: Span {
+                         start: Position {
+                          line: 266,
+                          column: 49,
+                         },
+                         end: Position {
+                          line: 268,
+                          column: 6,
+                         },
+                        },
+                       },
+                      ),
+                     ],
+                    },
+                   ),
+                  },
+                 ),
+                 KeyValue(
+                  BindingKeyValue {
+                   from: [
+                    Raw(
+                     PartRaw {
+                      content: "environment",
+                      span: Span {
+                       start: Position {
+                        line: 270,
+                        column: 5,
+                       },
+                       end: Position {
+                        line: 270,
+                        column: 16,
+                       },
+                      },
+                     },
+                    ),
+                    Raw(
+                     PartRaw {
+                      content: "systemPackages",
+                      span: Span {
+                       start: Position {
+                        line: 270,
+                        column: 17,
+                       },
+                       end: Position {
+                        line: 270,
+                        column: 31,
+                       },
+                      },
+                     },
+                    ),
+                   ],
+                   to: List(
+                    List {
+                     elements: [
+                      PropertyAccess(
+                       PropertyAccess {
+                        expression: Identifier(
+                         Identifier {
+                          id: "pkgs",
+                          span: Span {
+                           start: Position {
+                            line: 271,
+                            column: 7,
+                           },
+                           end: Position {
+                            line: 271,
+                            column: 11,
+                           },
+                          },
+                         },
+                        ),
+                        attribute_path: [
+                         Raw(
+                          PartRaw {
+                           content: "maddy",
+                           span: Span {
+                            start: Position {
+                             line: 271,
+                             column: 12,
+                            },
+                            end: Position {
+                             line: 271,
+                             column: 17,
+                            },
+                           },
+                          },
+                         ),
+                        ],
+                        default: None,
+                       },
+                      ),
+                     ],
+                     span: Span {
+                      start: Position {
+                       line: 270,
+                       column: 34,
+                      },
+                      end: Position {
+                       line: 272,
+                       column: 6,
+                      },
+                     },
+                    },
+                   ),
+                  },
+                 ),
+                ],
+                recursive: false,
+                span: Span {
+                 start: Position {
+                  line: 229,
+                  column: 28,
+                 },
+                 end: Position {
+                  line: 273,
+                  column: 4,
+                 },
+                },
+               },
+              ),
+             ],
+            },
+           ),
+          },
+         ),
+        ],
+        recursive: false,
+        span: Span {
+         start: Position {
+          line: 138,
+          column: 4,
+         },
+         end: Position {
+          line: 274,
+          column: 2,
+         },
+        },
+       },
+      ),
+      span: Span {
+       start: Position {
+        line: 5,
+        column: 1,
+       },
+       end: Position {
+        line: 274,
+        column: 2,
+       },
+      },
+     },
+    ),
+    span: Span {
+     start: Position {
+      line: 3,
+      column: 1,
+     },
+     end: Position {
+      line: 274,
+      column: 2,
+     },
+    },
+   },
+  ),
+  span: Span {
+   start: Position {
+    line: 1,
+    column: 1,
+   },
+   end: Position {
+    line: 274,
+    column: 2,
+   },
+  },
+ },
+)

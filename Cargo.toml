@@ -1,23 +1,6 @@
 # SPDX-FileCopyrightText: 2022 Kevin Amado <kamadorueda@gmail.com>
 #
-# SPDX-License-Identifier: AGPL-3.0-only
-[dependencies.clap]
-default-features = false
-features = ["std"]
-optional = true
-version = "3"
-
-[dependencies.santiago]
-default-features = false
-features = ["crate_regex"]
-version = "1"
-
-[dev-dependencies.walkdir]
-version = "2"
-
-[features]
-default = ["cli"]
-cli = ["clap"]
+# SPDX-License-Identifier: GPL-3.0-only
 
 [package]
 authors = ["Kevin Amado <kamadorueda@gmail.com>"]
@@ -27,18 +10,56 @@ categories = [
   "parser-implementations",
   "text-processing"
 ]
-description = "Lexer, Parser, Abstract Syntax Tree and Concrete Syntax Tree for the Nix Expressions Language."
+description = "Parser for the Nix Expressions Language"
 edition = "2021"
 keywords = ["cli", "parser", "serde", "serialization", "text"]
-license = "AGPL-3.0-only"
+license = "GPL-3.0-only"
 name = "nixel"
 repository = "https://github.com/kamadorueda/nixel"
-version = "4.1.0"
+version = "5.0.0"
+
+[build-dependencies.bindgen]
+version = "*"
+default-features = false
+
+[build-dependencies.cc]
+version = "*"
+default-features = false
+
+[dependencies.clap]
+version = "*"
+default-features = false
+features = ["std", "help", "usage"]
+
+[dependencies.serde]
+version = "*"
+optional = true
+default-features = false
+features = ["derive"]
+
+[dependencies.serde_json]
+version = "*"
+optional = true
+default-features = false
+features = ["std"]
+
+[dev-dependencies.walkdir]
+version = "*"
+default-features = false
+
+[features]
+default = ["all"]
+all = ["serde", "serde_json"]
+
+[[bin]]
+name = "nixel"
+required-features = ["all"]
 
 [profile.release]
 codegen-units = 1
 lto = true
+opt-level = 3
 
-[[bin]]
-name = "nixel"
-required-features = ["cli"]
+[profile.release.build-override]
+codegen-units = 1
+opt-level = 3
