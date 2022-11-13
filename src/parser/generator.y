@@ -352,7 +352,7 @@ expr_select
     });
 
     LL_insert(((FunctionApplication*) $$->ptr)->arguments, to_expr(new Identifier{
-      .id = Str_new("or", 2),
+      .id = Str_clone("or", 2),
       .span = SPAN,
     }));
     TRIVIA_BOUNDARY;
@@ -670,7 +670,7 @@ attr
       .kind = PartKind::PartKindRaw,
       .ptr = (any*) new PartRaw{
         .content = new UtilString{
-          .content = Str_new("or", 2),
+          .content = Str_clone("or", 2),
           .should_unescape = false,
         },
         .span = SPAN,

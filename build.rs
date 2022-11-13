@@ -4,11 +4,11 @@
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     for path in [
-        "src/bridge.hh",
         "src/lexer",
         "src/parser",
-        "src/types.cc",
         "src/types.hh",
+        "src/utils.cc",
+        "src/utils.hh",
         "src/vendored",
     ] {
         println!("cargo:rerun-if-changed={path}");

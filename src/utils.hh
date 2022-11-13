@@ -4,8 +4,10 @@
 
 #include "types.hh"
 
-Str* Str_new(const char* source, size_t len);
-Str* Str_new(const char* source);
+Str* Str_clone(const char*);
+Str* Str_clone(const char*, size_t);
+Str* Str_new(const char*);
+Str* Str_new(const char*, size_t);
 
 LL* LL_new();
 

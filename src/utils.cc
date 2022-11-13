@@ -12,6 +12,14 @@ Str* Str_new(const char* ptr, size_t len) {
 
 Str* Str_new(const char* ptr) { return Str_new(ptr, strlen(ptr)); }
 
+Str* Str_clone(const char* ptr) { return Str_clone(ptr, strlen(ptr)); }
+
+Str* Str_clone(const char* ptr, size_t len) {
+  char* clone = new char[len];
+  memcpy(clone, ptr, len * sizeof(char));
+  return new Str{.ptr = clone, .len = len};
+}
+
 LL* LL_new() { return new LL{.next = nullptr}; }
 
 #define _(Ptr) \

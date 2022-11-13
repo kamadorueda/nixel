@@ -147,7 +147,7 @@ or { return OR_KW; }
 <IND_STRING>\'\'\$ |
 <IND_STRING>\$ {
   yylval->util_string = new UtilString{
-    .content = Str_new("$", 1),
+    .content = Str_clone("$", 1),
     .should_unescape = false,
   };
   return IND_STR;
@@ -155,7 +155,7 @@ or { return OR_KW; }
 
 <IND_STRING>\'\'\' {
   yylval->util_string = new UtilString{
-    .content = Str_new("''", 2),
+    .content = Str_clone("''", 2),
     .should_unescape = false,
   };
   return IND_STR;
@@ -181,7 +181,7 @@ or { return OR_KW; }
 
 <IND_STRING>\' {
   yylval->util_string = new UtilString{
-    .content = Str_new("'", 1),
+    .content = Str_clone("'", 1),
     .should_unescape = false,
   };
   return IND_STR;
@@ -257,7 +257,7 @@ or { return OR_KW; }
 <INPATH_SLASH>{ANY} |
 <INPATH_SLASH><<EOF>> {
   throw new Error{
-    .message = Str_new("path has a trailing slash"),
+    .message = Str_clone("Path has a trailing slash"),
     .span = SPAN,
   };
 }

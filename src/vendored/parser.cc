@@ -8527,7 +8527,7 @@ yyuserAction (yyRuleNum yyrule, int yyrhslen, yyGLRStackItem* yyvsp,
     });
 
     LL_insert(((FunctionApplication*) ((*yyvalp).expression)->ptr)->arguments, to_expr(new Identifier{
-      .id = Str_new("or", 2),
+      .id = Str_clone("or", 2),
       .span = SPAN,
     }));
     TRIVIA_BOUNDARY;
@@ -9013,7 +9013,7 @@ yyuserAction (yyRuleNum yyrule, int yyrhslen, yyGLRStackItem* yyvsp,
       .kind = PartKind::PartKindRaw,
       .ptr = (any*) new PartRaw{
         .content = new UtilString{
-          .content = Str_new("or", 2),
+          .content = Str_clone("or", 2),
           .should_unescape = false,
         },
         .span = SPAN,

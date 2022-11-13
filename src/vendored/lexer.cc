@@ -1229,7 +1229,7 @@ YY_RULE_SETUP
 #line 148 "src/lexer/generator.l"
 {
   yylval->util_string = new UtilString{
-    .content = Str_new("$", 1),
+    .content = Str_clone("$", 1),
     .should_unescape = false,
   };
   return IND_STR;
@@ -1240,7 +1240,7 @@ YY_RULE_SETUP
 #line 156 "src/lexer/generator.l"
 {
   yylval->util_string = new UtilString{
-    .content = Str_new("''", 2),
+    .content = Str_clone("''", 2),
     .should_unescape = false,
   };
   return IND_STR;
@@ -1279,7 +1279,7 @@ YY_RULE_SETUP
 #line 182 "src/lexer/generator.l"
 {
   yylval->util_string = new UtilString{
-    .content = Str_new("'", 1),
+    .content = Str_clone("'", 1),
     .should_unescape = false,
   };
   return IND_STR;
@@ -1387,7 +1387,7 @@ case YY_STATE_EOF(INPATH_SLASH):
 #line 258 "src/lexer/generator.l"
 {
   throw new Error{
-    .message = Str_new("path has a trailing slash"),
+    .message = Str_clone("Path has a trailing slash"),
     .span = SPAN,
   };
 }

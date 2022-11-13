@@ -18,7 +18,7 @@ impl std::convert::From<*mut crate::ffi::any> for Error {
         let crate::ffi::Error { message, span } = own(ptr);
 
         Self {
-            message: own_str(own(message)),
+            message: own_str(message),
             span: Box::new(crate::Span::from(span)),
         }
     }
