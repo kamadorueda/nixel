@@ -54,7 +54,7 @@ void yyerror(
 ) {
   delete parsed->expression;
   parsed->expression = to_expr(new Error{
-    .message = Str_new(message),
+    .message = Str_clone(message),
     .span = SPAN,
   });
 };
