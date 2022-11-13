@@ -29,41 +29,48 @@
 //!
 //! let parsed: nixel::Parsed = nixel::parse(input);
 //!
-//! match &parsed.expression {
+//! match &*parsed.expression {
 //!     nixel::Expression::String(string) => {
-//!         assert_eq!(&string.span, &nixel::Span {
-//!             start: nixel::Position { line: 3, column: 9 },
-//!             end: nixel::Position { line: 3, column: 24 }
-//!         });
+//!         assert_eq!(
+//!             &string.span,
+//!             &nixel::Span {
+//!                 start: nixel::Position { line: 3, column: 9 }.into(),
+//!                 end: nixel::Position { line: 3, column: 24 }.into(),
+//!             }
+//!             .into()
+//!         );
 //!         assert_eq!(
 //!             &parsed.trivia_before(&string.span.start)[1],
-//!             &nixel::Trivia::Comment {
+//!             &nixel::Trivia::Comment(nixel::TriviaComment {
 //!                 content: "# Greet the user".into(),
 //!                 span: nixel::Span {
-//!                     start: nixel::Position { line: 2, column: 9 },
-//!                     end: nixel::Position { line: 2, column: 25 }
+//!                     start: nixel::Position { line: 2, column: 9 }.into(),
+//!                     end: nixel::Position { line: 2, column: 25 }.into(),
 //!                 }
-//!             }
+//!                 .into()
+//!             })
 //!         );
 //!         assert_eq!(
 //!             &string.parts[0],
 //!             &nixel::Part::Raw(nixel::PartRaw {
 //!                 content: "Hello, World!".into(),
 //!                 span: nixel::Span {
-//!                     start: nixel::Position { line: 3, column: 10 },
-//!                     end: nixel::Position { line: 3, column: 23 }
+//!                     start: nixel::Position { line: 3, column: 10 }.into(),
+//!                     end: nixel::Position { line: 3, column: 23 }.into(),
 //!                 }
+//!                 .into()
 //!             })
 //!         );
 //!         assert_eq!(
 //!             &parsed.trivia_after(&string.span.end)[1],
-//!             &nixel::Trivia::Comment {
+//!             &nixel::Trivia::Comment(nixel::TriviaComment {
 //!                 content: "# Bye!".into(),
 //!                 span: nixel::Span {
-//!                     start: nixel::Position { line: 4, column: 9 },
-//!                     end: nixel::Position { line: 4, column: 15 }
+//!                     start: nixel::Position { line: 4, column: 9 }.into(),
+//!                     end: nixel::Position { line: 4, column: 15 }.into(),
 //!                 }
-//!             }
+//!                 .into()
+//!             })
 //!         );
 //!     },
 //!     expression => unreachable!("Expected a String, got: {expression:#?}"),
