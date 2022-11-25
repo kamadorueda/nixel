@@ -113,3 +113,127 @@ impl std::convert::From<crate::ffi::Expression> for Expression {
         }
     }
 }
+
+impl Expression {
+    pub fn span(&self) -> crate::Span {
+        match self {
+            Self::Assert(assert) => assert.span.as_ref().clone(),
+            Self::BinaryOperation(binary_operation) => binary_operation.span(),
+            Self::Error(error) => error.span.as_ref().clone(),
+            Self::Float(float) => float.span.as_ref().clone(),
+            Self::Function(function) => function.span.as_ref().clone(),
+            Self::FunctionApplication(function_application) => {
+                function_application.span()
+            },
+            Self::HasAttribute(has_attribute) => has_attribute.span(),
+            Self::Identifier(identifier) => identifier.span.as_ref().clone(),
+            Self::IfThenElse(if_then_else) => {
+                if_then_else.span.as_ref().clone()
+            },
+            Self::IndentedString(indented_string) => {
+                indented_string.span.as_ref().clone()
+            },
+            Self::Integer(integer) => integer.span.as_ref().clone(),
+            Self::LetIn(let_in) => let_in.span.as_ref().clone(),
+            Self::List(list) => list.span.as_ref().clone(),
+            Self::Map(map) => map.span.as_ref().clone(),
+            Self::Path(path) => path.span.as_ref().clone(),
+            Self::PropertyAccess(property_access) => property_access.span(),
+            Self::SearchNixPath(search_nix_path) => {
+                search_nix_path.span.as_ref().clone()
+            },
+            Self::String(string) => string.span.as_ref().clone(),
+            Self::UnaryOperation(unary_operation) => {
+                unary_operation.span.as_ref().clone()
+            },
+            Self::Uri(uri) => uri.span.as_ref().clone(),
+            Self::With(with) => with.span.as_ref().clone(),
+        }
+    }
+
+    pub fn start(&self) -> crate::Position {
+        match self {
+            Self::Assert(assert) => assert.span.start.as_ref().clone(),
+            Self::BinaryOperation(binary_operation) => {
+                binary_operation.left.start()
+            },
+            Self::Error(error) => error.span.start.as_ref().clone(),
+            Self::Float(float) => float.span.start.as_ref().clone(),
+            Self::Function(function) => function.span.start.as_ref().clone(),
+            Self::FunctionApplication(function_application) => {
+                function_application.function.start()
+            },
+            Self::HasAttribute(has_attribute) => {
+                has_attribute.expression.start()
+            },
+            Self::Identifier(identifier) => {
+                identifier.span.start.as_ref().clone()
+            },
+            Self::IfThenElse(if_then_else) => {
+                if_then_else.span.start.as_ref().clone()
+            },
+            Self::IndentedString(indented_string) => {
+                indented_string.span.start.as_ref().clone()
+            },
+            Self::Integer(integer) => integer.span.start.as_ref().clone(),
+            Self::LetIn(let_in) => let_in.span.start.as_ref().clone(),
+            Self::List(list) => list.span.start.as_ref().clone(),
+            Self::Map(map) => map.span.start.as_ref().clone(),
+            Self::Path(path) => path.span.start.as_ref().clone(),
+            Self::PropertyAccess(property_access) => {
+                property_access.expression.start()
+            },
+            Self::SearchNixPath(search_nix_path) => {
+                search_nix_path.span.start.as_ref().clone()
+            },
+            Self::String(string) => string.span.start.as_ref().clone(),
+            Self::UnaryOperation(unary_operation) => {
+                unary_operation.span.start.as_ref().clone()
+            },
+            Self::Uri(uri) => uri.span.start.as_ref().clone(),
+            Self::With(with) => with.span.start.as_ref().clone(),
+        }
+    }
+
+    pub fn end(&self) -> crate::Position {
+        match self {
+            Self::Assert(assert) => assert.span.end.as_ref().clone(),
+            Self::BinaryOperation(binary_operation) => {
+                binary_operation.left.end()
+            },
+            Self::Error(error) => error.span.end.as_ref().clone(),
+            Self::Float(float) => float.span.end.as_ref().clone(),
+            Self::Function(function) => function.span.end.as_ref().clone(),
+            Self::FunctionApplication(function_application) => {
+                function_application.function.end()
+            },
+            Self::HasAttribute(has_attribute) => has_attribute.expression.end(),
+            Self::Identifier(identifier) => {
+                identifier.span.end.as_ref().clone()
+            },
+            Self::IfThenElse(if_then_else) => {
+                if_then_else.span.end.as_ref().clone()
+            },
+            Self::IndentedString(indented_string) => {
+                indented_string.span.end.as_ref().clone()
+            },
+            Self::Integer(integer) => integer.span.end.as_ref().clone(),
+            Self::LetIn(let_in) => let_in.span.end.as_ref().clone(),
+            Self::List(list) => list.span.end.as_ref().clone(),
+            Self::Map(map) => map.span.end.as_ref().clone(),
+            Self::Path(path) => path.span.end.as_ref().clone(),
+            Self::PropertyAccess(property_access) => {
+                property_access.expression.end()
+            },
+            Self::SearchNixPath(search_nix_path) => {
+                search_nix_path.span.end.as_ref().clone()
+            },
+            Self::String(string) => string.span.end.as_ref().clone(),
+            Self::UnaryOperation(unary_operation) => {
+                unary_operation.span.end.as_ref().clone()
+            },
+            Self::Uri(uri) => uri.span.end.as_ref().clone(),
+            Self::With(with) => with.span.end.as_ref().clone(),
+        }
+    }
+}

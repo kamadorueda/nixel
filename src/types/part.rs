@@ -36,6 +36,38 @@ pub enum Part {
     Raw(PartRaw),
 }
 
+impl Part {
+    pub fn span(&self) -> crate::Span {
+        match self {
+            Self::Expression(expression) => expression.expression.span(),
+            Self::Interpolation(interpolation) => {
+                interpolation.expression.span()
+            },
+            Self::Raw(raw) => raw.span.as_ref().clone(),
+        }
+    }
+
+    pub fn start(&self) -> crate::Position {
+        match self {
+            Self::Expression(expression) => expression.expression.start(),
+            Self::Interpolation(interpolation) => {
+                interpolation.expression.start()
+            },
+            Self::Raw(raw) => raw.span.start.as_ref().clone(),
+        }
+    }
+
+    pub fn end(&self) -> crate::Position {
+        match self {
+            Self::Expression(expression) => expression.expression.end(),
+            Self::Interpolation(interpolation) => {
+                interpolation.expression.end()
+            },
+            Self::Raw(raw) => raw.span.end.as_ref().clone(),
+        }
+    }
+}
+
 impl std::convert::From<*mut crate::ffi::Part> for Part {
     fn from(part: *mut crate::ffi::Part) -> Self {
         let crate::ffi::Part { kind, ptr } = own(part);

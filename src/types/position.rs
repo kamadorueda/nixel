@@ -12,6 +12,12 @@ pub struct Position {
     pub column: usize,
 }
 
+impl Default for Position {
+    fn default() -> Self {
+        Self { line: usize::MAX, column: usize::MAX }
+    }
+}
+
 impl std::convert::From<*mut crate::ffi::Position> for Position {
     fn from(position: *mut crate::ffi::Position) -> Self {
         let position: crate::ffi::Position = own(position);

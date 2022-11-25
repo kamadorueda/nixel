@@ -4,7 +4,7 @@
 
 use crate::mem::own;
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Start and end position of an element.
 pub struct Span {

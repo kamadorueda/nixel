@@ -13,6 +13,20 @@ pub struct BinaryOperation {
     pub right: Box<crate::Expression>,
 }
 
+impl BinaryOperation {
+    pub fn span(&self) -> crate::Span {
+        crate::Span { start: self.start().into(), end: self.end().into() }
+    }
+
+    pub fn start(&self) -> crate::Position {
+        self.left.start()
+    }
+
+    pub fn end(&self) -> crate::Position {
+        self.right.end()
+    }
+}
+
 impl std::convert::From<*mut crate::ffi::any> for BinaryOperation {
     fn from(ptr: *mut crate::ffi::any) -> Self {
         let crate::ffi::BinaryOperation { operator_: operator, left, right } =

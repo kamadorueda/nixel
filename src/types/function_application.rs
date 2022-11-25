@@ -13,6 +13,23 @@ pub struct FunctionApplication {
     pub arguments: Box<[crate::Expression]>,
 }
 
+impl FunctionApplication {
+    pub fn span(&self) -> crate::Span {
+        crate::Span { start: self.start().into(), end: self.end().into() }
+    }
+
+    pub fn start(&self) -> crate::Position {
+        self.function.start()
+    }
+
+    pub fn end(&self) -> crate::Position {
+        self.arguments.last().map_or_else(
+            crate::Position::default,
+            |expression| expression.end(),
+        )
+    }
+}
+
 impl std::convert::From<*mut crate::ffi::any> for FunctionApplication {
     fn from(ptr: *mut crate::ffi::any) -> Self {
         let crate::ffi::FunctionApplication { function, arguments } = own(ptr);

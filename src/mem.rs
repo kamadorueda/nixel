@@ -32,9 +32,7 @@ pub(crate) fn own_str(ptr: *mut crate::ffi::Str) -> Box<str> {
 
     let slice = std::ptr::slice_from_raw_parts(ptr, len);
 
-    String::from_utf8(unsafe {
-        (*slice).iter().map(|c| *c as u8).collect::<Vec<u8>>()
-    })
-    .expect("Invalid UTF-8")
-    .into_boxed_str()
+    String::from_utf8(unsafe { (*slice).iter().map(|c| *c as u8).collect::<Vec<u8>>() })
+        .expect("Invalid UTF-8")
+        .into_boxed_str()
 }

@@ -13,6 +13,21 @@ pub struct HasAttribute {
     pub attribute_path: Box<[crate::Part]>,
 }
 
+impl HasAttribute {
+    pub fn span(&self) -> crate::Span {
+        crate::Span { start: self.start().into(), end: self.end().into() }
+    }
+
+    pub fn start(&self) -> crate::Position {
+        self.expression.start()
+    }
+
+    pub fn end(&self) -> crate::Position {
+        self.attribute_path
+            .last()
+            .map_or_else(crate::Position::default, |part| part.end())
+    }
+}
 impl std::convert::From<*mut crate::ffi::any> for HasAttribute {
     fn from(ptr: *mut crate::ffi::any) -> Self {
         let crate::ffi::HasAttribute { expression, attribute_path } = own(ptr);
