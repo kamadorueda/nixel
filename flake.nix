@@ -15,7 +15,7 @@
   outputs = inputs: let
     commit = inputs.self.shortRev or "dirty";
     date = inputs.self.lastModifiedDate or inputs.self.lastModified or "19700101";
-    version = "5.1.0+${builtins.substring 0 8 date}.${commit}";
+    version = "5.1.1+${builtins.substring 0 8 date}.${commit}";
 
     overlay = self: super: {
       nixel = self.rustPlatform.buildRustPackage {

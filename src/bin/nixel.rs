@@ -8,7 +8,7 @@ use std::process::exit;
 fn main() {
     let args = clap::Command::new("NixEL")
         .about("The Nix Expressions Language Parser")
-        .version("5.1.0")
+        .version("5.1.1")
         .arg(
             clap::Arg::new("path")
                 .help("File to parse, or leave empty to parse stdin")

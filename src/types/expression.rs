@@ -154,18 +154,14 @@ impl Expression {
     pub fn start(&self) -> crate::Position {
         match self {
             Self::Assert(assert) => assert.span.start.as_ref().clone(),
-            Self::BinaryOperation(binary_operation) => {
-                binary_operation.left.start()
-            },
+            Self::BinaryOperation(binary_operation) => binary_operation.start(),
             Self::Error(error) => error.span.start.as_ref().clone(),
             Self::Float(float) => float.span.start.as_ref().clone(),
             Self::Function(function) => function.span.start.as_ref().clone(),
             Self::FunctionApplication(function_application) => {
-                function_application.function.start()
+                function_application.start()
             },
-            Self::HasAttribute(has_attribute) => {
-                has_attribute.expression.start()
-            },
+            Self::HasAttribute(has_attribute) => has_attribute.start(),
             Self::Identifier(identifier) => {
                 identifier.span.start.as_ref().clone()
             },
@@ -180,9 +176,7 @@ impl Expression {
             Self::List(list) => list.span.start.as_ref().clone(),
             Self::Map(map) => map.span.start.as_ref().clone(),
             Self::Path(path) => path.span.start.as_ref().clone(),
-            Self::PropertyAccess(property_access) => {
-                property_access.expression.start()
-            },
+            Self::PropertyAccess(property_access) => property_access.start(),
             Self::SearchNixPath(search_nix_path) => {
                 search_nix_path.span.start.as_ref().clone()
             },
@@ -198,16 +192,14 @@ impl Expression {
     pub fn end(&self) -> crate::Position {
         match self {
             Self::Assert(assert) => assert.span.end.as_ref().clone(),
-            Self::BinaryOperation(binary_operation) => {
-                binary_operation.left.end()
-            },
+            Self::BinaryOperation(binary_operation) => binary_operation.end(),
             Self::Error(error) => error.span.end.as_ref().clone(),
             Self::Float(float) => float.span.end.as_ref().clone(),
             Self::Function(function) => function.span.end.as_ref().clone(),
             Self::FunctionApplication(function_application) => {
-                function_application.function.end()
+                function_application.end()
             },
-            Self::HasAttribute(has_attribute) => has_attribute.expression.end(),
+            Self::HasAttribute(has_attribute) => has_attribute.end(),
             Self::Identifier(identifier) => {
                 identifier.span.end.as_ref().clone()
             },
@@ -222,9 +214,7 @@ impl Expression {
             Self::List(list) => list.span.end.as_ref().clone(),
             Self::Map(map) => map.span.end.as_ref().clone(),
             Self::Path(path) => path.span.end.as_ref().clone(),
-            Self::PropertyAccess(property_access) => {
-                property_access.expression.end()
-            },
+            Self::PropertyAccess(property_access) => property_access.end(),
             Self::SearchNixPath(search_nix_path) => {
                 search_nix_path.span.end.as_ref().clone()
             },
